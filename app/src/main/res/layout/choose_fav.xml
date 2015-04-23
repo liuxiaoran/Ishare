@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#e9ff53"
+        android:padding="4dp"
+        android:gravity="center"
+        android:text="choose_fav_tips"
+        android:textColor="#a0a0a0"
+        android:textSize="12dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tips"
+        android:orientation="vertical" >
+
+        <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            android:layout_weight="1.0"
+            android:checked="true"
+            android:gravity="center"
+            android:text="时尚"
+            android:textColor="#808080"
+            android:textSize="14dp" />
+
+        <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            android:layout_weight="1.0"
+            android:checked="true"
+            android:gravity="center"
+            android:text="电子产品"
+            android:textColor="#808080"
+            android:textSize="14dp" />
+
+        <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            android:layout_weight="1.0"
+            android:checked="true"
+            android:gravity="center"
+            android:text="服装鞋帽"
+            android:textColor="#808080"
+            android:textSize="14dp" />
+
+        <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            android:layout_weight="1.0"
+            android:checked="true"
+            android:gravity="center"
+            android:text="厨房电器"
+            android:textColor="#808080"
+            android:textSize="14dp" />
+
+        <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            android:layout_weight="1.0"
+            android:checked="true"
+            android:gravity="center"
+            android:text="个人护理"
+            android:textColor="#808080"
+            android:textSize="14dp" />
+
+        <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            android:layout_weight="1.0"
+            android:checked="true"
+            android:gravity="center"
+            android:text="食品饮料"
+            android:textColor="#808080"
+            android:textSize="14dp" />
+
+        <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_margin="6dp"
+            android:layout_weight="1.0"
+            android:checked="true"
+            android:gravity="center"
+            android:text="母婴用品"
+            android:textColor="#808080"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+</RelativeLayout>

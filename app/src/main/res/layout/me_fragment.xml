@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:id="@+id/me"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/me_setting" />
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/me_bg" />
+    
+    <TextView
+        android:id="@+id/reg"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp"
+        android:gravity="center"
+        android:background="@drawable/trans_btn_bg_selector"
+        android:text="验证手机号" />
+
+    <ImageView
+        android:id="@+id/pur_list"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/order_btn_bg_selector"
+        android:layout_marginTop="145dp" />
+    
+    <TextView 
+        android:id="@+id/mask"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/pur_list"
+        android:gravity="center"
+        android:text="正在开发之中..."
+        android:background="#e0ffffff"/>
+</RelativeLayout>

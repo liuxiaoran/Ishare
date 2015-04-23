@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">IShare</string>
+    <string name="save">保存</string>
+    <string name="share_item_tab">卡</string>
+    <string name="discover_tab">朋友圈</string>
+    <string name="contact_tab">联系人</string>
+    <string name="me_tab">我</string>
+</resources>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="#4f6e87"
+        android:text="标题"
+        android:textColor="#f0f0f0"
+        android:textSize="24dp" />
+
+    <RadioGroup
+        android:id="@+id/tab_group"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/btm_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/GlobalListButton"
+            style="@style/main_tab_bottom"
+            android:background="@drawable/bottom_tab_bg_selector"
+            android:checked="true"
+            android:drawableTop="@drawable/global_list"
+            android:text="@string/share_item_tab" />
+
+        <RadioButton
+            android:id="@+id/RecommendButton"
+            style="@style/main_tab_bottom"
+            android:background="@drawable/bottom_tab_bg_selector"
+            android:drawableTop="@drawable/recommend"
+            android:text="@string/discover_tab"
+            android:checked="false" />
+
+        <RadioButton
+            android:id="@+id/ContactButton"
+            style="@style/main_tab_bottom"
+            android:background="@drawable/bottom_tab_bg_selector"
+            android:drawableTop="@drawable/recommend"
+            android:text="@string/contact_tab"
+            android:checked="false" />
+
+        <RadioButton
+            android:id="@+id/MeButton"
+            style="@style/main_tab_bottom"
+            android:background="@drawable/bottom_tab_bg_selector"
+            android:drawableTop="@drawable/me"
+            android:text="@string/me_tab" />
+
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/title"
+        android:layout_above="@id/tab_group" />
+
+</RelativeLayout>

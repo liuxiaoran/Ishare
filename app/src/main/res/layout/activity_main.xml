@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:background="#4f6e87"
-        android:text="标题"
-        android:textColor="#f0f0f0"
-        android:textSize="24dp" />
+    <!--<TextView-->
+    <!--android:id="@+id/title"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:gravity="center"-->
+    <!--android:background="#4f6e87"-->
+    <!--android:text="标题"-->
+    <!--android:textColor="#f0f0f0"-->
+    <!--android:textSize="24dp" />-->
 
     <RadioGroup
         android:id="@+id/tab_group"

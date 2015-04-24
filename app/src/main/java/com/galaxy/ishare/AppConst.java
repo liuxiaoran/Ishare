@@ -12,7 +12,7 @@ public class AppConst {
 	
 	public static final String SP_KEY_MOIBLE_NO = "mobile_no";
 
-	public static final String ROOT_PATH = Global.mContext.getFilesDir().getAbsolutePath() + "/togo";
+	public static final String ROOT_PATH = IShareContext.mContext.getFilesDir().getAbsolutePath() + "/togo";
 	
 	public static final String SD_ROOT_PATH = "sdcard/galaxy/togo";
 	

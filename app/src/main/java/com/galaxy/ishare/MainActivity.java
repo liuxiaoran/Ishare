@@ -1,6 +1,5 @@
 package com.galaxy.ishare;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Fragment;
@@ -8,21 +7,26 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
-import com.galaxy.ishare.utils.SPUtil;
+import com.galaxy.ishare.contact.ContactFragment;
+import com.galaxy.ishare.friendcircle.DiscoverFragment;
+import com.galaxy.ishare.sharedcard.ItemListFragment;
+import com.galaxy.ishare.usercenter.MeFragment;
+import com.galaxy.util.utils.SPUtil;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     private RadioGroup mTabGroup = null;
     private RadioButton mShareItemButton, mDiscoverButton, mContactButton, mMeButton;
 
     private Fragment mShareItemFragment, mDiscoverFragment, mContactFragment, mMeFragment;
-    private TextView mTitle;
+//    private TextView mTitle;
 
     private int[] mRadioId = new int[] {R.id.GlobalListButton, R.id.RecommendButton, R.id.MeButton};
 
@@ -32,7 +36,7 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        mTitle = (TextView)findViewById(R.id.title);
+//        mTitle = (TextView)findViewById(R.id.title);
 
         initTabs();
 
@@ -53,19 +57,19 @@ public class MainActivity extends Activity {
 
         setTab();
 
-        if(!SPUtil.getChooseFav()) {
-        	mTitle.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					showFavDialog();
-				}
-			}, 1000);
-        }
+//        if(!SPUtil.getChooseFav()) {
+//        	mTitle.postDelayed(new Runnable() {
+//				@Override
+//				public void run() {
+//					showFavDialog();
+//				}
+//			}, 1000);
+//        }
     }
 
     private void showFavDialog() {
 
-        LayoutInflater inflater = LayoutInflater.from(Global.mContext);
+        LayoutInflater inflater = LayoutInflater.from(IShareContext.mContext);
         View innerView = inflater.inflate(R.layout.choose_fav, null);
         Builder builder = new AlertDialog.Builder(this).setTitle("choose").setIcon(R.drawable.ic_launcher).setView(innerView)
                 .setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
@@ -106,20 +110,27 @@ public class MainActivity extends Activity {
                 mCurTransaction.hide(mContactFragment);
             	mCurTransaction.hide(mMeFragment);
                 if(checkedId == mShareItemButton.getId()){
-                	mTitle.setText(R.string.share_item_tab);
+//                	mTitle.setText(R.string.share_item_tab);
                     mCurTransaction.show(mShareItemFragment);
                 }else if(checkedId == mDiscoverButton.getId()){
-                	mTitle.setText(R.string.discover_tab);
+//                	mTitle.setText(R.string.discover_tab);
                     mCurTransaction.show(mDiscoverFragment);
                 }else if(checkedId == mContactButton.getId()){
-                    mTitle.setText(R.string.contact_tab);
+//                    mTitle.setText(R.string.contact_tab);
                     mCurTransaction.show(mContactFragment);
                 }else if(checkedId == mMeButton.getId()){
-                    mTitle.setText(R.string.me_tab);
+//                    mTitle.setText(R.string.me_tab);
                     mCurTransaction.show(mMeFragment);
                 }
                 mCurTransaction.commit();
             }
         });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 }

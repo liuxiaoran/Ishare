@@ -24,5 +24,15 @@ dependencies {
     //Support Libraries
     compile 'com.android.support:support-v4:21.0.3'
     compile 'com.android.support:appcompat-v7:21.0.3'
+    // material design dialog
+    compile 'com.afollestad:material-dialogs:0.7.2.7'
 
+    //Ormlite
+    compile files('libs/ormlite-android-4.48.jar')
+    compile files('libs/ormlite-core-4.48.jar')
+    // button
+    compile 'info.hoang8f:fbutton:1.0.5'
+
+    // material design editText
+    compile 'com.rengwuxian.materialedittext:library:2.0.3'
 }

@@ -8,17 +8,24 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.contact.ContactFragment;
 import com.galaxy.ishare.friendcircle.DiscoverFragment;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
+import com.galaxy.model.User;
+import com.galaxy.util.utils.PhoneContactManager;
 import com.galaxy.util.utils.SPUtil;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -29,6 +36,8 @@ public class MainActivity extends ActionBarActivity {
 //    private TextView mTitle;
 
     private int[] mRadioId = new int[] {R.id.GlobalListButton, R.id.RecommendButton, R.id.MeButton};
+
+    private static final String TAG = "mainactivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +74,11 @@ public class MainActivity extends ActionBarActivity {
 //				}
 //			}, 1000);
 //        }
+
+        if (IShareContext.getInstance().checkFirstLogin()) {
+            giveReadContactPermission();
+        }
+
     }
 
     private void showFavDialog() {
@@ -104,21 +118,21 @@ public class MainActivity extends ActionBarActivity {
         mTabGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-            	FragmentTransaction mCurTransaction = getFragmentManager().beginTransaction();
-            	mCurTransaction.hide(mShareItemFragment);
-            	mCurTransaction.hide(mDiscoverFragment);
+                FragmentTransaction mCurTransaction = getFragmentManager().beginTransaction();
+                mCurTransaction.hide(mShareItemFragment);
+                mCurTransaction.hide(mDiscoverFragment);
                 mCurTransaction.hide(mContactFragment);
-            	mCurTransaction.hide(mMeFragment);
-                if(checkedId == mShareItemButton.getId()){
+                mCurTransaction.hide(mMeFragment);
+                if (checkedId == mShareItemButton.getId()) {
 //                	mTitle.setText(R.string.share_item_tab);
                     mCurTransaction.show(mShareItemFragment);
-                }else if(checkedId == mDiscoverButton.getId()){
+                } else if (checkedId == mDiscoverButton.getId()) {
 //                	mTitle.setText(R.string.discover_tab);
                     mCurTransaction.show(mDiscoverFragment);
-                }else if(checkedId == mContactButton.getId()){
+                } else if (checkedId == mContactButton.getId()) {
 //                    mTitle.setText(R.string.contact_tab);
                     mCurTransaction.show(mContactFragment);
-                }else if(checkedId == mMeButton.getId()){
+                } else if (checkedId == mMeButton.getId()) {
 //                    mTitle.setText(R.string.me_tab);
                     mCurTransaction.show(mMeFragment);
                 }
@@ -133,4 +147,39 @@ public class MainActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
+    // dialog询问读取联系人，开启线程读取联系人
+    private void giveReadContactPermission() {
+        new MaterialDialog.Builder(this)
+                .title("获取联系人")
+                .content("如果您同意则会匹配您的手机中的好友")
+                .positiveText("我同意")
+                .negativeText("不同意")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                ArrayList<User> phoneContacts = IShareContext.getInstance().getPhoneContacts();
+                                File contactFile = PhoneContactManager.encodePhoneContactFile(phoneContacts);
+                                Log.v(TAG, "" + contactFile.getAbsolutePath());
+                            }
+                        }.start();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                    }
+
+                    @Override
+                    public void onNeutral(MaterialDialog dialog) {
+                        super.onNeutral(dialog);
+                    }
+                }).show();
+
+    }
+
 }

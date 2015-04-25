@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/login_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="账户"
+            android:textSize="@dimen/body_text_size"
+            android:layout_marginRight="@dimen/login_tv_margin_right" />
+
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/login_account_et"
+            android:hint="您的手机号"
+            app:met_singleLineEllipsis="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="密码"
+            android:textSize="@dimen/body_text_size"
+            android:layout_marginRight="@dimen/login_tv_margin_right" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/login_password_et"
+            android:inputType="textPassword"
+            android:hint="6-11位密码"
+            app:met_singleLineEllipsis="true" />
+
+
+    </LinearLayout>
+
+    <info.hoang8f.widget.FButton
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fbutton:shadowEnabled="false"
+        android:text="登录"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/body_text_size"
+        android:textColor="@color/white"
+        android:id="@+id/login_login_btn" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_register_tv"
+            android:text="@string/login_register" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:id="@+id/login_forgetpw_tv"
+            android:text="@string/login_forgetpw" />
+
+
+    </RelativeLayout>
+</LinearLayout>

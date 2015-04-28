@@ -28,4 +28,37 @@
         <item name="windowActionBar">true</item>
     </style>
 
+
+    <!-- block style -->
+    <style name="divider">
+        <item name="android:background">@color/divider</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+    </style>
+
+
+    <!-- edittext style -->
+
+    <style name="edit_text_next">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColor">#aaaaaa</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:padding">@dimen/register_edittext_padding</item>
+
+    </style>
+
+    <style name="edit_text_done">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColor">#aaaaaa</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:padding">@dimen/register_edittext_padding</item>
+
+    </style>
+
 </resources>

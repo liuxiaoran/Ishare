@@ -11,4 +11,7 @@
 
     <string name="login_register"><u>快速注册</u></string>
     <string name="login_forgetpw"><u>忘记密码</u></string>
+
+
+    <string name="msm_content">您的验证码是%1$s，在5分钟内有效，非本人操作可忽略该短信。【梦动科技】</string>
 </resources>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/register_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:clickable="true"
+        android:layout_marginTop="@dimen/large_margin"
+        card_view:cardCornerRadius="@dimen/default_card_view_corner_radius"
+        card_view:cardElevation="@dimen/default_card_view_elevation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <EditText
+
+                android:id="@+id/register_phone_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="手机号码"
+                style="@style/edit_text_next"
+                android:textSize="@dimen/body_text_size" />
+
+            <ImageView style="@style/divider" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp">
+
+                <EditText
+                    android:id="@+id/register_confirm_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/edit_text_next"
+                    android:hint="验证码"
+                    android:textSize="@dimen/body_text_size" />
+
+                <Button
+                    android:background="@drawable/button_selector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="获取验证码"
+                    android:textSize="14sp"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/blue"
+                    android:id="@+id/register_get_confirm_btn" />
+
+            </RelativeLayout>
+
+
+            <ImageView style="@style/divider" />
+
+
+            <EditText
+                android:id="@+id/register_pw_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/edit_text_next"
+                android:hint="密码，6-16位数字或字母"
+                android:password="true"
+                android:textSize="@dimen/body_text_size" />
+
+            <ImageView style="@style/divider" />
+
+
+            <EditText
+                android:id="@+id/register_pw_again_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="确认密码"
+                style="@style/edit_text_done"
+                android:password="true"
+                android:textSize="@dimen/body_text_size" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <info.hoang8f.widget.FButton
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fbutton:shadowEnabled="false"
+        android:text="注册"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/body_text_size"
+        android:textColor="@color/white"
+        android:id="@+id/register_btn" />
+
+</LinearLayout>
+

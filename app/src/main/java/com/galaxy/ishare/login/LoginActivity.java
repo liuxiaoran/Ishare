@@ -70,8 +70,6 @@ public class LoginActivity extends ActionBarActivity {
             ret = false;
         }
         return ret;
-
-
     }
 
 

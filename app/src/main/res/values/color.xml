@@ -4,4 +4,7 @@
     <color name="color_primary_dark">#1565C0</color>
     <color name="color_accent">#42A5F5</color>
     <color name="white">#FFFFFF</color>
+    <color name="divider">#DADADA</color>
+    <color name="blue">#ff2d99d4</color>
+    <color name="gray">#B9B9B9</color>
 </resources>

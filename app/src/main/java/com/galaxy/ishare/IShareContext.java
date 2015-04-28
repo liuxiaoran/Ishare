@@ -138,7 +138,6 @@ public class IShareContext {
         Cursor cursor = resolver.query(ContactsContract.Contacts.CONTENT_URI, PROJECTION,
                 ContactsContract.Contacts.HAS_PHONE_NUMBER + " = 1", null, null);
 
-        long time2 = Calendar.getInstance().getTimeInMillis();
 
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
@@ -166,7 +165,6 @@ public class IShareContext {
                 pCursor.close();
             }
         }
-        long time3 = Calendar.getInstance().getTimeInMillis();
 
 
         return phoneContacts;

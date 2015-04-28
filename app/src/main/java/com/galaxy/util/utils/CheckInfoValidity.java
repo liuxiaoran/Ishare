@@ -19,6 +19,10 @@ public class CheckInfoValidity {
     }
 
     public boolean phonePatternMatch(String str) {
+
+        if (str == null) {
+            return false;
+        }
         boolean ret = false;
         Pattern pattern = Pattern.compile("[0-9]{11}", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(str);
@@ -31,8 +35,12 @@ public class CheckInfoValidity {
     }
 
     public boolean pwPatternMatch(String str) {
+        if (str == null) {
+            return false;
+        }
+
         boolean ret = true;
-        Pattern pattern = Pattern.compile("[a-zA-Z0-9_]{6,11}", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("[a-zA-Z0-9_]{6,16}", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(str);
         if (!matcher.matches()) {
             ret = false;

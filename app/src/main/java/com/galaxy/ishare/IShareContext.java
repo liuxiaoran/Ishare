@@ -6,13 +6,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Build;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.util.Base64;
-import android.util.Log;
 
-import com.galaxy.model.User;
+import com.galaxy.ishare.model.User;
 
 import org.apache.http.util.EncodingUtils;
 
@@ -20,9 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -63,7 +59,6 @@ public class IShareContext {
 //    public static boolean mIsTest = true;
 
     public IShareContext() {
-
     }
 
     public static IShareContext getInstance() {
@@ -130,7 +125,7 @@ public class IShareContext {
      * 获得手机所有联系人 信息包括名字和电话号码
      */
     public ArrayList<User> getPhoneContacts() {
-        ArrayList<User> phoneContacts = new ArrayList<>();
+        ArrayList<User> phoneContacts = new ArrayList<User>();
 
         ContentResolver resolver = mContext.getContentResolver();
         long time1 = Calendar.getInstance().getTimeInMillis();

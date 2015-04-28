@@ -3,20 +3,25 @@ package com.galaxy.ishare.register;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v7.app.ActionBarActivity;
-import android.view.FocusFinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.galaxy.controller.ConfirmCodeController;
-import com.galaxy.controller.WidgetController;
+import com.galaxy.ishare.controller.ConfirmCodeController;
+import com.galaxy.ishare.controller.WidgetController;
 import com.galaxy.ishare.R;
-import com.galaxy.model.ConfirmCode;
-import com.galaxy.util.utils.CheckInfoValidity;
+import com.galaxy.ishare.http.HttpCode;
+import com.galaxy.ishare.http.HttpDataResponse;
+import com.galaxy.ishare.http.HttpPostExt;
+import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.utils.CheckInfoValidity;
 
-import java.util.Date;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by liuxiaoran on 15/4/27.
@@ -28,10 +33,36 @@ public class RegisterActivity extends Activity {
     private String phone, confirmCode, password, passwordAgain;
     private ConfirmCodeController confirmCodeController;
 
+    private void httpTest() {
+        HttpPostExt post = new HttpPostExt("http://localhost/ishare_server/index.php/updatecontact?phone=18500138088&key=123456");
+        List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+        params.add(new BasicNameValuePair("data", "{\"del\":[{\"phone\":18500138088},{\"phone\":18500138081}],\"add\":[{\"phone\":18501234567}]}"));
+        HttpTask.startAsyncDataRequset(post, params, new HttpDataResponse() {
+            @Override
+            public void onRecvOK(HttpRequestBase request, String result) {
+            }
+
+            @Override
+            public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+            }
+
+            @Override
+            public void onRecvCancelled(HttpRequestBase request) {
+            }
+
+            @Override
+            public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+            }
+        });
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
+
+
+        //httpTest();
 
         initWidgets();
         confirmCodeController = ConfirmCodeController.getInstance(RegisterActivity.this, new Timer(60000, 1000));

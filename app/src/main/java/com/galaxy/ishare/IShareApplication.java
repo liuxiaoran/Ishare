@@ -10,9 +10,8 @@ public class IShareApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-//        IShareContext.mContext = this;
-//        IShareContext.mDensity = getResources().getDisplayMetrics().density;
+        Global.mContext = this;
+        Global.mDensity = getResources().getDisplayMetrics().density;
 
-        IShareContext.getInstance().init(this.getApplicationContext());
     }
 }

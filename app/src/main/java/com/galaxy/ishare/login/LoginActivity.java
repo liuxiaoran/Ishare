@@ -1,15 +1,12 @@
 package com.galaxy.ishare.login;
 
 import android.app.Activity;
-import android.graphics.Matrix;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
 import com.galaxy.ishare.R;
-import com.galaxy.util.utils.CheckInfoValidity;
+import com.galaxy.ishare.utils.CheckInfoValidity;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import info.hoang8f.widget.FButton;

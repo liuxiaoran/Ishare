@@ -8,25 +8,30 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.contact.ContactFragment;
 import com.galaxy.ishare.friendcircle.DiscoverFragment;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpPostExt;
 import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
+import com.galaxy.ishare.utils.PhoneContactManager;
 import com.galaxy.ishare.utils.SPUtil;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,35 +161,35 @@ public class MainActivity extends Activity {
 
     //    // dialog询问读取联系人，开启线程读取联系人
     private void giveReadContactPermission() {
-//        new MaterialDialog.Builder(this)
-//                .title("获取联系人")
-//                .content("如果您同意则会匹配您的手机中的好友")
-//                .positiveText("我同意")
-//                .negativeText("不同意")
-//                .callback(new MaterialDialog.ButtonCallback() {
-//                    @Override
-//                    public void onPositive(MaterialDialog dialog) {
-//                        super.onPositive(dialog);
-//                        new Thread() {
-//                            @Override
-//                            public void run() {
-//                                ArrayList<User> phoneContacts = IShareContext.getInstance().getPhoneContacts();
-//                                File contactFile = PhoneContactManager.encodePhoneContactFile(phoneContacts);
-//                                Log.v(TAG, "" + contactFile.getAbsolutePath());
-//                            }
-//                        }.start();
-//                    }
-//
-//                    @Override
-//                    public void onNegative(MaterialDialog dialog) {
-//                        super.onNegative(dialog);
-//                    }
-//
-//                    @Override
-//                    public void onNeutral(MaterialDialog dialog) {
-//                        super.onNeutral(dialog);
-//                    }
-//                }).show();
+        new MaterialDialog.Builder(this)
+                .title("获取联系人")
+                .content("如果您同意则会匹配您的手机中的好友")
+                .positiveText("我同意")
+                .negativeText("不同意")
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                ArrayList<User> phoneContacts = IShareContext.getInstance().getPhoneContacts();
+                                File contactFile = PhoneContactManager.encodePhoneContactFile(phoneContacts);
+                                Log.v(TAG, "" + contactFile.getAbsolutePath());
+                            }
+                        }.start();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        super.onNegative(dialog);
+                    }
+
+                    @Override
+                    public void onNeutral(MaterialDialog dialog) {
+                        super.onNeutral(dialog);
+                    }
+                }).show();
 //
     }
 

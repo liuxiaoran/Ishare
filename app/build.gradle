@@ -25,7 +25,7 @@ dependencies {
 //    compile 'com.android.support:support-v4:21.0.3'
 //    compile 'com.android.support:appcompat-v7:21.0.3'
     // material design dialog
-//    compile 'com.afollestad:material-dialogs:0.7.2.7'
+    compile 'com.afollestad:material-dialogs:0.7.2.7'
 
     //Ormlite
     compile files('libs/ormlite-android-4.48.jar')

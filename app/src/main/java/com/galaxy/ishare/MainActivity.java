@@ -1,5 +1,6 @@
 package com.galaxy.ishare;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Fragment;
@@ -7,27 +8,19 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.contact.ContactFragment;
 import com.galaxy.ishare.friendcircle.DiscoverFragment;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
-import com.galaxy.model.User;
-import com.galaxy.util.utils.PhoneContactManager;
 import com.galaxy.util.utils.SPUtil;
 
-import java.io.File;
-import java.util.ArrayList;
-
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     private RadioGroup mTabGroup = null;
     private RadioButton mShareItemButton, mDiscoverButton, mContactButton, mMeButton;
@@ -35,7 +28,7 @@ public class MainActivity extends ActionBarActivity {
     private Fragment mShareItemFragment, mDiscoverFragment, mContactFragment, mMeFragment;
 //    private TextView mTitle;
 
-    private int[] mRadioId = new int[] {R.id.GlobalListButton, R.id.RecommendButton, R.id.MeButton};
+    private int[] mRadioId = new int[]{R.id.GlobalListButton, R.id.RecommendButton, R.id.MeButton};
 
     private static final String TAG = "mainactivity";
 
@@ -98,18 +91,19 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setTab() {
-    	int tab = getIntent().getIntExtra("tab", -1);
-    	if(tab >= 0 && tab <mRadioId.length) {
-    		mTabGroup.check(mRadioId[tab]);
-    	}
-    }
-    @Override
-    protected void onNewIntent(Intent intent) {
-    	super.onNewIntent(intent);
-    	setTab();
+        int tab = getIntent().getIntExtra("tab", -1);
+        if (tab >= 0 && tab < mRadioId.length) {
+            mTabGroup.check(mRadioId[tab]);
+        }
     }
 
-    private void initTabs(){
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setTab();
+    }
+
+    private void initTabs() {
         mTabGroup = (RadioGroup) findViewById(R.id.tab_group);
         mShareItemButton = (RadioButton) findViewById(R.id.GlobalListButton);
         mDiscoverButton = (RadioButton) findViewById(R.id.RecommendButton);
@@ -148,38 +142,38 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-    // dialog询问读取联系人，开启线程读取联系人
+    //    // dialog询问读取联系人，开启线程读取联系人
     private void giveReadContactPermission() {
-        new MaterialDialog.Builder(this)
-                .title("获取联系人")
-                .content("如果您同意则会匹配您的手机中的好友")
-                .positiveText("我同意")
-                .negativeText("不同意")
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        super.onPositive(dialog);
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                ArrayList<User> phoneContacts = IShareContext.getInstance().getPhoneContacts();
-                                File contactFile = PhoneContactManager.encodePhoneContactFile(phoneContacts);
-                                Log.v(TAG, "" + contactFile.getAbsolutePath());
-                            }
-                        }.start();
-                    }
-
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-                        super.onNegative(dialog);
-                    }
-
-                    @Override
-                    public void onNeutral(MaterialDialog dialog) {
-                        super.onNeutral(dialog);
-                    }
-                }).show();
-
+//        new MaterialDialog.Builder(this)
+//                .title("获取联系人")
+//                .content("如果您同意则会匹配您的手机中的好友")
+//                .positiveText("我同意")
+//                .negativeText("不同意")
+//                .callback(new MaterialDialog.ButtonCallback() {
+//                    @Override
+//                    public void onPositive(MaterialDialog dialog) {
+//                        super.onPositive(dialog);
+//                        new Thread() {
+//                            @Override
+//                            public void run() {
+//                                ArrayList<User> phoneContacts = IShareContext.getInstance().getPhoneContacts();
+//                                File contactFile = PhoneContactManager.encodePhoneContactFile(phoneContacts);
+//                                Log.v(TAG, "" + contactFile.getAbsolutePath());
+//                            }
+//                        }.start();
+//                    }
+//
+//                    @Override
+//                    public void onNegative(MaterialDialog dialog) {
+//                        super.onNegative(dialog);
+//                    }
+//
+//                    @Override
+//                    public void onNeutral(MaterialDialog dialog) {
+//                        super.onNeutral(dialog);
+//                    }
+//                }).show();
+//
     }
 
 }

@@ -1,5 +1,6 @@
 package com.galaxy.ishare.register;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.ActionBarActivity;
@@ -20,7 +21,7 @@ import java.util.Date;
 /**
  * Created by liuxiaoran on 15/4/27.
  */
-public class RegisterActivity extends ActionBarActivity {
+public class RegisterActivity extends Activity {
 
     private EditText phoneEt, cofirmCodeEt, passwordEt, confirmPwEt;
     private Button getConfirmBtn, registerBtn;

@@ -1,5 +1,6 @@
 package com.galaxy.ishare.login;
 
+import android.app.Activity;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -16,7 +17,7 @@ import info.hoang8f.widget.FButton;
 /**
  * Created by liuxiaoran on 15/4/25.
  */
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends Activity {
 
 
     private MaterialEditText accountEt, passwordEt;

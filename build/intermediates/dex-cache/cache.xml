@@ -7,34 +7,22 @@
             dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/ormlite-android-4.48-8650a65367c9a6b3fab18872363c3850564e2573.jar" />
     </item>
     <item
-        jar="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.0/classes.jar"
-        jumboMode="false" revision="21.1.1" sha1="eeebabdfd8203f6ab639ccea4ffa1f20e1adee3a">
-        <dex
-            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/classes-8ebbdd27de4ae757d53f92036253f24ff50f36d9.jar" />
-    </item>
-    <item
         jar="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/exploded-aar/info.hoang8f/fbutton/1.0.5/classes.jar"
         jumboMode="false" revision="21.1.1" sha1="2c12397a785c3b1868fbebeffc9553457b27803f">
         <dex
             dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/classes-7315e2ba0b4ed6231b98a53e5476d9f3e332561c.jar" />
     </item>
     <item
-        jar="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/exploded-aar/com.afollestad/material-dialogs/0.7.2.7/classes.jar"
-        jumboMode="false" revision="21.1.1" sha1="12f7842aa863aedb01c61ba4d5f745e595929877">
+        jar="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
+        jumboMode="false" revision="21.1.1" sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
         <dex
-            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/classes-8c7070670a4e2ebe22d866313c824662f0d6b280.jar" />
+            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/classes-a2483d426524af228bbdbc7e97112445e477b836.jar" />
     </item>
     <item
         jar="/Users/liuxiaoran/.gradle/caches/modules-2/files-2.1/com.nineoldandroids/library/2.4.0/e9b63380f3a242dbdbf103a2355ad7e43bad17cb/library-2.4.0.jar"
         jumboMode="false" revision="21.1.1" sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
         <dex
             dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/library-2.4.0-4d11decc2fad3c26298ee6a70a7a1df10e814a3c.jar" />
-    </item>
-    <item
-        jar="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.0/libs/internal_impl-22.1.0.jar"
-        jumboMode="false" revision="21.1.1" sha1="025cb89f2896c63200ff4c2e6c467a95691d880a">
-        <dex
-            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.0-69f32257755fac0dc5bd67182675fdaf429eb0e4.jar" />
     </item>
     <item
         jar="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.3/classes.jar"
@@ -48,34 +36,34 @@
         <dex
             dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/classes-3d85944fd950dc4182a867fb4a7dfc1eae758065.jar" />
     </item>
-    <item jar="/Users/liuxiaoran/code/galaxy_Ishare/app/libs/ormlite-core-4.48.jar"
-        jumboMode="false" revision="21.1.1" sha1="e579bd2905d0399af5029aaaf9817d5fa0ca88a5">
-        <dex
-            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/ormlite-core-4.48-be7c2c25361bbc24ba42d2ec287c19f05a3c7db6.jar" />
-    </item>
     <item
         jar="/Users/liuxiaoran/.gradle/caches/modules-2/files-2.1/com.loopj.android/android-async-http/1.4.6/a845a88238be0b5be9d238652c1bc0605ef91f52/android-async-http-1.4.6.jar"
         jumboMode="false" revision="21.1.1" sha1="a845a88238be0b5be9d238652c1bc0605ef91f52">
         <dex
             dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.6-959c62b301c81a56a409ea66023870edb7434d4d.jar" />
     </item>
-    <item
-        jar="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.0/classes.jar"
-        jumboMode="false" revision="21.1.1" sha1="983e2f375504bc04def18e709c35192afe92e65f">
+    <item jar="/Users/liuxiaoran/code/galaxy_Ishare/app/libs/ormlite-core-4.48.jar"
+        jumboMode="false" revision="21.1.1" sha1="e579bd2905d0399af5029aaaf9817d5fa0ca88a5">
         <dex
-            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/classes-b181489fd393a65bab0bea2c85c4fcf7f5bf7fe6.jar" />
+            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/ormlite-core-4.48-be7c2c25361bbc24ba42d2ec287c19f05a3c7db6.jar" />
     </item>
     <item
-        jar="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/22.1.0/classes.jar"
-        jumboMode="false" revision="21.1.1" sha1="80434c45861675a57d690fba5ca31c3d55c89489">
+        jar="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
+        jumboMode="false" revision="21.1.1" sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex
-            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/classes-8715ae8a3c14353968dd02fb963506998f543d8f.jar" />
+            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-f60fecc6708df774207b78f8a5de31c43ec3b15a.jar" />
     </item>
     <item
-        jar="/Users/liuxiaoran/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.1.0/support-annotations-22.1.0.jar"
-        jumboMode="false" revision="21.1.1" sha1="281bc6c58ecb3644c23fbc5ee0452019f67b4d5d">
+        jar="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
+        jumboMode="false" revision="21.1.1" sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
         <dex
-            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.0-f9f14dc827fd0bd097b54c8f21d3c458e48568ef.jar" />
+            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/classes-5ff9f9a629ece1c2bec7ac4a41edac2793525838.jar" />
+    </item>
+    <item
+        jar="/Users/liuxiaoran/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
+        jumboMode="false" revision="21.1.1" sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex
+            dex="/Users/liuxiaoran/code/galaxy_Ishare/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-2754b96bc295ae06cbae5239e3352be71e86d5c8.jar" />
     </item>
 
 </items>

@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.security.MessageDigest;
 
+import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 
 public class FileUtil {
@@ -24,11 +25,11 @@ public class FileUtil {
     }
 
     public static String getTempFilePath(URI uri) {
-        return IShareContext.mContext.getFilesDir() + "/temp/" + StringUtil.toMd5(uri.toASCIIString());
+        return Global.mContext.getFilesDir() + "/temp/" + StringUtil.toMd5(uri.toASCIIString());
     }
 
     public static String getImageFilePath(URI uri) {
-        return IShareContext.mContext.getFilesDir() + "/img/" + StringUtil.toMd5(uri.toASCIIString());
+        return Global.mContext.getFilesDir() + "/img/" + StringUtil.toMd5(uri.toASCIIString());
     }
 
     public static synchronized File makeDIRAndCreateFile(String filePath) throws Exception {

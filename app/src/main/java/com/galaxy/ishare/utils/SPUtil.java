@@ -3,11 +3,12 @@ package com.galaxy.ishare.utils;
 import android.content.SharedPreferences;
 
 import com.galaxy.ishare.AppConst;
+import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 
 public class SPUtil {
 
-    private static SharedPreferences sp = IShareContext.mContext.getSharedPreferences(AppConst.SP_FILE, 0);
+    private static SharedPreferences sp = Global.mContext.getSharedPreferences(AppConst.SP_FILE, 0);
 
     public static boolean getNewInstall() {
         return sp.getBoolean(AppConst.SP_KEY_NEW_INSTALL, true);

@@ -41,6 +41,7 @@ import org.apache.http.protocol.HttpContext;
 
 import android.content.Context;
 
+import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 
 /**
@@ -103,7 +104,7 @@ public class HttpConnManager {
 //			schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
 //			client = new DefaultHttpClient(new ThreadSafeClientConnManager(httpParams, schemeRegistry), httpParams);
 
-            Context context = IShareContext.mContext;
+            Context context = Global.mContext;
             HttpHost httpHost = ApnUtil.getHttpHost(context);
             client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, httpHost);
             ((AbstractHttpClient) client).setCookieStore(mCookie);
@@ -131,7 +132,7 @@ public class HttpConnManager {
             });
         }
 
-        Context context = IShareContext.mContext;
+        Context context = Global.mContext;
         HttpHost httpHost = ApnUtil.getHttpHost(context);
         client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, httpHost);
 

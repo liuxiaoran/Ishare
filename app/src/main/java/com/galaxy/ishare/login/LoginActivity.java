@@ -1,13 +1,34 @@
 package com.galaxy.ishare.login;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.galaxy.ishare.Global;
+import com.galaxy.ishare.IShareContext;
+import com.galaxy.ishare.MainActivity;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.URLConstant;
+import com.galaxy.ishare.http.HttpCode;
+import com.galaxy.ishare.http.HttpDataResponse;
+import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.register.RegisterActivity;
 import com.galaxy.ishare.utils.CheckInfoValidity;
+import com.galaxy.ishare.utils.Encrypt;
 import com.rengwuxian.materialedittext.MaterialEditText;
+
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import info.hoang8f.widget.FButton;
 
@@ -22,6 +43,7 @@ public class LoginActivity extends Activity {
     private TextView registerTv, findPwTv;
     private String phone, password;
 
+    private static final String TAG="loginactivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,12 +51,69 @@ public class LoginActivity extends Activity {
 
         initWidgets();
 
+        registerTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (checkInfoValidity()) {
                     //  向服务器提交
 
+                    List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+                    params.add(new BasicNameValuePair("phone", phone));
+                    params.add(new BasicNameValuePair("password", Encrypt.md5(password)));
+                    HttpTask.startAsyncDataPostRequest(URLConstant.LOGIN, params, new HttpDataResponse() {
+                        @Override
+                        public void onRecvOK(HttpRequestBase request, String result) {
+
+                            int status = 0;
+                            JSONObject jsonObject = null;
+                            String key = "";
+                            try {
+                                jsonObject = new JSONObject(result);
+                                status = jsonObject.getInt("status");
+                                if (status == 0) {
+                                    key = jsonObject.getString("key");
+                                    User user = new User (phone,key);
+                                    IShareContext.getInstance().saveCurrentUser(user);
+                                    Global.phone=phone;
+                                    Global.key=key;
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "密码错误,请重试", Toast.LENGTH_LONG).show();
+                                }
+
+                            } catch (JSONException e) {
+                                Log.v(TAG,e.toString());
+                                e.printStackTrace();
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+
+                            Toast.makeText(LoginActivity.this, "网络不佳,请重试", Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onRecvCancelled(HttpRequestBase request) {
+
+                        }
+
+                        @Override
+                        public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                        }
+                    });
                 }
             }
 

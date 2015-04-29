@@ -25,7 +25,6 @@
          which is used to tint widgets -->
         <!--theme UI controls like checkboxes and text fields-->
         <item name="colorAccent">@color/color_accent</item>
-        <item name="windowActionBar">true</item>
     </style>
 
 
@@ -47,6 +46,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:imeOptions">actionNext</item>
         <item name="android:padding">@dimen/register_edittext_padding</item>
+        <item name="android:textCursorDrawable">@null</item>
 
     </style>
 
@@ -58,7 +58,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:imeOptions">actionDone</item>
         <item name="android:padding">@dimen/register_edittext_padding</item>
-
+        <item name="android:textCursorDrawable">@null</item>
     </style>
 
 </resources>

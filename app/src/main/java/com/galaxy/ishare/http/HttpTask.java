@@ -1,22 +1,26 @@
 package com.galaxy.ishare.http;
 
+import android.util.Log;
+
+import com.galaxy.ishare.Global;
+import com.galaxy.ishare.http.HttpDataFetcher.HttpDataResult;
+import com.galaxy.ishare.http.HttpFileDownloder.FileDownloadResult;
+import com.galaxy.ishare.http.HttpImageDownloder.ImageDownloadResult;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.SoftReference;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.message.BasicNameValuePair;
-
-import com.galaxy.ishare.Global;
-import com.galaxy.ishare.http.HttpDataFetcher.HttpDataResult;
-import com.galaxy.ishare.http.HttpFileDownloder.FileDownloadResult;
-import com.galaxy.ishare.http.HttpImageDownloder.ImageDownloadResult;
-import com.galaxy.ishare.IShareContext;
-
 public class HttpTask {
+
+    private static final String TAG = "httptask";
     private static ExecutorService mDataPool = Executors.newFixedThreadPool(2);
     private static ExecutorService mFilePool = Executors.newFixedThreadPool(4);
 
@@ -51,6 +55,43 @@ public class HttpTask {
             }
         };
         mDataPool.execute(task);
+    }
+
+    public static void startAsyncDataGetRequset(String request, final List<NameValuePair> params, final HttpDataResponse response) {
+
+
+        if (Global.phone != null && Global.key != null) {
+            request = request + "?" + "phone=" + Global.phone + "&key=" + Global.key;
+
+            if (params != null) {
+                for (int i = 0; i <= params.size() - 1; i++) {
+                    request = request + "&" + params.get(i).getName() + "=" + params.get(i).getValue();
+                }
+            }
+        } else {
+            if (params != null) {
+                request = request + "?" + params.get(0).getName() + "=" + params.get(0).getValue();
+
+                for (int i = 1; i <= params.size() - 1; i++) {
+                    request = request + "&" + params.get(i).getName() + "=" + params.get(i).getValue();
+                }
+            }
+        }
+        Log.v(TAG, request + "----request");
+        HttpGetExt httpGetExt = new HttpGetExt(request);
+        startAsyncDataRequset(httpGetExt, response);
+
+    }
+
+    public static void startAsyncDataPostRequest(String url, List<BasicNameValuePair> params, HttpDataResponse response) {
+        if (Global.key != null && Global.phone != null) {
+            params.add(new BasicNameValuePair("phone", Global.phone));
+            params.add(new BasicNameValuePair("key", Global.key));
+
+        } else {
+            if (params != null)
+                startAsyncDataRequset(new HttpPostExt(url), params, response);
+        }
     }
 
     public static void startAsyncDataRequset(final HttpPostExt request, final List<BasicNameValuePair> params, final HttpDataResponse response) {

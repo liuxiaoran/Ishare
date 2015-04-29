@@ -21,6 +21,7 @@
 
 
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:textCursorDrawable="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -44,12 +45,13 @@
             android:layout_marginRight="@dimen/login_tv_margin_right" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
+            android:textCursorDrawable="@null"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:id="@+id/login_password_et"
             android:inputType="textPassword"
-            android:hint="6-11位密码"
+            android:hint="6-16位密码"
             app:met_singleLineEllipsis="true" />
 
 

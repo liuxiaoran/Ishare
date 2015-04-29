@@ -14,6 +14,17 @@ public class User implements Serializable {
     private String userPhone;
 
 
+    private String key;
+
+
+    public User (){
+
+    }
+    public User (String phone , String key){
+        this.userPhone = phone;
+        this.key=key;
+
+    }
     public String getUserName() {
         return userName;
     }
@@ -37,6 +48,15 @@ public class User implements Serializable {
     public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
     }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
 
 
 }

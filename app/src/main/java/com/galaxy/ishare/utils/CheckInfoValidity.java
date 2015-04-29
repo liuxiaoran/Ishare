@@ -20,7 +20,7 @@ public class CheckInfoValidity {
 
     public boolean phonePatternMatch(String str) {
 
-        if (str == null) {
+        if (str == null || str.equals("")) {
             return false;
         }
         boolean ret = false;
@@ -35,7 +35,7 @@ public class CheckInfoValidity {
     }
 
     public boolean pwPatternMatch(String str) {
-        if (str == null) {
+        if (str == null || str.equals("")) {
             return false;
         }
 

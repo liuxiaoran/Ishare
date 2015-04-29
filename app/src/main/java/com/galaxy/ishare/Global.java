@@ -14,5 +14,9 @@ public class Global {
     public static void RunOnUiThread(Runnable task) {
         mMainThreadHandler.post(task);
     }
+
+    public static String phone;
+
+    public static String key;
 }
 

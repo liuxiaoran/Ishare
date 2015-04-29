@@ -46,17 +46,7 @@ public class IShareContext {
     private static final int CONTACT_NAME_INDEX = 1;
 
     private SharedPreferences mSharedPreferences;
-    private User currentUser;
-
-//    public static float mDensity;
-//
-//    public static Handler mMainThreadHandler = new Handler();
-//
-//    public static void RunOnUiThread(Runnable task) {
-//        mMainThreadHandler.post(task);
-//    }
-//
-//    public static boolean mIsTest = true;
+    private  static User currentUser;
 
     public IShareContext() {
     }
@@ -104,6 +94,10 @@ public class IShareContext {
         if (currentUser == null) {
 
             String userString = getSharedPreferences().getString("user", null);
+
+            if (userString == null){
+                return null;
+            }
 
             byte[] userByte = Base64.decode(userString, Base64.DEFAULT);
             ByteArrayInputStream bas = new ByteArrayInputStream(userByte);

@@ -86,7 +86,7 @@ public class RegisterActivity extends Activity {
                 if (CheckInfoValidity.getInstance().phonePatternMatch(phone)) {
                     WidgetController.getInstance().setWidgetUnClickable(getConfirmBtn, RegisterActivity.this);
                     confirmCodeController.sendConfirmCode(phone);
-
+                    WidgetController.getInstance().widgetGetFoucus(confirmCodeEt);
 
 
                 }

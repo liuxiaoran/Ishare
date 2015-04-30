@@ -3,6 +3,7 @@ package com.galaxy.ishare.controller;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.galaxy.ishare.R;
@@ -59,6 +60,13 @@ public class WidgetController {
             button.setSelected(true);
             button.setTextColor(context.getResources().getColor(R.color.gray));
         }
+    }
+
+
+    public void widgetGetFoucus(View view){
+        view.setFocusable(true);
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
     }
 
 }

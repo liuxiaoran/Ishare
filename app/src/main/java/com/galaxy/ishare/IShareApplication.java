@@ -3,6 +3,8 @@ package com.galaxy.ishare;
 
 import android.app.Application;
 
+import java.util.HashMap;
+
 
 public class IShareApplication extends Application {
 
@@ -20,7 +22,11 @@ public class IShareApplication extends Application {
         if (IShareContext.getInstance().getCurrentUser()!=null){
             Global.key = IShareContext.getInstance().getCurrentUser().getKey();
             Global.phone = IShareContext.getInstance().getCurrentUser().getUserPhone();
+
         }
+
+
+
 
     }
 }

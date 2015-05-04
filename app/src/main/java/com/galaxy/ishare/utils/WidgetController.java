@@ -1,9 +1,8 @@
-package com.galaxy.ishare.controller;
+package com.galaxy.ishare.utils;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.galaxy.ishare.R;

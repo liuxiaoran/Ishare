@@ -63,7 +63,7 @@ public class PhoneContactManager {
             }
 
             //get the saved data file path
-            file = new File("/data/data/com.bainiaohe.dodo/files/phoneContact.txt");
+            file = new File("/data/data/com.galaxy.ishare/files/phoneContact.txt");
 
             //如果文件不存在则抛出异常
             if (!file.exists())

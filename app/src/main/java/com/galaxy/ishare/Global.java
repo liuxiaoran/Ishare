@@ -4,6 +4,8 @@ package com.galaxy.ishare;
 import android.content.Context;
 import android.os.Handler;
 
+import java.util.HashMap;
+
 public class Global {
     public static Context mContext;
 
@@ -18,5 +20,6 @@ public class Global {
     public static String phone;
 
     public static String key;
+
 }
 

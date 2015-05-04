@@ -1,4 +1,4 @@
-package com.galaxy.ishare.controller;
+package com.galaxy.ishare.utils;
 
 import android.content.Context;
 import android.os.CountDownTimer;
@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.ConfirmCode;
 import com.galaxy.ishare.URLConstant;
-import com.galaxy.ishare.utils.AppAsyncHttpClient;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;

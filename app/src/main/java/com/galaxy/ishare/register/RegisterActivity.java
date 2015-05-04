@@ -1,6 +1,7 @@
 package com.galaxy.ishare.register;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
+import com.galaxy.ishare.MainActivity;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.URLConstant;
 import com.galaxy.ishare.utils.ConfirmCodeController;
@@ -109,8 +111,6 @@ public class RegisterActivity extends Activity {
                 if (checkUserInfo()) {
                     // 向服务器提交数据
 
-
-
                     List<NameValuePair> params = new ArrayList<NameValuePair>();
                     params.add(new BasicNameValuePair("phone", phone));
                     params.add(new BasicNameValuePair("pw", Encrypt.md5(password)));
@@ -136,6 +136,9 @@ public class RegisterActivity extends Activity {
                                 Global.phone = phone;
                                 IShareContext.getInstance().saveCurrentUser(user);
                                 Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
                             }else {
 
                                 Toast.makeText(RegisterActivity.this,"用户存在",Toast.LENGTH_LONG).show();

@@ -86,6 +86,7 @@ public class LoginActivity extends Activity {
                                     Global.key=key;
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 } else {
                                     Toast.makeText(LoginActivity.this, "密码错误,请重试", Toast.LENGTH_LONG).show();
                                 }

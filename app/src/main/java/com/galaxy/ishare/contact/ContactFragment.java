@@ -3,6 +3,7 @@ package com.galaxy.ishare.contact;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,14 @@ import android.widget.TextView;
 
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.R;
-import com.galaxy.ishare.URLConstant;
+import com.galaxy.ishare.constant.URLConstant;
+import com.galaxy.ishare.database.FriendDao;
+import com.galaxy.ishare.database.InviteFriendDao;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
-import com.galaxy.ishare.model.Contact;
+import com.galaxy.ishare.model.Friend;
+import com.galaxy.ishare.model.InviteFriend;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -33,7 +37,8 @@ public class ContactFragment extends Fragment {
 
     private ListView contactListView, toInviteContactListView;
 
-    private ArrayList<Contact> contactList, toInviteContactList;
+    private ArrayList<Friend> contactList;
+    private ArrayList<InviteFriend> toInviteContactList;
     private ContactListAdapter contactListAdapter;
     private ToInviteContactListAdapter toInviteContactListAdapter;
 
@@ -42,8 +47,11 @@ public class ContactFragment extends Fragment {
                              Bundle savedInstanceState) {
         LayoutInflater lf = LayoutInflater.from(getActivity());
         View view = lf.inflate(R.layout.contact_fragment, container, false);
-        contactList = new ArrayList<Contact>();
-        toInviteContactList = new ArrayList<Contact>();
+
+
+        contactList = FriendDao.getInstance(getActivity()).query();
+        toInviteContactList = InviteFriendDao.getInstance(getActivity()).query();
+
 
         contactListView = (ListView) view.findViewById(R.id.contact_friend_listview);
         contactListAdapter = new ContactListAdapter(getActivity());
@@ -53,10 +61,21 @@ public class ContactFragment extends Fragment {
         toInviteContactListAdapter = new ToInviteContactListAdapter(getActivity());
         toInviteContactListView.setAdapter(toInviteContactListAdapter);
 
+//        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+//        localBroadcastManager.registerReceiver(new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                contactList = FriendDao.getInstance(getActivity()).query();
+//                toInviteContactList = InviteFriendDao.getInstance(getActivity()).query();
+//                contactListAdapter.notifyDataSetChanged();
+//                toInviteContactListAdapter.notifyDataSetChanged();
+//
+//            }
+//        },new IntentFilter(BroadcastConstant.UPDATE_FRIEND_LIST));
         writeContactList();
-
         return view;
     }
+
 
     /**
      * 从网络获取数据，并写入contactList,toInviteContactList
@@ -75,7 +94,9 @@ public class ContactFragment extends Fragment {
                     JSONArray array = object.getJSONArray("friends");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject contact = array.getJSONObject(i);
-                        contactList.add(new Contact(contact.getString("name"), contact.getString("phone")));
+                        Friend friend =new Friend(contact.getString("name"), contact.getString("phone"));
+//                        FriendDao.getInstance(getActivity()).add(friend);
+                        contactList.add(friend);
 
                     }
                 } catch (JSONException e) {
@@ -111,7 +132,9 @@ public class ContactFragment extends Fragment {
                     JSONArray array = object.getJSONArray("friends");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject contact = array.getJSONObject(i);
-                        toInviteContactList.add(new Contact(contact.getString("name"), contact.getString("phone")));
+                        InviteFriend inviteFriend =new InviteFriend(contact.getString("name"), contact.getString("phone"));
+
+                        toInviteContactList.add(inviteFriend);
                     }
 
                 } catch (JSONException e) {
@@ -179,7 +202,7 @@ public class ContactFragment extends Fragment {
                 holder = (FriendContactHolder) convertView.getTag();
             }
 
-            holder.nameTv.setText(contactList.get(position).getContactName());
+            holder.nameTv.setText(contactList.get(position).getFriendName());
 
 
             return convertView;
@@ -217,20 +240,26 @@ public class ContactFragment extends Fragment {
             if (convertView == null) {
                 holder = new InviteFriendContactHolder();
 
-                convertView = layoutInflater.inflate(R.layout.contact_invite_friend_item,null);
-                holder.nameTv= (TextView)convertView.findViewById(R.id.contact_invite_friend_name_tv);
-                holder.inviteTv = (TextView)convertView.findViewById(R.id.contact_invite_friend_invite_tv);
+                convertView = layoutInflater.inflate(R.layout.contact_invite_friend_item, null);
+                holder.nameTv = (TextView) convertView.findViewById(R.id.contact_invite_friend_name_tv);
+                holder.inviteTv = (TextView) convertView.findViewById(R.id.contact_invite_friend_invite_tv);
 
 
-            }else {
-                holder =  (InviteFriendContactHolder)convertView.getTag();
+            } else {
+                holder = (InviteFriendContactHolder) convertView.getTag();
             }
 
-            holder.nameTv.setText(toInviteContactList.get(position).getContactName());
+            holder.nameTv.setText(toInviteContactList.get(position).getInviteFriendName());
+            holder.inviteTv.setTag(toInviteContactList.get(position).getInviteFriendPhone());
             holder.inviteTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // 发出短信，邀请
+
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage((String) v.getTag(), null, "我们一起使用ishare吧", null, null);
+
+
                 }
             });
 

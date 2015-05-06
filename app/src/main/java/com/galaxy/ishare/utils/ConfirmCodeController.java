@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.ConfirmCode;
-import com.galaxy.ishare.URLConstant;
+import com.galaxy.ishare.constant.URLConstant;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;

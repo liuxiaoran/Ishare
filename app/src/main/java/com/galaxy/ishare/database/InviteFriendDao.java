@@ -2,7 +2,8 @@ package com.galaxy.ishare.database;
 
 import android.content.Context;
 
-import com.galaxy.ishare.model.Contact;
+import com.galaxy.ishare.model.Friend;
+import com.galaxy.ishare.model.InviteFriend;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
@@ -10,28 +11,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * Created by liuxiaoran on 15/5/4.
+ * Created by liuxiaoran on 15/5/5.
  */
-public class ContactDao {
+public class InviteFriendDao {
 
-    public static ContactDao instance;
+    public static InviteFriendDao instance;
     private Context context;
-    private Dao<Contact, Integer> contactDao;
+    private Dao<InviteFriend, Integer> contactDao;
     private DataBaseHelper helper;
 
-    private ContactDao(Context context) {
+    private InviteFriendDao(Context context) {
         this.context = context;
         try {
             helper = DataBaseHelper.getHelper(context);
-            contactDao = helper.getDao(Contact.class);
+            contactDao = helper.getDao(InviteFriend.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static ContactDao getInstance(Context context) {
+    public static InviteFriendDao getInstance(Context context) {
         if (instance == null) {
-            instance = new ContactDao(context);
+            instance = new InviteFriendDao(context);
         }
         return instance;
     }
@@ -40,7 +41,7 @@ public class ContactDao {
      * 增加一条联系人
      * @param
      */
-    public int add(Contact contact) {
+    public int add(InviteFriend contact) {
         int id = 0;
         try {
             id = contactDao.create(contact);
@@ -53,7 +54,7 @@ public class ContactDao {
     public int deleteEducationById(int id) {
         try {
             // 删除指定的信息，类似delete User where 'id' = id ;
-            DeleteBuilder<Contact, Integer> deleteBuilder = contactDao.deleteBuilder();
+            DeleteBuilder<InviteFriend, Integer> deleteBuilder = contactDao.deleteBuilder();
             deleteBuilder.where().eq("id", id);
 
             return deleteBuilder.delete();
@@ -63,10 +64,10 @@ public class ContactDao {
 
         return 0;
     }
-    public ArrayList<Contact> query() {
+    public ArrayList<InviteFriend> query() {
         try {
 
-            ArrayList<Contact> contacts = (ArrayList) contactDao.queryForAll();
+            ArrayList<InviteFriend> contacts = (ArrayList) contactDao.queryForAll();
             return contacts;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -74,7 +75,7 @@ public class ContactDao {
         return null;
     }
 
-    public void update(Contact contact) {
+    public void update(InviteFriend contact) {
         try {
             contactDao.update(contact);
         } catch (SQLException e) {
@@ -82,9 +83,9 @@ public class ContactDao {
         }
     }
 
-    public void delete(Contact education) {
+    public void delete(InviteFriend inviteFriend) {
         try {
-            contactDao.delete(education);
+            contactDao.delete(inviteFriend);
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,6 +3,8 @@ package com.galaxy.ishare;
 
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
+
 import java.util.HashMap;
 
 
@@ -17,6 +19,8 @@ public class IShareApplication extends Application {
 
         // 初始化sp
         IShareContext.getInstance().init(getApplicationContext());
+
+        SDKInitializer.initialize(getApplicationContext());
 
         // 将变量读入到Global中
         if (IShareContext.getInstance().getCurrentUser()!=null){

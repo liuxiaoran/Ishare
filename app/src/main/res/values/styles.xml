@@ -61,4 +61,16 @@
         <item name="android:textCursorDrawable">@null</item>
     </style>
 
+
+
+    <!--Material EditText-->
+    <style name="material_eidttext" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/material_edittext_margin</item>
+        <item name="android:layout_marginBottom">@dimen/material_edittext_margin</item>
+        <item name="android:lineSpacingExtra">@dimen/line_space</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

@@ -7,6 +7,7 @@
 
     <!-- text size  -->
     <dimen name="body_text_size">18sp</dimen>
+    <dimen name="caption_text_size">12sp</dimen>
 
 
     <!-- padding -->
@@ -20,10 +21,22 @@
     <dimen name="large_margin">10dp</dimen>
     <dimen name="extreme_large_margin">15dp</dimen>
     <dimen name="divider_margin">16dp</dimen>
+    <dimen name="default_layout_marginTop">10dp</dimen>
 
     <!-- cardview style dimen -->
     <dimen name="default_card_view_corner_radius">2dp</dimen>
     <dimen name="default_card_view_elevation">2dp</dimen>
+
+    <!--EditText Margin-->
+    <dimen name="material_edittext_margin">16dp</dimen>
+    <dimen name="material_description_edittext_margin">32dp</dimen>
+    <dimen name="recycler_view_item_margin_top">4dp</dimen>
+    <dimen name="info_item_footer_component_width">50dp</dimen>
+    <dimen name="info_item_footer_margin">5dp</dimen>
+
+
+    <!--Line Space-->
+    <dimen name="line_space">8dp</dimen>
 
 
 </resources>

@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
@@ -30,6 +35,9 @@ dependencies {
     //Ormlite
     compile files('libs/ormlite-android-4.48.jar')
     compile files('libs/ormlite-core-4.48.jar')
+
+    // Baidu map
+    compile files('libs/BaiduLBS_Android.jar')
     // button
     compile 'info.hoang8f:fbutton:1.0.5'
 

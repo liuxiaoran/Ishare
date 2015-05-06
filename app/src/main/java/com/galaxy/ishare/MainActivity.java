@@ -8,34 +8,45 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.galaxy.ishare.constant.BroadcastConstant;
+import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.contact.ContactFragment;
+import com.galaxy.ishare.database.FriendDao;
+import com.galaxy.ishare.database.InviteFriendDao;
 import com.galaxy.ishare.friendcircle.DiscoverFragment;
-import com.galaxy.ishare.http.HttpCode;
-import com.galaxy.ishare.http.HttpDataResponse;
-import com.galaxy.ishare.http.HttpPostExt;
-import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.model.Friend;
+import com.galaxy.ishare.model.InviteFriend;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
+import com.galaxy.ishare.utils.AppAsyncHttpClient;
 import com.galaxy.ishare.utils.PhoneContactManager;
 import com.galaxy.ishare.utils.SPUtil;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.zip.Inflater;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     private RadioGroup mTabGroup = null;
     private RadioButton mShareItemButton, mDiscoverButton, mContactButton, mMeButton;
@@ -47,7 +58,10 @@ public class MainActivity extends Activity {
 
     private static final String TAG = "mainactivity";
 
+    private String contactFilePath = "/data/data/files/phoneContact.txt";
 
+    private FriendDao friendDao;
+    private InviteFriendDao inviteFriendDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +72,9 @@ public class MainActivity extends Activity {
 //        mTitle = (TextView)findViewById(R.id.title);
 
         initTabs();
+
+        friendDao = FriendDao.getInstance(this);
+        inviteFriendDao =InviteFriendDao.getInstance(this);
 
         mShareItemFragment = new ItemListFragment();
         mDiscoverFragment = new DiscoverFragment();
@@ -86,10 +103,82 @@ public class MainActivity extends Activity {
 //        }
 
         if (IShareContext.getInstance().checkFirstLogin()) {
-            giveReadContactPermission();
+            new Thread() {
+                @Override
+                public void run() {
+                    ArrayList<User> phoneContacts = IShareContext.getInstance().getPhoneContacts();
+                    File contactFile = PhoneContactManager.encodePhoneContactFile(phoneContacts);
+                    Log.v(TAG, "" + contactFile.getAbsolutePath());
+
+                    uploadContactData();
+
+                }
+            }.start();
         }
 
     }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId()==R.id.menu_publish){
+            Intent intent =  new Intent (this, PublishItemActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void uploadContactData() {
+
+        RequestParams uploadParams = new RequestParams();
+
+        try {
+            uploadParams.put("upload_contact", new File(contactFilePath));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        AppAsyncHttpClient.post(URLConstant.UPLOAD_CONTACT, uploadParams, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+//                try {
+////                    JSONArray jsonArray = response.getJSONArray("friends");
+////                    for (int i=0;i<jsonArray.length();i++) {
+////                        JSONObject contact= jsonArray.getJSONObject(i);
+////                        friendDao.add(new Friend(contact.getString("name"),contact.getString("phone")));
+////
+////                    }
+////                    JSONArray inviteFriendArray =  response.getJSONArray("invite_friends");
+////                    for (int  i=0;i<jsonArray.length();i++) {
+////                        JSONObject contact  = inviteFriendArray.getJSONObject(i);
+////                        inviteFriendDao.add(new InviteFriend(contact.getString("name"),contact.getString("phone")));
+////
+////                    }
+////                    Intent  intent  = new Intent();
+////                    intent.setAction(BroadcastConstant.UPDATE_FRIEND_LIST);
+////                    LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+                                  JSONArray errorResponse) {
+
+            }
+
+
+        });
+
+
+    }
+
 
     private void showFavDialog() {
 
@@ -154,43 +243,43 @@ public class MainActivity extends Activity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main,menu);
         return true;
     }
 
-    //    // dialog询问读取联系人，开启线程读取联系人
-    private void giveReadContactPermission() {
-        new MaterialDialog.Builder(this)
-                .title("获取联系人")
-                .content("如果您同意则会匹配您的手机中的好友")
-                .positiveText("我同意")
-                .negativeText("不同意")
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        super.onPositive(dialog);
-                        new Thread() {
-                            @Override
-                            public void run() {
-                                ArrayList<User> phoneContacts = IShareContext.getInstance().getPhoneContacts();
-                                File contactFile = PhoneContactManager.encodePhoneContactFile(phoneContacts);
-                                Log.v(TAG, "" + contactFile.getAbsolutePath());
-                            }
-                        }.start();
-                    }
-
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-                        super.onNegative(dialog);
-                    }
-
-                    @Override
-                    public void onNeutral(MaterialDialog dialog) {
-                        super.onNeutral(dialog);
-                    }
-                }).show();
+//    //    // dialog询问读取联系人，开启线程读取联系人
+//    private void giveReadContactPermission() {
+//        new MaterialDialog.Builder(this)
+//                .title("获取联系人")
+//                .content("如果您同意则会匹配您的手机中的好友")
+//                .positiveText("我同意")
+//                .negativeText("不同意")
+//                .callback(new MaterialDialog.ButtonCallback() {
+//                    @Override
+//                    public void onPositive(MaterialDialog dialog) {
+//                        super.onPositive(dialog);
+//                        new Thread() {
+//                            @Override
+//                            public void run() {
+//                                ArrayList<User> phoneContacts = IShareContext.getInstance().getPhoneContacts();
+//                                File contactFile = PhoneContactManager.encodePhoneContactFile(phoneContacts);
+//                                Log.v(TAG, "" + contactFile.getAbsolutePath());
+//                            }
+//                        }.start();
+//                    }
 //
-    }
-
+//                    @Override
+//                    public void onNegative(MaterialDialog dialog) {
+//                        super.onNegative(dialog);
+//                    }
+//
+//                    @Override
+//                    public void onNeutral(MaterialDialog dialog) {
+//                        super.onNeutral(dialog);
+//                    }
+//                }).show();
+//
 }

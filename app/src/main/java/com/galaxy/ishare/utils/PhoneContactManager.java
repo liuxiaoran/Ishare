@@ -2,6 +2,7 @@ package com.galaxy.ishare.utils;
 
 import android.util.Log;
 
+import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.model.User;
 
@@ -40,7 +41,7 @@ public class PhoneContactManager {
             /**
              * encode data to json
              */
-//            jsons.put("user", iShareContext.getCurrentUser().getUserId());
+            jsons.put("user_phone", Global.phone);
 
             JSONArray contactsJson = new JSONArray();
 

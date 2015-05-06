@@ -3,7 +3,8 @@ package com.galaxy.ishare.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.galaxy.ishare.model.Contact;
+import com.galaxy.ishare.model.Friend;
+import com.galaxy.ishare.model.InviteFriend;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
@@ -47,7 +48,9 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase database,
                          ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, Contact.class);
+            TableUtils.createTable(connectionSource, Friend.class);
+            TableUtils.createTable(connectionSource, InviteFriend.class);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -57,7 +60,8 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase database,
                           ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, Contact.class, true);
+            TableUtils.dropTable(connectionSource, Friend.class, true);
+            TableUtils.dropTable(connectionSource,InviteFriend.class,true);
 
             onCreate(database, connectionSource);
         } catch (SQLException e) {

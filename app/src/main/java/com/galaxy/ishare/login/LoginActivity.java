@@ -12,7 +12,7 @@ import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.MainActivity;
 import com.galaxy.ishare.R;
-import com.galaxy.ishare.URLConstant;
+import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
@@ -88,7 +88,7 @@ public class LoginActivity extends Activity {
                                     startActivity(intent);
                                     finish();
                                 } else {
-                                    Toast.makeText(LoginActivity.this, "密码错误,请重试", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(LoginActivity.this, "输入信息错误,请重试", Toast.LENGTH_LONG).show();
                                 }
 
                             } catch (JSONException e) {

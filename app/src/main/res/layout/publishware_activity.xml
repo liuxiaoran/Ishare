@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/default_layout_padding">
+
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/publish_ware_name_et"
+        style="@style/material_eidttext"
+        android:hint="物品名称"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelText="物品名称"
+        app:met_floatingLabelTextSize="@dimen/caption_text_size"
+        app:met_maxCharacters="30"
+        app:met_singleLineEllipsis="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:id="@+id/publish_ware_type_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="商品类型"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/publish_ware_type_tv"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/publish_ware_description_et"
+        style="@style/material_eidttext"
+        android:hint="商品描述"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelText="商品描述"
+        app:met_floatingLabelTextSize="@dimen/caption_text_size"
+        app:met_maxCharacters="60" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:id="@+id/publish_ware_city_layout"
+        android:layout_marginTop="@dimen/default_layout_marginTop">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="城市"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/publish_ware_city_tv"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:id="@+id/publish_ware_province_layout"
+        android:layout_marginTop="@dimen/default_layout_marginTop">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="省份"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/publish_ware_province_tv"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:id="@+id/publish_ware_location_layout"
+        android:layout_marginTop="@dimen/default_layout_marginTop">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="位置"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/publish_ware_location_tv"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:id="@+id/publish_ware_sharetype_layout"
+        android:layout_marginTop="@dimen/default_layout_marginTop">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="可见人群"
+            android:layout_alignParentLeft="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/publish_ware_sharetype_tv"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
+
+
+</LinearLayout>

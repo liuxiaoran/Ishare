@@ -14,7 +14,7 @@ import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.MainActivity;
 import com.galaxy.ishare.R;
-import com.galaxy.ishare.URLConstant;
+import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.utils.ConfirmCodeController;
 import com.galaxy.ishare.utils.WidgetController;
 import com.galaxy.ishare.http.HttpCode;

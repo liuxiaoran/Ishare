@@ -1,4 +1,4 @@
-package com.galaxy.ishare;
+package com.galaxy.ishare.constant;
 
 /**
  * Created by liuxiaoran on 15/4/28.
@@ -17,9 +17,12 @@ public class URLConstant {
     // login
     public static final String LOGIN = SERVER_IP + "/Login";
 
-    // 获得手机通信录双方都添加了对方--好友关系
+    // 获得手机通信录双方都添加了对方--好友关系 的列表
     public static final String FRIEND_CONTACT = SERVER_IP + "/FriendContacts";
 
-    //好友关系(但对方未装应用) 列表
+    //获得好友关系(但对方未装应用) 列表
     public static final String INVITE_CONTACT = SERVER_IP + "/InviteFriendContacts";
+
+
+    public static final String UPLOAD_CONTACT= SERVER_IP +"/UpdateContact";
 }

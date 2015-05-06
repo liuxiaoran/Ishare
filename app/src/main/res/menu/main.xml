@@ -14,11 +14,11 @@
         Here we create an item, setting support:showAsAction to display the item as an action if
         there's room on the compatible Action Bar.
     -->
-    <item
-        android:id="@+id/menu_refresh"
-        android:icon="@drawable/ic_action_refresh"
-        android:title="@string/menu_refresh"
-        support:showAsAction="ifRoom" />
+    <!--<item-->
+        <!--android:id="@+id/menu_refresh"-->
+        <!--android:icon="@drawable/ic_action_refresh"-->
+        <!--android:title="@string/menu_refresh"-->
+        <!--support:showAsAction="ifRoom" />-->
 
     <!-- Location item is added in onCreateOptionsMenu() -->
 
@@ -28,9 +28,9 @@
         Action Bar.
     -->
     <item
-        android:id="@+id/menu_settings"
-        android:icon="@drawable/ic_action_settings"
+        android:id="@+id/menu_publish"
+        android:icon="@drawable/ic_action_new"
         android:title="@string/menu_settings"
-        support:showAsAction="never" />
+        support:showAsAction="always" />
 
 </menu>

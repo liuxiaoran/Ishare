@@ -8,6 +8,8 @@
 
     <string name="menu_refresh">刷新</string>
     <string name="menu_settings">设置</string>
+    <string name="menu_publish">发布</string>
+    <string name="menu_save">保存</string>
 
     <string name="login_register"><u>快速注册</u></string>
     <string name="login_forgetpw"><u>忘记密码</u></string>

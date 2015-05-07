@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ware_items">
+        <item>美容</item>
+        <item>美发</item>
+        <item>美甲</item>
+        <item>亲子</item>
+        <item>娱乐</item>
+    </string-array>
+</resources>

@@ -2,13 +2,24 @@ package com.galaxy.ishare;
 
 
 import android.app.Application;
+import android.util.Log;
 
-import com.baidu.mapapi.SDKInitializer;
+
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.galaxy.ishare.model.User;
 
 import java.util.HashMap;
 
 
 public class IShareApplication extends Application {
+
+    public LocationClient mLocationClient;
+    public MyLocationListener mMyLocationListener;
+
+
+    private static final String TAG = "application";
 
     @Override
     public void onCreate() {
@@ -20,7 +31,10 @@ public class IShareApplication extends Application {
         // 初始化sp
         IShareContext.getInstance().init(getApplicationContext());
 
-        SDKInitializer.initialize(getApplicationContext());
+        // baidu map api
+        mLocationClient = new LocationClient(this.getApplicationContext());
+        mMyLocationListener = new MyLocationListener();
+        mLocationClient.registerLocationListener(mMyLocationListener);
 
         // 将变量读入到Global中
         if (IShareContext.getInstance().getCurrentUser()!=null){
@@ -30,6 +44,29 @@ public class IShareApplication extends Application {
         }
 
 
+
+
+    }
+
+
+
+    /**
+     * 实现实位回调监听
+     */
+    public class MyLocationListener implements BDLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            String locationStr= location.getAddrStr();
+            String city = location.getCity();
+            String province = location.getProvince();
+            String district = location.getDistrict();
+            String longitude = location.getLongitude()+"";
+            String latitude = location.getLatitude()+"";
+            IShareContext.getInstance().setUserLocation(new User.UserLocation(city,province,district,locationStr,longitude,latitude));
+
+            mLocationClient.stop();
+        }
 
 
     }

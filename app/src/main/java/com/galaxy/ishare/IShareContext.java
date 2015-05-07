@@ -32,6 +32,8 @@ public class IShareContext {
 
     private static final String FIRSTIN = "fistin";
 
+    private static User.UserLocation location ;
+
     //查询手机联系人的返回值
     @SuppressLint("InlineApi")
     private static final String[] PROJECTION =
@@ -112,6 +114,14 @@ public class IShareContext {
         }
 
         return currentUser;
+    }
+
+    public void setUserLocation(User.UserLocation userLocation){
+        location= userLocation;
+    }
+
+    public User.UserLocation getUserLocation (){
+        return location;
     }
 
 

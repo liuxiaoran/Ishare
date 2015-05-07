@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.galaxy.ishare.constant.BroadcastConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.contact.ContactFragment;
@@ -62,6 +64,11 @@ public class MainActivity extends ActionBarActivity {
 
     private FriendDao friendDao;
     private InviteFriendDao inviteFriendDao;
+
+    private LocationClient mLocationClient;
+
+    private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
+    private String tempcoor="gcj02";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +123,24 @@ public class MainActivity extends ActionBarActivity {
             }.start();
         }
 
+
+        // 利用百度地图获取位置
+        mLocationClient =  ((IShareApplication)getApplication()).mLocationClient;
+        initLocation();
+        mLocationClient.start();
+
+
     }
 
+    private void initLocation(){
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(tempMode);//设置定位模式
+        option.setCoorType(tempcoor);//返回的定位结果是百度经纬度，默认值gcj02
+        int span=1000;
+        option.setScanSpan(span);//设置发起定位请求的间隔时间为5000ms
+        option.setIsNeedAddress(true);
+        mLocationClient.setLocOption(option);
+    }
 
 
     @Override
@@ -246,10 +269,16 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu){
 
         super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.main,menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
+    @Override
+    protected void onStop() {
+        if (mLocationClient!=null)
+        mLocationClient.stop();
+        super.onStop();
+    }
 //    //    // dialog询问读取联系人，开启线程读取联系人
 //    private void giveReadContactPermission() {
 //        new MaterialDialog.Builder(this)

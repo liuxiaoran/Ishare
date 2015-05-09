@@ -1,173 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="@dimen/default_layout_padding">
 
-
-        <ImageView
-            android:id="@+id/publish_ware_picture_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/title_shadow"
-            android:scaleType="centerInside" />
-
         <LinearLayout
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:layout_width="0px"
-            android:layout_height="0px"/>
+            android:layout_height="0px"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/publish_ware_name_et"
+            android:id="@+id/publish_shop_name_et"
             style="@style/material_eidttext"
-            android:hint="物品名称"
+            android:hint="店名"
             app:met_floatingLabel="highlight"
-            app:met_floatingLabelText="物品名称"
+            app:met_floatingLabelText="店名"
             app:met_floatingLabelTextSize="@dimen/caption_text_size"
             app:met_maxCharacters="30"
             app:met_singleLineEllipsis="true" />
 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/publish_card_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="卡类型" />
+
+            <RadioGroup
+                android:id="@+id/publish_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/publish_card_tv"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/publish_type_charge_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="充值卡" />
+
+                <RadioButton
+                    android:id="@+id/publish_type_member_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="会员卡" />
+            </RadioGroup>
+        </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:id="@+id/publish_ware_type_layout">
+            android:layout_marginTop="@dimen/default_layout_marginTop">
+
+            <TextView
+                android:id="@+id/publish_discount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="折扣" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/publish_discount_et"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/publish_discount_tv" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="折"
+                android:layout_toRightOf="@id/publish_discount_et"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/publish_industry_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_layout_marginTop"
+            android:clickable="true">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="商品类型"
-                android:layout_alignParentLeft="true" />
+                android:layout_alignParentLeft="true"
+                android:text="行业" />
 
             <TextView
+                android:id="@+id/publish_industry_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/publish_ware_type_tv"
                 android:layout_alignParentRight="true" />
 
         </RelativeLayout>
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/publish_ware_description_et"
+            android:id="@+id/publish_card_description_et"
             style="@style/material_eidttext"
-            android:hint="商品描述"
+            android:hint="卡描述"
             app:met_floatingLabel="highlight"
-            app:met_floatingLabelText="商品描述"
+            app:met_floatingLabelText="卡描述"
             app:met_floatingLabelTextSize="@dimen/caption_text_size"
             app:met_maxCharacters="60" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:id="@+id/publish_ware_city_layout"
-            android:layout_marginTop="@dimen/default_layout_marginTop">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="城市"
-                android:layout_alignParentLeft="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/publish_ware_city_tv"
-                android:layout_alignParentRight="true" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:id="@+id/publish_ware_province_layout"
-            android:layout_marginTop="@dimen/default_layout_marginTop">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="省份"
-                android:layout_alignParentLeft="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/publish_ware_province_tv"
-                android:layout_alignParentRight="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
+        <LinearLayout
             android:id="@+id/publish_ware_location_layout"
-            android:layout_marginTop="@dimen/default_layout_marginTop">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="位置"
-                android:layout_alignParentLeft="true"
-                android:id="@+id/publish_ware_location_tv" />
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-
-                style="@style/material_eidttext"
-                android:id="@+id/publish_ware_location_et"
-                android:layout_alignParentRight="true"
-                app:met_singleLineEllipsis="true"
-                android:text="正在定位..."
-                android:layout_below="@id/publish_ware_location_tv" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:id="@+id/publish_ware_sharetype_layout"
-            android:layout_marginTop="@dimen/default_layout_marginTop">
+            android:layout_marginTop="@dimen/default_layout_marginTop"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/publish_ware_location_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="可见人群"
                 android:layout_alignParentLeft="true"
-                android:id="@+id/publish_ware_sharetype_tv" />
+                android:text="店位置" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+
+                    android:id="@+id/publish_shop_location_et"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:met_singleLineEllipsis="true" />
+
+                <ImageView
+                    android:id="@+id/publish_shop_location_iv"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_marka" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/publish_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/publish_owner_location_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:hint="您的位置"
+                    android:textSize="12dp"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelText="您的位置"
+                    app:met_floatingLabelTextSize="@dimen/caption_text_size"
+                    >
+
+                </com.rengwuxian.materialedittext.MaterialEditText>
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/icon_marka"
+                    android:id="@id/publish_owner_location_iv"/>
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/publish_owner_time_et"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:hint="您方便的时间段"
+                    android:textSize="12dp"
+                    app:met_floatingLabel="highlight"
+                    app:met_floatingLabelText="您方便的时间段"
+                    app:met_floatingLabelTextSize="@dimen/caption_text_size"
+                    app:met_singleLineEllipsis="true">
+
+                </com.rengwuxian.materialedittext.MaterialEditText>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/publish_add_more_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="添加" />
+
+        <RelativeLayout
+            android:id="@+id/publish_ware_sharetype_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_layout_marginTop"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/publish_ware_sharetype_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="可见人群" />
 
             <CheckBox
+                android:id="@+id/publish_ware_friend_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/publish_ware_friend_cb"
-                android:checked="true"
                 android:layout_below="@id/publish_ware_sharetype_tv"
+                android:checked="true"
                 android:text="一度好友" />
 
             <CheckBox
+                android:id="@+id/publish_ware_indirect_friend_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/publish_ware_indirect_friend_cb"
-                android:layout_toRightOf="@id/publish_ware_friend_cb"
                 android:layout_alignBottom="@id/publish_ware_friend_cb"
+                android:layout_toRightOf="@id/publish_ware_friend_cb"
                 android:checked="false"
                 android:text="二度好友" />
 
             <CheckBox
+                android:id="@+id/publish_ware_all_cb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/publish_ware_all_cb"
-                android:checked="false"
-                android:layout_toRightOf="@id/publish_ware_indirect_friend_cb"
                 android:layout_alignBottom="@id/publish_ware_friend_cb"
+                android:layout_toRightOf="@id/publish_ware_indirect_friend_cb"
+                android:checked="false"
                 android:text="所有人" />
 
 

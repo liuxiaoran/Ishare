@@ -51,12 +51,12 @@ import java.util.zip.Inflater;
 public class MainActivity extends ActionBarActivity {
 
     private RadioGroup mTabGroup = null;
-    private RadioButton mShareItemButton, mDiscoverButton, mContactButton, mMeButton;
+    private RadioButton mShareItemButton,  mContactButton, mMeButton;
 
-    private Fragment mShareItemFragment, mDiscoverFragment, mContactFragment, mMeFragment;
+    private Fragment mShareItemFragment, mContactFragment, mMeFragment;
 //    private TextView mTitle;
 
-    private int[] mRadioId = new int[]{R.id.GlobalListButton, R.id.RecommendButton, R.id.MeButton};
+    private int[] mRadioId = new int[]{R.id.GlobalListButton,  R.id.MeButton};
 
     private static final String TAG = "mainactivity";
 
@@ -84,16 +84,13 @@ public class MainActivity extends ActionBarActivity {
         inviteFriendDao =InviteFriendDao.getInstance(this);
 
         mShareItemFragment = new ItemListFragment();
-        mDiscoverFragment = new DiscoverFragment();
         mContactFragment = new ContactFragment();
         mMeFragment = new MeFragment();
 
         FragmentTransaction mCurTransaction = getFragmentManager().beginTransaction();
         mCurTransaction.add(R.id.fragment_container, mShareItemFragment);
-        mCurTransaction.add(R.id.fragment_container, mDiscoverFragment);
         mCurTransaction.add(R.id.fragment_container, mContactFragment);
         mCurTransaction.add(R.id.fragment_container, mMeFragment);
-        mCurTransaction.hide(mDiscoverFragment);
         mCurTransaction.hide(mContactFragment);
         mCurTransaction.hide(mMeFragment);
         mCurTransaction.commit();
@@ -235,7 +232,7 @@ public class MainActivity extends ActionBarActivity {
     private void initTabs() {
         mTabGroup = (RadioGroup) findViewById(R.id.tab_group);
         mShareItemButton = (RadioButton) findViewById(R.id.GlobalListButton);
-        mDiscoverButton = (RadioButton) findViewById(R.id.RecommendButton);
+//        mDiscoverButton = (RadioButton) findViewById(R.id.RecommendButton);
         mContactButton = (RadioButton) findViewById(R.id.ContactButton);
         mMeButton = (RadioButton) findViewById(R.id.MeButton);
         mTabGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -243,16 +240,12 @@ public class MainActivity extends ActionBarActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction mCurTransaction = getFragmentManager().beginTransaction();
                 mCurTransaction.hide(mShareItemFragment);
-                mCurTransaction.hide(mDiscoverFragment);
                 mCurTransaction.hide(mContactFragment);
                 mCurTransaction.hide(mMeFragment);
                 if (checkedId == mShareItemButton.getId()) {
 //                	mTitle.setText(R.string.share_item_tab);
                     mCurTransaction.show(mShareItemFragment);
-                } else if (checkedId == mDiscoverButton.getId()) {
-//                	mTitle.setText(R.string.discover_tab);
-                    mCurTransaction.show(mDiscoverFragment);
-                } else if (checkedId == mContactButton.getId()) {
+                }  else if (checkedId == mContactButton.getId()) {
 //                    mTitle.setText(R.string.contact_tab);
                     mCurTransaction.show(mContactFragment);
                 } else if (checkedId == mMeButton.getId()) {

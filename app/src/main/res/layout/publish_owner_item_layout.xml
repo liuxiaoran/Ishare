@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:gravity="center"
+        android:hint="您的位置"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelText="您的位置"
+        app:met_floatingLabelTextSize="@dimen/caption_text_size"
+        android:textSize="12dp"
+        android:id="@+id/publish_owner_tablerow_location_et">
+
+    </com.rengwuxian.materialedittext.MaterialEditText>
+
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:id="@+id/publish_owner_location_iv"
+        android:src="@drawable/icon_marka" />
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:hint="您方便的时间段"
+        app:met_floatingLabel="highlight"
+        app:met_floatingLabelText="您方便的时间段"
+        app:met_floatingLabelTextSize="@dimen/caption_text_size"
+        android:textSize="12dp"
+        app:met_singleLineEllipsis="true"
+        android:id="@+id/publish_owner_tablerow_time_et">
+
+    </com.rengwuxian.materialedittext.MaterialEditText>
+
+</LinearLayout>

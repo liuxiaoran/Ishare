@@ -38,7 +38,8 @@ dependencies {
     compile files('libs/ormlite-core-4.48.jar')
 
     // Baidu map
-    compile files('libs/locSDK_5.1.jar')
+    compile files('libs/locSDK_5.0.jar')
+    compile files('libs/baidumapapi_v3_4_0.jar')
     // button
     compile 'info.hoang8f:fbutton:1.0.5'
 

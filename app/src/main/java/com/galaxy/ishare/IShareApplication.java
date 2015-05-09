@@ -8,6 +8,7 @@ import android.util.Log;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
+import com.baidu.mapapi.SDKInitializer;
 import com.galaxy.ishare.model.User;
 
 import java.util.HashMap;
@@ -31,7 +32,10 @@ public class IShareApplication extends Application {
         // 初始化sp
         IShareContext.getInstance().init(getApplicationContext());
 
-        // baidu map api
+        // baidu map init
+        SDKInitializer.initialize(getApplicationContext());
+
+        // baidu location init
         mLocationClient = new LocationClient(this.getApplicationContext());
         mMyLocationListener = new MyLocationListener();
         mLocationClient.registerLocationListener(mMyLocationListener);

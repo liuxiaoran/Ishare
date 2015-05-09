@@ -30,13 +30,7 @@
             android:drawableTop="@drawable/global_list"
             android:text="@string/share_item_tab" />
 
-        <RadioButton
-            android:id="@+id/RecommendButton"
-            style="@style/main_tab_bottom"
-            android:background="@drawable/bottom_tab_bg_selector"
-            android:drawableTop="@drawable/recommend"
-            android:text="@string/discover_tab"
-            android:checked="false" />
+
 
         <RadioButton
             android:id="@+id/ContactButton"

@@ -31,6 +31,9 @@ public enum HttpCode {
     E_SERVICE_ACCESS(8),
     E_RANGE_NOT_SATISFIABLE(9);
 
+    public int httpStatusCode;
+
+
     private final int intValue;
 
     HttpCode(int value) {
@@ -39,5 +42,10 @@ public enum HttpCode {
 
     public int value() {
         return intValue;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "  httpStatusCode=" + httpStatusCode;
     }
 }

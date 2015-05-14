@@ -17,15 +17,10 @@
             android:focusableInTouchMode="true" />
 
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/publish_shop_name_et"
+        <AutoCompleteTextView
+            android:id="@+id/publish_shop_name_tv"
             style="@style/material_eidttext"
-            android:hint="店名"
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelText="店名"
-            app:met_floatingLabelTextSize="@dimen/caption_text_size"
-            app:met_maxCharacters="30"
-            app:met_singleLineEllipsis="true" />
+            android:hint="店名" />
 
 
         <RelativeLayout
@@ -115,7 +110,8 @@
             app:met_floatingLabel="highlight"
             app:met_floatingLabelText="卡描述"
             app:met_floatingLabelTextSize="@dimen/caption_text_size"
-            app:met_maxCharacters="60" />
+            app:met_maxCharacters="60"
+            android:inputType="textMultiLine" />
 
 
         <LinearLayout
@@ -201,8 +197,7 @@
                     android:textSize="12dp"
                     app:met_floatingLabel="highlight"
                     app:met_floatingLabelText="您方便的时间段"
-                    app:met_floatingLabelTextSize="@dimen/caption_text_size"
-                    app:met_singleLineEllipsis="true">
+                    app:met_floatingLabelTextSize="@dimen/caption_text_size">
 
                 </com.rengwuxian.materialedittext.MaterialEditText>
             </LinearLayout>

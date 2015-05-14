@@ -114,6 +114,11 @@ public class HttpDataFetcher {
                 } else {
                     result.data = byteData;
                 }
+                // 赋予返回状态值
+                result.resultCode.httpStatusCode = responseCode;
+            } else {
+                // 赋予返回状态值
+                result.resultCode.httpStatusCode = responseCode;
             }
         } catch (SocketTimeoutException e) {
             result.resultCode = HttpCode.E_NET_TIMEOUT;

@@ -12,10 +12,10 @@ public class URLConstant {
     public static final String SERVER_IP = "http://123.57.229.77/index.php";
 
     // register 接口
-    public static final String REGISTER = SERVER_IP + "/Register";
+    public static final String REGISTER = SERVER_IP + "/user/Register_C";
 
     // login
-    public static final String LOGIN = SERVER_IP + "/Login";
+    public static final String LOGIN = SERVER_IP + "/user/Login_C";
 
     // 获得手机通信录双方都添加了对方--好友关系 的列表
     public static final String FRIEND_CONTACT = SERVER_IP + "/FriendContacts";
@@ -25,4 +25,7 @@ public class URLConstant {
 
 
     public static final String UPLOAD_CONTACT= SERVER_IP +"/UpdateContact";
+
+    // 发布卡
+    public static final String PUBLISH_SHARE_ITEM = SERVER_IP + "/card/Add_Card_C";
 }

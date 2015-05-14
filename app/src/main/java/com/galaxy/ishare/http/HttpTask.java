@@ -87,6 +87,7 @@ public class HttpTask {
         if (Global.key != null && Global.phone != null) {
             params.add(new BasicNameValuePair("phone", Global.phone));
             params.add(new BasicNameValuePair("key", Global.key));
+            startAsyncDataRequset(new HttpPostExt(url), params, response);
 
         } else {
             if (params != null)

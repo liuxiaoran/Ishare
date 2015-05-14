@@ -18,6 +18,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.register.RegisterActivity;
+import com.galaxy.ishare.utils.AppAsyncHttpClient;
 import com.galaxy.ishare.utils.CheckInfoValidity;
 import com.galaxy.ishare.utils.Encrypt;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -28,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import info.hoang8f.widget.FButton;
@@ -65,9 +67,11 @@ public class LoginActivity extends Activity {
                 if (checkInfoValidity()) {
                     //  向服务器提交
 
+
                     List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
                     params.add(new BasicNameValuePair("phone", phone));
                     params.add(new BasicNameValuePair("password", Encrypt.md5(password)));
+                    Log.v(TAG, Encrypt.md5(password));
                     HttpTask.startAsyncDataPostRequest(URLConstant.LOGIN, params, new HttpDataResponse() {
                         @Override
                         public void onRecvOK(HttpRequestBase request, String result) {
@@ -76,6 +80,7 @@ public class LoginActivity extends Activity {
                             JSONObject jsonObject = null;
                             String key = "";
                             try {
+                                Log.v(TAG, result + "result");
                                 jsonObject = new JSONObject(result);
                                 status = jsonObject.getInt("status");
                                 if (status == 0) {
@@ -101,6 +106,8 @@ public class LoginActivity extends Activity {
 
                         @Override
                         public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+
+                            Log.v(TAG, retCode.toString());
 
                             Toast.makeText(LoginActivity.this, "网络不佳,请重试", Toast.LENGTH_LONG).show();
                         }

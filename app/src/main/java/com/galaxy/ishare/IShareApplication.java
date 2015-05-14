@@ -42,6 +42,7 @@ public class IShareApplication extends Application {
 
         // 将变量读入到Global中
         if (IShareContext.getInstance().getCurrentUser()!=null){
+            Log.v(TAG, IShareContext.getInstance().getCurrentUser().getKey() + "KEY");
             Global.key = IShareContext.getInstance().getCurrentUser().getKey();
             Global.phone = IShareContext.getInstance().getCurrentUser().getUserPhone();
 

@@ -111,16 +111,16 @@ public class RegisterActivity extends Activity {
                 if (checkUserInfo()) {
                     // 向服务器提交数据
 
-                    List<NameValuePair> params = new ArrayList<NameValuePair>();
+                    List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
                     params.add(new BasicNameValuePair("phone", phone));
-                    params.add(new BasicNameValuePair("pw", Encrypt.md5(password)));
+                    params.add(new BasicNameValuePair("password", Encrypt.md5(password)));
 
-                    HttpTask.startAsyncDataGetRequset(URLConstant.REGISTER, params, new HttpDataResponse() {
+                    HttpTask.startAsyncDataPostRequest(URLConstant.REGISTER, params, new HttpDataResponse() {
                         @Override
                         public void onRecvOK(HttpRequestBase request, String result) {
 
-                            String key= null;
-                            int status =0 ;
+                            String key = null;
+                            int status = 0;
                             try {
                                 JSONObject object = new JSONObject(result);
                                 status = object.getInt("status");
@@ -130,7 +130,7 @@ public class RegisterActivity extends Activity {
                                 e.printStackTrace();
                             }
 
-                            if (status ==0 ) {
+                            if (status == 0) {
                                 User user = new User(phone, key);
                                 Global.key = key;
                                 Global.phone = phone;
@@ -139,9 +139,9 @@ public class RegisterActivity extends Activity {
                                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
-                            }else {
+                            } else {
 
-                                Toast.makeText(RegisterActivity.this,"用户存在",Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterActivity.this, "用户存在", Toast.LENGTH_LONG).show();
 
                             }
                         }
@@ -149,8 +149,8 @@ public class RegisterActivity extends Activity {
                         @Override
                         public void onRecvError(HttpRequestBase request, HttpCode retCode) {
 
-                            Log.v(TAG,"ret code:"+retCode);
-                            Toast.makeText(RegisterActivity.this,"网络不佳,请重试",Toast.LENGTH_LONG).show();
+                            Log.v(TAG, "ret code:" + retCode);
+                            Toast.makeText(RegisterActivity.this, "网络不佳,请重试", Toast.LENGTH_LONG).show();
 
                         }
 

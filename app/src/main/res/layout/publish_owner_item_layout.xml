@@ -14,7 +14,7 @@
         app:met_floatingLabelText="您的位置"
         app:met_floatingLabelTextSize="@dimen/caption_text_size"
         android:textSize="12dp"
-        android:id="@+id/publish_owner_tablerow_location_et">
+        android:id="@+id/publish_owner_row_location_et">
 
     </com.rengwuxian.materialedittext.MaterialEditText>
 
@@ -34,8 +34,7 @@
         app:met_floatingLabelText="您方便的时间段"
         app:met_floatingLabelTextSize="@dimen/caption_text_size"
         android:textSize="12dp"
-        app:met_singleLineEllipsis="true"
-        android:id="@+id/publish_owner_tablerow_time_et">
+        android:id="@+id/publish_owner_row_time_et">
 
     </com.rengwuxian.materialedittext.MaterialEditText>
 

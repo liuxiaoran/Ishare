@@ -3,9 +3,9 @@ package com.galaxy.ishare;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.galaxy.ishare.login.LoginActivity;
+import com.galaxy.ishare.main.MainActivity;
 
 /**
  * Created by liuxiaoran on 15/4/28.

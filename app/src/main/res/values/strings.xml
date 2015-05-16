@@ -16,4 +16,5 @@
 
 
     <string name="msm_content">您的验证码是%1$s，在5分钟内有效，非本人操作可忽略该短信。【梦动科技】</string>
+    <string name="search">search</string>
 </resources>

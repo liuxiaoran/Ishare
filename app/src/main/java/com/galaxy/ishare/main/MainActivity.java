@@ -1,4 +1,4 @@
-package com.galaxy.ishare;
+package com.galaxy.ishare.main;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +20,9 @@ import android.widget.RadioGroup;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.galaxy.ishare.IShareApplication;
+import com.galaxy.ishare.IShareContext;
+import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.BroadcastConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.contact.ContactFragment;
@@ -145,6 +148,9 @@ public class MainActivity extends ActionBarActivity {
 
         if (item.getItemId()==R.id.menu_publish){
             Intent intent =  new Intent (this, PublishItemActivity.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.menu_search) {
+            Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

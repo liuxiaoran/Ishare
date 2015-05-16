@@ -1,6 +1,7 @@
 package com.galaxy.ishare.http;
 
 import android.util.Log;
+import android.widget.TableRow;
 
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.http.HttpDataFetcher.HttpDataResult;
@@ -11,6 +12,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.SoftReference;
@@ -87,9 +89,11 @@ public class HttpTask {
         if (Global.key != null && Global.phone != null) {
             params.add(new BasicNameValuePair("phone", Global.phone));
             params.add(new BasicNameValuePair("key", Global.key));
+            Log.v(TAG, Global.key);
             startAsyncDataRequset(new HttpPostExt(url), params, response);
 
         } else {
+            Log.v(TAG, Global.key + "else");
             if (params != null)
                 startAsyncDataRequset(new HttpPostExt(url), params, response);
         }
@@ -102,7 +106,7 @@ public class HttpTask {
             public void run() {
                 UrlEncodedFormEntity entity = null;
                 try {
-                    entity = new UrlEncodedFormEntity(params);
+                    entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                     revDataError(request, response, HttpCode.E_DATA_ERROR);

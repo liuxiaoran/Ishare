@@ -32,7 +32,7 @@
                 style="@style/edit_text_next"
                 android:textSize="@dimen/body_text_size" />
 
-            <ImageView style="@style/divider" />
+            <ImageView style="@style/horizontal_divider" />
 
 
             <RelativeLayout
@@ -61,7 +61,7 @@
             </RelativeLayout>
 
 
-            <ImageView style="@style/divider" />
+            <ImageView style="@style/horizontal_divider" />
 
 
             <EditText
@@ -73,7 +73,7 @@
                 android:password="true"
                 android:textSize="@dimen/body_text_size" />
 
-            <ImageView style="@style/divider" />
+            <ImageView style="@style/horizontal_divider" />
 
 
             <EditText

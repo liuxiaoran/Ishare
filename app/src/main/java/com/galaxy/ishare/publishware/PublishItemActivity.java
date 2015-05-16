@@ -34,12 +34,17 @@ import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.utils.AppAsyncHttpClient;
 import com.galaxy.ishare.utils.JsonObjectUtil;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import org.apache.http.Header;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -308,9 +313,11 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         public void publishShareItem() {
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
             params.add(new BasicNameValuePair("owner", Global.phone));
-            params.add(new BasicNameValuePair("shop_name", shopNameTv.getText().toString()));
+
+            params.add(new BasicNameValuePair("shop_name", shopLocationEt.getText().toString()));
             params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));
             params.add(new BasicNameValuePair("shop_latitude", shopLatitude + ""));
+
 
             int ware_type = 0;
             if (chargeRb.isChecked()) {
@@ -345,11 +352,36 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
             params.add(new BasicNameValuePair("share_type", JsonObjectUtil.parseListToJsonArray(shareTypeList).toString()));
 
-            Log.v(TAG, "arrive");
-
+//            HashMap hashMap = new HashMap();
+//            hashMap.put("phone",Global.phone);
+//            hashMap.put("ware_type",0);
+//            hashMap.put("discount",85);
+//            hashMap.put("trade_type",0);
+//            hashMap.put("key",Global.key);
+//            hashMap.put("owner",Global.phone);
+//            hashMap.put("shop_name",shopNameTv.getText().toString());
+//            hashMap.put("shop_location","北京市");
+//
+//
+//            AppAsyncHttpClient.post(URLConstant.PUBLISH_SHARE_ITEM,hashMap, new AsyncHttpResponseHandler(){
+//
+//
+//                @Override
+//                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+//                    Log.v(TAG, new String (responseBody));
+//                    Toast.makeText(PublishItemActivity.this, "发卡成功", Toast.LENGTH_LONG).show();
+//                }
+//
+//                @Override
+//                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+//
+//                }
+//            });
             HttpTask.startAsyncDataPostRequest(URLConstant.PUBLISH_SHARE_ITEM, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
+
+                    Log.v(TAG, result);
                     Toast.makeText(PublishItemActivity.this, "发卡成功", Toast.LENGTH_LONG).show();
                 }
 

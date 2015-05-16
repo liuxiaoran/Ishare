@@ -2,7 +2,9 @@ package com.galaxy.ishare;
 
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
+import android.view.WindowManager;
 
 
 import com.baidu.location.BDLocation;
@@ -28,6 +30,10 @@ public class IShareApplication extends Application {
 
         Global.mContext = this;
         Global.mDensity = getResources().getDisplayMetrics().density;
+
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        Global.screenWidth = wm.getDefaultDisplay().getWidth();
+        Global.screenHeight = wm.getDefaultDisplay().getHeight();
 
         // 初始化sp
         IShareContext.getInstance().init(getApplicationContext());

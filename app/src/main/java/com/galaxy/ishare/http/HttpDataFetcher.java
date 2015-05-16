@@ -9,6 +9,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.ByteArrayBuffer;
 
 import android.util.Log;
@@ -117,6 +118,7 @@ public class HttpDataFetcher {
                 // 赋予返回状态值
                 result.resultCode.httpStatusCode = responseCode;
             } else {
+                Log.v(TAG, responseCode + "");
                 // 赋予返回状态值
                 result.resultCode.httpStatusCode = responseCode;
             }

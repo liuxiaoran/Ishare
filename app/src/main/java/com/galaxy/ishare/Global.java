@@ -21,5 +21,10 @@ public class Global {
 
     public static String key;
 
+    public static int screenHeight;
+
+    public static int screenWidth;
+
+
 }
 

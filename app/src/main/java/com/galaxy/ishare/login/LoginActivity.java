@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
-import com.galaxy.ishare.MainActivity;
+import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
@@ -18,7 +18,6 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.register.RegisterActivity;
-import com.galaxy.ishare.utils.AppAsyncHttpClient;
 import com.galaxy.ishare.utils.CheckInfoValidity;
 import com.galaxy.ishare.utils.Encrypt;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -29,7 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import info.hoang8f.widget.FButton;

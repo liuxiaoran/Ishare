@@ -8,7 +8,8 @@
     (actionProviderClass, actionViewClass, actionLayout).
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:support="http://schemas.android.com/apk/res-auto">
+    xmlns:support="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools">
 
     <!--
         Here we create an item, setting support:showAsAction to display the item as an action if
@@ -27,10 +28,17 @@
         support:showAsAction to never, so it is never displayed as an action item on the compatible
         Action Bar.
     -->
+
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_action_search"
+        android:title="@string/search"
+        support:showAsAction="always" />
     <item
         android:id="@+id/menu_publish"
         android:icon="@drawable/ic_action_new"
         android:title="@string/menu_settings"
         support:showAsAction="always" />
+
 
 </menu>

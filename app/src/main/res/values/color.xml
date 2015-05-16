@@ -7,4 +7,6 @@
     <color name="divider">#DADADA</color>
     <color name="blue">#ff2d99d4</color>
     <color name="gray">#B9B9B9</color>
+    <color name="huise">#7b747c</color>
+    <color name="layout_pressed">#9d9c9c</color>
 </resources>

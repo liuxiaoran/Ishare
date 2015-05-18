@@ -25,6 +25,11 @@
          which is used to tint widgets -->
         <!--theme UI controls like checkboxes and text fields-->
         <item name="colorAccent">@color/color_accent</item>
+        <item name="android:textCursorDrawable">@null</item>
+    </style>
+
+    <style name="Custom"  parent="">
+
     </style>
 
 
@@ -80,4 +85,19 @@
         <item name="android:textCursorDrawable">@null</item>
     </style>
 
+
+
+    <!-- CardView style -->
+    <style name="UniversalCardViewStyle">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginTop">@dimen/recycler_view_item_margin_top</item>
+        <item name="cardCornerRadius">@dimen/default_card_view_corner_radius</item>
+        <item name="cardElevation">@dimen/default_card_view_elevation</item>
+        <item name="cardBackgroundColor">@color/white</item>
+
+    </style>
 </resources>

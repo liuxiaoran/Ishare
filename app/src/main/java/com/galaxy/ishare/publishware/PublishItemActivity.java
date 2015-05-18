@@ -3,6 +3,8 @@ package com.galaxy.ishare.publishware;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,17 +36,12 @@ import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
-import com.galaxy.ishare.utils.AppAsyncHttpClient;
 import com.galaxy.ishare.utils.JsonObjectUtil;
-import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import org.apache.http.Header;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -95,6 +92,12 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publishware_activity);
+
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.main_action_bar);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
+                | ActionBar.DISPLAY_SHOW_HOME);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
         findViewsById();
 
@@ -205,6 +208,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         if (item.getItemId() == R.id.menu_save) {
 
             uploadDataClient.publishShareItem();
+        }else if (item.getItemId()==android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -231,13 +236,13 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             if (v.getId() == R.id.publish_industry_layout) {
                 new MaterialDialog.Builder(PublishItemActivity.this)
                         .title("卡类型")
-                        .items(R.array.ware_items)
-                        .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                        .items(R.array.trade_items)
+                        .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
 
                             @Override
                             public boolean onSelection(MaterialDialog materialDialog, View view, int i, CharSequence charSequence) {
 
-                                String[] array = PublishItemActivity.this.getResources().getStringArray(R.array.ware_items);
+                                String[] array = PublishItemActivity.this.getResources().getStringArray(R.array.trade_items);
                                 String selected = array[i];
                                 industryTv.setText(selected);
                                 trade_type = i;
@@ -352,31 +357,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
             params.add(new BasicNameValuePair("share_type", JsonObjectUtil.parseListToJsonArray(shareTypeList).toString()));
 
-//            HashMap hashMap = new HashMap();
-//            hashMap.put("phone",Global.phone);
-//            hashMap.put("ware_type",0);
-//            hashMap.put("discount",85);
-//            hashMap.put("trade_type",0);
-//            hashMap.put("key",Global.key);
-//            hashMap.put("owner",Global.phone);
-//            hashMap.put("shop_name",shopNameTv.getText().toString());
-//            hashMap.put("shop_location","北京市");
-//
-//
-//            AppAsyncHttpClient.post(URLConstant.PUBLISH_SHARE_ITEM,hashMap, new AsyncHttpResponseHandler(){
-//
-//
-//                @Override
-//                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                    Log.v(TAG, new String (responseBody));
-//                    Toast.makeText(PublishItemActivity.this, "发卡成功", Toast.LENGTH_LONG).show();
-//                }
-//
-//                @Override
-//                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-//
-//                }
-//            });
+
             HttpTask.startAsyncDataPostRequest(URLConstant.PUBLISH_SHARE_ITEM, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {

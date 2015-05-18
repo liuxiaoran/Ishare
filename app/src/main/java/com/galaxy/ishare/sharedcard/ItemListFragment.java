@@ -3,12 +3,10 @@ package com.galaxy.ishare.sharedcard;
 import android.app.Fragment;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,7 +26,6 @@ public class ItemListFragment extends Fragment implements AbsListView.OnScrollLi
     private int topSelectorLayoutWidth;
     private TextView categoryTv;
     private ListView cardListView;
-    private SwipeRefreshLayout listSwipeRefreshLayout;
     private static final String TAG = "ItemListFragment";
     private HttpInteract httpInteract;
     private int pageIndex;
@@ -59,12 +56,7 @@ public class ItemListFragment extends Fragment implements AbsListView.OnScrollLi
         defaultLayout.setOnClickListener(myClickListener);
 
         httpInteract = new HttpInteract();
-        listSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
 
-            }
-        });
 
 
 
@@ -85,7 +77,6 @@ public class ItemListFragment extends Fragment implements AbsListView.OnScrollLi
         categoryTv = (TextView) view.findViewById(R.id.share_item_category_tv);
 
         cardListView = (ListView) view.findViewById(R.id.share_item_card_listview);
-        listSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.share_item_swiperefresh);
 
 //        cardListView.setAdapter(new CardListItemAdapter());
     }
@@ -111,7 +102,7 @@ public class ItemListFragment extends Fragment implements AbsListView.OnScrollLi
                 // popupwindow 中的listview
                 ListView listViewInPopUpWindow = (ListView) popUpWindowView.findViewById(R.id.share_item_popupwindow_listview);
 
-                final String[] wareItems = getResources().getStringArray(R.array.ware_items);
+                final String[] wareItems = getResources().getStringArray(R.array.trade_items);
                 ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, wareItems);
                 listViewInPopUpWindow.setAdapter(adapter);
 

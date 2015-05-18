@@ -1,6 +1,5 @@
 package com.galaxy.ishare.main;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Fragment;
@@ -8,13 +7,14 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -23,14 +23,10 @@ import com.baidu.location.LocationClientOption;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
-import com.galaxy.ishare.constant.BroadcastConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.contact.ContactFragment;
 import com.galaxy.ishare.database.FriendDao;
 import com.galaxy.ishare.database.InviteFriendDao;
-import com.galaxy.ishare.friendcircle.DiscoverFragment;
-import com.galaxy.ishare.model.Friend;
-import com.galaxy.ishare.model.InviteFriend;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
@@ -43,23 +39,21 @@ import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class MainActivity extends ActionBarActivity {
 
     private RadioGroup mTabGroup = null;
-    private RadioButton mShareItemButton,  mContactButton, mMeButton;
+    private RadioButton mShareItemButton, mContactButton, mMeButton;
 
     private Fragment mShareItemFragment, mContactFragment, mMeFragment;
 //    private TextView mTitle;
 
-    private int[] mRadioId = new int[]{R.id.GlobalListButton,  R.id.MeButton};
+    private int[] mRadioId = new int[]{R.id.GlobalListButton, R.id.MeButton};
 
     private static final String TAG = "mainactivity";
 
@@ -71,7 +65,7 @@ public class MainActivity extends ActionBarActivity {
     private LocationClient mLocationClient;
 
     private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
-    private String tempcoor="gcj02";
+    private String tempcoor = "gcj02";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,12 +73,17 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.main_action_bar);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
+                | ActionBar.DISPLAY_SHOW_HOME);
+
 //        mTitle = (TextView)findViewById(R.id.title);
 
         initTabs();
 
         friendDao = FriendDao.getInstance(this);
-        inviteFriendDao =InviteFriendDao.getInstance(this);
+        inviteFriendDao = InviteFriendDao.getInstance(this);
 
         mShareItemFragment = new ItemListFragment();
         mContactFragment = new ContactFragment();
@@ -125,18 +124,18 @@ public class MainActivity extends ActionBarActivity {
 
 
         // 利用百度地图获取位置
-        mLocationClient =  ((IShareApplication)getApplication()).mLocationClient;
+        mLocationClient = ((IShareApplication) getApplication()).mLocationClient;
         initLocation();
         mLocationClient.start();
 
 
     }
 
-    private void initLocation(){
+    private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(tempMode);//设置定位模式
         option.setCoorType(tempcoor);//返回的定位结果是百度经纬度，默认值gcj02
-        int span=1000;
+        int span = 1000;
         option.setScanSpan(span);//设置发起定位请求的间隔时间为5000ms
         option.setIsNeedAddress(true);
         mLocationClient.setLocOption(option);
@@ -146,8 +145,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId()==R.id.menu_publish){
-            Intent intent =  new Intent (this, PublishItemActivity.class);
+        if (item.getItemId() == R.id.menu_publish) {
+            Intent intent = new Intent(this, PublishItemActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.menu_search) {
             Intent intent = new Intent(this, SearchActivity.class);
@@ -251,7 +250,7 @@ public class MainActivity extends ActionBarActivity {
                 if (checkedId == mShareItemButton.getId()) {
 //                	mTitle.setText(R.string.share_item_tab);
                     mCurTransaction.show(mShareItemFragment);
-                }  else if (checkedId == mContactButton.getId()) {
+                } else if (checkedId == mContactButton.getId()) {
 //                    mTitle.setText(R.string.contact_tab);
                     mCurTransaction.show(mContactFragment);
                 } else if (checkedId == mMeButton.getId()) {
@@ -265,7 +264,7 @@ public class MainActivity extends ActionBarActivity {
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public boolean onCreateOptionsMenu(Menu menu) {
 
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.main, menu);
@@ -274,8 +273,8 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onStop() {
-        if (mLocationClient!=null)
-        mLocationClient.stop();
+        if (mLocationClient != null)
+            mLocationClient.stop();
         super.onStop();
     }
 //    //    // dialog询问读取联系人，开启线程读取联系人

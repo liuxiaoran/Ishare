@@ -1,6 +1,7 @@
 package com.galaxy.ishare;
-
+import android.support.v7.app.ActionBar;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 
 import com.galaxy.ishare.model.User;
@@ -261,5 +263,13 @@ public class IShareContext {
         return ret;
     }
 
+    public ActionBar createDefaultActionbar(AppCompatActivity activity){
+        android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
+        actionBar.setCustomView(R.layout.main_action_bar);
+        actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM
+                | android.support.v7.app.ActionBar.DISPLAY_SHOW_HOME);
+
+        return actionBar;
+    }
 
 }

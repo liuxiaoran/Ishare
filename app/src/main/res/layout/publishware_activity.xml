@@ -20,12 +20,16 @@
         <AutoCompleteTextView
             android:id="@+id/publish_shop_name_tv"
             style="@style/material_eidttext"
-            android:hint="店名" />
+            android:background="@drawable/selector_layout_background"
+            android:hint="店名"
+            android:padding="5dp" />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_layout_background"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/publish_card_tv"
@@ -58,7 +62,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_layout_marginTop">
+            android:layout_marginTop="@dimen/default_layout_marginTop"
+            android:background="@drawable/selector_layout_background"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/publish_discount_tv"
@@ -74,12 +80,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/publish_discount_tv" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="折"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/publish_discount_et"
-                android:layout_centerVertical="true"/>
+                android:text="折" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -87,31 +94,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_layout_marginTop"
-            android:clickable="true">
+            android:background="@drawable/selector_layout_background"
+            android:clickable="true"
+            android:padding="5dp"
+            >
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="行业" />
+                android:text="行业"
+                android:layout_centerVertical="true"/>
 
             <TextView
                 android:id="@+id/publish_industry_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true" />
+                android:layout_toLeftOf="@id/publish_right_arrow"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/publish_right_arrow"
+                android:layout_width="25dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/right_arrow"
+                android:layout_centerVertical="true"/>
 
         </RelativeLayout>
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/publish_card_description_et"
-            style="@style/material_eidttext"
-            android:hint="卡描述"
-            app:met_floatingLabel="highlight"
-            app:met_floatingLabelText="卡描述"
-            app:met_floatingLabelTextSize="@dimen/caption_text_size"
-            app:met_maxCharacters="60"
-            android:inputType="textMultiLine" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_layout_marginTop"
+            android:background="@drawable/selector_layout_background"
+            android:padding="5dp">
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/publish_card_description_et"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="卡描述"
+                android:textSize="12dp"
+                android:inputType="textMultiLine"
+                app:met_floatingLabel="highlight"
+                app:met_floatingLabelText="卡描述"
+                app:met_floatingLabelTextSize="@dimen/caption_text_size"
+                app:met_maxCharacters="60" />
+
+        </LinearLayout>
 
 
         <LinearLayout
@@ -119,7 +152,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_layout_marginTop"
-            android:orientation="vertical">
+            android:background="@drawable/selector_layout_background"
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/publish_ware_location_tv"
@@ -139,14 +174,14 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:met_singleLineEllipsis="true" />
+                    android:gravity="center" />
 
                 <ImageView
                     android:id="@+id/publish_shop_location_iv"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/icon_marka" />
+                    android:src="@drawable/location" />
             </LinearLayout>
 
 
@@ -154,68 +189,84 @@
 
 
         <LinearLayout
-            android:id="@+id/publish_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
+            android:layout_marginTop="@dimen/default_layout_marginTop"
+            android:background="@drawable/selector_layout_background"
+            android:orientation="vertical"
+            android:padding="5dp">
 
             <LinearLayout
+                android:id="@+id/publish_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/publish_owner_location_et"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:hint="您的位置"
-                    android:textSize="12dp"
-                    app:met_floatingLabel="highlight"
-                    app:met_floatingLabelText="您的位置"
-                    app:met_floatingLabelTextSize="@dimen/caption_text_size"
-                    >
+                    android:text="可取卡时间地点" />
 
-                </com.rengwuxian.materialedittext.MaterialEditText>
 
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/icon_marka"
-                    android:id="@id/publish_owner_location_iv"/>
-
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/publish_owner_time_et"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:hint="您方便的时间段"
-                    android:textSize="12dp"
-                    app:met_floatingLabel="highlight"
-                    app:met_floatingLabelText="您方便的时间段"
-                    app:met_floatingLabelTextSize="@dimen/caption_text_size">
+                    android:orientation="horizontal">
 
-                </com.rengwuxian.materialedittext.MaterialEditText>
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/publish_owner_location_et"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:gravity="center"
+                        android:hint="您的位置"
+                        android:textSize="12dp"
+                        app:met_floatingLabel="highlight"
+                        app:met_floatingLabelText="您的位置"
+                        app:met_floatingLabelTextSize="@dimen/caption_text_size">
+
+                    </com.rengwuxian.materialedittext.MaterialEditText>
+
+                    <ImageView
+                        android:id="@id/publish_owner_location_iv"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/gps" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/publish_owner_time_et"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:hint="您方便的时间段"
+                        android:textSize="12dp"
+                        app:met_floatingLabel="highlight"
+                        app:met_floatingLabelText="您方便的时间段"
+                        app:met_floatingLabelTextSize="@dimen/caption_text_size">
+
+                    </com.rengwuxian.materialedittext.MaterialEditText>
+                </LinearLayout>
+
+
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/publish_add_more_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="添加" />
         </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/publish_add_more_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="添加" />
 
         <RelativeLayout
             android:id="@+id/publish_ware_sharetype_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_layout_marginTop"
-            android:clickable="true">
+            android:background="@drawable/selector_layout_background"
+            android:clickable="true"
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/publish_ware_sharetype_tv"
@@ -230,7 +281,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/publish_ware_sharetype_tv"
                 android:checked="true"
-                android:text="一度好友" />
+                android:text="好友" />
 
             <CheckBox
                 android:id="@+id/publish_ware_indirect_friend_cb"
@@ -239,7 +290,7 @@
                 android:layout_alignBottom="@id/publish_ware_friend_cb"
                 android:layout_toRightOf="@id/publish_ware_friend_cb"
                 android:checked="false"
-                android:text="二度好友" />
+                android:text="好友的好友" />
 
             <CheckBox
                 android:id="@+id/publish_ware_all_cb"

@@ -10,11 +10,11 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/share_item_top_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:orientation="horizontal"
-            android:id="@+id/share_item_top_layout">
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/share_item_category_layout"
@@ -57,8 +57,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:background="@drawable/selector_layout_pressed"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
                 <!--<ImageView-->
@@ -95,8 +95,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
                 android:background="@drawable/selector_layout_pressed"
+                android:gravity="center_horizontal"
                 android:orientation="horizontal">
 
                 <!--<ImageView-->
@@ -156,16 +156,10 @@
         </LinearLayout>
 
 
-        <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/share_item_swiperefresh"
+        <ListView
+            android:id="@+id/share_item_card_listview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/share_item_card_listview" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>

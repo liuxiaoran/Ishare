@@ -98,7 +98,7 @@ public class ItemListFragment extends Fragment implements AbsListView.OnScrollLi
 
         cardListView = (ListView) view.findViewById(R.id.share_item_card_listview);
 
-        cardListView.setAdapter(new CardListItemAdapter(dataList,getActivity()));
+//        cardListView.setAdapter(new CardListItemAdapter(dataList,getActivity()));  这句is error
     }
 
     @Override

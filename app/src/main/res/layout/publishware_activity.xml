@@ -107,12 +107,6 @@
                 android:text="行业"
                 android:layout_centerVertical="true"/>
 
-            <TextView
-                android:id="@+id/publish_industry_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/publish_right_arrow"
-                android:layout_centerVertical="true"/>
 
             <ImageView
                 android:id="@+id/publish_right_arrow"
@@ -120,6 +114,13 @@
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/right_arrow"
+                android:layout_centerVertical="true"/>
+
+            <TextView
+                android:id="@+id/publish_industry_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/publish_right_arrow"
                 android:layout_centerVertical="true"/>
 
         </RelativeLayout>

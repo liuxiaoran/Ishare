@@ -22,7 +22,7 @@ public class CardListItemAdapter extends BaseAdapter {
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
-    public CardListItemAdapter(ArrayList data, Context context) {
+    public CardListItemAdapter(ArrayList<CardItem> data, Context context) {
         this.dataList = data;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);

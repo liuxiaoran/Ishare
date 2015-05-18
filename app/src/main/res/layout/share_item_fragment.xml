@@ -155,11 +155,17 @@
             </LinearLayout>
         </LinearLayout>
 
-
-        <ListView
-            android:id="@+id/share_item_card_listview"
+        <com.galaxy.ishare.sharedcard.RefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/swiperefresh"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/share_item_card_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.galaxy.ishare.sharedcard.RefreshLayout>
 
 
     </LinearLayout>

@@ -44,28 +44,6 @@ public class RegisterActivity extends Activity {
 
     private static final String  TAG ="registeractivity";
 
-//    private void httpTest() {
-//        HttpPostExt post = new HttpPostExt("http://localhost/ishare_server/index.php/updatecontact?phone=18500138088&key=123456");
-//        List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-//        params.add(new BasicNameValuePair("data", "{\"del\":[{\"phone\":18500138088},{\"phone\":18500138081}],\"add\":[{\"phone\":18501234567}]}"));
-//        HttpTask.startAsyncDataRequset(post, params, new HttpDataResponse() {
-//            @Override
-//            public void onRecvOK(HttpRequestBase request, String result) {
-//            }
-//
-//            @Override
-//            public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-//            }
-//
-//            @Override
-//            public void onRecvCancelled(HttpRequestBase request) {
-//            }
-//
-//            @Override
-//            public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
-//            }
-//        });
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

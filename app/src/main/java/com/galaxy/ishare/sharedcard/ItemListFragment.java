@@ -15,8 +15,25 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.baidu.mapapi.cloud.BaseCloudSearchInfo;
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.constant.URLConstant;
+import com.galaxy.ishare.http.HttpCode;
+import com.galaxy.ishare.http.HttpDataResponse;
+import com.galaxy.ishare.http.HttpGetExt;
+import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.model.CardItem;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemListFragment extends Fragment implements AbsListView.OnScrollListener {
 
@@ -29,6 +46,9 @@ public class ItemListFragment extends Fragment implements AbsListView.OnScrollLi
     private static final String TAG = "ItemListFragment";
     private HttpInteract httpInteract;
     private int pageIndex;
+    private ArrayList<CardItem> dataList ;
+    private static final int DISTANCE_LOAD_TYPE=1;
+    private static final int DISCOUNT_LOAD_TYPE =2;
 
 
 
@@ -56,7 +76,7 @@ public class ItemListFragment extends Fragment implements AbsListView.OnScrollLi
         defaultLayout.setOnClickListener(myClickListener);
 
         httpInteract = new HttpInteract();
-
+        dataList = new ArrayList<>();
 
 
 
@@ -78,7 +98,7 @@ public class ItemListFragment extends Fragment implements AbsListView.OnScrollLi
 
         cardListView = (ListView) view.findViewById(R.id.share_item_card_listview);
 
-//        cardListView.setAdapter(new CardListItemAdapter());
+        cardListView.setAdapter(new CardListItemAdapter(dataList,getActivity()));
     }
 
     @Override
@@ -133,9 +153,65 @@ public class ItemListFragment extends Fragment implements AbsListView.OnScrollLi
 
     class HttpInteract {
 
-        public void loadData() {
+        public void loadDataByDiscount(int loadType,int tradeType, double longitude,double latitude, int pageNumber, int pageSize ) {
+
+            List<NameValuePair> paramsList  = new ArrayList<>();
+            paramsList.add(new BasicNameValuePair("trade_type", tradeType+""));
+            paramsList.add(new BasicNameValuePair("page_num",pageNumber+""));
+            paramsList.add(new BasicNameValuePair("page_size", pageSize + ""));
+            String url=null;
+            if (loadType == DISCOUNT_LOAD_TYPE){
+                url = URLConstant.GET_DISCOUNT_CARD_LIST;
+            }else if (loadType == DISTANCE_LOAD_TYPE){
+                url = URLConstant.GET_DISTANCE_CARD_LIST;
+            }
+            HttpTask.startAsyncDataGetRequset(url, paramsList, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        if (status==0) {
+                            JSONArray jsonArray = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject card = jsonArray.getJSONObject(i);
+                                CardItem cardItem = new CardItem(card.getInt("id"), card.getString("owner"), card.getString("shop_name"), card.getInt("ware_type"), card.getDouble("discount"),
+                                        card.getInt("trade_type"), card.getString("shop_location"), card.getDouble("shop_longitude"), card.getDouble("shop_latitude"),
+                                        card.getString("description"), card.getString("img"), card.getString("time"), card.getDouble("longitude"), card.getDouble("latitude"),
+                                        card.getString("location"), card.getInt("distance"));
+                                dataList.add(cardItem);
+                            }
+                        }else {
+                            Log.v(TAG,"status is "+status);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
+
 
         }
+
     }
 
 }

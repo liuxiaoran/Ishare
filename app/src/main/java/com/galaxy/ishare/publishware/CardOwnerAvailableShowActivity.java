@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,6 +33,10 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity{
     public static final int PUBLISH_TO_SHOW_REQUST_CODE=2;
 
     public static final int ADD_TO_SHOW_RESULT_CODE=1;
+    public static final int REMOVE_TO_SHOW_RESULT_CODE=2;
+    public static final int EDIT_TO_SHOW_RESULT_CODE=3;
+
+    public static final String INTENT_DELETE_POSITION= "INTENT_DELETE_POSITION";
 
     private ArrayList<OwnerAvailableItem> dataList;
     private ListView  availableListView;
@@ -56,6 +61,15 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity{
         listViewAdapter = new ListViewAdapter(this);
         availableListView.setAdapter(listViewAdapter);
 
+        availableListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent  = new Intent (CardOwnerAvailableShowActivity.this,CardOwnerAvailableEditActivity.class);
+                intent.putExtra(CardOwnerAvailableEditActivity.PARAMETER_CARD_AVAILABLE_ITEM,dataList.get(position));
+                intent.putExtra(CardOwnerAvailableEditActivity.PARAMETER_CARD_AVAILABLE_POSITION,position);
+                startActivityForResult(intent, CardOwnerAvailableEditActivity.SHOW_TO_EDIT_REQUST_CODE);
+            }
+        });
 
     }
 
@@ -94,8 +108,17 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity{
             Log.v("cardpublish",dataList.size()+"");
             listViewAdapter.notifyDataSetChanged();
 
+        }else if (resultCode==REMOVE_TO_SHOW_RESULT_CODE){
+            int  index  = data.getIntExtra(INTENT_DELETE_POSITION,0);
+            dataList.remove(index);
+            listViewAdapter.notifyDataSetChanged();
+        }else if (resultCode==EDIT_TO_SHOW_RESULT_CODE){
+            OwnerAvailableItem item = data.getParcelableExtra(CardOwnerAvailableEditActivity.INTENT_AVAILABLE_ITEM);
+            int index= data.getIntExtra(CardOwnerAvailableEditActivity.INTENT_ITME_POSITION,0);
+            dataList.set(index,item);
+            Log.v("cardpublish",dataList.size()+"");
+            listViewAdapter.notifyDataSetChanged();
         }
-
 
 
     }

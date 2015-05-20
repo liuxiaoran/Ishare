@@ -54,6 +54,7 @@ public class CardOwnerAvailableAddActivity extends ActionBarActivity {
                 if (longitude == 0 && latitude == 0 && checkInfo()) {
                     Intent intent = new Intent(CardOwnerAvailableAddActivity.this, CardOwnerAvailableMapActivity.class);
                     intent.putExtra(CardOwnerAvailableMapActivity.PARAMETER_ADDR, locationEt.getText().toString());
+                    intent.putExtra(CardOwnerAvailableMapActivity.PARAMETER_REQUEST_CODE,CardOwnerAvailableMapActivity.ADD_TO_MAP_REQUEST_CODE);
                     startActivityForResult(intent, CardOwnerAvailableMapActivity.ADD_TO_MAP_REQUEST_CODE);
                 } else if (checkInfo() == false) {
                     Toast.makeText(CardOwnerAvailableAddActivity.this, toastMessage, Toast.LENGTH_SHORT).show();

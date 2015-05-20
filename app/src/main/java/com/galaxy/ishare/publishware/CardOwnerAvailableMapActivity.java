@@ -43,8 +43,10 @@ import java.util.List;
 public class CardOwnerAvailableMapActivity extends ActionBarActivity {
 
     public  static final String PARAMETER_ADDR = "PARAMETER_ADDR";
+    public static final String PARAMETER_REQUEST_CODE="PARAMETER_REQUEST_CODE";
 
     public static final int ADD_TO_MAP_REQUEST_CODE =1;
+    public static final int EDIT_TO_MAP_REQUEST_CODE=2;
 
     public  static final String LOCATION_LONGITUDE="LOCATION_LONGITUDE";
     public  static final String LOCATION_LATITIDE="LOCATION_LATITIDE";
@@ -55,6 +57,7 @@ public class CardOwnerAvailableMapActivity extends ActionBarActivity {
 
     private ArrayList<PoiInfo> poiList;
     private PoiSearch mPoiSearch;
+    private int requstCode;
 
 
     @Override
@@ -67,6 +70,7 @@ public class CardOwnerAvailableMapActivity extends ActionBarActivity {
         titleTv.setText("确定地址位置");
 
         String addr = getIntent().getStringExtra(PARAMETER_ADDR);
+        requstCode=getIntent().getIntExtra(PARAMETER_REQUEST_CODE,0);
         Log.v("cardpublish","addr"+addr);
 
         initViews();
@@ -101,12 +105,21 @@ public class CardOwnerAvailableMapActivity extends ActionBarActivity {
         if (item.getItemId() == R.id.menu_save) {
             LatLng confirmLatLng = baiduMap.getMapStatus().target;
             // 返回父界面
-            Intent intent = new Intent(this, CardOwnerAvailableAddActivity.class);
+
+            Intent intent =null;
+            int resultCode=0;
+            if (requstCode==ADD_TO_MAP_REQUEST_CODE) {
+                intent = new Intent(this, CardOwnerAvailableAddActivity.class);
+                resultCode=CardOwnerAvailableAddActivity.MAP_TO_ADD_RESULT_CODE;
+            }else {
+                intent  = new Intent (this,CardOwnerAvailableEditActivity.class);
+                resultCode=CardOwnerAvailableEditActivity.MAP_TO_EDIT_RESULT_CODE;
+            }
             intent.putExtra(LOCATION_LONGITUDE,confirmLatLng.longitude);
             intent.putExtra(LOCATION_LATITIDE, confirmLatLng.latitude);
-            Log.v("cardpublish","longitude"+confirmLatLng.longitude);
+            Log.v("cardpublish", "longitude" + confirmLatLng.longitude);
             Log.v("cardpublish","latitude"+confirmLatLng.latitude);
-            setResult(CardOwnerAvailableAddActivity.MAP_TO_ADD_RESULT_CODE, intent);
+            setResult(resultCode, intent);
             finish();
 
 

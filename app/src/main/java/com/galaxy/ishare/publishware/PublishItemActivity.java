@@ -375,7 +375,9 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //                hashMap.put("time", ownerAvailableTimeEtList.get(i).getText().toString());
 //                ownerAvailableList.add(hashMap);
 //            }
-            params.add(new BasicNameValuePair("owner_available", JsonObjectUtil.parseListToJsonArray(ownerAvailableList).toString()));
+            if (ownerAvailableList.size()>=1) {
+                params.add(new BasicNameValuePair("owner_available", JsonObjectUtil.parseListToJsonArray(ownerAvailableList).toString()));
+            }
 
             ArrayList<String> shareTypeList = new ArrayList<>();
             if (friendCb.isChecked()) {

@@ -123,7 +123,10 @@ public class IShareContext {
     }
 
     public User.UserLocation getUserLocation (){
-        return location;
+        if (location!=null) {
+            return location;
+        }
+        return getCurrentUser().getUserLocation();
     }
 
 
@@ -268,7 +271,17 @@ public class IShareContext {
         actionBar.setCustomView(R.layout.main_action_bar);
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM
                 | android.support.v7.app.ActionBar.DISPLAY_SHOW_HOME);
+        actionBar.setDisplayHomeAsUpEnabled(true);
 
+        return actionBar;
+    }
+
+    public ActionBar createCustomActionBar (AppCompatActivity activity , int res){
+        android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
+        actionBar.setCustomView(res);
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
+                | ActionBar.DISPLAY_SHOW_HOME);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         return actionBar;
     }
 

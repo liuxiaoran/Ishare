@@ -31,7 +31,7 @@ public class URLConstant {
 
 
     // 根据折扣从大到小得到卡的列表
-    public static final String  GET_DISCOUNT_CARD_LIST = SERVER_IP +"/Query_Sort_Discount_C";
+    public static final String  GET_DISCOUNT_CARD_LIST = SERVER_IP +"/card/Query_Card_Sort_Discount_C";
 
-    public static final String GET_DISTANCE_CARD_LIST =SERVER_IP +"/Query_Sort_Distance_C";
+    public static final String GET_DISTANCE_CARD_LIST =SERVER_IP +"/card/Query_Card_Sort_Distance_C";
 }

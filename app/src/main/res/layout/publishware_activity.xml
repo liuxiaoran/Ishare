@@ -189,76 +189,76 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_layout_marginTop"
-            android:background="@drawable/selector_layout_background"
-            android:orientation="vertical"
-            android:padding="5dp">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="@dimen/default_layout_marginTop"-->
+            <!--android:background="@drawable/selector_layout_background"-->
+            <!--android:orientation="vertical"-->
+            <!--android:padding="5dp">-->
 
-            <LinearLayout
-                android:id="@+id/publish_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/publish_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="可取卡时间地点" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="可取卡时间地点" />-->
 
 
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/publish_owner_location_et"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:gravity="center"
-                        android:hint="您的位置"
-                        android:textSize="12dp"
-                        app:met_floatingLabel="highlight"
-                        app:met_floatingLabelText="您的位置"
-                        app:met_floatingLabelTextSize="@dimen/caption_text_size">
-
-                    </com.rengwuxian.materialedittext.MaterialEditText>
-
-                    <ImageView
-                        android:id="@id/publish_owner_location_iv"
-                        android:layout_width="20dp"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/gps" />
-
-                    <com.rengwuxian.materialedittext.MaterialEditText
-                        android:id="@+id/publish_owner_time_et"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:hint="您方便的时间段"
-                        android:textSize="12dp"
-                        app:met_floatingLabel="highlight"
-                        app:met_floatingLabelText="您方便的时间段"
-                        app:met_floatingLabelTextSize="@dimen/caption_text_size">
-
-                    </com.rengwuxian.materialedittext.MaterialEditText>
-                </LinearLayout>
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:orientation="horizontal">-->
 
 
-            </LinearLayout>
+                    <!--<com.rengwuxian.materialedittext.MaterialEditText-->
+                        <!--android:id="@+id/publish_owner_location_et"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="3"-->
+                        <!--android:gravity="center"-->
+                        <!--android:hint="您的位置"-->
+                        <!--android:textSize="12dp"-->
+                        <!--app:met_floatingLabel="highlight"-->
+                        <!--app:met_floatingLabelText="您的位置"-->
+                        <!--app:met_floatingLabelTextSize="@dimen/caption_text_size">-->
 
-            <TextView
-                android:id="@+id/publish_add_more_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="添加" />
-        </LinearLayout>
+                    <!--</com.rengwuxian.materialedittext.MaterialEditText>-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@id/publish_owner_location_iv"-->
+                        <!--android:layout_width="20dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:src="@drawable/gps" />-->
+
+                    <!--<com.rengwuxian.materialedittext.MaterialEditText-->
+                        <!--android:id="@+id/publish_owner_time_et"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:gravity="center"-->
+                        <!--android:hint="您方便的时间段"-->
+                        <!--android:textSize="12dp"-->
+                        <!--app:met_floatingLabel="highlight"-->
+                        <!--app:met_floatingLabelText="您方便的时间段"-->
+                        <!--app:met_floatingLabelTextSize="@dimen/caption_text_size">-->
+
+                    <!--</com.rengwuxian.materialedittext.MaterialEditText>-->
+                <!--</LinearLayout>-->
+
+
+            <!--</LinearLayout>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/publish_add_more_tv"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="添加" />-->
+        <!--</LinearLayout>-->
 
         <RelativeLayout
             android:id="@+id/publish_ware_sharetype_layout"

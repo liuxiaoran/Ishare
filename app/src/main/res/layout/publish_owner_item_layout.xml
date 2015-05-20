@@ -22,7 +22,7 @@
         android:layout_width="10dp"
         android:layout_height="match_parent"
         android:id="@+id/publish_owner_location_iv"
-        android:src="@drawable/icon_marka" />
+        android:src="@drawable/gps" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:layout_width="wrap_content"

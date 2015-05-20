@@ -1,173 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:listViewAttr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/share_item_top_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/share_item_top_layout"
-            android:layout_width="match_parent"
+            android:id="@+id/share_item_category_layout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_weight="1"
+            android:background="@drawable/selector_layout_pressed"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/share_item_category_layout"
-                android:layout_width="0dp"
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical|left"-->
+            <!--android:gravity="left"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:background="@drawable/ic_category_movie"/>-->
+
+            <TextView
+                android:id="@+id/share_item_category_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="分类"
+                android:textColor="@color/huise"
+                android:textSize="14.0sp" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/selector_layout_pressed"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical|left"-->
-                <!--android:gravity="left"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:background="@drawable/ic_category_movie"/>-->
-
-                <TextView
-                    android:id="@+id/share_item_category_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:text="分类"
-                    android:textColor="@color/huise"
-                    android:textSize="14.0sp" />
-
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|right"
-                    android:background="@drawable/selector_arrow_dropdown" />
-            </LinearLayout>
-
-            <View style="@style/vertical_divider" />
-
-            <LinearLayout
-                android:id="@+id/share_item_discount_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/selector_layout_pressed"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <!--<ImageView-->
-
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical|left"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:background="@drawable/ic_location"-->
-                <!--/>-->
-
-                <TextView
-                    android:id="@+id/share_item_discount_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:text="折扣排序"
-                    android:textColor="@color/huise"
-                    android:textSize="14.0sp" />
-
-
-                <ImageView
-                    android:id="@+id/iv_price_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|right"
-                    android:background="@drawable/ic_dropdown_arrow" />
-            </LinearLayout>
-
-            <View style="@style/vertical_divider" />
-
-            <LinearLayout
-                android:id="@+id/share_item_distance_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/selector_layout_pressed"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <!--<ImageView-->
-
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical|left"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:background="@drawable/ic_order"-->
-                <!--/>-->
-
-                <TextView
-                    android:id="@+id/share_item_distance_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40.0dp"
-                    android:gravity="center"
-                    android:text="距离排序"
-                    android:textColor="@color/huise"
-                    android:textSize="14.0sp" />
-
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|right"
-                    android:background="@drawable/ic_dropdown_arrow" />
-            </LinearLayout>
-
-            <View style="@style/vertical_divider" />
-
-            <LinearLayout
-                android:id="@+id/share_item_default_layout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/selector_layout_pressed"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/share_item_default_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:text="默认排序"
-                    android:textColor="@color/huise"
-                    android:textSize="14.0sp" />
-
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|right"
-                    android:background="@drawable/ic_dropdown_arrow" />
-
-            </LinearLayout>
+                android:layout_gravity="center_vertical|right"
+                android:background="@drawable/selector_arrow_dropdown" />
         </LinearLayout>
 
-        <com.galaxy.ishare.sharedcard.RefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/swiperefresh"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <View style="@style/vertical_divider" />
 
-            <ListView
-                android:id="@+id/share_item_card_listview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </com.galaxy.ishare.sharedcard.RefreshLayout>
+        <LinearLayout
+            android:id="@+id/share_item_discount_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/selector_layout_pressed"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <!--<ImageView-->
+
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical|left"-->
+            <!--android:layout_marginLeft="5dp"-->
+            <!--android:background="@drawable/ic_location"-->
+            <!--/>-->
+
+            <TextView
+                android:id="@+id/share_item_discount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="折扣排序"
+                android:textColor="@color/huise"
+                android:textSize="14.0sp" />
 
 
+            <ImageView
+                android:id="@+id/iv_price_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:background="@drawable/ic_dropdown_arrow" />
+        </LinearLayout>
+
+        <View style="@style/vertical_divider" />
+
+        <LinearLayout
+            android:id="@+id/share_item_distance_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/selector_layout_pressed"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <!--<ImageView-->
+
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical|left"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:background="@drawable/ic_order"-->
+            <!--/>-->
+
+            <TextView
+                android:id="@+id/share_item_distance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="40.0dp"
+                android:gravity="center"
+                android:text="距离排序"
+                android:textColor="@color/huise"
+                android:textSize="14.0sp" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:background="@drawable/ic_dropdown_arrow" />
+        </LinearLayout>
+
+        <View style="@style/vertical_divider" />
+
+        <LinearLayout
+            android:id="@+id/share_item_default_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/selector_layout_pressed"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/share_item_default_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="默认排序"
+                android:textColor="@color/huise"
+                android:textSize="14.0sp" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:background="@drawable/ic_dropdown_arrow" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        style="@style/horizontal_divider"
+        android:layout_height="2dp"/>
+
+    <LinearLayout
+        android:id="@+id/share_item_is_locating_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="正在定位..." />
     </LinearLayout>
 
-</ScrollView>
+
+    <com.galaxy.ishare.sharedcard.DropDownListView
+        android:id="@+id/share_item_card_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:drawSelectorOnTop="false"
+        android:paddingBottom="5dp"
+        listViewAttr:isAutoLoadOnBottom="true"
+        listViewAttr:isDropDownStyle="true"
+        listViewAttr:isOnBottomStyle="true"
+        android:divider="@null"/>
+
+
+</LinearLayout>
+

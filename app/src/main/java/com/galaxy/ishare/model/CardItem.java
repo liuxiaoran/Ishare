@@ -14,15 +14,18 @@ public class CardItem {
     public String shopLocation;
     public double shopLongitude;
     public double shopLatitude;
+    public double shopDistance;
     public String description;
     public String img;
     public String time;
     public double ownerLongtude;
     public double ownerLatitude;
     public String ownerLocation;
-    public double distance;
+    public double ownerDistance;
 
-    public CardItem(int id, String owner, String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, String description, String img, String time, double ownerLongtude, double ownerLatitude, String ownerLocation, double distance) {
+
+    public CardItem(int id, String owner, String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, String description, String img, String time, double ownerLongtude,
+                    double ownerLatitude, String ownerLocation, double ownerDistance,double shopDistance) {
         this.id = id;
         this.owner = owner;
         this.shopName = shopName;
@@ -38,6 +41,14 @@ public class CardItem {
         this.ownerLongtude = ownerLongtude;
         this.ownerLatitude = ownerLatitude;
         this.ownerLocation = ownerLocation;
-        this.distance = distance;
+        this.ownerDistance = ownerDistance;
+        this.shopDistance = shopDistance;
+    }
+
+    @Override
+    public String toString() {
+
+        return "id:"+id+" "+"shopName"+shopName+" "+"wareType"+wareType+" "+"owner discount"+ownerDistance +" description"+description;
+
     }
 }

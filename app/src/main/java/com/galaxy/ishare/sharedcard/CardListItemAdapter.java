@@ -1,6 +1,7 @@
 package com.galaxy.ishare.sharedcard;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,14 @@ public class CardListItemAdapter extends BaseAdapter {
 
     }
 
+    public void setData(ArrayList data){
+        dataList=data;
+
+    }
+
     @Override
     public int getCount() {
+        Log.v("ItemListFragment",dataList.size()+"data size");
         return dataList.size();
     }
 
@@ -60,7 +67,7 @@ public class CardListItemAdapter extends BaseAdapter {
             cardHolder.shopLocationTv = (TextView)convertView.findViewById(R.id.share_item_listview_item_shop_location_tv);
             cardHolder.shopDistanceTv= (TextView)convertView.findViewById(R.id.share_item_listview_item_shop_distance_tv);
             cardHolder.ownerDistanceTv = (TextView)convertView.findViewById(R.id.share_item_listview_item_owner_distance_tv);
-
+            cardHolder.shopDistanceTv = (TextView)convertView.findViewById(R.id.share_item_listview_item_shop_distance_tv);
             convertView.setTag(cardHolder);
 
 
@@ -71,9 +78,13 @@ public class CardListItemAdapter extends BaseAdapter {
         CardItem cardItem = dataList.get(position);
         cardHolder.shopNameTv.setText(cardItem.shopName);
         String [] tradeItems =mContext.getResources().getStringArray(R.array.trade_items);
-        cardHolder.tradeTypeTv.setText(tradeItems[position]);
+        cardHolder.tradeTypeTv.setText(tradeItems[cardItem.tradeType]);
         String [] cardItems = mContext.getResources().getStringArray(R.array.card_items);
-        cardHolder.cardTypeTv.setText(cardItems[position]);
+        cardHolder.cardTypeTv.setText(cardItems[cardItem.wareType]);
+        cardHolder.discountTv.setText(cardItem.discount+"");
+        cardHolder.shopLocationTv.setText(cardItem.shopLocation);
+        cardHolder.shopDistanceTv.setText(cardItem.shopDistance+"");
+        cardHolder.ownerDistanceTv.setText(cardItem.ownerDistance+"");
 
         return convertView;
     }

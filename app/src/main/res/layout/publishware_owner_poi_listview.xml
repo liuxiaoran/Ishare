@@ -3,11 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/publishware_owner_available_location_listview">
-
-    </ListView>
+        android:id="@+id/publishware_owner_poi_name_tv"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/publishware_owner_poi_location_tv"/>
 
 </LinearLayout>

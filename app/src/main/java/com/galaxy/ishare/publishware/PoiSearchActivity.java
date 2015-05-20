@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -26,7 +29,10 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import info.hoang8f.widget.FButton;
@@ -75,6 +81,9 @@ public class PoiSearchActivity extends FragmentActivity {
     // 是否选择了店
     private boolean isChooseShop = false;
 
+    // HashMap 存储marker和对应的地址
+    private HashMap<Marker,String> markerAddrInfoMap ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +91,10 @@ public class PoiSearchActivity extends FragmentActivity {
 
 
         confirmBtn = (FButton) findViewById(R.id.poi_search_confirm);
+        markerAddrInfoMap= new HashMap();
 
         choosedPoiBitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.logo_bluetooth);
+                .fromResource(R.drawable.choosed_marker);
         defaultPoiBitmap = BitmapDescriptorFactory
                 .fromResource(R.drawable.icon_marka);
 
@@ -131,6 +141,10 @@ public class PoiSearchActivity extends FragmentActivity {
         searchPoi();
 
 
+        final LayoutInflater layoutInflater= (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
+
+
         // baidumap marker click listen
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
@@ -138,12 +152,22 @@ public class PoiSearchActivity extends FragmentActivity {
 
 
                 clickCount++;
+                choosedShopLatLng = marker.getPosition();
                 if (marker != lastChoosedMarker) {
                     if (lastChoosedMarker != null) {
                         lastChoosedMarker.setIcon(defaultPoiBitmap);
                     }
                     marker.setIcon(choosedPoiBitmap);
                     isChooseShop = true;
+
+                    //  创建并显示infowindow
+                    View infoWindowView =  layoutInflater.inflate(R.layout.publishware_info_window_layout,null);
+                    TextView  addrTv = (TextView) infoWindowView.findViewById(R.id.publishware_info_window_tv);
+                    addrTv.setText(markerAddrInfoMap.get(marker));
+
+
+                    InfoWindow infoWindow = new InfoWindow(infoWindowView,choosedShopLatLng,-55);
+                    mBaiduMap.showInfoWindow(infoWindow);
 
 
                 } else {
@@ -153,11 +177,20 @@ public class PoiSearchActivity extends FragmentActivity {
                     } else {
                         marker.setIcon(choosedPoiBitmap);
                         isChooseShop = true;
+
+                        // 创建并显示显示infowindow
+                        View infoWindowView =  layoutInflater.inflate(R.layout.publishware_info_window_layout,null);
+                        TextView  addrTv = (TextView) infoWindowView.findViewById(R.id.publishware_info_window_tv);
+                        addrTv.setText(markerAddrInfoMap.get(marker));
+
+
+                        InfoWindow infoWindow = new InfoWindow(infoWindowView,choosedShopLatLng,-47);
+                        mBaiduMap.showInfoWindow(infoWindow);
                     }
 
 
                 }
-                choosedShopLatLng = marker.getPosition();
+
                 shopAddr = marker.getTitle();
                 lastChoosedMarker = marker;
 
@@ -192,8 +225,10 @@ public class PoiSearchActivity extends FragmentActivity {
                     .draggable(false);
             //在地图上添加Marker，并显示
             Marker newMarker = (Marker) mBaiduMap.addOverlay(option);
+
             Log.v(TAG, "info address" + info.address);
             newMarker.setTitle(info.address);
+            markerAddrInfoMap.put(newMarker,info.address);
         }
 
     }

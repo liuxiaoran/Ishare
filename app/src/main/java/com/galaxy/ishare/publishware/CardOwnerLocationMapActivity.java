@@ -21,12 +21,13 @@ import info.hoang8f.widget.FButton;
 /**
  * Created by liuxiaoran on 15/5/11.
  */
-public class CardOwnerLocationActivity extends ActionBarActivity implements
+public class CardOwnerLocationMapActivity extends ActionBarActivity implements
         OnGetGeoCoderResultListener {
 
 
     private static final String PARAMETER_latitude = "latitude";
     private static final String PARAMETER_longitude = "longitude";
+
 
     private MapView ownerMapView;
     private BaiduMap ownerBaduMap;
@@ -43,7 +44,7 @@ public class CardOwnerLocationActivity extends ActionBarActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.publishware_owner_location_activity);
+        setContentView(R.layout.publishware_owner_location_map_activity);
 
         ownerMapView = (MapView) findViewById(R.id.publishware_owner_location_mapview);
         confirmBtn = (FButton) findViewById(R.id.publishware_owner_location_confirm_btn);
@@ -74,7 +75,7 @@ public class CardOwnerLocationActivity extends ActionBarActivity implements
         mSearch.reverseGeoCode(new ReverseGeoCodeOption()
                 .location(ownerLatLng));
 
-        Intent retIntent = new Intent(CardOwnerLocationActivity.this, PublishItemActivity.class);
+        Intent retIntent = new Intent(CardOwnerLocationMapActivity.this, PublishItemActivity.class);
         retIntent.putExtra(PublishItemActivity.PARAMETER_RET_OWNER_ADDR, ownerAddress);
         setResult(PublishItemActivity.PARAMETER_OWNER_LOCATION_RESULT_CODE, retIntent);
         finish();

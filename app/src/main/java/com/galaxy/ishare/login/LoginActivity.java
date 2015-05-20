@@ -83,7 +83,14 @@ public class LoginActivity extends Activity {
                                 status = jsonObject.getInt("status");
                                 if (status == 0) {
                                     key = jsonObject.getString("key");
-                                    User user = new User (phone,key);
+                                    User user = null;
+                                    user  = IShareContext.getInstance().getCurrentUser();
+                                    if (user ==null) {
+                                        user = new User(phone, key);
+                                    }else {
+                                        user.setUserPhone(phone);
+                                        user.setKey(key);
+                                    }
                                     IShareContext.getInstance().saveCurrentUser(user);
                                     Global.phone=phone;
                                     Global.key=key;

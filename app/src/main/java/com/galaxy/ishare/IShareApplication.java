@@ -3,6 +3,8 @@ package com.galaxy.ishare;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.WindowManager;
 
@@ -11,6 +13,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
+import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.model.User;
 
 import java.util.HashMap;
@@ -72,11 +75,29 @@ public class IShareApplication extends Application {
             String city = location.getCity();
             String province = location.getProvince();
             String district = location.getDistrict();
-            String longitude = location.getLongitude()+"";
-            String latitude = location.getLatitude()+"";
-            IShareContext.getInstance().setUserLocation(new User.UserLocation(city,province,district,locationStr,longitude,latitude));
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            User.UserLocation userLocation = new User.UserLocation(city, province, district, locationStr, longitude, latitude);
+            IShareContext.getInstance().setUserLocation(userLocation);
+
+            // 获取新的location ，发出广播,更新位置
+            LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(BroadcastActionConstant.UPDATE_USER_LOCATION));
+
+
 
             mLocationClient.stop();
+
+            // 将新的位置存在sp中
+            User user =null;
+            user=IShareContext.getInstance().getCurrentUser();
+            if (user!=null){
+                user.setUserLocation(userLocation);
+            }else {
+                user = new User ();
+                user.setUserLocation(userLocation);
+            }
+            IShareContext.getInstance().saveCurrentUser(user);
+
         }
 
 

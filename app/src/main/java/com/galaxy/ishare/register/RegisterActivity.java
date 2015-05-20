@@ -103,10 +103,19 @@ public class RegisterActivity extends Activity {
                                 status = object.getInt("status");
                                 if (status == 0) {
                                     key = object.getString("key");
-                                    User user = new User(phone, key);
+                                    User user = null;
+                                    user= IShareContext.getInstance().getCurrentUser();
+                                    if (user==null) {
+                                        user = new User(phone, key);
+                                    }else {
+                                        user.setUserPhone(phone);
+                                        user.setKey(key);
+                                    }
+                                    IShareContext.getInstance().saveCurrentUser(user);
+
                                     Global.key = key;
                                     Global.phone = phone;
-                                    IShareContext.getInstance().saveCurrentUser(user);
+
                                     Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                                     startActivity(intent);

@@ -40,7 +40,7 @@ public class OverlayDemo extends Activity {
 
     // 初始化全局 bitmap 信息，不用时及时 recycle
     BitmapDescriptor bdA = BitmapDescriptorFactory
-            .fromResource(R.drawable.logo_bluetooth);
+            .fromResource(R.drawable.icon_marka);
     BitmapDescriptor bdB = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_markb);
     BitmapDescriptor bdC = BitmapDescriptorFactory
@@ -118,6 +118,7 @@ public class OverlayDemo extends Activity {
         OverlayOptions ooA = new MarkerOptions().position(llA).icon(bdA)
                 .zIndex(9).draggable(true);
         mMarkerA = (Marker) (mBaiduMap.addOverlay(ooA));
+        mMarkerA.setTitle("fuckkkkk");
         OverlayOptions ooB = new MarkerOptions().position(llB).icon(bdB)
                 .zIndex(5);
         mMarkerB = (Marker) (mBaiduMap.addOverlay(ooB));

@@ -96,12 +96,13 @@
                 android:layout_below="@id/share_item_listview_item_shop_location"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/share_item_listview_item_shop_distance_tv"
                 android:text="25"
                 android:layout_toRightOf="@id/share_item_listview_item_shop_distance"
                 android:layout_alignBottom="@id/share_item_listview_item_shop_distance"
+                android:singleLine="true"
                />
 
             <TextView
@@ -110,14 +111,15 @@
                 android:id="@+id/share_item_listview_item_owner_distance"
                 android:text="卡主距离:"
                 android:layout_alignBottom="@id/share_item_listview_item_shop_distance_tv"
-                android:layout_centerHorizontal="true"/>
+                android:layout_toRightOf="@+id/share_item_listview_item_shop_distance_tv"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/share_item_listview_item_owner_distance_tv"
                 android:text="57"
                 android:layout_toRightOf="@id/share_item_listview_item_owner_distance"
-                android:layout_alignBottom="@id/share_item_listview_item_owner_distance"/>
+                android:layout_alignBottom="@id/share_item_listview_item_owner_distance"
+                android:singleLine="true"/>
 
 
 

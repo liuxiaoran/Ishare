@@ -1,6 +1,5 @@
 package com.galaxy.ishare.publishware;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -9,16 +8,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +32,7 @@ import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.model.OwnerAvailableItem;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -53,6 +50,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     public static final int PARAMETER_OWNER_LOCATION_RESULT_CODE = 1;
     public static final int PARAMETER_SHOP_LOCATION_RESULT_CODE = 2;
+    public static final int PARAMETER_AVAILABLE_RESULT_CODE = 3;
     public static final String PARAMETER_RET_OWNER_ADDR = "PARAMETER_RET_OWNER_ADDR";
 
     private static final String TAG = "PublishItemActivity";
@@ -62,9 +60,10 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     private MyClickListener myClickListener;
     private RelativeLayout industryLayout;
-    private LinearLayout ownerAvailableLayout;
+//    private LinearLayout ownerAvailableLayout;
 
-    private TextView industryTv, addMoreTv;
+    private TextView industryTv;
+//            addMoreTv;
 
     private RadioButton chargeRb, memberRb;
     private CheckBox friendCb, indirectFriendCb, allCb;
@@ -73,8 +72,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     private ArrayList<HashMap<String, String>> ownerAvailableList;
 
-    private ArrayList<MaterialEditText> ownerAvailableLocationEtList;
-    private ArrayList<MaterialEditText> ownerAvailableTimeEtList;
+//    private ArrayList<MaterialEditText> ownerAvailableLocationEtList;
+//    private ArrayList<MaterialEditText> ownerAvailableTimeEtList;
 
     private SuggestionSearch mSuggestionSearch;
     private ArrayAdapter<String> sugAdapter;
@@ -82,37 +81,35 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     private double shopLongitude;
     private double shopLatitude;
 
-    private int trade_type;
+    private int trade_type = -1;
+    int ware_type = -1;
 
     public UploadData uploadDataClient;
 
-    public int currentEtIndex;
+//    public int currentEtIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publishware_activity);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.main_action_bar);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
-                | ActionBar.DISPLAY_SHOW_HOME);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
+        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
+        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
+        titleTv.setText("发布新卡");
         findViewsById();
 
         myClickListener = new MyClickListener();
         industryLayout.setOnClickListener(myClickListener);
-        addMoreTv.setOnClickListener(myClickListener);
+//        addMoreTv.setOnClickListener(myClickListener);
         shopLocationIv.setOnClickListener(myClickListener);
-        ownerLocationIv.setOnClickListener(myClickListener);
-        ownerLocationIv.setTag(0);
+//        ownerLocationIv.setOnClickListener(myClickListener);
+//        ownerLocationIv.setTag(0);
 
         ownerAvailableList = new ArrayList<>();
-        ownerAvailableLocationEtList = new ArrayList<>();
-        ownerAvailableTimeEtList = new ArrayList<>();
-        ownerAvailableLocationEtList.add(ownerAvailableLocationEt);
-        ownerAvailableTimeEtList.add(ownerAvailableTimeEt);
+//        ownerAvailableLocationEtList = new ArrayList<>();
+//        ownerAvailableTimeEtList = new ArrayList<>();
+//        ownerAvailableLocationEtList.add(ownerAvailableLocationEt);
+//        ownerAvailableTimeEtList.add(ownerAvailableTimeEt);
 
         uploadDataClient = new UploadData();
 
@@ -177,9 +174,9 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         industryTv = (TextView) findViewById(R.id.publish_industry_tv);
 
         shopLocationEt = (MaterialEditText) findViewById(R.id.publish_shop_location_et);
-        ownerAvailableLayout = (LinearLayout) findViewById(R.id.publish_layout);
-
-        addMoreTv = (TextView) findViewById(R.id.publish_add_more_tv);
+//        ownerAvailableLayout = (LinearLayout) findViewById(R.id.publish_layout);
+//
+//        addMoreTv = (TextView) findViewById(R.id.publish_add_more_tv);
 
 
         friendCb = (CheckBox) findViewById(R.id.publish_ware_friend_cb);
@@ -190,8 +187,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         cardDesctiptionEt = (MaterialEditText) findViewById(R.id.publish_card_description_et);
         shopLocationIv = (ImageView) findViewById(R.id.publish_shop_location_iv);
         ownerLocationIv = (ImageView) findViewById(R.id.publish_owner_location_iv);
-        ownerAvailableLocationEt = (MaterialEditText) findViewById(R.id.publish_owner_location_et);
-        ownerAvailableTimeEt = (MaterialEditText) findViewById(R.id.publish_owner_time_et);
+//        ownerAvailableLocationEt = (MaterialEditText) findViewById(R.id.publish_owner_location_et);
+//        ownerAvailableTimeEt = (MaterialEditText) findViewById(R.id.publish_owner_time_et);
 
 
     }
@@ -207,13 +204,34 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.menu_save) {
 
-            uploadDataClient.publishShareItem();
-        }else if (item.getItemId()==android.R.id.home){
+            if (chargeRb.isChecked()) {
+                ware_type = 0;
+            }
+            if (memberRb.isChecked()) {
+                ware_type = 1;
+            }
+            if (checkInfo()) {
+                Intent intent = new Intent(this, CardOwnerAvailableShowActivity.class);
+                startActivityForResult(intent, CardOwnerAvailableShowActivity.PUBLISH_TO_SHOW_REQUST_CODE);
+            }
+
+
+        } else if (item.getItemId() == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private boolean checkInfo() {
+        boolean ret = true;
+        if (shopNameTv.getText().toString().equals("") || trade_type == -1 || ware_type == -1 || discountEt.getText().toString().equals("") ||
+                cardDesctiptionEt.getText().toString().equals("") || shopLocationEt.getText().toString().equals("")) {
+
+            ret = false;
+            Toast.makeText(this, "请填写完整信息", Toast.LENGTH_SHORT).show();
+        }
+        return ret;
+    }
 
     @Override
     public void onGetSuggestionResult(SuggestionResult res) {
@@ -253,33 +271,35 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                         .positiveText("确认")
                         .show();
 
-            } else if (v.getId() == R.id.publish_add_more_tv) {
-                LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View view = layoutInflater.inflate(R.layout.publish_owner_item_layout, null);
-                ImageView locationIv = (ImageView) view.findViewById(R.id.publish_owner_location_iv);
+            }
+// else if (v.getId() == R.id.publish_add_more_tv) {
+//                LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                View view = layoutInflater.inflate(R.layout.publish_owner_item_layout, null);
+//                ImageView locationIv = (ImageView) view.findViewById(R.id.publish_owner_location_iv);
+//
+//                final MaterialEditText locationEt = (MaterialEditText) view.findViewById(R.id.publish_owner_row_location_et);
+//                MaterialEditText timeEt = (MaterialEditText) view.findViewById(R.id.publish_owner_row_time_et);
+//
+//                ownerAvailableLayout.addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//
+//                ownerAvailableLocationEtList.add(locationEt);
+//                ownerAvailableTimeEtList.add(timeEt);
+//
+//                // 标示这个ImageView 对应第几个editText
+//                locationIv.setTag(ownerAvailableLocationEtList.size() - 1);
+//                Log.v(TAG, "outer " + (ownerAvailableLocationEtList.size() - 1));
+//
+//                locationIv.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        currentEtIndex = (int) v.getTag();
+//                        ownerAvailableLocationEtList.get(currentEtIndex).setText(IShareContext.getInstance().getUserLocation().getLocationStr());
+//
+//                    }
+//                });
 
-                final MaterialEditText locationEt = (MaterialEditText) view.findViewById(R.id.publish_owner_row_location_et);
-                MaterialEditText timeEt = (MaterialEditText) view.findViewById(R.id.publish_owner_row_time_et);
-
-                ownerAvailableLayout.addView(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-                ownerAvailableLocationEtList.add(locationEt);
-                ownerAvailableTimeEtList.add(timeEt);
-
-                // 标示这个ImageView 对应第几个editText
-                locationIv.setTag(ownerAvailableLocationEtList.size() - 1);
-                Log.v(TAG, "outer " + (ownerAvailableLocationEtList.size() - 1));
-
-                locationIv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        currentEtIndex = (int) v.getTag();
-                        ownerAvailableLocationEtList.get(currentEtIndex).setText(IShareContext.getInstance().getUserLocation().getLocationStr());
-
-                    }
-                });
-
-            } else if (v.getId() == R.id.publish_shop_location_iv) {
+//            }
+            else if (v.getId() == R.id.publish_shop_location_iv) {
 
                 Intent intent = new Intent(PublishItemActivity.this, PoiSearchActivity.class);
                 intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameTv.getText().toString());
@@ -297,7 +317,26 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == PARAMETER_OWNER_LOCATION_RESULT_CODE) {
+        if (resultCode == PARAMETER_AVAILABLE_RESULT_CODE) {
+
+            // 得到有空的列表，构造ownerAvailableList， 上传服务器
+            ArrayList<OwnerAvailableItem> cardItemArrayList = data.getParcelableArrayListExtra(CardOwnerAvailableShowActivity.PARAMETER_RETURN_AVAILABLE_LIST);
+
+            for (OwnerAvailableItem item : cardItemArrayList) {
+                HashMap hashMap = new HashMap();
+                hashMap.put("name", item.name);
+                hashMap.put("phone", item.phone);
+                hashMap.put("location", item.location);
+                hashMap.put("time", item.time);
+                hashMap.put("longitude", item.longitude + "");
+                hashMap.put("latitude", item.latitude + "");
+                ownerAvailableList.add(hashMap);
+
+            }
+
+            uploadDataClient.publishShareItem();
+            this.finish();
+
 
         } else if (resultCode == PARAMETER_SHOP_LOCATION_RESULT_CODE) {
             shopLatitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LATITUDE, 0);
@@ -322,26 +361,20 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             params.add(new BasicNameValuePair("shop_name", shopLocationEt.getText().toString()));
             params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));
             params.add(new BasicNameValuePair("shop_latitude", shopLatitude + ""));
+            params.add(new BasicNameValuePair("description", cardDesctiptionEt.getText().toString()));
 
 
-            int ware_type = 0;
-            if (chargeRb.isChecked()) {
-                ware_type = 0;
-            }
-            if (memberRb.isChecked()) {
-                ware_type = 1;
-            }
             params.add(new BasicNameValuePair("ware_type", ware_type + ""));
             params.add(new BasicNameValuePair("discount", discountEt.getText().toString()));
             params.add(new BasicNameValuePair("trade_type", trade_type + ""));
             params.add(new BasicNameValuePair("shop_location", shopLocationEt.getText().toString()));
 
-            for (int i = 0; i < ownerAvailableLocationEtList.size(); i++) {
-                HashMap hashMap = new HashMap();
-                hashMap.put("location", ownerAvailableLocationEtList.get(i).getText().toString());
-                hashMap.put("time", ownerAvailableTimeEtList.get(i).getText().toString());
-                ownerAvailableList.add(hashMap);
-            }
+//            for (int i = 0; i < ownerAvailableLocationEtList.size(); i++) {
+//                HashMap hashMap = new HashMap();
+//                hashMap.put("location", ownerAvailableLocationEtList.get(i).getText().toString());
+//                hashMap.put("time", ownerAvailableTimeEtList.get(i).getText().toString());
+//                ownerAvailableList.add(hashMap);
+//            }
             params.add(new BasicNameValuePair("owner_available", JsonObjectUtil.parseListToJsonArray(ownerAvailableList).toString()));
 
             ArrayList<String> shareTypeList = new ArrayList<>();

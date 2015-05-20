@@ -41,6 +41,7 @@ public class HttpTask {
                     String retStr = null;
                     if (result.encoding == null || result.equals("")) {
                         retStr = new String(result.data);
+
                     } else {
                         try {
                             retStr = new String(result.data, result.encoding);

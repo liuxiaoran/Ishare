@@ -59,14 +59,14 @@
     <!--允许应用读取低级别的系统日志文件 -->
     <uses-permission android:name="android.permission.READ_LOGS"></uses-permission>
 
-    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:name=".IShareApplication"
         android:allowBackup="true"
-        android:label="@string/app_name"
         android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
         <service
@@ -88,22 +88,22 @@
 
         <activity
             android:name=".login.LoginActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
 
         </activity>
 
         <activity
             android:name=".register.RegisterActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
 
         </activity>
 
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -112,14 +112,21 @@
 
         </activity>
 
+        <activity
+            android:name=".main.SearchActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
+
+        <!-- publish card activity-->
 
         <activity
             android:name=".publishware.PublishItemActivity"
-            android:screenOrientation="portrait"
             android:label="@string/app_name"
-            android:parentActivityName=".main.MainActivity">
+            android:parentActivityName=".main.MainActivity"
+            android:screenOrientation="portrait">
 
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
 
         </activity>
@@ -127,24 +134,65 @@
         <activity
             android:name=".publishware.PoiSearchActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:label="poi test">
+            android:label="poi test"
+            android:screenOrientation="portrait">
 
 
         </activity>
 
         <activity
-            android:name=".OverlayDemo"
-            android:configChanges="orientation|keyboardHidden"
+            android:name=".publishware.CardOwnerAvailableShowActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".publishware.PublishItemActivity"
             android:screenOrientation="portrait"
-            android:label="Ovedlay Demo">
-
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".publishware.PublishItemActivity" />
         </activity>
 
-        <activity android:name=".main.SearchActivity"
+        <activity
+            android:name=".publishware.CardOwnerAvailableAddActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".publishware.CardOwnerAvailableShowActivity"
             android:screenOrientation="portrait"
-            android:label="@string/app_name">
-            </activity>
+            android:launchMode="singleTop"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".publishware.CardOwnerAvailableShowActivity" />
+        </activity>
+
+        <activity
+            android:name=".publishware.CardOwnerAvailableMapActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".publishware.CardOwnerAvailableAddActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".publishware.CardOwnerAvailableAddActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".publishware.CardOwnerAvailableEditActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".publishware.CardOwnerAvailableShowActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".publishware.CardOwnerAvailableShowActivity" />
+        </activity>
+
+        <!-- end  publish card-->
+
+        <activity
+            android:name=".OverlayDemo"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="Ovedlay Demo"
+            android:screenOrientation="portrait">
+
+        </activity>
 
 
     </application>

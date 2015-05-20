@@ -28,6 +28,7 @@ import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.galaxy.ishare.IShareContext;
@@ -74,6 +75,8 @@ public class CardOwnerAvailableMapActivity extends ActionBarActivity {
         Log.v("cardpublish","addr"+addr);
 
         initViews();
+        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(14.0f);
+        baiduMap.setMapStatus(msu);
         initPoiSearch();
 
         locationAlterListView.setAdapter(adapter);
@@ -177,10 +180,15 @@ public class CardOwnerAvailableMapActivity extends ActionBarActivity {
     }
 
     private void searchPoi(String addr) {
-        mPoiSearch.searchInCity((new PoiCitySearchOption())
-                .city(IShareContext.getInstance().getUserLocation().getCity())
+//        mPoiSearch.searchInCity((new PoiCitySearchOption())
+//                .city(IShareContext.getInstance().getUserLocation().getCity())
+//                .keyword(addr)
+//                .pageNum(0));
+        mPoiSearch.searchNearby((new PoiNearbySearchOption())
                 .keyword(addr)
-                .pageNum(0));
+                .pageNum(0)
+                .location(new LatLng(IShareContext.getInstance().getUserLocation().getLatitude(),IShareContext.getInstance().getUserLocation().getLongitude()))
+                .radius(500));
     }
 
 

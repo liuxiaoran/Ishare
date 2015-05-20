@@ -13,6 +13,8 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -102,6 +104,7 @@ public class PoiSearchActivity extends FragmentActivity {
         shopName = intent.getStringExtra(PARAMETER_SHOP_NAEM);
         mBaiduMap = ((SupportMapFragment) (getSupportFragmentManager()
                 .findFragmentById(R.id.map))).getBaiduMap();
+
 
         // poiSearch
         mPoiSearch = PoiSearch.newInstance();
@@ -213,6 +216,7 @@ public class PoiSearchActivity extends FragmentActivity {
 
     private void addPoiIntoMap(PoiResult result) {
         List<PoiInfo> poiList = result.getAllPoi();
+        Log.v(TAG,poiList.size()+"poilist size");
         for (PoiInfo info : poiList) {
             LatLng pointLatLng = info.location;
 

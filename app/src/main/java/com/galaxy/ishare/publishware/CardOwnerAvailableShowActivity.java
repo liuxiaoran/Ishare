@@ -16,6 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.OwnerAvailableItem;
@@ -90,10 +91,14 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity{
 
         }else if (item.getItemId()== android.R.id.home){
 
-            Intent intent = new Intent (this,PublishItemActivity.class);
-            intent.putParcelableArrayListExtra(PARAMETER_RETURN_AVAILABLE_LIST, dataList);
-            setResult(PublishItemActivity.PARAMETER_AVAILABLE_RESULT_CODE,intent);
-            finish();
+            if (dataList.size()!=0) {
+                Intent intent = new Intent(this, PublishItemActivity.class);
+                intent.putParcelableArrayListExtra(PARAMETER_RETURN_AVAILABLE_LIST, dataList);
+                setResult(PublishItemActivity.PARAMETER_AVAILABLE_RESULT_CODE, intent);
+                finish();
+            }else {
+                Toast.makeText(this,"请填写方便取卡的时间地点",Toast.LENGTH_SHORT).show();
+            }
 
         }
         return true;

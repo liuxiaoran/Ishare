@@ -1,13 +1,10 @@
 package com.galaxy.ishare.http;
 
 import android.util.Log;
-import android.widget.TableRow;
-
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.http.HttpDataFetcher.HttpDataResult;
 import com.galaxy.ishare.http.HttpFileDownloder.FileDownloadResult;
 import com.galaxy.ishare.http.HttpImageDownloder.ImageDownloadResult;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -36,7 +33,7 @@ public class HttpTask {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                HttpDataResult result = new HttpDataFetcher().execute(request);
+                 HttpDataResult result = new HttpDataFetcher().execute(request);
                 if (result.resultCode == HttpCode.OK) {
                     String retStr = null;
                     if (result.encoding == null || result.equals("")) {
@@ -83,7 +80,6 @@ public class HttpTask {
         Log.v(TAG, request + "----request");
         HttpGetExt httpGetExt = new HttpGetExt(request);
         startAsyncDataRequset(httpGetExt, response);
-
     }
 
     public static void startAsyncDataPostRequest(String url, List<BasicNameValuePair> params, HttpDataResponse response) {

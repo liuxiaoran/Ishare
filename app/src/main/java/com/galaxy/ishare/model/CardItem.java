@@ -51,4 +51,126 @@ public class CardItem {
         return "id:"+id+" "+"shopName"+shopName+" "+"wareType"+wareType+" "+"owner discount"+ownerDistance +" description"+description;
 
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public int getWareType() {
+        return wareType;
+    }
+
+    public void setWareType(int wareType) {
+        this.wareType = wareType;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public int getTradeType() {
+        return tradeType;
+    }
+
+    public void setTradeType(int tradeType) {
+        this.tradeType = tradeType;
+    }
+
+    public String getShopLocation() {
+        return shopLocation;
+    }
+
+    public void setShopLocation(String shopLocation) {
+        this.shopLocation = shopLocation;
+    }
+
+    public double getShopLongitude() {
+        return shopLongitude;
+    }
+
+    public void setShopLongitude(double shopLongitude) {
+        this.shopLongitude = shopLongitude;
+    }
+
+    public double getShopLatitude() {
+        return shopLatitude;
+    }
+
+    public void setShopLatitude(double shopLatitude) {
+        this.shopLatitude = shopLatitude;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public double getOwnerLongtude() {
+        return ownerLongtude;
+    }
+
+    public void setOwnerLongtude(double ownerLongtude) {
+        this.ownerLongtude = ownerLongtude;
+    }
+
+    public double getOwnerLatitude() {
+        return ownerLatitude;
+    }
+
+    public void setOwnerLatitude(double ownerLatitude) {
+        this.ownerLatitude = ownerLatitude;
+    }
+
+    public String getOwnerLocation() {
+        return ownerLocation;
+    }
+
+    public void setOwnerLocation(String ownerLocation) {
+        this.ownerLocation = ownerLocation;
+    }
+
+  
 }

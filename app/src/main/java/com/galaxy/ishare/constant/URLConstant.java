@@ -17,6 +17,10 @@ public class URLConstant {
     // login
     public static final String LOGIN = SERVER_IP + "/user/Login_C";
 
+    //获取分页的地图商铺数据
+    public static final String MAP_SHOP_PAGE = SERVER_IP + "/shop/Query_Shop_Sort_Composite_C/index";
+    public static final String MAP_CARD_PAGE = SERVER_IP + "/card/Query_Card_Sort_Composite_C/index";
+
     // 获得手机通信录双方都添加了对方--好友关系 的列表
     public static final String FRIEND_CONTACT = SERVER_IP + "/FriendContacts";
 
@@ -24,7 +28,7 @@ public class URLConstant {
     public static final String INVITE_CONTACT = SERVER_IP + "/InviteFriendContacts";
 
 
-    public static final String UPLOAD_CONTACT= SERVER_IP +"/UpdateContact";
+    public static final String UPLOAD_CONTACT = SERVER_IP + "/UpdateContact";
 
     // 发布卡
     public static final String PUBLISH_SHARE_ITEM = SERVER_IP + "/card/Add_Card_C";

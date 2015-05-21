@@ -7,16 +7,12 @@ import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.WindowManager;
-
-
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
 import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.model.User;
-
-import java.util.HashMap;
 
 
 public class IShareApplication extends Application {

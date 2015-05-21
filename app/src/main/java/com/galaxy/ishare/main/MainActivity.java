@@ -14,10 +14,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.galaxy.ishare.IShareApplication;
@@ -27,6 +26,7 @@ import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.contact.ContactFragment;
 import com.galaxy.ishare.database.FriendDao;
 import com.galaxy.ishare.database.InviteFriendDao;
+import com.galaxy.ishare.mapLBS.MapActivity;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
@@ -36,7 +36,6 @@ import com.galaxy.ishare.utils.PhoneContactManager;
 import com.galaxy.ishare.utils.SPUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -77,6 +76,15 @@ public class MainActivity extends ActionBarActivity {
         actionBar.setCustomView(R.layout.main_action_bar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
                 | ActionBar.DISPLAY_SHOW_HOME);
+
+        Button mapButton = (Button) actionBar.getCustomView().findViewById(R.id.mapStyle);
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                startActivity(intent);
+            }
+        });
 
 //        mTitle = (TextView)findViewById(R.id.title);
 
@@ -122,21 +130,19 @@ public class MainActivity extends ActionBarActivity {
             }.start();
         }
 
-
         // 利用百度地图获取位置
         mLocationClient = ((IShareApplication) getApplication()).mLocationClient;
         initLocation();
         mLocationClient.start();
-
-
     }
 
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(tempMode);//设置定位模式
         option.setCoorType(tempcoor);//返回的定位结果是百度经纬度，默认值gcj02
+        option.setOpenGps(true);// 打开gps
         int span = 1000;
-        option.setScanSpan(span);//设置发起定位请求的间隔时间为5000ms
+        option.setScanSpan(span);//设置发起定位请求的间隔时间为1000ms
         option.setIsNeedAddress(true);
         mLocationClient.setLocOption(option);
     }

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent"
+	android:layout_width="fill_parent"
+	android:orientation="vertical">
+
+	<!--<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+
+		<RadioGroup
+			android:id="@+id/radioGroup"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal">
+
+			<RadioButton
+				android:id="@+id/shopShow"
+				android:checked="true"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="显示商店" />
+
+			<RadioButton
+				android:id="@+id/kaShow"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="显示卡" />
+		</RadioGroup>
+	</LinearLayout>-->
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<com.baidu.mapapi.map.MapView
+			android:id="@+id/bmapView"
+			android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:clickable="true" />
+
+		<!--<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_marginTop="80dip"
+			android:background="#D000"
+			android:minWidth="100dip"
+			android:orientation="vertical"
+			android:padding="2dp">
+
+			<RadioGroup
+				android:id="@+id/radioGroup"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:contentDescription="定位icon">
+
+				<RadioButton
+					android:id="@+id/defaulticon"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:checked="true"
+					android:text="默认图标"></RadioButton>
+
+				<RadioButton
+					android:id="@+id/customicon"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="自定义图标"></RadioButton>
+			</RadioGroup>
+		</LinearLayout>-->
+
+		<ImageButton
+			android:id="@+id/map_button_type"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentBottom="true"
+			android:layout_marginLeft="25dp"
+			android:layout_marginBottom="100dp"
+			android:src="@drawable/icon_map_nomal" />
+
+		<Button
+			android:id="@+id/shop_ka_type"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true"
+			android:layout_marginRight="25dp"
+			android:layout_marginTop="25dp"
+			android:text="shop" />
+
+		<ImageButton
+			android:id="@+id/map_to_left"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentBottom="true"
+			android:layout_marginLeft="25dp"
+			android:layout_marginBottom="40dp"
+			android:src="@drawable/map_left" />
+
+		<ImageButton
+			android:id="@+id/map_to_right"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentBottom="true"
+			android:layout_marginRight="25dp"
+			android:layout_marginBottom="40dp"
+			android:src="@drawable/map_right" />
+	</RelativeLayout>
+</LinearLayout>

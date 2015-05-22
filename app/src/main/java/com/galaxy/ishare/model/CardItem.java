@@ -9,10 +9,12 @@ import android.os.Parcelable;
 public class CardItem implements Parcelable{
 
     public int id;
-    public String owner;
+    public String ownerId;
     public String ownerName;
     public String shopName;
     public int wareType;
+
+
     public double discount;
     public int tradeType;
     public String shopLocation;
@@ -21,10 +23,10 @@ public class CardItem implements Parcelable{
     public double shopDistance;
     public String description;
 
-    public String time;
+    public String availableTime;  // 卡主最近的空闲地点对应的卡主的时间
     public double ownerLongitude;
     public double ownerLatitude;
-    public String ownerLocation;
+    public String ownerLocation;  // 卡主最近的空闲的地点
     public double ownerDistance;
 
 
@@ -32,11 +34,13 @@ public class CardItem implements Parcelable{
     public String cardStatus;
     public String []cardImgs;
 
+    public String publishTime;
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
         dest.writeInt(id);
-        dest.writeString(owner);
+        dest.writeString(ownerId);
         dest.writeString(ownerName);
         dest.writeString(shopName);
         dest.writeInt(wareType);
@@ -47,7 +51,7 @@ public class CardItem implements Parcelable{
         dest.writeDouble(shopLatitude);
         dest.writeDouble(shopDistance);
         dest.writeString(description);
-        dest.writeString(time);
+        dest.writeString(availableTime);
         dest.writeDouble(ownerLongitude);
         dest.writeDouble(ownerLatitude);
         dest.writeString(ownerLocation);
@@ -62,13 +66,17 @@ public class CardItem implements Parcelable{
         if (cardImgs!=null){
             dest.writeStringArray(cardImgs);
         }
+        dest.writeString(publishTime);
 
     }
 
+    public CardItem (){
+
+    }
     public CardItem(Parcel  in){
 
         this.id = in.readInt();
-        this.owner= in.readString();
+        this.ownerId= in.readString();
         this.ownerName = in.readString();
         this.shopName = in.readString();
         this.wareType =in.readInt();
@@ -79,7 +87,7 @@ public class CardItem implements Parcelable{
         this.shopLatitude = in.readDouble();
         this.shopDistance = in.readDouble();
         this.description = in.readString();
-        this.time= in.readString();
+        this.availableTime= in.readString();
         this.ownerLongitude= in.readDouble();
         this.ownerLatitude= in.readDouble();
         this.ownerLocation = in.readString();
@@ -95,12 +103,13 @@ public class CardItem implements Parcelable{
             in.readStringArray(tem);
         }
         cardImgs= tem;
+        publishTime=in.readString();
     }
 
 
-    public CardItem(int id, String owner, String ownerName,String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, double shopDistance, String description, String time, double ownerLongitude, double ownerLatitude, String ownerLocation, double ownerDistance, String ownerAvatar, String cardStatus, String[] cardImgs) {
+    public CardItem(int id, String ownerId, String ownerName,String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, double shopDistance, String description, String time, double ownerLongitude, double ownerLatitude, String ownerLocation, double ownerDistance, String ownerAvatar, String cardStatus, String[] cardImgs) {
         this.id = id;
-        this.owner = owner;
+        this.ownerId = ownerId;
         this.ownerName= ownerName;
         this.shopName = shopName;
         this.wareType = wareType;
@@ -111,7 +120,7 @@ public class CardItem implements Parcelable{
         this.shopLatitude = shopLatitude;
         this.shopDistance = shopDistance;
         this.description = description;
-        this.time = time;
+        this.availableTime = time;
         this.ownerLongitude = ownerLongitude;
         this.ownerLatitude = ownerLatitude;
         this.ownerLocation = ownerLocation;
@@ -125,10 +134,10 @@ public class CardItem implements Parcelable{
 
 
 
-    public CardItem(int id, String owner, String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, String description,  String time, double ownerLongitude,
+    public CardItem(int id, String ownerId, String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, String description,  String time, double ownerLongitude,
                     double ownerLatitude, String ownerLocation, double ownerDistance,double shopDistance) {
         this.id = id;
-        this.owner = owner;
+        this.ownerId = ownerId;
         this.shopName = shopName;
         this.wareType = wareType;
         this.discount = discount;
@@ -137,7 +146,7 @@ public class CardItem implements Parcelable{
         this.shopLongitude = shopLongitude;
         this.shopLatitude = shopLatitude;
         this.description = description;
-        this.time = time;
+        this.availableTime = time;
         this.ownerLongitude = ownerLongitude;
         this.ownerLatitude = ownerLatitude;
         this.ownerLocation = ownerLocation;
@@ -160,12 +169,12 @@ public class CardItem implements Parcelable{
         this.id = id;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public String getShopName() {
@@ -234,12 +243,12 @@ public class CardItem implements Parcelable{
 
 
 
-    public String getTime() {
-        return time;
+    public String getAvailableTime() {
+        return availableTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setAvailableTime(String time) {
+        this.availableTime = time;
     }
 
     public double getOwnerLongitude() {
@@ -265,6 +274,63 @@ public class CardItem implements Parcelable{
     public void setOwnerLocation(String ownerLocation) {
         this.ownerLocation = ownerLocation;
     }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
+    public double getShopDistance() {
+        return shopDistance;
+    }
+
+    public void setShopDistance(double shopDistance) {
+        this.shopDistance = shopDistance;
+    }
+
+    public double getOwnerDistance() {
+        return ownerDistance;
+    }
+
+    public void setOwnerDistance(double ownerDistance) {
+        this.ownerDistance = ownerDistance;
+    }
+
+    public String getOwnerAvatar() {
+        return ownerAvatar;
+    }
+
+    public void setOwnerAvatar(String ownerAvatar) {
+        this.ownerAvatar = ownerAvatar;
+    }
+
+    public String getCardStatus() {
+        return cardStatus;
+    }
+
+    public void setCardStatus(String cardStatus) {
+        this.cardStatus = cardStatus;
+    }
+
+    public String[] getCardImgs() {
+        return cardImgs;
+    }
+
+    public void setCardImgs(String[] cardImgs) {
+        this.cardImgs = cardImgs;
+    }
+
+    public String getPublishTime (){
+        return publishTime;
+    }
+    public void setPublishTime(String publishTime ){
+        this.publishTime=publishTime;
+
+    }
+
 
 
     @Override

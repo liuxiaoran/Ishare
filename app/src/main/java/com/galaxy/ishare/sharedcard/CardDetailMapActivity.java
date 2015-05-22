@@ -6,6 +6,9 @@ import android.support.v7.app.ActionBarActivity;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
@@ -114,7 +117,18 @@ public class CardDetailMapActivity extends ActionBarActivity {
         mBaiduMap.setMapStatus(mapStatusUpdate);
 
 
-        // 设置Marker
+//        // 设置Marker 并且显示
+//        LatLng pointLatLng = info.location;
+//
+//
+//        //构建MarkerOption，用于在地图上添加Marker
+//        OverlayOptions option = new MarkerOptions()
+//                .position(pointLatLng)
+//                .icon(defaultPoiBitmap)
+//                .zIndex(9)
+//                .draggable(false);
+//        //在地图上添加Marker，并显示
+//        Marker newMarker = (Marker) mBaiduMap.addOverlay(option);
 
 
     }

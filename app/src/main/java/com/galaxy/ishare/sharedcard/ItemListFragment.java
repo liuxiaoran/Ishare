@@ -29,6 +29,7 @@ import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.utils.JsonObjectUtil;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -304,10 +305,7 @@ public class ItemListFragment extends Fragment  {
                                 }else {
                                     latitude= card.getDouble("latitude");
                                 }
-                                CardItem cardItem = new CardItem(card.getInt("id"), card.getString("owner"), card.getString("shop_name"), card.getInt("ware_type"), card.getDouble("discount"),
-                                        card.getInt("trade_type"), card.getString("shop_location"), card.getDouble("shop_longitude"), card.getDouble("shop_latitude"),
-                                        card.getString("description"), card.getString("img"), card.getString("time"), longitude,latitude,
-                                        card.getString("location"), card.getDouble("distance"),card.getDouble("shop_distance"));
+                               CardItem cardItem = JsonObjectUtil.parseJsonToCardItem(result);
                                 Log.v(TAG,cardItem.toString());
                                 dataList.add(cardItem);
                             }

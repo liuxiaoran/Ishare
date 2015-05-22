@@ -55,4 +55,12 @@ dependencies {
     //qiniu sdk
     compile 'com.qiniu:qiniu-android-sdk:7.0.+'
 
+    //cicleImageView
+    compile 'de.hdodenhof:circleimageview:1.3.0'
+
+    // image downloader
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+
+    compile files('libs/BaiduPanoramaSDK_v1_3_0.jar')
+
 }

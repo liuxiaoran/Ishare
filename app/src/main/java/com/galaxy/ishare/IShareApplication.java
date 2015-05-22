@@ -4,15 +4,21 @@ package com.galaxy.ishare;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.WindowManager;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
 import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.model.User;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 
 public class IShareApplication extends Application {
@@ -46,7 +52,7 @@ public class IShareApplication extends Application {
         mLocationClient.registerLocationListener(mMyLocationListener);
 
         // 将变量读入到Global中
-        if (IShareContext.getInstance().getCurrentUser()!=null){
+        if (IShareContext.getInstance().getCurrentUser() != null) {
             Log.v(TAG, IShareContext.getInstance().getCurrentUser().getKey() + "KEY");
             Global.key = IShareContext.getInstance().getCurrentUser().getKey();
             Global.phone = IShareContext.getInstance().getCurrentUser().getUserPhone();
@@ -54,10 +60,24 @@ public class IShareApplication extends Application {
         }
 
 
+        // 初始化 ImageLoader
+        // Create default options which will be used for every
+        //  displayImage(...) call if no options will be passed to this method
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                .defaultDisplayImageOptions(defaultOptions)
+                .threadPoolSize(3)
+
+                .build();
+        ImageLoader.getInstance().init(config);
 
 
     }
-
 
 
     /**
@@ -67,7 +87,7 @@ public class IShareApplication extends Application {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
-            String locationStr= location.getAddrStr();
+            String locationStr = location.getAddrStr();
             String city = location.getCity();
             String province = location.getProvince();
             String district = location.getDistrict();
@@ -80,16 +100,15 @@ public class IShareApplication extends Application {
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(BroadcastActionConstant.UPDATE_USER_LOCATION));
 
 
-
             mLocationClient.stop();
 
             // 将新的位置存在sp中
-            User user =null;
-            user=IShareContext.getInstance().getCurrentUser();
-            if (user!=null){
+            User user = null;
+            user = IShareContext.getInstance().getCurrentUser();
+            if (user != null) {
                 user.setUserLocation(userLocation);
-            }else {
-                user = new User ();
+            } else {
+                user = new User();
                 user.setUserLocation(userLocation);
             }
             IShareContext.getInstance().saveCurrentUser(user);

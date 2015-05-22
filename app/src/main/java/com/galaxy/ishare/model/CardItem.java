@@ -1,12 +1,16 @@
 package com.galaxy.ishare.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by liuxiaoran on 15/5/16.
  */
-public class CardItem {
+public class CardItem implements Parcelable{
 
     public int id;
     public String owner;
+    public String ownerName;
     public String shopName;
     public int wareType;
     public double discount;
@@ -16,15 +20,112 @@ public class CardItem {
     public double shopLatitude;
     public double shopDistance;
     public String description;
-    public String img;
+
     public String time;
-    public double ownerLongtude;
+    public double ownerLongitude;
     public double ownerLatitude;
     public String ownerLocation;
     public double ownerDistance;
 
 
-    public CardItem(int id, String owner, String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, String description, String img, String time, double ownerLongtude,
+    public String ownerAvatar;
+    public String cardStatus;
+    public String []cardImgs;
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeInt(id);
+        dest.writeString(owner);
+        dest.writeString(ownerName);
+        dest.writeString(shopName);
+        dest.writeInt(wareType);
+        dest.writeDouble(discount);
+        dest.writeInt(tradeType);
+        dest.writeString(shopLocation);
+        dest.writeDouble(shopLongitude);
+        dest.writeDouble(shopLatitude);
+        dest.writeDouble(shopDistance);
+        dest.writeString(description);
+        dest.writeString(time);
+        dest.writeDouble(ownerLongitude);
+        dest.writeDouble(ownerLatitude);
+        dest.writeString(ownerLocation);
+        dest.writeDouble(ownerDistance);
+        dest.writeString(ownerAvatar);
+        dest.writeString(cardStatus);
+        if (cardImgs== null){
+            dest.writeInt(0);
+        }else {
+            dest.writeInt(cardImgs.length);
+        }
+        if (cardImgs!=null){
+            dest.writeStringArray(cardImgs);
+        }
+
+    }
+
+    public CardItem(Parcel  in){
+
+        this.id = in.readInt();
+        this.owner= in.readString();
+        this.ownerName = in.readString();
+        this.shopName = in.readString();
+        this.wareType =in.readInt();
+        this.discount = in.readDouble();
+        this.tradeType = in.readInt();
+        this.shopLocation = in.readString();
+        this.shopLongitude = in.readDouble();
+        this.shopLatitude = in.readDouble();
+        this.shopDistance = in.readDouble();
+        this.description = in.readString();
+        this.time= in.readString();
+        this.ownerLongitude= in.readDouble();
+        this.ownerLatitude= in.readDouble();
+        this.ownerLocation = in.readString();
+        this.ownerDistance = in.readDouble();
+        this.ownerAvatar = in.readString();
+        this.cardStatus = in.readString();
+
+        // 先读的是数组的长度,即写的时候也得先写长度
+        int length= in.readInt();
+        String [] tem=null;
+        if (length>0){
+            tem= new String[length];
+            in.readStringArray(tem);
+        }
+        cardImgs= tem;
+    }
+
+
+    public CardItem(int id, String owner, String ownerName,String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, double shopDistance, String description, String time, double ownerLongitude, double ownerLatitude, String ownerLocation, double ownerDistance, String ownerAvatar, String cardStatus, String[] cardImgs) {
+        this.id = id;
+        this.owner = owner;
+        this.ownerName= ownerName;
+        this.shopName = shopName;
+        this.wareType = wareType;
+        this.discount = discount;
+        this.tradeType = tradeType;
+        this.shopLocation = shopLocation;
+        this.shopLongitude = shopLongitude;
+        this.shopLatitude = shopLatitude;
+        this.shopDistance = shopDistance;
+        this.description = description;
+        this.time = time;
+        this.ownerLongitude = ownerLongitude;
+        this.ownerLatitude = ownerLatitude;
+        this.ownerLocation = ownerLocation;
+        this.ownerDistance = ownerDistance;
+        this.ownerAvatar = ownerAvatar;
+        this.cardStatus = cardStatus;
+        this.cardImgs = cardImgs;
+    }
+
+
+
+
+
+    public CardItem(int id, String owner, String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, String description,  String time, double ownerLongitude,
                     double ownerLatitude, String ownerLocation, double ownerDistance,double shopDistance) {
         this.id = id;
         this.owner = owner;
@@ -36,9 +137,8 @@ public class CardItem {
         this.shopLongitude = shopLongitude;
         this.shopLatitude = shopLatitude;
         this.description = description;
-        this.img = img;
         this.time = time;
-        this.ownerLongtude = ownerLongtude;
+        this.ownerLongitude = ownerLongitude;
         this.ownerLatitude = ownerLatitude;
         this.ownerLocation = ownerLocation;
         this.ownerDistance = ownerDistance;
@@ -132,13 +232,7 @@ public class CardItem {
         this.description = description;
     }
 
-    public String getImg() {
-        return img;
-    }
 
-    public void setImg(String img) {
-        this.img = img;
-    }
 
     public String getTime() {
         return time;
@@ -148,12 +242,12 @@ public class CardItem {
         this.time = time;
     }
 
-    public double getOwnerLongtude() {
-        return ownerLongtude;
+    public double getOwnerLongitude() {
+        return ownerLongitude;
     }
 
-    public void setOwnerLongtude(double ownerLongtude) {
-        this.ownerLongtude = ownerLongtude;
+    public void setOwnerLongitude(double ownerLongitude) {
+        this.ownerLongitude = ownerLongitude;
     }
 
     public double getOwnerLatitude() {
@@ -172,5 +266,23 @@ public class CardItem {
         this.ownerLocation = ownerLocation;
     }
 
-  
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public CardItem createFromParcel(Parcel in) {
+
+            return new CardItem(in);
+        }
+
+        @Override
+        public CardItem[] newArray(int size) {
+            return new CardItem[size];
+        }
+    };
 }

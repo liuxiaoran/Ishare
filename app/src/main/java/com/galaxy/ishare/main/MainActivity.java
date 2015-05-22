@@ -72,11 +72,7 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setCustomView(R.layout.main_action_bar);
-        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
-                | ActionBar.DISPLAY_SHOW_HOME);
-
+        ActionBar actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_action_bar,false);
         Button mapButton = (Button) actionBar.getCustomView().findViewById(R.id.mapStyle);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override

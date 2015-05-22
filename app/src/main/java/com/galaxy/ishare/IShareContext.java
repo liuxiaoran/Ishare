@@ -268,12 +268,12 @@ public class IShareContext {
         return actionBar;
     }
 
-    public ActionBar createCustomActionBar (AppCompatActivity activity , int res){
+    public ActionBar createCustomActionBar (AppCompatActivity activity , int res, boolean isDisplayHome){
         android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setCustomView(res);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
                 | ActionBar.DISPLAY_SHOW_HOME);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(isDisplayHome);
         return actionBar;
     }
 

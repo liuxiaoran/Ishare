@@ -221,7 +221,7 @@ public class MapActivity extends Activity {
                 } else if (shop_ka_choice.getText().equals("card")) {
                     if (mapCardList != null && mapCardList.size() > 0) {
                         for (CardItem card : mapCardList) {
-                            if (card.getOwnerLatitude() == ll.latitude && card.getOwnerLongtude() == ll.longitude) {
+                            if (card.getOwnerLatitude() == ll.latitude && card.getOwnerLongitude() == ll.longitude) {
                                 button.setText("卡片所有人:" + card.getOwner());
                                 button.setText("卡片信息:" + card.getDescription());
                                 mInfoWindow = new InfoWindow(button, ll, -47);
@@ -368,7 +368,7 @@ public class MapActivity extends Activity {
             } else if (shop_ka_choice.getText().equals("card")) {
                 if (mapCardList != null && mapCardList.size() > 0) {
                     for (CardItem card : mapCardList) {
-                        if (card.getOwnerLatitude() == ll.latitude && card.getOwnerLongtude() == ll.longitude) {
+                        if (card.getOwnerLatitude() == ll.latitude && card.getOwnerLongitude() == ll.longitude) {
                             button.setText("卡片所有人:" + card.getOwner());
                             button.setText("卡片信息:" + card.getDescription());
                             mInfoWindow = new InfoWindow(button, ll, -47);
@@ -415,7 +415,7 @@ public class MapActivity extends Activity {
                             mapCardList = mapCards;
                             Map<Double, Double> tmp = new HashMap<>();
                             for (CardItem card : mapCards) {
-                                tmp.put(card.getOwnerLatitude(), card.getOwnerLongtude());
+                                tmp.put(card.getOwnerLatitude(), card.getOwnerLongitude());
                             }
                             initOverlay(tmp);
                         } else {

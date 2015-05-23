@@ -36,6 +36,7 @@ public class CardItem implements Parcelable{
 
     public String publishTime;
 
+    
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 

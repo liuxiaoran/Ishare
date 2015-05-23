@@ -15,6 +15,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
@@ -22,7 +23,6 @@ import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
-import com.galaxy.ishare.model.MapShop;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.MapUtil;
 import org.apache.http.NameValuePair;
@@ -37,7 +37,7 @@ import java.util.*;
 /**
  * Created by YangJunLin on 2015/5/18.
  */
-public class MapActivity extends Activity {
+public class CardActivity extends Activity {
     LocationClient mLocClient;
     public MyLocationListenner myListener = new MyLocationListenner();
     private MyLocationConfiguration.LocationMode mCurrentMode;
@@ -56,6 +56,7 @@ public class MapActivity extends Activity {
     private Marker mMarkerI;
     private Marker mMarkerJ;
     private InfoWindow mInfoWindow;
+    private InfoWindow mShopInfoWindow;
 
     BitmapDescriptor bdA = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_marka);
@@ -79,20 +80,21 @@ public class MapActivity extends Activity {
             .fromResource(R.drawable.icon_markj);
     BitmapDescriptor bd = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_gcoding);
-    BitmapDescriptor bdGround = BitmapDescriptorFactory
-            .fromResource(R.drawable.ground_overlay);
+    BitmapDescriptor cardC = BitmapDescriptorFactory.fromResource(R.drawable.card_choiced);
 
     RadioGroup.OnCheckedChangeListener radioButtonListener;
     ImageButton mapShowType;
-    ImageButton showLeft;
-    ImageButton showRight;
+    Button cardGroupShowLeft;
+    Button cardGroupShowRight;
     Button shop_ka_choice;
+    Button cardShowLeft;
+    Button cardShowRight;
     boolean isFirstLoc = true;
-    private static final String TAG = "MapActivity";
+    Marker cardMarker = null;
+    Marker shopMarker = null;
+    private static final String TAG = "CardActivity";
     private static final int page_size = 10;
-    private static int page_shop = 1;
     private static int page_card = 1;
-    private static List<MapShop> mapShopList = null;
     private static List<CardItem> mapCardList = null;
     private static List<Marker> liveMarkers = null;
     private static int flag = 0;
@@ -102,8 +104,8 @@ public class MapActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_map);
-        mapShowType = (ImageButton) findViewById(R.id.map_button_type);
+        setContentView(R.layout.activity_card_map);
+        mapShowType = (ImageButton) findViewById(R.id.card_map_type);
         mCurrentMode = MyLocationConfiguration.LocationMode.NORMAL;
         View.OnClickListener btnClickListener = new View.OnClickListener() {
             public void onClick(View v) {
@@ -134,67 +136,53 @@ public class MapActivity extends Activity {
         };
         mapShowType.setOnClickListener(btnClickListener);
 
-        shop_ka_choice = (Button) findViewById(R.id.shop_ka_type);
-        shop_ka_choice.setText("shop");
-        View.OnClickListener shopKaListener = new View.OnClickListener() {
-            public void onClick(View v) {
-                if (shop_ka_choice.getText().equals("shop")) {
-                    page_shop = 1;
-                    getMapCardInfoFromServer();
-                    Toast.makeText(getApplicationContext(), "正展示卡片ing", Toast.LENGTH_SHORT).show();
-                    shop_ka_choice.setText("card");
-                } else if (shop_ka_choice.getText().equals("card")) {
-                    page_card = 1;
-                    getMapShopInfoFromServer();
-                    Toast.makeText(getApplicationContext(), "正展示商铺ing", Toast.LENGTH_SHORT).show();
-                    shop_ka_choice.setText("shop");
-                }
-            }
-        };
-        shop_ka_choice.setOnClickListener(shopKaListener);
-
-        showLeft = (ImageButton) findViewById(R.id.map_to_left);
+        cardGroupShowLeft = (Button) findViewById(R.id.card_group_to_left);
         View.OnClickListener showLeftListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (shop_ka_choice.getText().equals("shop")) {
-                    if (page_shop > 1) {
-                        Toast.makeText(getApplicationContext(), "显示下上一组", Toast.LENGTH_SHORT).show();
-                        page_shop--;
-                        getMapShopInfoFromServer();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "已经到顶了", Toast.LENGTH_SHORT).show();
-                    }
-                } else if (shop_ka_choice.getText().equals("card")) {
-                    if (page_card > 1) {
-                        Toast.makeText(getApplicationContext(), "显示下上一组", Toast.LENGTH_SHORT).show();
-                        page_card--;
-                        getMapCardInfoFromServer();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "已经到顶了", Toast.LENGTH_SHORT).show();
-                    }
+                if (page_card > 1) {
+                    page_card--;
+                    getMapCardInfoFromServer();
+                } else {
+                    Toast.makeText(getApplicationContext(), "到顶了", Toast.LENGTH_SHORT).show();
                 }
             }
         };
-        showLeft.setOnClickListener(showLeftListener);
+        cardGroupShowLeft.setOnClickListener(showLeftListener);
 
-        showRight = (ImageButton) findViewById(R.id.map_to_right);
+        cardGroupShowRight = (Button) findViewById(R.id.card_group_to_right);
         View.OnClickListener showRightListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "显示下一组", Toast.LENGTH_SHORT).show();
-                if (shop_ka_choice.getText().equals("shop")) {
-                    page_shop++;
-                    getMapShopInfoFromServer();
-                } else if (shop_ka_choice.getText().equals("card")) {
-                    page_card++;
-                    getMapCardInfoFromServer();
-                }
+                page_card++;
+                getMapCardInfoFromServer();
             }
         };
-        showRight.setOnClickListener(showRightListener);
+        cardGroupShowRight.setOnClickListener(showRightListener);
+
+        cardShowLeft = (Button) findViewById(R.id.card_to_left);
+        View.OnClickListener cardShowLeftListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag--;
+                showInfoWindowByTime();
+            }
+        };
+        cardShowLeft.setOnClickListener(cardShowLeftListener);
+
+        cardShowRight = (Button) findViewById(R.id.card_to_right);
+        View.OnClickListener cardShowRightListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flag++;
+                showInfoWindowByTime();
+            }
+        };
+        cardShowRight.setOnClickListener(cardShowRightListener);
 
         mMapView = (MapView) findViewById(R.id.bmapView);
+
+        mMapView.showScaleControl(true);
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
         mLocClient = new LocationClient(this);
@@ -203,46 +191,53 @@ public class MapActivity extends Activity {
 
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             public boolean onMarkerClick(final Marker marker) {
-                Button button = new Button(getApplicationContext());
-//                button.setBackgroundResource(R.drawable.popup);
+                if (shopMarker != null) {
+                    shopMarker.remove();
+                }
+                Button shopButton = new Button(getApplicationContext());
+                Button cardButton = new Button(getApplicationContext());
+                marker.setToTop();
+                marker.setIcon(cardC);
                 LatLng ll = marker.getPosition();
-                if (shop_ka_choice.getText().equals("shop")) {
-                    if (mapShopList != null && mapShopList.size() > 0) {
-                        for (MapShop shop : mapShopList) {
-                            if (shop.getShop_latitude() == ll.latitude && shop.getShop_longitude() == ll.longitude) {
-                                button.setText("商店名称：" + shop.getShop_name());
-                                button.setText("与您的距离为" + shop.getShop_distance());
-                                mInfoWindow = new InfoWindow(button, ll, -47);
-                                mBaiduMap.showInfoWindow(mInfoWindow);
-                            }
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+                if (mapCardList != null && mapCardList.size() > 0) {
+                    for (CardItem card : mapCardList) {
+                        if (card.getOwnerLatitude() == ll.latitude && card.getOwnerLongitude() == ll.longitude) {
+                            marker.setTitle("sadsa");
+                            LatLng shop = new LatLng(card.getShopLatitude(), card.getShopLongitude());
+                            builder.include(shop);
+                            OverlayOptions shopOverlay = new MarkerOptions().position(shop).icon(BitmapDescriptorFactory.fromResource(R.drawable.card_shop)).zIndex(9);
+                            shopMarker = (Marker) mBaiduMap.addOverlay(shopOverlay);
+                            Button cardInfo = new Button(getApplicationContext());
+                            StringBuffer buffer = new StringBuffer();
+                            buffer.append(card.getOwnerName() + "折，");
+                            buffer.append(card.getShopName());
+                            cardInfo.setText(buffer);
+                            mInfoWindow = new InfoWindow(cardInfo, ll, -47);
+                            mBaiduMap.showInfoWindow(mInfoWindow);
                         }
                     }
-                } else if (shop_ka_choice.getText().equals("card")) {
-                    if (mapCardList != null && mapCardList.size() > 0) {
-                        for (CardItem card : mapCardList) {
-                            if (card.getOwnerLatitude() == ll.latitude && card.getOwnerLongitude() == ll.longitude) {
-                                button.setText("卡片所有人:" + card.getOwnerName());
-                                button.setText("卡片信息:" + card.getDescription());
-                                mInfoWindow = new InfoWindow(button, ll, -47);
-                                mBaiduMap.showInfoWindow(mInfoWindow);
-                            }
-                        }
-                    }
+                    /*if (marker.getPosition().latitude == shopMarker.getPosition().latitude && marker.getPosition().longitude == shopMarker.getPosition().longitude) {
+                        Intent intent = new Intent(CardActivity.this, PanoramActivity.class);
+                        intent.putExtra("lat", shopMarker.getPosition().latitude);
+                        intent.putExtra("lon", shopMarker.getPosition().longitude);
+                        startActivity(intent);
+                    }*/
                 }
                 return true;
             }
         });
 
-        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(12.0f);
-        mBaiduMap.setMapStatus(msu);
-        getMapShopInfoFromServer();
+//        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(12.0f);
+//        mBaiduMap.setMapStatus(msu);
+        getMapCardInfoFromServer();
 
         mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {
             @Override
             public void onMapLoaded() {
-                Toast.makeText(getApplicationContext(), "this is a test", Toast.LENGTH_LONG).show();
                 flag = 0;
-                timer.schedule(task, 1000, 3000);
+                timer.schedule(task, 0, 10000);
             }
         });
     }
@@ -252,6 +247,7 @@ public class MapActivity extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
+                    flag++;
                     showInfoWindowByTime();
                     break;
             }
@@ -293,106 +289,51 @@ public class MapActivity extends Activity {
         }
     }
 
-    //从服务端获得商铺信息
-    private void getMapShopInfoFromServer() {
-        mBaiduMap.clear();
-        double lat = IShareContext.getInstance().getUserLocation().getLatitude();
-        double lon = IShareContext.getInstance().getUserLocation().getLongitude();
-        if (lat != 0 && lon != 0) {
-            List<NameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("longitude", String.valueOf(lon)));
-            params.add(new BasicNameValuePair("latitude", String.valueOf(lat)));
-            params.add(new BasicNameValuePair("page_num", String.valueOf(page_shop)));
-            params.add(new BasicNameValuePair("page_size", String.valueOf(page_size)));
-            HttpTask.startAsyncDataGetRequset(URLConstant.MAP_SHOP_PAGE, params, new HttpDataResponse() {
-                @Override
-                public void onRecvOK(HttpRequestBase request, String result) {
-                    int status = 0;
-                    JSONObject jsonObject = null;
-                    List<MapShop> mapShops = new ArrayList<MapShop>();
-                    try {
-                        jsonObject = new JSONObject(result);
-                        status = jsonObject.getInt("status");
-                        if (status == 0) {
-                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jo = jsonArray.getJSONObject(i);
-                                MapShop mapShop = new MapShop();
-                                mapShop.setShop_distance(jo.getDouble("shop_distance"));
-                                mapShop.setShop_latitude(jo.getDouble("shop_latitude"));
-                                mapShop.setShop_longitude(jo.getDouble("shop_longitude"));
-                                mapShop.setShop_location(jo.getString("shop_location"));
-                                mapShop.setShop_name(jo.getString("shop_name"));
-                                mapShops.add(mapShop);
-                            }
-                            mapShopList = mapShops;
-                            Map<Double, Double> tmp = new HashMap<>();
-                            for (MapShop shop : mapShops) {
-                                tmp.put(shop.getShop_latitude(), shop.getShop_longitude());
-                            }
-                            initOverlay(tmp);
-                        } else {
-                            Toast.makeText(MapActivity.this, "由于网络原因，请求数据失败，请重试。", Toast.LENGTH_LONG).show();
-                        }
-                    } catch (JSONException e) {
-                        Log.e(TAG, e.toString());
-                    }
-                }
-
-                @Override
-                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                    Log.v(TAG, retCode.toString());
-                    Toast.makeText(MapActivity.this, "网络不佳,请重试", Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onRecvCancelled(HttpRequestBase request) {
-                }
-
-                @Override
-                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
-                }
-            });
-        } else {
-            Toast.makeText(getApplicationContext(), "请确定您已经联网并打开gps定位系统。", Toast.LENGTH_LONG).show();
-        }
-    }
-
     private void showInfoWindowByTime() {
-        Button button = new Button(getApplicationContext());
-//            button.setBackgroundResource(R.drawable.popup);
-//            InfoWindow.OnInfoWindowClickListener listener = null;
         if (flag >= liveMarkers.size()) {
             flag = 0;
+        } else if (flag < 0) {
+            flag = liveMarkers.size() - 1;
         }
-        LatLng ll = liveMarkers.get(flag).getPosition();
-        if (shop_ka_choice.getText().equals("shop")) {
-            if (mapShopList != null && mapShopList.size() > 0) {
-                for (MapShop shop : mapShopList) {
-                    if (shop.getShop_latitude() == ll.latitude && shop.getShop_longitude() == ll.longitude) {
-                        button.setText("商店名称：" + shop.getShop_name());
-                        button.setText("与您的距离为" + shop.getShop_distance());
-                        mInfoWindow = new InfoWindow(button, ll, -47);
-                        mBaiduMap.showInfoWindow(mInfoWindow);
+
+        if (shopMarker != null) {
+            shopMarker.remove();
+        }
+        LatLng cardLo = liveMarkers.get(flag).getPosition();
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(new LatLng(IShareContext.getInstance().getUserLocation().getLatitude(), IShareContext.getInstance().getUserLocation().getLongitude()));
+        if (mapCardList != null && mapCardList.size() > 0) {
+            for (CardItem card : mapCardList) {
+//                builder.include(new LatLng(card.getOwnerLatitude(), card.getOwnerLongtude()));
+                if (card.getOwnerLatitude() == cardLo.latitude && card.getOwnerLongitude() == cardLo.longitude) {
+                    LatLng shop = new LatLng(card.getShopLatitude(), card.getShopLongitude());
+                    builder.include(shop);
+                    builder.include(new LatLng(cardLo.latitude, cardLo.longitude));
+                    OverlayOptions shopOverlay = new MarkerOptions().position(shop).icon(BitmapDescriptorFactory.fromResource(R.drawable.card_shop)).zIndex(9);
+                    shopMarker = (Marker) mBaiduMap.addOverlay(shopOverlay);
+                    Button cardInfo = new Button(getApplicationContext());
+                    cardInfo.setBackgroundResource(R.drawable.popup_big);
+//                    cardInfo.setBackgroundResource(R.drawable.button_shape);
+                    StringBuffer cardbuffer = new StringBuffer();
+                    cardbuffer.append(card.getDiscount() + "折，");
+                    cardbuffer.append(card.getShopName());
+                    int i = 12;
+                    while (i < cardbuffer.length()) {
+                        cardbuffer.insert(i, "\n");
+                        i += 12;
                     }
+                    cardInfo.setText(cardbuffer);
+                    cardInfo.setTextColor(getResources().getColor(R.color.color_primary));
+                    mInfoWindow = new InfoWindow(cardInfo, cardLo, -47);
+                    mBaiduMap.showInfoWindow(mInfoWindow);
                 }
             }
-        } else if (shop_ka_choice.getText().equals("card")) {
-            if (mapCardList != null && mapCardList.size() > 0) {
-                for (CardItem card : mapCardList) {
-                    if (card.getOwnerLatitude() == ll.latitude && card.getOwnerLongitude() == ll.longitude) {
-                        button.setText("卡片所有人:" + card.getOwnerName());
-                        button.setText("卡片信息:" + card.getDescription());
-                        mInfoWindow = new InfoWindow(button, ll, -47);
-                        mBaiduMap.showInfoWindow(mInfoWindow);
-                    }
-                }
-            }
         }
-        flag++;
+        LatLngBounds latLngBounds = builder.build();
+        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLngBounds(latLngBounds);
+        mBaiduMap.animateMapStatus(mapStatusUpdate);
     }
 
-    //从服务端获得卡片信息
     private void getMapCardInfoFromServer() {
         mBaiduMap.clear();
         String lat = String.valueOf(IShareContext.getInstance().getUserLocation().getLatitude());
@@ -426,7 +367,7 @@ public class MapActivity extends Activity {
                             }
                             initOverlay(tmp);
                         } else {
-                            Toast.makeText(MapActivity.this, "由于网络原因，请求数据失败，请重试。", Toast.LENGTH_LONG).show();
+                            Toast.makeText(CardActivity.this, "由于网络原因，请求失败，请重试", Toast.LENGTH_LONG).show();
                         }
                     } catch (JSONException e) {
                         Log.e(TAG, e.toString());
@@ -436,7 +377,7 @@ public class MapActivity extends Activity {
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
                     Log.v(TAG, retCode.toString());
-                    Toast.makeText(MapActivity.this, "网络不佳,请重试", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CardActivity.this, "由于网络原因，请求失败，请重试", Toast.LENGTH_LONG).show();
                 }
 
                 @Override
@@ -448,7 +389,7 @@ public class MapActivity extends Activity {
                 }
             });
         } else {
-            Toast.makeText(getApplicationContext(), "请确定您已经联网并打开gps定位系统。", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "请确认您已经联网并打开GPS", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -567,7 +508,6 @@ public class MapActivity extends Activity {
     @Override
     protected void onPause() {
         page_card = 1;
-        page_shop = 1;
         mMapView.onPause();
         super.onPause();
     }

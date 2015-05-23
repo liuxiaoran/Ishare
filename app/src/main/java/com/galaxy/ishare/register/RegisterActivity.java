@@ -15,6 +15,7 @@ import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
+import com.galaxy.ishare.sharedcard.CardListItemAdapter;
 import com.galaxy.ishare.utils.ConfirmCodeController;
 import com.galaxy.ishare.utils.WidgetController;
 import com.galaxy.ishare.http.HttpCode;

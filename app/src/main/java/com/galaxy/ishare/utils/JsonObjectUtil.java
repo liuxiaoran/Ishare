@@ -1,5 +1,7 @@
 package com.galaxy.ishare.utils;
 
+import android.util.Log;
+
 import com.galaxy.ishare.model.CardItem;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,11 +46,10 @@ public class JsonObjectUtil {
         return jsonArray;
     }
 
+    public static CardItem parseJsonObjectToCardItem (JSONObject jsonObject){
 
-    public static CardItem parseJsonToCardItem(String cardResult) {
-        CardItem cardItem = new CardItem();
+        CardItem cardItem=new CardItem();
         try {
-            JSONObject jsonObject = new JSONObject(cardResult);
             if (jsonObject.has("card_id")) {
                 cardItem.setId(jsonObject.getInt("card_id"));
             }
@@ -91,8 +92,7 @@ public class JsonObjectUtil {
             if (jsonObject.has("description")) {
                 cardItem.setDescription(jsonObject.getString("description"));
             }
-            Object tmp = jsonObject.get("img");
-            String tdd = jsonObject.getString("img");
+
             if (jsonObject.has("img") && jsonObject.get("img") != null && !jsonObject.getString("img").equals("null")) {
                 JSONArray imgArray = jsonObject.getJSONArray("img");
                 String[] imgs = new String[imgArray.length()];
@@ -119,9 +119,22 @@ public class JsonObjectUtil {
             if (jsonObject.has("owner_distance")) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
             }
-        } catch (JSONException e) {
+        }catch (Exception e){
+           Log.v("ItemListFragment",e.toString()+"   exception");
             e.printStackTrace();
         }
         return cardItem;
+    }
+
+    public static CardItem parseJsonToCardItem(String cardResult) {
+
+        JSONObject jsonObject=null;
+        try {
+            jsonObject =new JSONObject(cardResult);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return parseJsonObjectToCardItem(jsonObject);
     }
 }

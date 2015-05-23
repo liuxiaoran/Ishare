@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,14 +36,10 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class ItemListFragment extends Fragment  {
+public class ItemListFragment extends Fragment {
 
     private View mRoot;
     private LinearLayout categoryLayout, discountLayout, distanceLayout, defaultLayout, topSelectorLayout, isLocatingLayout;
@@ -59,8 +54,8 @@ public class ItemListFragment extends Fragment  {
     private static final int DISTANCE_LOAD_URL_TYPE = 1;
     private static final int DISCOUNT_LOAD_URL_TYPE = 2;
 
-    private static final int REFRESH_GESTURE=1;
-    private static final int LOAD_MORE_GESTURE=2;
+    private static final int REFRESH_GESTURE = 1;
+    private static final int LOAD_MORE_GESTURE = 2;
 
     private static final int pageSize = 6;
     private int tradeType = -1;
@@ -109,15 +104,14 @@ public class ItemListFragment extends Fragment  {
         cardListItemAdapter = new CardListItemAdapter(dataList, getActivity());
 
 
-
         // set drop down listener
         cardListView.setOnDropDownListener(new DropDownListView.OnDropDownListener() {
 
             @Override
             public void onDropDown() {
-                gestureType=REFRESH_GESTURE;
-                pageNumber=1;
-                httpInteract.loadData(urlType,tradeType,IShareContext.getInstance().getUserLocation().getLongitude(),
+                gestureType = REFRESH_GESTURE;
+                pageNumber = 1;
+                httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                         IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
             }
         });
@@ -127,7 +121,7 @@ public class ItemListFragment extends Fragment  {
 
             @Override
             public void onClick(View v) {
-                gestureType=LOAD_MORE_GESTURE;
+                gestureType = LOAD_MORE_GESTURE;
                 pageNumber++;
                 httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                         IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
@@ -135,6 +129,16 @@ public class ItemListFragment extends Fragment  {
         });
 
         cardListView.setAdapter(cardListItemAdapter);
+
+        // listview 条目点击
+        cardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), CardDetailActivity.class);
+                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
+                startActivity(intent);
+            }
+        });
 
         if (IShareContext.getInstance().getUserLocation() == null) {
             isLocatingLayout.setVisibility(View.VISIBLE);
@@ -147,8 +151,6 @@ public class ItemListFragment extends Fragment  {
             httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                     IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
         }
-
-
 
 
         // 接收位置更新广播
@@ -191,7 +193,6 @@ public class ItemListFragment extends Fragment  {
         cardListView = (DropDownListView) view.findViewById(R.id.share_item_card_listview);
 
 
-
     }
 
     class MyClickListener implements View.OnClickListener {
@@ -219,12 +220,12 @@ public class ItemListFragment extends Fragment  {
                         // 选择了某个类别
                         popupWindow.dismiss();
 
-                        if(position!=tradeType) {
+                        if (position != tradeType) {
                             // 选择的类别与之前的不同
                             tradeType = position;
-                            pageNumber=1;
+                            pageNumber = 1;
                             dataList.clear();
-                            httpInteract.loadData(urlType, tradeType,IShareContext.getInstance().getUserLocation().getLongitude(),
+                            httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                                     IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                         }
 
@@ -234,7 +235,7 @@ public class ItemListFragment extends Fragment  {
 
             } else if (v.getId() == R.id.share_item_discount_layout) {
 
-                if (urlType!=DISCOUNT_LOAD_URL_TYPE) {
+                if (urlType != DISCOUNT_LOAD_URL_TYPE) {
 
                     urlType = DISCOUNT_LOAD_URL_TYPE;
                     pageNumber = 1;
@@ -245,7 +246,7 @@ public class ItemListFragment extends Fragment  {
 
             } else if (v.getId() == R.id.share_item_distance_layout) {
 
-                if(urlType!=DISTANCE_LOAD_URL_TYPE) {
+                if (urlType != DISTANCE_LOAD_URL_TYPE) {
                     urlType = DISTANCE_LOAD_URL_TYPE;
                     pageNumber = 1;
                     dataList.clear();
@@ -270,57 +271,48 @@ public class ItemListFragment extends Fragment  {
             paramsList.add(new BasicNameValuePair("trade_type", tradeType + ""));
             paramsList.add(new BasicNameValuePair("page_num", pageNumber + ""));
             paramsList.add(new BasicNameValuePair("page_size", pageSize + ""));
-            paramsList.add(new BasicNameValuePair("longitude",longitude+""));
-            paramsList.add(new BasicNameValuePair("latitude",latitude+""));
+            paramsList.add(new BasicNameValuePair("longitude", longitude + ""));
+            paramsList.add(new BasicNameValuePair("latitude", latitude + ""));
             String url = null;
             if (loadType == DISCOUNT_LOAD_URL_TYPE) {
                 url = URLConstant.GET_DISCOUNT_CARD_LIST;
             } else if (loadType == DISTANCE_LOAD_URL_TYPE) {
                 url = URLConstant.GET_DISTANCE_CARD_LIST;
             }
-            Log.v(TAG,tradeType+" "+pageNumber+" "+pageSize);
+            Log.v(TAG, tradeType + " " + pageNumber + " " + pageSize);
             HttpTask.startAsyncDataGetRequset(url, paramsList, new HttpDataResponse() {
                 @Override
-                public void onRecvOK(HttpRequestBase request, String result)  {
+                public void onRecvOK(HttpRequestBase request, String result) {
 
                     try {
 
                         JSONObject jsonObject = new JSONObject(result);
                         int status = jsonObject.getInt("status");
+                        Log.v(TAG,"status is" +status);
+                        Log.v(TAG,"result"+result);
                         if (status == 0) {
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
                             Log.v(TAG, "size" + jsonArray.length());
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 JSONObject card = jsonArray.getJSONObject(i);
-                                double longitude=0.0;
-                                double latitude=0.0;
-                                if (card.getString("longitude").equals("null")){
-                                    longitude=0.0;
-                                }else {
-                                    longitude=card.getDouble("longitude");
-                                }
-                                if (card.getString("latitude").equals("null")){
-                                    latitude = 0.0;
-                                }else {
-                                    latitude= card.getDouble("latitude");
-                                }
-                               CardItem cardItem = JsonObjectUtil.parseJsonToCardItem(result);
-                                Log.v(TAG,cardItem.toString());
+
+                                CardItem cardItem = JsonObjectUtil.parseJsonObjectToCardItem(card);
+                                Log.v(TAG, cardItem.toString());
                                 dataList.add(cardItem);
                             }
                             cardListItemAdapter.setData(dataList);
                             cardListItemAdapter.notifyDataSetChanged();
-                            if (jsonArray.length()==0){
+                            if (jsonArray.length() == 0) {
                                 cardListView.setHasMore(false);
 
                             }
-                            if (gestureType==REFRESH_GESTURE){
+                            if (gestureType == REFRESH_GESTURE) {
 
                                 // should call onDropDownComplete function of DropDownListView at end of drop down complete.
 
                                 cardListView.onDropDownComplete();
-                            }else if (gestureType==LOAD_MORE_GESTURE){
+                            } else if (gestureType == LOAD_MORE_GESTURE) {
                                 // should call onBottomComplete function of DropDownListView at end of on bottom complete.
                                 cardListView.onBottomComplete();
                             }
@@ -328,7 +320,7 @@ public class ItemListFragment extends Fragment  {
                             Log.v(TAG, "status is " + status);
                         }
                     } catch (Exception e) {
-                        Log.v(TAG,e.toString());
+                        Log.v(TAG, e.toString());
                         e.printStackTrace();
                     }
 

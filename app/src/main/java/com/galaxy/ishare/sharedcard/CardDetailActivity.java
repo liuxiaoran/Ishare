@@ -1,5 +1,6 @@
 package com.galaxy.ishare.sharedcard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -71,6 +72,12 @@ public class CardDetailActivity extends ActionBarActivity {
             @Override
             public void onMapClick(LatLng latLng) {
 
+                Intent intent = new Intent (CardDetailActivity.this,CardDetailMapActivity.class);
+                intent.putExtra(CardDetailMapActivity.PARAMETER_OWNER_LONGITUDE,cardItem.ownerLongitude);
+                intent.putExtra(CardDetailMapActivity.PARAMETER_OWNER_LATITUDE,cardItem.ownerLatitude);
+                intent.putExtra(CardDetailMapActivity.PARAMETER_SHOP_LONGITUDE,cardItem.shopLongitude);
+                intent.putExtra(CardDetailMapActivity.PARAMETER_OWNER_LATITUDE,cardItem.shopLatitude);
+                startActivity(intent);
             }
 
             @Override

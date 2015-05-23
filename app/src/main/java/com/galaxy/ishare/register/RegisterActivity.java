@@ -1,13 +1,24 @@
 package com.galaxy.ishare.register;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.telecom.TelecomManager;
+import android.telephony.SmsManager;
+import android.telephony.SmsMessage;
+import android.telephony.TelephonyManager;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.galaxy.ishare.Global;
@@ -29,20 +40,27 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by liuxiaoran on 15/4/27.
  */
 public class RegisterActivity extends Activity {
 
-    private EditText phoneEt, confirmCodeEt, passwordEt, confirmPwEt;
+    private  static final String TAG ="confirmcode";
+
+    public static EditText phoneEt, confirmCodeEt, passwordEt, confirmPwEt;
+    private CheckBox checkBoxEt;
+//    private RadioButton radioButtonEt;
     private Button getConfirmBtn, registerBtn;
     private String phone, confirmCode, password, passwordAgain;
     private ConfirmCodeController confirmCodeController;
-
-    private static final String  TAG ="registeractivity";
+    private TelecomManager telecomManager;
 
 
     @Override
@@ -56,6 +74,7 @@ public class RegisterActivity extends Activity {
         initWidgets();
         confirmCodeController = ConfirmCodeController.getInstance(RegisterActivity.this, new Timer(60000, 1000));
 
+
         // 点击获取验证码
         getConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,12 +86,14 @@ public class RegisterActivity extends Activity {
                     confirmCodeController.sendConfirmCode(phone);
                     WidgetController.getInstance().widgetGetFoucus(confirmCodeEt);
 
-
                 }
-
-
             }
         });
+
+
+
+
+// 
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,13 +181,42 @@ public class RegisterActivity extends Activity {
 
     private void initWidgets() {
         phoneEt = (EditText) findViewById(R.id.register_phone_et);
+        if(getPhone()!=null) {
+            phoneEt.setText(getPhone());
+        }
         confirmCodeEt = (EditText) findViewById(R.id.register_confirm_et);
         passwordEt = (EditText) findViewById(R.id.register_pw_et);
         confirmPwEt = (EditText) findViewById(R.id.register_pw_again_et);
-
+        checkBoxEt=(CheckBox) findViewById(R.id.checkBox);
+        this.checkBoxEt.setOnClickListener(new OnclickListenerImp());
         getConfirmBtn = (Button) findViewById(R.id.register_get_confirm_btn);
         registerBtn = (Button) findViewById(R.id.register_btn);
     }
+
+    public String getPhone(){
+        TelephonyManager telephonyManager=(TelephonyManager)this.getSystemService(Context.TELEPHONY_SERVICE);
+        String phone=null;
+        phone=telephonyManager.getLine1Number();
+        return phone;
+    }
+
+
+
+    //是否显示密码
+    private class OnclickListenerImp implements View.OnClickListener{
+        public void onClick(View v){
+            if(RegisterActivity.this.checkBoxEt.isChecked()){
+                RegisterActivity.this.passwordEt.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            }
+            else{
+                RegisterActivity.this.passwordEt.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            }
+        }
+    }
+
+
+
+
 
     private boolean checkUserInfo() {
 

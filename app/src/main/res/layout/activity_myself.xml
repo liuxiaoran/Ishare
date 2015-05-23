@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_marginTop="10dp"
+	android:orientation="vertical"
+	android:background="@color/fbutton_color_clouds">
+
+	<LinearLayout
+		android:id="@+id/myself_info"
+		android:layout_width="fill_parent"
+		android:layout_height="80dp"
+		android:background="@color/white">
+
+		<ImageButton
+			android:id="@+id/mysqlf_image_id"
+			android:layout_height="fill_parent"
+			android:layout_width="100dp"
+			android:layout_marginLeft="5dp"
+			android:src="@drawable/card_choiced" />
+
+		<RelativeLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical">
+
+			<TextView
+				android:id="@+id/myself_info_name"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="5dp"
+				android:gravity="left"
+				android:textStyle="bold"
+				android:text="杨俊林"
+				android:textSize="14dp" />
+
+			<TextView
+				android:id="@+id/myself_info_wxid"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="5dp"
+				android:layout_below="@id/myself_info_name"
+				android:layout_marginLeft="5dp"
+				android:gravity="left"
+				android:text="15313150949"
+				android:textSize="14dp" />
+		</RelativeLayout>
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/myself_info_mybrow"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_below="@+id/myself_info"
+		android:layout_marginTop="20dp"
+		android:background="@color/white">
+
+		<ImageView
+			android:layout_width="20dp"
+			android:layout_height="fill_parent"
+			android:layout_marginLeft="20dp"
+			android:src="@drawable/icon_marka" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="20dp"
+			android:layout_gravity="center_vertical"
+			android:text="我的卡" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/myself_info_mycollect"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_below="@+id/myself_info_mybrow"
+		android:layout_marginTop="10dp"
+		android:background="@color/white">
+
+		<ImageView
+			android:layout_width="20dp"
+			android:layout_height="fill_parent"
+			android:layout_marginLeft="20dp"
+			android:src="@drawable/icon_marka" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="20dp"
+			android:layout_gravity="center_vertical"
+			android:text="我的收藏" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/myself_info_mylend"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_below="@+id/myself_info_mycollect"
+		android:layout_marginTop="10dp"
+		android:background="@color/white">
+
+		<ImageView
+			android:layout_width="20dp"
+			android:layout_height="fill_parent"
+			android:layout_marginLeft="20dp"
+			android:src="@drawable/icon_marka" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="20dp"
+			android:layout_gravity="center_vertical"
+			android:text="我借的卡" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/myself_info_mywallet"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_below="@+id/myself_info_mylend"
+		android:layout_marginTop="10dp"
+		android:background="@color/white">
+
+		<ImageView
+			android:layout_width="20dp"
+			android:layout_height="fill_parent"
+			android:layout_marginLeft="20dp"
+			android:src="@drawable/ic_action_setting" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="20dp"
+			android:layout_gravity="center_vertical"
+			android:text="我的钱包" />
+	</LinearLayout>
+	
+	<LinearLayout
+		android:id="@+id/myself_info_mysetting"
+		android:layout_width="fill_parent"
+		android:layout_height="50dp"
+		android:layout_below="@+id/myself_info_mywallet"
+		android:layout_marginTop="10dp"
+		android:background="@color/white">
+
+		<ImageView
+			android:layout_width="20dp"
+			android:layout_height="fill_parent"
+			android:layout_marginLeft="20dp"
+			android:src="@drawable/ic_action_setting" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="20dp"
+			android:layout_gravity="center_vertical"
+			android:text="设置" />
+	</LinearLayout>
+
+</RelativeLayout>

@@ -26,7 +26,7 @@ import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.contact.ContactFragment;
 import com.galaxy.ishare.database.FriendDao;
 import com.galaxy.ishare.database.InviteFriendDao;
-import com.galaxy.ishare.mapLBS.MapActivity;
+import com.galaxy.ishare.mapLBS.CardActivity;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
@@ -77,7 +77,7 @@ public class MainActivity extends ActionBarActivity {
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                Intent intent = new Intent(getApplicationContext(), CardActivity.class);
                 startActivity(intent);
             }
         });

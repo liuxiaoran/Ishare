@@ -3,6 +3,9 @@ package com.galaxy.ishare.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -10,16 +13,17 @@ import android.widget.Toast;
 
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
-import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.register.RegisterActivity;
 import com.galaxy.ishare.utils.CheckInfoValidity;
 import com.galaxy.ishare.utils.Encrypt;
+import com.mob.tools.utils.UIHandler;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.http.client.methods.HttpRequestBase;
@@ -28,22 +32,33 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
 import info.hoang8f.widget.FButton;
 
 /**
  * Created by liuxiaoran on 15/4/25.
  */
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements PlatformActionListener, Handler.Callback {
 
+    private static final int MSG_USERID_FOUND = 1;
+    private static final int MSG_LOGIN = 2;
+    private static final int MSG_AUTH_CANCEL = 3;
+    private static final int MSG_AUTH_ERROR = 4;
+    private static final int MSG_AUTH_COMPLETE = 5;
 
     private MaterialEditText accountEt, passwordEt;
     private FButton loginBtn;
     private TextView registerTv, findPwTv;
     private String phone, password;
 
-    private static final String TAG="loginactivity";
+    private static final String TAG = "loginactivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,16 +99,16 @@ public class LoginActivity extends Activity {
                                 if (status == 0) {
                                     key = jsonObject.getString("key");
                                     User user = null;
-                                    user  = IShareContext.getInstance().getCurrentUser();
-                                    if (user ==null) {
+                                    user = IShareContext.getInstance().getCurrentUser();
+                                    if (user == null) {
                                         user = new User(phone, key);
-                                    }else {
+                                    } else {
                                         user.setUserPhone(phone);
                                         user.setKey(key);
                                     }
                                     IShareContext.getInstance().saveCurrentUser(user);
-                                    Global.phone=phone;
-                                    Global.key=key;
+                                    Global.phone = phone;
+                                    Global.key = key;
                                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(intent);
                                     finish();
@@ -102,7 +117,7 @@ public class LoginActivity extends Activity {
                                 }
 
                             } catch (JSONException e) {
-                                Log.v(TAG,e.toString());
+                                Log.v(TAG, e.toString());
                                 e.printStackTrace();
                             }
 
@@ -162,5 +177,104 @@ public class LoginActivity extends Activity {
         return ret;
     }
 
+    public void wechatLoginClick(View view) {
+        Platform wechat = ShareSDK.getPlatform(this, Wechat.NAME);
+        authorize(wechat);
 
+
+    }
+
+
+    // 自动授权
+    private void authorize(Platform plat) {
+        if (plat.isValid()) {
+            String userId = plat.getDb().getUserId();
+            if (!TextUtils.isEmpty(userId) && userId != null) {
+                UIHandler.sendEmptyMessage(MSG_USERID_FOUND, this);
+                // 授权过了，直接登录
+                wechatLogin(plat.getName(), userId, null);
+                return;
+            }
+        }
+        plat.setPlatformActionListener(this);
+        plat.SSOSetting(true);
+        plat.showUser(null);
+    }
+
+    private void wechatLogin(String plat, String userId, HashMap<String, Object> userInfo) {
+        Message msg = new Message();
+        msg.what = MSG_LOGIN;
+        msg.obj = plat;
+        UIHandler.sendMessage(msg, this);
+    }
+
+    @Override
+    public void onComplete(Platform platform, int action,
+                           HashMap<String, Object> res) {
+        String id=res.get("id").toString();//ID
+        String name=res.get("name").toString();//用户名
+        String  description=res.get("description").toString();//描述
+        String profile_image_url = res.get("profile_image_url").toString();//头像链接
+        String str="ID: "+id+";\n"+
+                "用户名： "+name+";\n"+
+                "描述："+description+";\n"+
+                "用户头像地址："+profile_image_url;
+        System.out.println("用户资料: "+str);
+
+
+    }
+
+    @Override
+    public void onError(Platform platform, int action, Throwable t) {
+        if (action == Platform.ACTION_USER_INFOR) {
+            UIHandler.sendEmptyMessage(MSG_AUTH_ERROR, this);
+        }
+        t.printStackTrace();
+    }
+
+    @Override
+    public void onCancel(Platform platform, int action) {
+        if (action == Platform.ACTION_USER_INFOR) {
+            UIHandler.sendEmptyMessage(MSG_AUTH_CANCEL, this);
+        }
+    }
+
+    public boolean handleMessage(Message msg) {
+        switch(msg.what) {
+            case MSG_USERID_FOUND: {
+                Toast.makeText(this, R.string.userid_found, Toast.LENGTH_SHORT).show();
+            }
+            break;
+            case MSG_LOGIN: {
+
+                String text = getString(R.string.logining, msg.obj);
+                Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+                System.out.println("---------------");
+
+
+            }
+            break;
+            case MSG_AUTH_CANCEL: {
+                Toast.makeText(this, R.string.auth_cancel, Toast.LENGTH_SHORT).show();
+                System.out.println("-------MSG_AUTH_CANCEL--------");
+            }
+            break;
+            case MSG_AUTH_ERROR: {
+                Toast.makeText(this, R.string.auth_error, Toast.LENGTH_SHORT).show();
+                System.out.println("-------MSG_AUTH_ERROR--------");
+            }
+            break;
+            case MSG_AUTH_COMPLETE: {
+                Toast.makeText(this, R.string.auth_complete, Toast.LENGTH_SHORT).show();
+                System.out.println("--------MSG_AUTH_COMPLETE-------");
+            }
+            break;
+        }
+        return false;
+    }
+
+    protected void onDestroy() {
+        ShareSDK.stopSDK(this);
+        super.onDestroy();
+    }
 }

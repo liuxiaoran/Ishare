@@ -1,19 +1,28 @@
 package com.galaxy.ishare.publishware;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -32,13 +41,18 @@ import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.OwnerAvailableItem;
+import com.galaxy.ishare.utils.ImageParseUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
+import com.galaxy.ishare.utils.PhoneUtil;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +65,14 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     public static final int PARAMETER_OWNER_LOCATION_RESULT_CODE = 1;
     public static final int PARAMETER_SHOP_LOCATION_RESULT_CODE = 2;
     public static final int PARAMETER_AVAILABLE_RESULT_CODE = 3;
+
+    public static final int PARAMETER_PREVIEW_DELETE_RESULT_CODE = 4;
+    public static final String PARETER_DELETE_POSITION = "PARETER_DELETE_POSITION";
     public static final String PARAMETER_RET_OWNER_ADDR = "PARAMETER_RET_OWNER_ADDR";
+
+    //选择图片使用的request
+    public static final int IMAGE_REQUEST_CODE = 0;
+    public static final int CAMERA_REQUEST_CODE = 1;
 
     private static final String TAG = "PublishItemActivity";
 
@@ -66,7 +87,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //            addMoreTv;
 
     private RadioButton chargeRb, memberRb;
-    private CheckBox friendCb, indirectFriendCb, allCb;
+    private RadioButton friendRb, indirectFriendRb, allRb;
 
     private ImageView shopLocationIv, ownerLocationIv;
 
@@ -87,6 +108,15 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     public UploadData uploadDataClient;
 
 //    public int currentEtIndex;
+
+    private GridView photoGridView;
+    private int maxUploadPicCount = 3;
+    private ArrayList<Bitmap> gridViewBitmapList;
+    private ArrayList<Uri> picUriList;
+    private int cameraPicCount = 0;
+    // 是否已经选择了maxUploadPicCount 个图片
+    private boolean isToMaxPicNumber = false;
+    GridViewAdapter gridViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +190,70 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             }
         });
 
+
+        gridViewBitmapList = new ArrayList();
+        picUriList = new ArrayList<>();
+        gridViewBitmapList.add(ImageParseUtil.getBitmapFromResource(this, R.drawable.card_pic_add));
+        photoGridView = (GridView) findViewById(R.id.publishware_cardpic_gridview);
+        photoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == gridViewBitmapList.size() - 1 && !isToMaxPicNumber) {
+                    // 点击的是选择添加图片
+                    new MaterialDialog.Builder(PublishItemActivity.this)
+                            .title("选择图片来源")
+                            .items(R.array.pic_source_items)
+                            .itemsCallback(new MaterialDialog.ListCallback() {
+                                @Override
+                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                    if (which == 0) {
+                                        //选择本地图片
+                                        Intent intentFromGallery = new Intent();
+                                        intentFromGallery.setType("image/*"); // 设置文件类型
+                                        intentFromGallery
+                                                .setAction(Intent.ACTION_GET_CONTENT);
+                                        startActivityForResult(intentFromGallery,
+                                                IMAGE_REQUEST_CODE);
+                                    } else if (which == 1) {
+
+                                        cameraPicCount++;
+                                        //拍照
+                                        Intent intentFromCapture = new Intent(
+                                                MediaStore.ACTION_IMAGE_CAPTURE);
+                                        // 判断存储卡是否可以用，可用进行存储
+                                        if (PhoneUtil.hasSdcard()) {
+
+                                            File cardPicFile = new File(PublishItemActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                                                    "cardimg" + cameraPicCount + ".jpg");
+                                            intentFromCapture.putExtra(
+                                                    MediaStore.EXTRA_OUTPUT,
+                                                    Uri.fromFile(cardPicFile));
+                                            startActivityForResult(intentFromCapture,
+                                                    CAMERA_REQUEST_CODE);
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
+                                        }
+
+
+                                    }
+                                }
+                            })
+                            .show();
+                } else {
+                    // 点击的是已经选择的图片，进行预览或删除
+                    Intent intent = new Intent(PublishItemActivity.this, PreviewPictureActivity.class);
+
+                    intent.putExtra(PreviewPictureActivity.PARAMETER_POSITION, position);
+                    intent.putExtra(PreviewPictureActivity.PARAMENTER_PIC_URI_STRING, picUriList.get(position).toString());
+                    PublishItemActivity.this.startActivityForResult(intent, PreviewPictureActivity.PUBLISH_TO_PREVIEW_REQUEST_CODE);
+                }
+            }
+        });
+
+        gridViewAdapter = new GridViewAdapter(this);
+        photoGridView.setAdapter(gridViewAdapter);
+
+
     }
 
     private void findViewsById() {
@@ -179,9 +273,9 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //        addMoreTv = (TextView) findViewById(R.id.publish_add_more_tv);
 
 
-        friendCb = (CheckBox) findViewById(R.id.publish_ware_friend_cb);
-        indirectFriendCb = (CheckBox) findViewById(R.id.publish_ware_indirect_friend_cb);
-        allCb = (CheckBox) findViewById(R.id.publish_ware_all_cb);
+        friendRb = (RadioButton) findViewById(R.id.publish_ware_friend_rb);
+        indirectFriendRb = (RadioButton) findViewById(R.id.publish_ware_indirect_friend_rb);
+        allRb = (RadioButton) findViewById(R.id.publish_ware_all_rb);
 
 
         cardDesctiptionEt = (MaterialEditText) findViewById(R.id.publish_card_description_et);
@@ -195,14 +289,14 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_save, menu);
+        getMenuInflater().inflate(R.menu.menu_next_step, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_save) {
+        if (item.getItemId() == R.id.menu_next) {
 
             if (chargeRb.isChecked()) {
                 ware_type = 0;
@@ -313,6 +407,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -343,13 +438,70 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             shopLongitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LONGITUDE, 0);
 
             shopLocationEt.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
+        } else if (resultCode == PARAMETER_PREVIEW_DELETE_RESULT_CODE) {
+            int deletePosition = data.getIntExtra(PARETER_DELETE_POSITION, 0);
+            gridViewBitmapList.remove(deletePosition);
+            gridViewAdapter.notifyDataSetChanged();
+        }
+        // 处理选择图片的返回
+        else if (resultCode != RESULT_CANCELED) {
+            switch (requestCode) {
+
+                case IMAGE_REQUEST_CODE:
+                    Uri uri = data.getData();
+                    Bitmap bitmap = null;
+                    bitmap = ImageParseUtil.getBitmapFromUri(uri, this);
+
+                    if (gridViewBitmapList.size() != maxUploadPicCount)
+                        gridViewBitmapList.add(gridViewBitmapList.size() - 1, bitmap);
+
+                    else {
+                        // 最后一张图片加载
+                        gridViewBitmapList.set(gridViewBitmapList.size() - 1, bitmap);
+                        isToMaxPicNumber = true;
+                    }
+                    picUriList.add(uri);
+
+                    gridViewAdapter.notifyDataSetChanged();
+
+                    break;
+                case CAMERA_REQUEST_CODE:
+                    File cardPicFile = new File(PublishItemActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                            "cardimg" + cameraPicCount + ".jpg");
+
+                    Uri u = null;
+                    try {
+                        u = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
+                                cardPicFile.getAbsolutePath(), null, null));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    if (gridViewBitmapList.size() != maxUploadPicCount)
+                        gridViewBitmapList.add(gridViewBitmapList.size() - 1, ImageParseUtil.getBitmapFromUri(u, this));
+                    else {
+                        // 最后一张图片展示
+                        gridViewBitmapList.set(gridViewBitmapList.size() - 1, ImageParseUtil.getBitmapFromUri(u, this));
+                        isToMaxPicNumber = true;
+                    }
+                    picUriList.add(u);
+                    gridViewAdapter.notifyDataSetChanged();
+
+                    break;
+
+            }
         }
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mSuggestionSearch.destroy();
+        for (int i = 0; i < gridViewBitmapList.size(); i++) {
+            if (!gridViewBitmapList.get(i).isRecycled()) {
+                gridViewBitmapList.get(i).recycle();
+            }
+        }
     }
 
     // 上传数据到服务器
@@ -375,22 +527,22 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //                hashMap.put("time", ownerAvailableTimeEtList.get(i).getText().toString());
 //                ownerAvailableList.add(hashMap);
 //            }
-            if (ownerAvailableList.size()>=1) {
+            if (ownerAvailableList.size() >= 1) {
                 params.add(new BasicNameValuePair("owner_available", JsonObjectUtil.parseListToJsonArray(ownerAvailableList).toString()));
             }
 
-            ArrayList<String> shareTypeList = new ArrayList<>();
-            if (friendCb.isChecked()) {
-                shareTypeList.add("0");
+            int shareType = 0;
+            if (friendRb.isChecked()) {
+                shareType = 0;
             }
-            if (indirectFriendCb.isChecked()) {
-                shareTypeList.add("1");
+            if (indirectFriendRb.isChecked()) {
+                shareType = 1;
             }
-            if (allCb.isChecked()) {
-                shareTypeList.add("2");
+            if (allRb.isChecked()) {
+                shareType = 2;
             }
 
-            params.add(new BasicNameValuePair("share_type", JsonObjectUtil.parseListToJsonArray(shareTypeList).toString()));
+            params.add(new BasicNameValuePair("share_type", shareType + ""));
 
 
             HttpTask.startAsyncDataPostRequest(URLConstant.PUBLISH_SHARE_ITEM, params, new HttpDataResponse() {
@@ -421,4 +573,43 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
         }
     }
+
+    class GridViewAdapter extends BaseAdapter {
+        private LayoutInflater inflater;
+
+        public GridViewAdapter(Context Context) {
+            inflater = (LayoutInflater) Context.getSystemService(LAYOUT_INFLATER_SERVICE);
+        }
+
+        @Override
+        public int getCount() {
+            return gridViewBitmapList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            if (convertView == null) {
+                convertView = inflater.inflate(R.layout.publishware_cardpic_gridview_item, null);
+            }
+            ImageView picIv = (ImageView) convertView.findViewById(R.id.publishware_cardpic_gridview_iv);
+
+            picIv.setImageBitmap(gridViewBitmapList.get(position));
+
+
+            return convertView;
+        }
+    }
+
+
 }

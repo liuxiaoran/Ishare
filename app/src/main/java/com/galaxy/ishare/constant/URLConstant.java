@@ -38,4 +38,11 @@ public class URLConstant {
     public static final String  GET_DISCOUNT_CARD_LIST = SERVER_IP +"/card/Query_Card_Sort_Discount_C";
 
     public static final String GET_DISTANCE_CARD_LIST =SERVER_IP +"/card/Query_Card_Sort_Distance_C";
+
+    // 借卡，发送借卡请求
+    public static final String BORROW_CARD= SERVER_IP+"Add_Record_C";
+
+
+    // 获取qiniu token
+//    public static final String QIUNIU_TOKEN  = SERVER_IP +"";
 }

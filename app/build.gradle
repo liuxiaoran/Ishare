@@ -62,4 +62,12 @@ dependencies {
 
     // image downloader
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
+
+    // share sdk
+    compile files('libs/MobTools.jar')
+    compile files ('libs/ShareSDK-Core-2.6.0.jar')
+    compile files ('libs/ShareSDK-Wechat-2.6.0.jar')
+    compile files ('libs/ShareSDK-Wechat-Core-2.6.0.jar')
+    compile files ('libs/ShareSDK-Wechar-Favorite-2.6.0.jar')
+    compile files ('libs/ShareSDK-Wechar-Moments-2.6.0.jar')
 }

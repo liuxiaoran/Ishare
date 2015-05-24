@@ -20,6 +20,7 @@ import info.hoang8f.widget.FButton;
 
 /**
  * Created by liuxiaoran on 15/5/11.
+ * 暂时不用
  */
 public class CardOwnerLocationMapActivity extends ActionBarActivity implements
         OnGetGeoCoderResultListener {

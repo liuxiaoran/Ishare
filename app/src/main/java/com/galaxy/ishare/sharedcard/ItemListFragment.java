@@ -104,19 +104,20 @@ public class ItemListFragment extends Fragment {
         cardListItemAdapter = new CardListItemAdapter(dataList, getActivity());
 
 
-        // set drop down listener
+        // set drop down listener, cardlistview 下拉刷新
         cardListView.setOnDropDownListener(new DropDownListView.OnDropDownListener() {
 
             @Override
             public void onDropDown() {
                 gestureType = REFRESH_GESTURE;
                 pageNumber = 1;
+                dataList.clear();
                 httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                         IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
             }
         });
 
-        // set on bottom listener
+        // set on bottom listener，cardlistview 加载更多
         cardListView.setOnBottomListener(new View.OnClickListener() {
 
             @Override
@@ -148,8 +149,6 @@ public class ItemListFragment extends Fragment {
             isLocatingLayout.setVisibility(View.GONE);
             cardListView.setVisibility(View.VISIBLE);
 
-            httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
-                    IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
         }
 
 
@@ -288,7 +287,6 @@ public class ItemListFragment extends Fragment {
 
                         JSONObject jsonObject = new JSONObject(result);
                         int status = jsonObject.getInt("status");
-                        Log.v(TAG,"status is" +status);
                         Log.v(TAG,"result"+result);
                         if (status == 0) {
                             JSONArray jsonArray = jsonObject.getJSONArray("data");

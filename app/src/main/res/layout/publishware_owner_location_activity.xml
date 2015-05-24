@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="500dp"
         android:id="@+id/publishware_owner_available_location_listview">
 
     </ListView>
 
-
+   <info.hoang8f.widget.FButton
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       app:cornerRadius="2dp"
+       app:shadowEnabled="false"
+       android:text="发布"
+       android:textColor="@color/white"
+       android:onClick="publishCard"/>
 
 </LinearLayout>

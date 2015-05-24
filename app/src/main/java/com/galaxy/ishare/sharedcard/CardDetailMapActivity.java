@@ -2,6 +2,7 @@ package com.galaxy.ishare.sharedcard;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -27,6 +28,7 @@ public class CardDetailMapActivity extends ActionBarActivity {
     public static final String PARAMETER_OWNER_LATITUDE = "PARAMETER_OWNER_LATITUDE";
     public static final String PARAMETER_OWNER_LONGITUDE = "PARAMETER_OWNER_LONGITUDE";
 
+    public static final String TAG ="CardDetailMapActivity";
 
     private double shopLatitude;
     private double shopLongitude;
@@ -70,6 +72,8 @@ public class CardDetailMapActivity extends ActionBarActivity {
                 .fromResource(R.drawable.icon_markb);
         shopLocationBitmap = BitmapDescriptorFactory
                 .fromResource(R.drawable.icon_markc);
+
+        Log.v(TAG, "shopLatitude: "+shopLatitude+" shopLongitude:"+shopLongitude);
 
         initMap();
 
@@ -124,8 +128,8 @@ public class CardDetailMapActivity extends ActionBarActivity {
         }
 
         // 设置地图范围，要最大限度显示三个点
-        LatLngBounds latLngBounds = new LatLngBounds.Builder().include(new LatLng(northLatitude + 20, eastLongitude + 20))
-                .include(new LatLng(southLatitude - 20, westLongitude - 20)).build();
+        LatLngBounds latLngBounds = new LatLngBounds.Builder().include(new LatLng(northLatitude + 10, eastLongitude + 10))
+                .include(new LatLng(southLatitude - 10, westLongitude - 10)).build();
 
         MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLngBounds(latLngBounds);
         mBaiduMap.setMapStatus(mapStatusUpdate);

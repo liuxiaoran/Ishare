@@ -13,8 +13,6 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -31,9 +29,6 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -103,7 +98,7 @@ public class PoiSearchActivity extends FragmentActivity {
         Intent intent = getIntent();
         shopName = intent.getStringExtra(PARAMETER_SHOP_NAEM);
         mBaiduMap = ((SupportMapFragment) (getSupportFragmentManager()
-                .findFragmentById(R.id.map))).getBaiduMap();
+                .findFragmentById(R.id.poi_map))).getBaiduMap();
 
 
         // poiSearch

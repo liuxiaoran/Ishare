@@ -37,7 +37,7 @@ public class CardListItemAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.v("ItemListFragment",dataList.size()+"data size");
+        Log.v("ItemListFragment","cardListItemAdapter: "+dataList.size()+"data size");
         return dataList.size();
     }
 

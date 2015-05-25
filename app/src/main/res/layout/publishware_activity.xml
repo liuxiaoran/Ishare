@@ -74,10 +74,12 @@
                 android:layout_centerVertical="true"
                 android:text="折扣" />
 
-            <com.rengwuxian.materialedittext.MaterialEditText
+            <EditText
                 android:id="@+id/publish_discount_et"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/caption_text_size"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/publish_discount_tv" />
 
@@ -138,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:hint="卡描述"
                 android:inputType="textMultiLine"
-                android:textSize="12dp"
+                android:textSize="@dimen/caption_text_size"
                 app:met_floatingLabel="highlight"
                 app:met_floatingLabelText="卡描述"
                 app:met_floatingLabelTextSize="@dimen/caption_text_size"
@@ -168,13 +170,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.rengwuxian.materialedittext.MaterialEditText
+                <EditText
 
                     android:id="@+id/publish_shop_location_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="center" />
+                    android:gravity="center"
+                    android:textSize="@dimen/caption_text_size"/>
 
                 <ImageView
                     android:id="@+id/publish_shop_location_iv"

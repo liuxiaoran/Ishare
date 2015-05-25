@@ -7,9 +7,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,10 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +32,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.OwnerAvailableItem;
+import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.PhoneUtil;
 
 import java.io.BufferedOutputStream;
@@ -56,10 +62,10 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
 
     public static final String INTENT_DELETE_POSITION = "INTENT_DELETE_POSITION";
 
-    private ArrayList<OwnerAvailableItem> dataList;
+
     private ListView availableListView;
     ListViewAdapter listViewAdapter;
-
+    ArrayList <OwnerAvailableItem>dataList;
 
 
 
@@ -77,9 +83,8 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         availableListView = (ListView) findViewById(R.id.publishware_owner_available_location_listview);
-        dataList = new ArrayList();
 
-
+         dataList = PublishItemActivity.dataList;
 
         listViewAdapter = new ListViewAdapter(this);
         availableListView.setAdapter(listViewAdapter);
@@ -88,13 +93,33 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CardOwnerAvailableShowActivity.this, CardOwnerAvailableEditActivity.class);
-                intent.putExtra(CardOwnerAvailableEditActivity.PARAMETER_CARD_AVAILABLE_ITEM, dataList.get(position));
+                intent.putExtra(CardOwnerAvailableEditActivity.PARAMETER_CARD_AVAILABLE_ITEM,  dataList.get(position));
                 intent.putExtra(CardOwnerAvailableEditActivity.PARAMETER_CARD_AVAILABLE_POSITION, position);
                 startActivityForResult(intent, CardOwnerAvailableEditActivity.SHOW_TO_EDIT_REQUST_CODE);
             }
         });
 
+        final LinearLayout container = (LinearLayout) findViewById(R.id.pubishware_available_linearlayout);
 
+        container.post(new Runnable() {
+            public void run() {
+                View windowView = getLayoutInflater().inflate(R.layout.publishware_publish_card_popupwindow, null);
+                Button  button = (Button) windowView.findViewById(R.id.publishware_publish_btn);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        publishCard(v);
+                    }
+                });
+                PopupWindow publishWindow = new PopupWindow(windowView, DisplayUtil.dip2px(CardOwnerAvailableShowActivity.this, 100),
+                        DisplayUtil.dip2px(CardOwnerAvailableShowActivity.this, 100));
+                publishWindow.showAtLocation(container, Gravity.BOTTOM | Gravity.RIGHT, -200, -200);
+            }
+        });
+
+        if (dataList!=null&& dataList.size()>0){
+            listViewAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -116,13 +141,12 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
 
         } else if (item.getItemId() == android.R.id.home) {
 
-            if (dataList.size() != 0) {
-                Intent intent = new Intent(this, PublishItemActivity.class);
-                intent.putParcelableArrayListExtra(PARAMETER_RETURN_AVAILABLE_LIST, dataList);
-                setResult(PublishItemActivity.PARAMETER_AVAILABLE_RESULT_CODE, intent);
-                finish();
-            } else {
+            if (dataList.size() == 0) {
+
                 Toast.makeText(this, "请填写方便取卡的时间地点", Toast.LENGTH_SHORT).show();
+            }else {
+                NavUtils.navigateUpFromSameTask(this);
+
             }
 
         }
@@ -153,10 +177,15 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
     }
 
     public void publishCard (View view ){
-        Intent intent = new Intent(this, PublishItemActivity.class);
-        intent.putParcelableArrayListExtra(PARAMETER_RETURN_AVAILABLE_LIST, dataList);
-        setResult(PublishItemActivity.PARAMETER_AVAILABLE_RESULT_CODE, intent);
-        finish();
+
+        if (dataList.size() != 0) {
+            Intent intent = new Intent(this, PublishItemActivity.class);
+            intent.putParcelableArrayListExtra(PARAMETER_RETURN_AVAILABLE_LIST, dataList);
+            setResult(PublishItemActivity.PARAMETER_AVAILABLE_RESULT_CODE, intent);
+            finish();
+        } else {
+            Toast.makeText(this, "请填写方便取卡的时间地点", Toast.LENGTH_SHORT).show();
+        }
     }
 
     class ListViewAdapter extends BaseAdapter {

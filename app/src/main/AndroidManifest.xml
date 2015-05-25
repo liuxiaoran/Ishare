@@ -88,7 +88,8 @@
 		android:allowBackup="true"
 		android:icon="@drawable/ic_launcher"
 		android:label="@string/app_name"
-		android:theme="@style/AppTheme">
+		android:theme="@style/AppTheme"
+		>
 
 		<service
 			android:name="com.baidu.location.f"
@@ -159,7 +160,7 @@
 			android:label="@string/app_name"
 			android:parentActivityName=".main.MainActivity"
 			android:screenOrientation="portrait"
-            android:launchMode="singleTop">
+            android:launchMode="singleTask">
 
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"

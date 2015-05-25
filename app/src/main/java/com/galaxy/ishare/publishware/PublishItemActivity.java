@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -77,8 +78,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     private static final String TAG = "PublishItemActivity";
 
     private AutoCompleteTextView shopNameTv;
-    private MaterialEditText discountEt, cardDesctiptionEt, shopLocationEt, ownerAvailableLocationEt, ownerAvailableTimeEt;
-
+    private MaterialEditText  cardDesctiptionEt,  ownerAvailableLocationEt, ownerAvailableTimeEt;
+    private EditText shopLocationEt,discountEt;
     private MyClickListener myClickListener;
     private RelativeLayout industryLayout;
 //    private LinearLayout ownerAvailableLayout;
@@ -118,6 +119,9 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     private boolean isToMaxPicNumber = false;
     GridViewAdapter gridViewAdapter;
 
+    // 存空闲的时间地点，为了使进入CardOwnerAvailableShowActivity 重新载入数据展示。
+    public static  ArrayList<OwnerAvailableItem> dataList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +131,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
         titleTv.setText("发布新卡");
         findViewsById();
+
+        dataList=new ArrayList<>();
 
         myClickListener = new MyClickListener();
         industryLayout.setOnClickListener(myClickListener);
@@ -144,11 +150,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         uploadDataClient = new UploadData();
 
 
-//        if (IShareContext.getInstance().getUserLocation()!=null){
-//            cityTv.setText(IShareContext.getInstance().getUserLocation().getCity());
-//            provinceTv.setText(IShareContext.getInstance().getUserLocation().getProvince());
-//            locationEt.setText(IShareContext.getInstance().getUserLocation().getLocationStr());
-//        }
+
 
 
         mSuggestionSearch = SuggestionSearch.newInstance();
@@ -263,11 +265,11 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         chargeRb = (RadioButton) findViewById(R.id.publish_type_charge_rb);
         memberRb = (RadioButton) findViewById(R.id.publish_type_member_rb);
 
-        discountEt = (MaterialEditText) findViewById(R.id.publish_discount_et);
+        discountEt = (EditText) findViewById(R.id.publish_discount_et);
         industryLayout = (RelativeLayout) findViewById(R.id.publish_industry_layout);
         industryTv = (TextView) findViewById(R.id.publish_industry_tv);
 
-        shopLocationEt = (MaterialEditText) findViewById(R.id.publish_shop_location_et);
+        shopLocationEt = (EditText) findViewById(R.id.publish_shop_location_et);
 //        ownerAvailableLayout = (LinearLayout) findViewById(R.id.publish_layout);
 //
 //        addMoreTv = (TextView) findViewById(R.id.publish_add_more_tv);
@@ -313,7 +315,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         } else if (item.getItemId() == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private boolean checkInfo() {
@@ -432,6 +434,10 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             uploadDataClient.publishShareItem();
             this.finish();
 
+            // 释放内存
+            dataList=null;
+            cardItemArrayList=null;
+
 
         } else if (resultCode == PARAMETER_SHOP_LOCATION_RESULT_CODE) {
             shopLatitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LATITUDE, 0);
@@ -491,6 +497,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             }
         }
     }
+
 
 
     @Override

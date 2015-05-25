@@ -3,6 +3,7 @@ package com.galaxy.ishare.publishware;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -129,6 +130,8 @@ public class CardOwnerAvailableEditActivity extends ActionBarActivity {
             intent.putExtra(CardOwnerAvailableShowActivity.INTENT_DELETE_POSITION,position);
             setResult(CardOwnerAvailableShowActivity.REMOVE_TO_SHOW_RESULT_CODE, intent);
             finish();
+        }else  if (item.getItemId()== android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
     }

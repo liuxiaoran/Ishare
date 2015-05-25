@@ -19,7 +19,7 @@
     <string name="search">search</string>
 
 
-    <string name="drop_down_list_header_default_text">点击可以刷新</string>
+    <string name="drop_down_list_header_default_text">正在加载</string>
     <string name="drop_down_list_header_pull_text">下拉可以刷新</string>
     <string name="drop_down_list_header_release_text">松开可以刷新</string>
     <string name="drop_down_list_header_loading_text">加载中&#8230;</string>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -55,6 +56,8 @@ public class PreviewPictureActivity extends ActionBarActivity {
             retIntent.putExtra(PublishItemActivity.PARETER_DELETE_POSITION,position);
             setResult(PublishItemActivity.PARAMETER_PREVIEW_DELETE_RESULT_CODE,retIntent);
             finish();
+        }else  if (item.getItemId()== android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
     }

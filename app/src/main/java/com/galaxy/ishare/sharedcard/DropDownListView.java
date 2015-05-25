@@ -74,14 +74,14 @@ public class DropDownListView extends ListView implements OnScrollListener {
     private Context            context;
 
     /** header layout view **/
-    private RelativeLayout     headerLayout;
+    public RelativeLayout     headerLayout;
     private ImageView          headerImage;
     private ProgressBar        headerProgressBar;
     private TextView           headerText;
     private TextView           headerSecondText;
 
     /** footer layout view **/
-    private RelativeLayout     footerLayout;
+    public  RelativeLayout     footerLayout;
     private ProgressBar        footerProgressBar;
     private Button             footerButton;
 

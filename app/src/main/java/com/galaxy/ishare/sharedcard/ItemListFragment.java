@@ -129,6 +129,7 @@ public class ItemListFragment extends Fragment {
             }
         });
 
+
         cardListView.setAdapter(cardListItemAdapter);
 
         // listview 条目点击
@@ -150,7 +151,8 @@ public class ItemListFragment extends Fragment {
             cardListView.setVisibility(View.VISIBLE);
 
         }
-
+//       cardListView.onDropDown();
+//        cardListView.footerLayout.setVisibility(View.INVISIBLE);
 
         // 接收位置更新广播
         localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());

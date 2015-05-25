@@ -7,94 +7,97 @@
     android:layout_height="match_parent"
     android:padding="@dimen/default_layout_padding">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="账户"
-            android:textSize="@dimen/body_text_size"
-            android:layout_marginRight="@dimen/login_tv_margin_right" />
-
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:textCursorDrawable="@null"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/login_account_et"
-            android:hint="您的手机号"
-            app:met_singleLineEllipsis="true" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="密码"
-            android:textSize="@dimen/body_text_size"
-            android:layout_marginRight="@dimen/login_tv_margin_right" />
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:textCursorDrawable="@null"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/login_password_et"
-            android:inputType="textPassword"
-            android:hint="6-16位密码"
-            app:met_singleLineEllipsis="true" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="账户"-->
+            <!--android:textSize="@dimen/body_text_size"-->
+            <!--android:layout_marginRight="@dimen/login_tv_margin_right" />-->
 
 
-    </LinearLayout>
+        <!--<com.rengwuxian.materialedittext.MaterialEditText-->
+            <!--android:textCursorDrawable="@null"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/login_account_et"-->
+            <!--android:hint="您的手机号"-->
+            <!--app:met_singleLineEllipsis="true" />-->
 
-    <info.hoang8f.widget.FButton
+    <!--</LinearLayout>-->
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        fbutton:shadowEnabled="false"
-        android:text="登录"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:textSize="@dimen/body_text_size"
-        android:textColor="@color/white"
-        android:id="@+id/login_login_btn" />
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_marginTop="10dp">-->
 
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="密码"-->
+            <!--android:textSize="@dimen/body_text_size"-->
+            <!--android:layout_marginRight="@dimen/login_tv_margin_right" />-->
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/login_register_tv"
-            android:text="@string/login_register" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:id="@+id/login_forgetpw_tv"
-            android:text="@string/login_forgetpw" />
+        <!--<com.rengwuxian.materialedittext.MaterialEditText-->
+            <!--android:textCursorDrawable="@null"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:id="@+id/login_password_et"-->
+            <!--android:inputType="textPassword"-->
+            <!--android:hint="6-16位密码"-->
+            <!--app:met_singleLineEllipsis="true" />-->
 
 
-    </RelativeLayout>
+    <!--</LinearLayout>-->
+
+    <!--<info.hoang8f.widget.FButton-->
+
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--fbutton:shadowEnabled="false"-->
+        <!--android:text="登录"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:textSize="@dimen/body_text_size"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:id="@+id/login_login_btn" />-->
+
+
+    <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="20dp">-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/login_register_tv"-->
+            <!--android:text="@string/login_register" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:id="@+id/login_forgetpw_tv"-->
+            <!--android:text="@string/login_forgetpw" />-->
+
+
+    <!--</RelativeLayout>-->
 
     <info.hoang8f.widget.FButton
         android:onClick="wechatLoginClick"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="微信登录"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        fbutton:shadowEnabled="false"
+        android:gravity="center"/>
 </LinearLayout>

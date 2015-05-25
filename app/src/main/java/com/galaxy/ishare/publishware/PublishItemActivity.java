@@ -515,7 +515,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     class UploadData {
         public void publishShareItem() {
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-            params.add(new BasicNameValuePair("owner", Global.phone));
+            params.add(new BasicNameValuePair("owner", IShareContext.getInstance().getCurrentUser().getUserPhone()));
 
             params.add(new BasicNameValuePair("shop_name", shopLocationEt.getText().toString()));
             params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));

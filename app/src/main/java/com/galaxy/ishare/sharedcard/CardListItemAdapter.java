@@ -13,27 +13,24 @@ import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.CardItem;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created by liuxiaoran on 15/5/16.
  */
 public class CardListItemAdapter extends BaseAdapter {
 
-    private ArrayList<CardItem> dataList;
+    private LinkedList<CardItem> dataList;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
-    public CardListItemAdapter(ArrayList<CardItem> data, Context context) {
+    public CardListItemAdapter(LinkedList<CardItem> data, Context context) {
         this.dataList = data;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
 
     }
 
-    public void setData(ArrayList data){
-        dataList=data;
-
-    }
 
     @Override
     public int getCount() {

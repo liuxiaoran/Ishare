@@ -170,16 +170,13 @@
     </LinearLayout>
 
 
-    <com.galaxy.ishare.sharedcard.DropDownListView
-        android:id="@+id/share_item_card_listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:drawSelectorOnTop="false"
-        android:paddingBottom="5dp"
-        listViewAttr:isAutoLoadOnBottom="true"
-        listViewAttr:isDropDownStyle="true"
-        listViewAttr:isOnBottomStyle="true"
-        android:divider="@null"/>
+   <FrameLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:id="@+id/share_item_listview_framelayout"/>
+
+
+
 
 
 </LinearLayout>

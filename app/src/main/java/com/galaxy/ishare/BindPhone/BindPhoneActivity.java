@@ -1,13 +1,16 @@
-package com.galaxy.ishare.register;
+package com.galaxy.ishare.BindPhone;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.galaxy.ishare.Global;
@@ -15,7 +18,7 @@ import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
-import com.galaxy.ishare.sharedcard.CardListItemAdapter;
+import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.utils.ConfirmCodeController;
 import com.galaxy.ishare.utils.WidgetController;
 import com.galaxy.ishare.http.HttpCode;
@@ -36,14 +39,16 @@ import java.util.List;
 /**
  * Created by liuxiaoran on 15/4/27.
  */
-public class RegisterActivity extends Activity {
+public class BindPhoneActivity extends ActionBarActivity {
 
-    private EditText phoneEt, confirmCodeEt, passwordEt, confirmPwEt;
-    private Button getConfirmBtn, registerBtn;
-    private String phone, confirmCode, password, passwordAgain;
+    private EditText phoneEt, confirmCodeEt;
+    private Button getConfirmBtn, bingBtn;
+    private String phone, confirmCode;
     private ConfirmCodeController confirmCodeController;
 
     private static final String  TAG ="registeractivity";
+
+    public static final String PARAMETER_WHO_COME= "PARAMETER_WHO_COME";
 
 
     @Override
@@ -52,10 +57,12 @@ public class RegisterActivity extends Activity {
         setContentView(R.layout.register);
 
 
-        //httpTest();
+        ActionBar actionBar=IShareContext.getInstance().createDefaultActionbar(this);
+        TextView tv  = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
+        tv.setText("绑定手机号");
 
         initWidgets();
-        confirmCodeController = ConfirmCodeController.getInstance(RegisterActivity.this, new Timer(60000, 1000));
+        confirmCodeController = ConfirmCodeController.getInstance(BindPhoneActivity.this, new Timer(60000, 1000));
 
         // 点击获取验证码
         getConfirmBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +71,7 @@ public class RegisterActivity extends Activity {
 
                 phone = phoneEt.getText().toString();
                 if (CheckInfoValidity.getInstance().phonePatternMatch(phone)) {
-                    WidgetController.getInstance().setWidgetUnClickable(getConfirmBtn, RegisterActivity.this);
+                    WidgetController.getInstance().setWidgetUnClickable(getConfirmBtn, BindPhoneActivity.this);
                     confirmCodeController.sendConfirmCode(phone);
                     WidgetController.getInstance().widgetGetFoucus(confirmCodeEt);
 
@@ -75,15 +82,11 @@ public class RegisterActivity extends Activity {
             }
         });
 
-        registerBtn.setOnClickListener(new View.OnClickListener() {
+        bingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 phone = phoneEt.getText().toString();
                 confirmCode = confirmCodeEt.getText().toString();
-                password = passwordEt.getText().toString();
-                passwordAgain = confirmPwEt.getText().toString();
-
-                Log.v(TAG, phone +"  "+confirmCode+"  "+password+" "+passwordAgain);
 
 
                 if (checkUserInfo()) {
@@ -91,9 +94,8 @@ public class RegisterActivity extends Activity {
 
                     List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
                     params.add(new BasicNameValuePair("phone", phone));
-                    params.add(new BasicNameValuePair("password", Encrypt.md5(password)));
 
-                    HttpTask.startAsyncDataPostRequest(URLConstant.REGISTER, params, new HttpDataResponse() {
+                    HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_USER_INFO, params, new HttpDataResponse() {
                         @Override
                         public void onRecvOK(HttpRequestBase request, String result) {
 
@@ -103,27 +105,22 @@ public class RegisterActivity extends Activity {
                                 JSONObject object = new JSONObject(result);
                                 status = object.getInt("status");
                                 if (status == 0) {
-                                    key = object.getString("key");
-                                    User user = null;
-                                    user= IShareContext.getInstance().getCurrentUser();
-                                    if (user==null) {
-                                        user = new User(phone, key);
-                                    }else {
-                                        user.setUserPhone(phone);
-                                        user.setKey(key);
-                                    }
+
+                                    // 保存手机号到本地user
+                                    User user = IShareContext.getInstance().getCurrentUser();
+                                    user.setUserPhone(phone);
                                     IShareContext.getInstance().saveCurrentUser(user);
 
-                                    Global.key = key;
-                                    Global.phone = phone;
+                                    Toast.makeText(BindPhoneActivity.this, "绑定成功", Toast.LENGTH_LONG).show();
 
-                                    Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                    startActivity(intent);
+                                    if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.PUBLISH_TO_BING_PHONE)) {
+                                        Intent intent = new Intent(BindPhoneActivity.this, PublishItemActivity.class);
+                                        startActivity(intent);
+                                    }
                                     finish();
                                 } else {
 
-                                    Toast.makeText(RegisterActivity.this, "用户存在", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(BindPhoneActivity.this, "该手机号已绑定过", Toast.LENGTH_LONG).show();
 
                                 }
 
@@ -139,7 +136,7 @@ public class RegisterActivity extends Activity {
                         public void onRecvError(HttpRequestBase request, HttpCode retCode) {
 
                             Log.v(TAG, "ret code:" + retCode);
-                            Toast.makeText(RegisterActivity.this, "网络不佳,请重试", Toast.LENGTH_LONG).show();
+                            Toast.makeText(BindPhoneActivity.this, "网络不佳,请重试", Toast.LENGTH_LONG).show();
 
                         }
 
@@ -162,11 +159,9 @@ public class RegisterActivity extends Activity {
     private void initWidgets() {
         phoneEt = (EditText) findViewById(R.id.register_phone_et);
         confirmCodeEt = (EditText) findViewById(R.id.register_confirm_et);
-        passwordEt = (EditText) findViewById(R.id.register_pw_et);
-        confirmPwEt = (EditText) findViewById(R.id.register_pw_again_et);
 
         getConfirmBtn = (Button) findViewById(R.id.register_get_confirm_btn);
-        registerBtn = (Button) findViewById(R.id.register_btn);
+        bingBtn = (Button) findViewById(R.id.register_btn);
     }
 
     private boolean checkUserInfo() {
@@ -175,15 +170,8 @@ public class RegisterActivity extends Activity {
         if (CheckInfoValidity.getInstance().pwPatternMatch(phone) == false) {
             Toast.makeText(this, "手机号码格式错误", Toast.LENGTH_LONG).show();
             return false;
-        } else if (CheckInfoValidity.getInstance().pwPatternMatch(password) == false) {
-            Toast.makeText(this, "密码格式错误", Toast.LENGTH_LONG).show();
-            return false;
-        } else if (!confirmCodeController.checkCode(confirmCode)) {
+        }  else if (!confirmCodeController.checkCode(confirmCode)) {
             Toast.makeText(this, confirmCodeController.getConfirmCodeErrorMessage(), Toast.LENGTH_LONG).show();
-            return false;
-        } else if (!passwordAgain.equals(password)) {
-
-            Toast.makeText(this, "两次密码输入不同", Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -206,7 +194,7 @@ public class RegisterActivity extends Activity {
         @Override
         public void onFinish() {
             getConfirmBtn.setText("获取验证码");
-            WidgetController.getInstance().setWidgetClickable(getConfirmBtn, RegisterActivity.this);
+            WidgetController.getInstance().setWidgetClickable(getConfirmBtn, BindPhoneActivity.this);
         }
     }
 

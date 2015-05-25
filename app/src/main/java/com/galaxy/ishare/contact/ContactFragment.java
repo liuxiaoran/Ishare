@@ -84,7 +84,6 @@ public class ContactFragment extends Fragment {
 
 
         List<NameValuePair> params = new ArrayList<>();
-        params.add(new BasicNameValuePair("phone", Global.phone));
         HttpTask.startAsyncDataGetRequset(URLConstant.FRIEND_CONTACT, params, new HttpDataResponse() {
             @Override
             public void onRecvOK(HttpRequestBase request, String result) {

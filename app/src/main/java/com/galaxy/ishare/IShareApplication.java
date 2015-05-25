@@ -19,6 +19,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import cn.sharesdk.framework.ShareSDK;
+
 
 public class IShareApplication extends Application {
 
@@ -54,7 +56,7 @@ public class IShareApplication extends Application {
         if (IShareContext.getInstance().getCurrentUser() != null) {
             Log.v(TAG, IShareContext.getInstance().getCurrentUser().getKey() + "KEY");
             Global.key = IShareContext.getInstance().getCurrentUser().getKey();
-            Global.phone = IShareContext.getInstance().getCurrentUser().getUserPhone();
+            Global.userId = IShareContext.getInstance().getCurrentUser().getUserId();
 
         }
 
@@ -74,6 +76,7 @@ public class IShareApplication extends Application {
 
                 .build();
         ImageLoader.getInstance().init(config);
+
 
 
     }

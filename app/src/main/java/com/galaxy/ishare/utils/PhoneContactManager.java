@@ -41,7 +41,7 @@ public class PhoneContactManager {
             /**
              * encode data to json
              */
-            jsons.put("user_phone", Global.phone);
+            jsons.put("user_phone", IShareContext.getInstance().getCurrentUser().getUserPhone());
 
             JSONArray contactsJson = new JSONArray();
 

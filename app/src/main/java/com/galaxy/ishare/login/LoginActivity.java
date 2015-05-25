@@ -8,7 +8,6 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.galaxy.ishare.Global;
@@ -20,11 +19,6 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.User;
-import com.galaxy.ishare.register.RegisterActivity;
-import com.galaxy.ishare.utils.CheckInfoValidity;
-import com.galaxy.ishare.utils.Encrypt;
-import com.mob.tools.utils.UIHandler;
-import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
@@ -38,8 +32,8 @@ import java.util.List;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.framework.utils.UIHandler;
 import cn.sharesdk.wechat.friends.Wechat;
-import info.hoang8f.widget.FButton;
 
 /**
  * Created by liuxiaoran on 15/4/25.
@@ -52,147 +46,56 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
     private static final int MSG_AUTH_ERROR = 4;
     private static final int MSG_AUTH_COMPLETE = 5;
 
-    private MaterialEditText accountEt, passwordEt;
-    private FButton loginBtn;
-    private TextView registerTv, findPwTv;
-    private String phone, password;
+//    private MaterialEditText accountEt, passwordEt;
+//    private FButton loginBtn;
+//    private TextView registerTv, findPwTv;
+//    private String phone, password;
 
+    private String wechatId;
+    private String gender = "女";
+    private String avatar;
+    private String name;
     private static final String TAG = "loginactivity";
+
+
+    private HttpInteract httpInteract;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        initWidgets();
+        ShareSDK.initSDK(getApplicationContext());
 
-        registerTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (checkInfoValidity()) {
-                    //  向服务器提交
-
-
-                    List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-                    params.add(new BasicNameValuePair("phone", phone));
-                    params.add(new BasicNameValuePair("password", Encrypt.md5(password)));
-                    Log.v(TAG, Encrypt.md5(password));
-                    HttpTask.startAsyncDataPostRequest(URLConstant.LOGIN, params, new HttpDataResponse() {
-                        @Override
-                        public void onRecvOK(HttpRequestBase request, String result) {
-
-                            int status = 0;
-                            JSONObject jsonObject = null;
-                            String key = "";
-                            try {
-                                Log.v(TAG, result + "result");
-                                jsonObject = new JSONObject(result);
-                                status = jsonObject.getInt("status");
-                                if (status == 0) {
-                                    key = jsonObject.getString("key");
-                                    User user = null;
-                                    user = IShareContext.getInstance().getCurrentUser();
-                                    if (user == null) {
-                                        user = new User(phone, key);
-                                    } else {
-                                        user.setUserPhone(phone);
-                                        user.setKey(key);
-                                    }
-                                    IShareContext.getInstance().saveCurrentUser(user);
-                                    Global.phone = phone;
-                                    Global.key = key;
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "输入信息错误,请重试", Toast.LENGTH_LONG).show();
-                                }
-
-                            } catch (JSONException e) {
-                                Log.v(TAG, e.toString());
-                                e.printStackTrace();
-                            }
-
-
-                        }
-
-                        @Override
-                        public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-
-                            Log.v(TAG, retCode.toString());
-
-                            Toast.makeText(LoginActivity.this, "网络不佳,请重试", Toast.LENGTH_LONG).show();
-                        }
-
-                        @Override
-                        public void onRecvCancelled(HttpRequestBase request) {
-
-                        }
-
-                        @Override
-                        public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
-
-                        }
-                    });
-                }
-            }
-
-
-        });
+        httpInteract = new HttpInteract();
 
     }
 
-    private void initWidgets() {
-        accountEt = (MaterialEditText) findViewById(R.id.login_account_et);
-        passwordEt = (MaterialEditText) findViewById(R.id.login_password_et);
-
-        loginBtn = (FButton) findViewById(R.id.login_login_btn);
-        registerTv = (TextView) findViewById(R.id.login_register_tv);
-        findPwTv = (TextView) findViewById(R.id.login_forgetpw_tv);
-
-    }
-
-    private boolean checkInfoValidity() {
-
-        boolean ret = true;
-        phone = accountEt.getText().toString();
-        password = passwordEt.getText().toString();
-        CheckInfoValidity validity = CheckInfoValidity.getInstance();
-        if (!validity.phonePatternMatch(phone)) {
-            accountEt.setError("电话格式错误");
-            ret = false;
-        }
-        if (!validity.pwPatternMatch(password)) {
-            passwordEt.setError("密码格式错误");
-            ret = false;
-        }
-        return ret;
-    }
 
     public void wechatLoginClick(View view) {
         Platform wechat = ShareSDK.getPlatform(this, Wechat.NAME);
-        authorize(wechat);
+        wechat.setPlatformActionListener(this);
+        authorize(new Wechat(this));
 
 
     }
 
 
-    // 自动授权
     private void authorize(Platform plat) {
         if (plat.isValid()) {
             String userId = plat.getDb().getUserId();
-            if (!TextUtils.isEmpty(userId) && userId != null) {
+            if (!TextUtils.isEmpty(userId)) {
                 UIHandler.sendEmptyMessage(MSG_USERID_FOUND, this);
-                // 授权过了，直接登录
-                wechatLogin(plat.getName(), userId, null);
+                login(plat.getName(), userId, null);
+                name = plat.getDb().getUserName();
+                if (plat.getDb().getUserGender().equals("m")) {
+                    gender = "男";
+                } else {
+                    gender = "女";
+                }
+                wechatId = plat.getDb().getUserId();
+                avatar = plat.getDb().getUserIcon();
+
                 return;
             }
         }
@@ -201,7 +104,8 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
         plat.showUser(null);
     }
 
-    private void wechatLogin(String plat, String userId, HashMap<String, Object> userInfo) {
+    // 用户登录wechat 成功，之后调用login
+    private void login(String plat, String userId, HashMap<String, Object> userInfo) {
         Message msg = new Message();
         msg.what = MSG_LOGIN;
         msg.obj = plat;
@@ -211,18 +115,25 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
     @Override
     public void onComplete(Platform platform, int action,
                            HashMap<String, Object> res) {
-        String id=res.get("id").toString();//ID
-        String name=res.get("name").toString();//用户名
-        String  description=res.get("description").toString();//描述
-        String profile_image_url = res.get("profile_image_url").toString();//头像链接
-        String str="ID: "+id+";\n"+
-                "用户名： "+name+";\n"+
-                "描述："+description+";\n"+
-                "用户头像地址："+profile_image_url;
-        System.out.println("用户资料: "+str);
+        if (action == Platform.ACTION_USER_INFOR) {
+            UIHandler.sendEmptyMessage(MSG_AUTH_COMPLETE, this);
+            login(platform.getName(), platform.getDb().getUserId(), res);
+        }
+        Log.v(TAG, res + "adsf");
+        System.out.println(res);
+        name = (String) res.get("nickname");
+        int sex = (int) res.get("sex");
+        if (sex == 1) {
+            gender = "男";
+        } else {
+            gender = "女";
+        }
+        wechatId = (String) res.get("unionid");
+        avatar = (String) res.get("headimgurl");
 
 
     }
+
 
     @Override
     public void onError(Platform platform, int action, Throwable t) {
@@ -240,17 +151,18 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
     }
 
     public boolean handleMessage(Message msg) {
-        switch(msg.what) {
+        switch (msg.what) {
             case MSG_USERID_FOUND: {
-                Toast.makeText(this, R.string.userid_found, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, R.string.userid_found, Toast.LENGTH_SHORT).show();
             }
             break;
             case MSG_LOGIN: {
 
-                String text = getString(R.string.logining, msg.obj);
-                Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-                System.out.println("---------------");
+//                String text = getString(R.string.logining, msg.obj);
+//                Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 
+                // 用户登录
+                httpInteract.userLogin();
 
             }
             break;
@@ -265,7 +177,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
             }
             break;
             case MSG_AUTH_COMPLETE: {
-                Toast.makeText(this, R.string.auth_complete, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, R.string.auth_complete, Toast.LENGTH_SHORT).show();
                 System.out.println("--------MSG_AUTH_COMPLETE-------");
             }
             break;
@@ -276,5 +188,138 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
     protected void onDestroy() {
         ShareSDK.stopSDK(this);
         super.onDestroy();
+    }
+
+    class HttpInteract {
+        public void userLogin() {
+
+            List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+            params.add(new BasicNameValuePair("open_id", wechatId));
+            params.add(new BasicNameValuePair("phone_type", 1 + ""));
+            HttpTask.startAsyncDataPostRequest(URLConstant.LOGIN, params, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+                    Log.v(TAG,"result  "+result);
+
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+
+                        int status = jsonObject.getInt("status");
+
+                        if (status == 0) {
+
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            String key = data.getString("key");
+                            String phone = data.getString("phone");
+                            String name = data.getString("name");
+                            String avatar = data.getString("avatar");
+                            String gender = data.getString("gender");
+
+                            Global.key = key;
+                            Global.userId = wechatId;
+
+                            User user = new User();
+                            user.setKey(key);
+                            user.setUserId(wechatId);
+
+                            if (phone != null && !phone.equals("null")) {
+
+                                // 存服务器返回的数据，因为可能换设备登录并且修改过个人信息
+                                user.setUserPhone(phone);
+                            }
+
+                            if (name != null && !name.equals("null")) {
+                                user.setUserName(name);
+                            } else {
+                                user.setUserName(LoginActivity.this.name);
+                            }
+                            if (avatar != null && !avatar.equals("null")) {
+                                user.setAvatar(avatar);
+
+                            } else {
+                                user.setAvatar(LoginActivity.this.avatar);
+                            }
+                            if (gender != null && !gender.equals("null")) {
+                                user.setGender(gender);
+                            } else {
+                                user.setGender(LoginActivity.this.gender);
+                            }
+
+
+                            // 首次登录，更新用户信息
+                            if (name.equals("null") && avatar.equals("null") && gender.equals("null")) {
+                                updateUserInfo();
+                            }
+
+
+                            IShareContext.getInstance().saveCurrentUser(user);
+
+
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
+
+        }
+
+        public void updateUserInfo() {
+
+            List<BasicNameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("nickname",name));
+            params.add(new BasicNameValuePair("avatar",avatar));
+            params.add(new BasicNameValuePair("gender",gender));
+            HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_USER_INFO, params, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+                    try {
+                        JSONObject jsonObject =new JSONObject(result);
+                        Log.v(TAG,jsonObject.getInt("status")+"  update user info");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
+
+        }
+
+
     }
 }

@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.tech.IsoDep;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -19,6 +20,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.galaxy.ishare.BindPhone.BindPhoneActivity;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -45,6 +47,9 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
+
+
+    public static final String PUBLISH_TO_BING_PHONE="PUBLISH_TO_BING_PHONE";
 
     private RadioGroup mTabGroup = null;
     private RadioButton mShareItemButton, mContactButton, mMeButton;
@@ -112,7 +117,7 @@ public class MainActivity extends ActionBarActivity {
 //			}, 1000);
 //        }
 
-        if (IShareContext.getInstance().checkFirstLogin()) {
+        if (IShareContext.getInstance().firstLogin()) {
             new Thread() {
                 @Override
                 public void run() {
@@ -148,8 +153,16 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menu_publish) {
-            Intent intent = new Intent(this, PublishItemActivity.class);
-            startActivity(intent);
+            if(IShareContext.getInstance().getCurrentUser().getUserPhone()==null){
+
+                Intent intent = new Intent (this, BindPhoneActivity.class);
+                intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME,PUBLISH_TO_BING_PHONE);
+                startActivity(intent);
+
+            }else {
+                Intent intent = new Intent(this, PublishItemActivity.class);
+                startActivity(intent);
+            }
         } else if (item.getItemId() == R.id.menu_search) {
             Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);

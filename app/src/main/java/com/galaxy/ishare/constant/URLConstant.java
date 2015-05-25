@@ -11,11 +11,12 @@ public class URLConstant {
     // 阿里服务器地址
     public static final String SERVER_IP = "http://123.57.229.77/index.php";
 
-    // register 接口
-    public static final String REGISTER = SERVER_IP + "/user/Register_C";
 
     // login
     public static final String LOGIN = SERVER_IP + "/user/Login_C";
+
+    // 更新用户信息
+    public static final String UPDATE_USER_INFO =SERVER_IP+"/user/Update_User_C";
 
     //获取分页的地图商铺数据
     public static final String MAP_SHOP_PAGE = SERVER_IP + "/shop/Query_Shop_Sort_Composite_C/index";

@@ -7,52 +7,48 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
+
+
+    private String gender;
+
+    private String avatar;
+
     private String userName;
 
     private String userId;
 
     private String userPhone;
 
+
     private String key;
 
-    private int gender;
+    private  UserLocation userLocation;
 
-    private String avatar;
-
-    private UserLocation userLocation;
-
-    public void setUserLocation(UserLocation location) {
+    public void setUserLocation(UserLocation  location){
         this.userLocation = location;
     }
 
-    public UserLocation getUserLocation() {
+    public UserLocation getUserLocation(){
         return userLocation;
     }
 
-    public User() {
+    public User (){
 
     }
 
-    public User(String phone, String key) {
-        this.userPhone = phone;
-        this.key = key;
-
-    }
-
-    public int getGender() {
+    public String getGender (){
         return gender;
     }
 
-    public void setGender(int gender) {
-        this.gender = gender;
+    public void setGender(String gender){
+        this.gender=gender;
     }
-
-    public String getAvatar() {
+    public String getAvatar(){
         return avatar;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setAvatar(String avatar){
+       this. avatar=avatar;
     }
 
     public String getUserName() {
@@ -88,7 +84,7 @@ public class User implements Serializable {
     }
 
 
-    public static class UserLocation {
+    public static class UserLocation implements Serializable{
 
         private String district;
         private String province;
@@ -114,13 +110,14 @@ public class User implements Serializable {
         }
 
 
-        public UserLocation(String city, String province, String district, String location, double longitude, double latitude) {
-            this.city = city;
-            this.province = province;
-            this.district = district;
-            this.locationStr = location;
-            this.longitude = longitude;
-            this.latitude = latitude;
+
+        public UserLocation(String city,String province,String district,String location,double longitude,double latitude ){
+            this.city=city;
+            this.province=province;
+            this.district=district;
+            this.locationStr=location;
+            this.longitude=longitude;
+            this.latitude=latitude;
         }
 
         public String getLocationStr() {
@@ -155,6 +152,7 @@ public class User implements Serializable {
         public void setDistrict(String district) {
             this.district = district;
         }
+
 
 
     }

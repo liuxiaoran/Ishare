@@ -40,7 +40,8 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
     public LoadingLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
-    
+
+
     /**
      * 构造方法
      * 

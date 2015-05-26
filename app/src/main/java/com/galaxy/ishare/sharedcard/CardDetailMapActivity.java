@@ -44,7 +44,6 @@ public class CardDetailMapActivity extends ActionBarActivity {
 
     private LatLng shopLatLng;
     private LatLng ownerLatLng;
-
     BitmapDescriptor userLocationBitmap;
     BitmapDescriptor ownerLocationBitmap;
     BitmapDescriptor shopLocationBitmap;

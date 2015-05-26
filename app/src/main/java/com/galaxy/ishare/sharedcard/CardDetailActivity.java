@@ -68,7 +68,6 @@ public class CardDetailActivity extends ActionBarActivity {
 
     private BitmapDescriptor defaultPoiBitmap;
     private HttpInteract httpInteract;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

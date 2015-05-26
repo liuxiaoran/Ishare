@@ -50,7 +50,6 @@ public class CardListItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         CardHolder cardHolder=null;
         if (convertView == null) {
 

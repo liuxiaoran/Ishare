@@ -520,7 +520,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
                     if (gridViewBitmapList.size() != maxUploadPicCount)
                         gridViewBitmapList.add(gridViewBitmapList.size() - 1, bitmap);
-
                     else {
                         // 最后一张图片加载
                         gridViewBitmapList.set(gridViewBitmapList.size() - 1, bitmap);

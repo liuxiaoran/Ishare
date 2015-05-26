@@ -58,6 +58,7 @@ public class IShareApplication extends Application {
             Global.key = IShareContext.getInstance().getCurrentUser().getKey();
             Global.userId = IShareContext.getInstance().getCurrentUser().getUserId();
 
+
         }
 
 

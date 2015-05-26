@@ -60,5 +60,4 @@ public class SearchActivity extends ActionBarActivity {
 
     }
 
-
 }

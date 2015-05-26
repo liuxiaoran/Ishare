@@ -42,7 +42,6 @@ public interface IPullToRefresh<T extends View> {
      * @return true如果可用，false不可用
      */
     public boolean isPullRefreshEnabled();
-    
     /**
      * 判断上拉加载是否可用
      * 

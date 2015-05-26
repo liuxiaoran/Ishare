@@ -174,7 +174,5 @@ public class CardOwnerAvailableEditActivity extends ActionBarActivity {
         }
 
 
-
-
     }
 }

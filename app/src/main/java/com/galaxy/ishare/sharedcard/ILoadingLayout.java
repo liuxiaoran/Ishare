@@ -34,7 +34,6 @@ public interface ILoadingLayout {
          * been pulled far enough so that it will refresh when released.
          */
         RELEASE_TO_REFRESH,
-        
         /**
          * When the UI is currently refreshing, caused by a pull gesture.
          */

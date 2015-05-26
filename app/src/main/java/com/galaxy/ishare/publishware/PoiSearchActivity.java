@@ -129,7 +129,6 @@ public class PoiSearchActivity extends FragmentActivity {
 
                 }
             }
-
             @Override
             public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
 

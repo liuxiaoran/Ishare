@@ -61,7 +61,6 @@ public class CardOwnerAvailableAddActivity extends ActionBarActivity {
                 } else if (checkInfo() == false) {
                     Toast.makeText(CardOwnerAvailableAddActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
         gpsIv.setOnClickListener(new View.OnClickListener() {

@@ -118,7 +118,6 @@ public class HeaderLoadingLayout extends LoadingLayout {
         
         super.onStateChanged(curState, oldState);
     }
-
     @Override
     protected void onReset() {
         mArrowImageView.clearAnimation();

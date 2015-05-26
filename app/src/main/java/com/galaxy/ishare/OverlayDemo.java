@@ -52,6 +52,7 @@ public class OverlayDemo extends Activity {
     BitmapDescriptor bdGround = BitmapDescriptorFactory
             .fromResource(R.drawable.ground_overlay);
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

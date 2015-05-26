@@ -287,7 +287,6 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
             });
 
         }
-
         public void updateUserInfo() {
 
             List<BasicNameValuePair> params = new ArrayList<>();

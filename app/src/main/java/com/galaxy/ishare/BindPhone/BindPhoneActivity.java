@@ -51,7 +51,6 @@ public class BindPhoneActivity extends ActionBarActivity {
 
     public static final String PARAMETER_WHO_COME= "PARAMETER_WHO_COME";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

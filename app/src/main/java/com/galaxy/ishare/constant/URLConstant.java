@@ -38,6 +38,7 @@ public class URLConstant {
     // 根据折扣从大到小得到卡的列表
     public static final String  GET_DISCOUNT_CARD_LIST = SERVER_IP +"/card/Query_Card_Sort_Discount_C";
 
+    // 根据距离得到卡的列表
     public static final String GET_DISTANCE_CARD_LIST =SERVER_IP +"/card/Query_Card_Sort_Distance_C";
 
     // 借卡，发送借卡请求
@@ -45,5 +46,5 @@ public class URLConstant {
 
 
     // 获取qiniu token
-//    public static final String QIUNIU_TOKEN  = SERVER_IP +"";
+    public static final String QIUNIU_TOKEN  = SERVER_IP +"/qiniu/Get_Token_C";
 }

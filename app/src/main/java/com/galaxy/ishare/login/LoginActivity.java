@@ -1,6 +1,7 @@
 package com.galaxy.ishare.login;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.utils.WaitingDialogUtil;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
@@ -71,11 +73,12 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
     }
 
-
+     // 按钮点击函数
     public void wechatLoginClick(View view) {
         Platform wechat = ShareSDK.getPlatform(this, Wechat.NAME);
         wechat.setPlatformActionListener(this);
         authorize(new Wechat(this));
+        WaitingDialogUtil.getInstance(this).showWaitingDialog("请等待", Global.screenWidth / 2, Global.screenHeight / 2);
 
 
     }
@@ -86,7 +89,6 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
             String userId = plat.getDb().getUserId();
             if (!TextUtils.isEmpty(userId)) {
                 UIHandler.sendEmptyMessage(MSG_USERID_FOUND, this);
-                login(plat.getName(), userId, null);
                 name = plat.getDb().getUserName();
                 if (plat.getDb().getUserGender().equals("m")) {
                     gender = "男";
@@ -95,6 +97,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
                 }
                 wechatId = plat.getDb().getUserId();
                 avatar = plat.getDb().getUserIcon();
+                login(plat.getName(), userId, null);
 
                 return;
             }
@@ -117,19 +120,17 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
                            HashMap<String, Object> res) {
         if (action == Platform.ACTION_USER_INFOR) {
             UIHandler.sendEmptyMessage(MSG_AUTH_COMPLETE, this);
+            name = (String) res.get("nickname");
+            int sex = (int) res.get("sex");
+            if (sex == 1) {
+                gender = "男";
+            } else {
+                gender = "女";
+            }
+            wechatId = (String) res.get("unionid");
+            avatar = (String) res.get("headimgurl");
             login(platform.getName(), platform.getDb().getUserId(), res);
         }
-        Log.v(TAG, res + "adsf");
-        System.out.println(res);
-        name = (String) res.get("nickname");
-        int sex = (int) res.get("sex");
-        if (sex == 1) {
-            gender = "男";
-        } else {
-            gender = "女";
-        }
-        wechatId = (String) res.get("unionid");
-        avatar = (String) res.get("headimgurl");
 
 
     }
@@ -193,7 +194,9 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
     class HttpInteract {
         public void userLogin() {
 
+
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+            Log.v(TAG,"HTTP wechat id"+wechatId);
             params.add(new BasicNameValuePair("open_id", wechatId));
             params.add(new BasicNameValuePair("phone_type", 1 + ""));
             HttpTask.startAsyncDataPostRequest(URLConstant.LOGIN, params, new HttpDataResponse() {
@@ -211,7 +214,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
                             JSONObject data = jsonObject.getJSONObject("data");
                             String key = data.getString("key");
                             String phone = data.getString("phone");
-                            String name = data.getString("name");
+                            String name = data.getString("nickname");
                             String avatar = data.getString("avatar");
                             String gender = data.getString("gender");
 
@@ -245,7 +248,6 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
                                 user.setGender(LoginActivity.this.gender);
                             }
 
-
                             // 首次登录，更新用户信息
                             if (name.equals("null") && avatar.equals("null") && gender.equals("null")) {
                                 updateUserInfo();
@@ -254,11 +256,13 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
                             IShareContext.getInstance().saveCurrentUser(user);
 
-
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
+
                         }
                     } catch (JSONException e) {
+                        Log.v(TAG,e.toString());
                         e.printStackTrace();
                     }
 
@@ -267,6 +271,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+                    Log.v(TAG,"error  "+retCode);
 
                 }
 
@@ -286,16 +291,20 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
         public void updateUserInfo() {
 
             List<BasicNameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("nickname",name));
+            params.add(new BasicNameValuePair("nickname", name));
             params.add(new BasicNameValuePair("avatar",avatar));
             params.add(new BasicNameValuePair("gender",gender));
+            Log.v(TAG ,"avatar:  "+avatar);
+            Log.v(TAG,"nickname: "+name);
+            Log.v(TAG,"gender: "+gender);
             HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_USER_INFO, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
                     try {
                         JSONObject jsonObject =new JSONObject(result);
-                        Log.v(TAG,jsonObject.getInt("status")+"  update user info");
+                        Log.v(TAG,jsonObject.getInt("status")+"  update user ");
                     } catch (JSONException e) {
+                        Log.v(TAG,e.toString());
                         e.printStackTrace();
                     }
 
@@ -304,7 +313,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-
+                         Log.v(TAG,retCode+":  retCode");
                 }
 
                 @Override

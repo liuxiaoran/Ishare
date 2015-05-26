@@ -16,6 +16,15 @@ import java.util.Iterator;
  */
 public class JsonObjectUtil {
 
+    public static JSONArray parseArrayToJsonArray (String [] array){
+        JSONArray jsonArray= new JSONArray();
+        for (int i = 0; i < array.length; i++) {
+            jsonArray.put(array[i]);
+        }
+        return jsonArray;
+    }
+
+
     public static JSONArray parseListToJsonArray(ArrayList _list) {
 
         JSONArray jsonArray = new JSONArray();

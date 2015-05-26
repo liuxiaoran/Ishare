@@ -28,7 +28,7 @@ public class ImageParseUtil {
         return bitmap;
     }
 
-    public static  void saveImage(Bitmap photo, String spath) {
+    public static  void saveBitmapToFile(Bitmap photo, String spath) {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(
                     new FileOutputStream(spath, false));
@@ -47,6 +47,11 @@ public class ImageParseUtil {
         return bitmap;
     }
 
+    public static byte[] Bitmap2Bytes(Bitmap bm) {
+              ByteArrayOutputStream baos = new ByteArrayOutputStream();
+               bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+              return baos.toByteArray();
+    }
     public static int calculateInSampleSize(BitmapFactory.Options options,
                                             int reqWidth, int reqHeight) {
         // 源图片的高度和宽度

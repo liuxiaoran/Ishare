@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -60,6 +61,10 @@ public class BindPhoneActivity extends ActionBarActivity {
         ActionBar actionBar=IShareContext.getInstance().createDefaultActionbar(this);
         TextView tv  = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
         tv.setText("绑定手机号");
+
+        if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.PUBLISH_TO_BING_PHONE)) {
+            Toast.makeText(this,"发卡前请绑定手机号",Toast.LENGTH_LONG).show();
+        }
 
         initWidgets();
         confirmCodeController = ConfirmCodeController.getInstance(BindPhoneActivity.this, new Timer(60000, 1000));
@@ -154,6 +159,14 @@ public class BindPhoneActivity extends ActionBarActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==android.R.id.home){
+            this.finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initWidgets() {

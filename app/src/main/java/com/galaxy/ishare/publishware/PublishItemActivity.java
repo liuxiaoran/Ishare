@@ -1,11 +1,14 @@
 package com.galaxy.ishare.publishware;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
@@ -25,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -35,28 +39,34 @@ import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
-import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
-import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.OwnerAvailableItem;
+import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.ImageParseUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.PhoneUtil;
+import com.galaxy.ishare.utils.PoiSearchUtil;
+import com.galaxy.ishare.utils.QiniuUtil;
+import com.galaxy.ishare.utils.WaitingDialogUtil;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 
 /**
  * Created by liuxiaoran on 15/5/5.
@@ -78,8 +88,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     private static final String TAG = "PublishItemActivity";
 
     private AutoCompleteTextView shopNameTv;
-    private MaterialEditText  cardDesctiptionEt,  ownerAvailableLocationEt, ownerAvailableTimeEt;
-    private EditText shopLocationEt,discountEt;
+    private MaterialEditText cardDesctiptionEt, ownerAvailableLocationEt, ownerAvailableTimeEt;
+    private EditText shopLocationEt, discountEt;
     private MyClickListener myClickListener;
     private RelativeLayout industryLayout;
 //    private LinearLayout ownerAvailableLayout;
@@ -120,7 +130,33 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     GridViewAdapter gridViewAdapter;
 
     // 存空闲的时间地点，为了使进入CardOwnerAvailableShowActivity 重新载入数据展示。
-    public static  ArrayList<OwnerAvailableItem> dataList;
+    public static ArrayList<OwnerAvailableItem> dataList;
+
+    private PopupWindow poiCountPromptWindow;
+
+    Handler poiSearchHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == PoiSearchUtil.POI_WHAT) {
+
+                if (poiCountPromptWindow != null) {
+                    if (poiCountPromptWindow.isShowing()) {
+                        poiCountPromptWindow.dismiss();
+                    }
+
+                }
+                int count = msg.arg1;
+                // 创建popupwindow 提示找到了结果
+                View popUpView = getLayoutInflater().inflate(R.layout.publishware_poi_prompt_popupwindow, null);
+                TextView tv = (TextView) popUpView.findViewById(R.id.publishware_poi_prompt_tv);
+                tv.setText("找到了" + count + "个店，请点击选择");
+                poiCountPromptWindow = new PopupWindow(popUpView, DisplayUtil.dip2px(PublishItemActivity.this, 60),
+                        DisplayUtil.dip2px(PublishItemActivity.this, 40));
+                poiCountPromptWindow.showAsDropDown(shopLocationIv, -40, -40);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +168,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         titleTv.setText("发布新卡");
         findViewsById();
 
-        dataList=new ArrayList<>();
+        dataList = new ArrayList<>();
 
         myClickListener = new MyClickListener();
         industryLayout.setOnClickListener(myClickListener);
@@ -148,9 +184,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //        ownerAvailableTimeEtList.add(ownerAvailableTimeEt);
 
         uploadDataClient = new UploadData();
-
-
-
 
 
         mSuggestionSearch = SuggestionSearch.newInstance();
@@ -254,6 +287,19 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
         gridViewAdapter = new GridViewAdapter(this);
         photoGridView.setAdapter(gridViewAdapter);
+
+
+        // 监听店名输入框失去焦点，查询
+        shopNameTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus == false) {
+                    if (!shopNameTv.getText().toString().equals("")) {
+                        PoiSearchUtil.searchPoiInCity(shopNameTv.getText().toString(), poiSearchHandler, 0);
+                    }
+                }
+            }
+        });
 
 
     }
@@ -397,9 +443,23 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //            }
             else if (v.getId() == R.id.publish_shop_location_iv) {
 
-                Intent intent = new Intent(PublishItemActivity.this, PoiSearchActivity.class);
-                intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameTv.getText().toString());
-                startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
+                if (shopNameTv.getText().toString().equals("")) {
+
+                    Toast.makeText(PublishItemActivity.this, "请填写店名", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    if (poiCountPromptWindow != null) {
+                        if (poiCountPromptWindow.isShowing()) {
+                            poiCountPromptWindow.dismiss();
+                        }
+
+                    }
+
+                    Intent intent = new Intent(PublishItemActivity.this, PoiSearchActivity.class);
+                    intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameTv.getText().toString());
+                    startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
+                }
 
             } else if (v.getId() == R.id.publish_owner_location_iv) {
                 ownerAvailableLocationEt.setText(IShareContext.getInstance().getUserLocation().getLocationStr());
@@ -431,12 +491,12 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
             }
 
-            uploadDataClient.publishShareItem();
+            uploadDataClient.publishCard();
             this.finish();
 
             // 释放内存
-            dataList=null;
-            cardItemArrayList=null;
+            dataList = null;
+            cardItemArrayList = null;
 
 
         } else if (resultCode == PARAMETER_SHOP_LOCATION_RESULT_CODE) {
@@ -499,7 +559,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -509,11 +568,45 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                 gridViewBitmapList.get(i).recycle();
             }
         }
+        PoiSearchUtil.destroyPoiSearch();
     }
 
     // 上传数据到服务器
     class UploadData {
-        public void publishShareItem() {
+
+        public Dialog waitingDialog;
+
+        public void publishCard() {
+
+            waitingDialog = WaitingDialogUtil.getInstance(PublishItemActivity.this).showFullScreenWaitingDialog("正在上传");
+
+            QiniuUtil qiniuUtil = QiniuUtil.getInstance();
+
+            final String[] imageKey = new String[gridViewBitmapList.size()];
+
+            //将bitmap 转为byte []上传qiniu
+            for (int i = 0; i < gridViewBitmapList.size(); i++) {
+                byte[] imageByte = ImageParseUtil.Bitmap2Bytes(gridViewBitmapList.get(i));
+
+                imageKey[i] = qiniuUtil.generateKey("card");
+                qiniuUtil.uploadBytesDefault(imageByte, imageKey[i], new UpCompletionHandler() {
+                    @Override
+                    public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
+
+                        if (responseInfo.isOK()) {
+                            Log.v(TAG,"ok");
+                        }
+                    }
+                });
+            }
+
+            publishShareItem(imageKey);
+
+        }
+
+        public void publishShareItem(String[] imageKey) {
+
+
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
             params.add(new BasicNameValuePair("owner", IShareContext.getInstance().getCurrentUser().getUserPhone()));
 
@@ -551,6 +644,12 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
             params.add(new BasicNameValuePair("share_type", shareType + ""));
 
+            String[] imgs = new String[imageKey.length];
+            for (int i = 0; i < imageKey.length; i++) {
+                imgs[i] = QiniuUtil.getInstance().getFileUrl(imageKey[i]);
+            }
+
+            params.add(new BasicNameValuePair("img", JsonObjectUtil.parseArrayToJsonArray(imgs).toString()));
 
             HttpTask.startAsyncDataPostRequest(URLConstant.PUBLISH_SHARE_ITEM, params, new HttpDataResponse() {
                 @Override
@@ -558,6 +657,9 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
                     Log.v(TAG, result);
                     Toast.makeText(PublishItemActivity.this, "发卡成功", Toast.LENGTH_LONG).show();
+                    if (waitingDialog!=null){
+                        waitingDialog.dismiss();
+                    }
                 }
 
                 @Override

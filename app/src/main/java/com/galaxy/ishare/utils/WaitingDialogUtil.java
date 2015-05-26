@@ -32,13 +32,19 @@ public class WaitingDialogUtil {
         }
         return instance;
     }
-    public AlertDialog showWaitingDialog (String content){
 
+    public AlertDialog createWaitingDialog (String content){
         LayoutInflater layoutInflater  = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View  dialogView  =  layoutInflater.inflate(R.layout.waiting_dialog,null);
         TextView contentTv= (TextView) dialogView.findViewById(R.id.loading_tv);
         contentTv.setText(content);
         alertDialog  = new AlertDialog.Builder(context).setView(dialogView).create();
+        return alertDialog;
+    }
+    public AlertDialog showFullScreenWaitingDialog(String content){
+
+        AlertDialog  alertDialog = createWaitingDialog(content);
+
         alertDialog.show();
 
         // 设置成全屏
@@ -52,6 +58,19 @@ public class WaitingDialogUtil {
 
 
     }
+
+    public AlertDialog showWaitingDialog (String content, int width,int height){
+        AlertDialog alertDialog = createWaitingDialog(content);
+        alertDialog.show();
+
+        WindowManager.LayoutParams params  = alertDialog.getWindow().getAttributes();
+        params.width =width;
+        params.height=height;
+        alertDialog.getWindow().setAttributes(params);
+
+        return alertDialog;
+    }
+
     public void dimissWaitingDialog (){
         if (alertDialog!=null){
             alertDialog.dismiss();

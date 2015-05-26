@@ -5,11 +5,11 @@
     android:orientation="vertical"
     android:gravity="bottom" >
 
-    <ImageView 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_launcher"/>
+    <!--<ImageView -->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:src="@drawable/ic_launcher"/>-->
     
     <RelativeLayout 
         android:id="@+id/pull_to_refresh_header_content"

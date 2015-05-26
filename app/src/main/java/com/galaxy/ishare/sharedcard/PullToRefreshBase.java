@@ -43,7 +43,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
          */
         void onPullUpToRefresh(final PullToRefreshBase<V> refreshView);
     }
-    
     /**回滚的时间*/
     private static final int SCROLL_DURATION = 150;
     /**阻尼系数*/

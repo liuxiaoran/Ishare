@@ -23,5 +23,6 @@ public class Global {
     public static int screenHeight;
 
     public static int screenWidth;
+
 }
 

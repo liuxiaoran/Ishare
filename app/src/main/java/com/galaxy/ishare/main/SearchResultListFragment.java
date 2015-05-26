@@ -129,7 +129,6 @@ public class SearchResultListFragment extends Fragment {
             HttpTask.startAsyncDataGetRequset(URLConstant.GET_DISTANCE_CARD_LIST, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
-                    
                 }
 
                 @Override

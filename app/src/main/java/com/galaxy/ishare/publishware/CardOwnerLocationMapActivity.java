@@ -51,7 +51,6 @@ public class CardOwnerLocationMapActivity extends ActionBarActivity implements
         confirmBtn = (FButton) findViewById(R.id.publishware_owner_location_confirm_btn);
         ownerBaduMap = ownerMapView.getMap();
 
-
         // 初始化搜索模块，注册事件监听
         mSearch = GeoCoder.newInstance();
         mSearch.setOnGetGeoCodeResultListener(this);

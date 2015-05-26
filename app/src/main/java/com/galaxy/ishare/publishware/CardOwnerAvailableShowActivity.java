@@ -146,7 +146,6 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
                 Toast.makeText(this, "请填写方便取卡的时间地点", Toast.LENGTH_SHORT).show();
             }else {
                 NavUtils.navigateUpFromSameTask(this);
-
             }
 
         }

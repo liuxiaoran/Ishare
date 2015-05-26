@@ -216,7 +216,6 @@ public class ItemListFragment extends Fragment {
             if (v.getId() == R.id.share_item_category_layout) {
 
                 View popUpWindowView = LayoutInflater.from(getActivity()).inflate(R.layout.share_item_popup_window, null);
-
                 // popupwindow 中的listview
                 ListView listViewInPopUpWindow = (ListView) popUpWindowView.findViewById(R.id.share_item_popupwindow_listview);
 

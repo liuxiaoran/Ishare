@@ -42,7 +42,6 @@ public class FooterLoadingLayout extends LoadingLayout {
         super(context, attrs);
         init(context);
     }
-
     /**
      * 初始化
      * 

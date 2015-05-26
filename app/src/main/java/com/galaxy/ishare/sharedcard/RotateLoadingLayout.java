@@ -28,6 +28,7 @@ import android.widget.TextView;
  * @author Li Hong
  * @since 2013-7-30
  */
+
 public class RotateLoadingLayout extends LoadingLayout {
     /**
      * 旋转动画的时间

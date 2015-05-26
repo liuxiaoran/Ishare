@@ -36,7 +36,6 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
     public PullToRefreshListView(Context context) {
         this(context, null);
     }
-
     /**
      * 构造方法
      *

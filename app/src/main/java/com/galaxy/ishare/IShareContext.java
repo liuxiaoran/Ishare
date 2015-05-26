@@ -268,6 +268,7 @@ public class IShareContext {
         return actionBar;
     }
 
+
     public ActionBar createCustomActionBar (AppCompatActivity activity , int res, boolean isDisplayHome){
         android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setCustomView(res);

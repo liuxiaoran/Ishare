@@ -42,7 +42,6 @@ public class PreviewPictureActivity extends ActionBarActivity {
 
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_delete, menu);

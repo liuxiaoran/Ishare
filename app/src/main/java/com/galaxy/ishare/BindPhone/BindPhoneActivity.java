@@ -64,6 +64,7 @@ public class BindPhoneActivity extends ActionBarActivity {
 
         if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.PUBLISH_TO_BING_PHONE)) {
             Toast.makeText(this,"发卡前请绑定手机号",Toast.LENGTH_LONG).show();
+
         }
 
         initWidgets();

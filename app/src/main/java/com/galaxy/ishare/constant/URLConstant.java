@@ -11,6 +11,8 @@ public class URLConstant {
     // 阿里服务器地址
     public static final String SERVER_IP = "http://123.57.229.77/index.php";
 
+    // register 接口
+    public static final String REGISTER = SERVER_IP + "/user/Register_C";
 
     // login
     public static final String LOGIN = SERVER_IP + "/user/Login_C";
@@ -36,10 +38,8 @@ public class URLConstant {
 
 
     // 根据折扣从大到小得到卡的列表
-    public static final String  GET_DISCOUNT_CARD_LIST = SERVER_IP +"/card/Query_Card_Sort_Discount_C";
+    public static final String GET_DISCOUNT_CARD_LIST = SERVER_IP + "/card/Query_Card_Sort_Discount_C";
 
-    // 根据距离得到卡的列表
-    public static final String GET_DISTANCE_CARD_LIST =SERVER_IP +"/card/Query_Card_Sort_Distance_C";
 
     // 借卡，发送借卡请求
     public static final String BORROW_CARD= SERVER_IP+"Add_Record_C";
@@ -47,4 +47,9 @@ public class URLConstant {
 
     // 获取qiniu token
     public static final String QIUNIU_TOKEN  = SERVER_IP +"/qiniu/Get_Token_C";
+    public static final String GET_DISTANCE_CARD_LIST = SERVER_IP + "/card/Query_Card_Sort_Distance_C";
+
+    public static final String UPDATE_USER = SERVER_IP + "/user/Update_User_C";
+
+    public static final String QUERY_USER = SERVER_IP + "/user/Query_User_C";
 }

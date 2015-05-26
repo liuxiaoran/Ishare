@@ -70,4 +70,7 @@ dependencies {
     compile files ('libs/ShareSDK-Wechat-Core-2.4.0.jar')
     compile files ('libs/ShareSDK-Wechar-Moments-2.4.0.jar')
 
+
+    //照片剪接
+//    compile 'com.soundcloud.android:android-crop:1.0.0@aar'
 }

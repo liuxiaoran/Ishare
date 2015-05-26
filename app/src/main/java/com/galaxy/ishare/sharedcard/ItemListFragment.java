@@ -29,6 +29,7 @@ import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 
 import org.apache.http.NameValuePair;
@@ -308,7 +309,7 @@ public class ItemListFragment extends Fragment {
             Log.v(TAG, tradeType + " " + pageNumber + " " + pageSize);
             HttpTask.startAsyncDataGetRequset(url, paramsList, new HttpDataResponse() {
                 @Override
-                public void onRecvOK(HttpRequestBase request, String result) {
+                public User onRecvOK(HttpRequestBase request, String result) {
 
                     try {
 
@@ -358,6 +359,7 @@ public class ItemListFragment extends Fragment {
                     }
 
 
+                    return null;
                 }
 
                 @Override

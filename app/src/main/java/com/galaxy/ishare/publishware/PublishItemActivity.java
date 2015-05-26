@@ -1,34 +1,20 @@
 package com.galaxy.ishare.publishware;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.GridView;
+import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -39,6 +25,7 @@ import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
+import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
@@ -46,27 +33,16 @@ import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.OwnerAvailableItem;
-import com.galaxy.ishare.utils.DisplayUtil;
-import com.galaxy.ishare.utils.ImageParseUtil;
+import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.JsonObjectUtil;
-import com.galaxy.ishare.utils.PhoneUtil;
-import com.galaxy.ishare.utils.PoiSearchUtil;
-import com.galaxy.ishare.utils.QiniuUtil;
-import com.galaxy.ishare.utils.WaitingDialogUtil;
-import com.qiniu.android.http.ResponseInfo;
-import com.qiniu.android.storage.UpCompletionHandler;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 
 /**
  * Created by liuxiaoran on 15/5/5.
@@ -76,20 +52,13 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     public static final int PARAMETER_OWNER_LOCATION_RESULT_CODE = 1;
     public static final int PARAMETER_SHOP_LOCATION_RESULT_CODE = 2;
     public static final int PARAMETER_AVAILABLE_RESULT_CODE = 3;
-
-    public static final int PARAMETER_PREVIEW_DELETE_RESULT_CODE = 4;
-    public static final String PARETER_DELETE_POSITION = "PARETER_DELETE_POSITION";
     public static final String PARAMETER_RET_OWNER_ADDR = "PARAMETER_RET_OWNER_ADDR";
-
-    //选择图片使用的request
-    public static final int IMAGE_REQUEST_CODE = 0;
-    public static final int CAMERA_REQUEST_CODE = 1;
 
     private static final String TAG = "PublishItemActivity";
 
     private AutoCompleteTextView shopNameTv;
-    private MaterialEditText cardDesctiptionEt, ownerAvailableLocationEt, ownerAvailableTimeEt;
-    private EditText shopLocationEt, discountEt;
+    private MaterialEditText discountEt, cardDesctiptionEt, shopLocationEt, ownerAvailableLocationEt, ownerAvailableTimeEt;
+
     private MyClickListener myClickListener;
     private RelativeLayout industryLayout;
 //    private LinearLayout ownerAvailableLayout;
@@ -98,7 +67,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //            addMoreTv;
 
     private RadioButton chargeRb, memberRb;
-    private RadioButton friendRb, indirectFriendRb, allRb;
+    private CheckBox friendCb, indirectFriendCb, allCb;
 
     private ImageView shopLocationIv, ownerLocationIv;
 
@@ -120,44 +89,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
 //    public int currentEtIndex;
 
-    private GridView photoGridView;
-    private int maxUploadPicCount = 3;
-    private ArrayList<Bitmap> gridViewBitmapList;
-    private ArrayList<Uri> picUriList;
-    private int cameraPicCount = 0;
-    // 是否已经选择了maxUploadPicCount 个图片
-    private boolean isToMaxPicNumber = false;
-    GridViewAdapter gridViewAdapter;
-
-    // 存空闲的时间地点，为了使进入CardOwnerAvailableShowActivity 重新载入数据展示。
-    public static ArrayList<OwnerAvailableItem> dataList;
-
-    private PopupWindow poiCountPromptWindow;
-
-    Handler poiSearchHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == PoiSearchUtil.POI_WHAT) {
-
-                if (poiCountPromptWindow != null) {
-                    if (poiCountPromptWindow.isShowing()) {
-                        poiCountPromptWindow.dismiss();
-                    }
-
-                }
-                int count = msg.arg1;
-                // 创建popupwindow 提示找到了结果
-                View popUpView = getLayoutInflater().inflate(R.layout.publishware_poi_prompt_popupwindow, null);
-                TextView tv = (TextView) popUpView.findViewById(R.id.publishware_poi_prompt_tv);
-                tv.setText("找到了" + count + "个店，请点击选择");
-                poiCountPromptWindow = new PopupWindow(popUpView, DisplayUtil.dip2px(PublishItemActivity.this, 60),
-                        DisplayUtil.dip2px(PublishItemActivity.this, 40));
-                poiCountPromptWindow.showAsDropDown(shopLocationIv, -40, -40);
-            }
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,8 +98,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
         titleTv.setText("发布新卡");
         findViewsById();
-
-        dataList = new ArrayList<>();
 
         myClickListener = new MyClickListener();
         industryLayout.setOnClickListener(myClickListener);
@@ -184,6 +113,13 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //        ownerAvailableTimeEtList.add(ownerAvailableTimeEt);
 
         uploadDataClient = new UploadData();
+
+
+//        if (IShareContext.getInstance().getUserLocation()!=null){
+//            cityTv.setText(IShareContext.getInstance().getUserLocation().getCity());
+//            provinceTv.setText(IShareContext.getInstance().getUserLocation().getProvince());
+//            locationEt.setText(IShareContext.getInstance().getUserLocation().getLocationStr());
+//        }
 
 
         mSuggestionSearch = SuggestionSearch.newInstance();
@@ -225,83 +161,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             }
         });
 
-
-        gridViewBitmapList = new ArrayList();
-        picUriList = new ArrayList<>();
-        gridViewBitmapList.add(ImageParseUtil.getBitmapFromResource(this, R.drawable.card_pic_add));
-        photoGridView = (GridView) findViewById(R.id.publishware_cardpic_gridview);
-        photoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == gridViewBitmapList.size() - 1 && !isToMaxPicNumber) {
-                    // 点击的是选择添加图片
-                    new MaterialDialog.Builder(PublishItemActivity.this)
-                            .title("选择图片来源")
-                            .items(R.array.pic_source_items)
-                            .itemsCallback(new MaterialDialog.ListCallback() {
-                                @Override
-                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                    if (which == 0) {
-                                        //选择本地图片
-                                        Intent intentFromGallery = new Intent();
-                                        intentFromGallery.setType("image/*"); // 设置文件类型
-                                        intentFromGallery
-                                                .setAction(Intent.ACTION_GET_CONTENT);
-                                        startActivityForResult(intentFromGallery,
-                                                IMAGE_REQUEST_CODE);
-                                    } else if (which == 1) {
-
-                                        cameraPicCount++;
-                                        //拍照
-                                        Intent intentFromCapture = new Intent(
-                                                MediaStore.ACTION_IMAGE_CAPTURE);
-                                        // 判断存储卡是否可以用，可用进行存储
-                                        if (PhoneUtil.hasSdcard()) {
-
-                                            File cardPicFile = new File(PublishItemActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                                                    "cardimg" + cameraPicCount + ".jpg");
-                                            intentFromCapture.putExtra(
-                                                    MediaStore.EXTRA_OUTPUT,
-                                                    Uri.fromFile(cardPicFile));
-                                            startActivityForResult(intentFromCapture,
-                                                    CAMERA_REQUEST_CODE);
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
-                                        }
-
-
-                                    }
-                                }
-                            })
-                            .show();
-                } else {
-                    // 点击的是已经选择的图片，进行预览或删除
-                    Intent intent = new Intent(PublishItemActivity.this, PreviewPictureActivity.class);
-
-                    intent.putExtra(PreviewPictureActivity.PARAMETER_POSITION, position);
-                    intent.putExtra(PreviewPictureActivity.PARAMENTER_PIC_URI_STRING, picUriList.get(position).toString());
-                    PublishItemActivity.this.startActivityForResult(intent, PreviewPictureActivity.PUBLISH_TO_PREVIEW_REQUEST_CODE);
-                }
-            }
-        });
-
-        gridViewAdapter = new GridViewAdapter(this);
-        photoGridView.setAdapter(gridViewAdapter);
-
-
-        // 监听店名输入框失去焦点，查询
-        shopNameTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus == false) {
-                    if (!shopNameTv.getText().toString().equals("")) {
-                        PoiSearchUtil.searchPoiInCity(shopNameTv.getText().toString(), poiSearchHandler, 0);
-                    }
-                }
-            }
-        });
-
-
     }
 
     private void findViewsById() {
@@ -311,19 +170,19 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         chargeRb = (RadioButton) findViewById(R.id.publish_type_charge_rb);
         memberRb = (RadioButton) findViewById(R.id.publish_type_member_rb);
 
-        discountEt = (EditText) findViewById(R.id.publish_discount_et);
+        discountEt = (MaterialEditText) findViewById(R.id.publish_discount_et);
         industryLayout = (RelativeLayout) findViewById(R.id.publish_industry_layout);
         industryTv = (TextView) findViewById(R.id.publish_industry_tv);
 
-        shopLocationEt = (EditText) findViewById(R.id.publish_shop_location_et);
+        shopLocationEt = (MaterialEditText) findViewById(R.id.publish_shop_location_et);
 //        ownerAvailableLayout = (LinearLayout) findViewById(R.id.publish_layout);
 //
 //        addMoreTv = (TextView) findViewById(R.id.publish_add_more_tv);
 
 
-        friendRb = (RadioButton) findViewById(R.id.publish_ware_friend_rb);
-        indirectFriendRb = (RadioButton) findViewById(R.id.publish_ware_indirect_friend_rb);
-        allRb = (RadioButton) findViewById(R.id.publish_ware_all_rb);
+        friendCb = (CheckBox) findViewById(R.id.publish_ware_friend_cb);
+        indirectFriendCb = (CheckBox) findViewById(R.id.publish_ware_indirect_friend_cb);
+        allCb = (CheckBox) findViewById(R.id.publish_ware_all_cb);
 
 
         cardDesctiptionEt = (MaterialEditText) findViewById(R.id.publish_card_description_et);
@@ -337,14 +196,14 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_next_step, menu);
+        getMenuInflater().inflate(R.menu.menu_save, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_next) {
+        if (item.getItemId() == R.id.menu_save) {
 
             if (chargeRb.isChecked()) {
                 ware_type = 0;
@@ -361,7 +220,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         } else if (item.getItemId() == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     private boolean checkInfo() {
@@ -443,23 +302,9 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //            }
             else if (v.getId() == R.id.publish_shop_location_iv) {
 
-                if (shopNameTv.getText().toString().equals("")) {
-
-                    Toast.makeText(PublishItemActivity.this, "请填写店名", Toast.LENGTH_SHORT).show();
-
-                } else {
-
-                    if (poiCountPromptWindow != null) {
-                        if (poiCountPromptWindow.isShowing()) {
-                            poiCountPromptWindow.dismiss();
-                        }
-
-                    }
-
-                    Intent intent = new Intent(PublishItemActivity.this, PoiSearchActivity.class);
-                    intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameTv.getText().toString());
-                    startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
-                }
+                Intent intent = new Intent(PublishItemActivity.this, PoiSearchActivity.class);
+                intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameTv.getText().toString());
+                startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
 
             } else if (v.getId() == R.id.publish_owner_location_iv) {
                 ownerAvailableLocationEt.setText(IShareContext.getInstance().getUserLocation().getLocationStr());
@@ -468,7 +313,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             }
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -491,12 +335,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
             }
 
-            uploadDataClient.publishCard();
+            uploadDataClient.publishShareItem();
             this.finish();
-
-            // 释放内存
-            dataList = null;
-            cardItemArrayList = null;
 
 
         } else if (resultCode == PARAMETER_SHOP_LOCATION_RESULT_CODE) {
@@ -504,111 +344,20 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             shopLongitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LONGITUDE, 0);
 
             shopLocationEt.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
-        } else if (resultCode == PARAMETER_PREVIEW_DELETE_RESULT_CODE) {
-            int deletePosition = data.getIntExtra(PARETER_DELETE_POSITION, 0);
-            gridViewBitmapList.remove(deletePosition);
-            gridViewAdapter.notifyDataSetChanged();
-        }
-        // 处理选择图片的返回
-        else if (resultCode != RESULT_CANCELED) {
-            switch (requestCode) {
-
-                case IMAGE_REQUEST_CODE:
-                    Uri uri = data.getData();
-                    Bitmap bitmap = null;
-                    bitmap = ImageParseUtil.getBitmapFromUri(uri, this);
-
-                    if (gridViewBitmapList.size() != maxUploadPicCount)
-                        gridViewBitmapList.add(gridViewBitmapList.size() - 1, bitmap);
-
-                    else {
-                        // 最后一张图片加载
-                        gridViewBitmapList.set(gridViewBitmapList.size() - 1, bitmap);
-                        isToMaxPicNumber = true;
-                    }
-                    picUriList.add(uri);
-
-                    gridViewAdapter.notifyDataSetChanged();
-
-                    break;
-                case CAMERA_REQUEST_CODE:
-                    File cardPicFile = new File(PublishItemActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                            "cardimg" + cameraPicCount + ".jpg");
-
-                    Uri u = null;
-                    try {
-                        u = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
-                                cardPicFile.getAbsolutePath(), null, null));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    if (gridViewBitmapList.size() != maxUploadPicCount)
-                        gridViewBitmapList.add(gridViewBitmapList.size() - 1, ImageParseUtil.getBitmapFromUri(u, this));
-                    else {
-                        // 最后一张图片展示
-                        gridViewBitmapList.set(gridViewBitmapList.size() - 1, ImageParseUtil.getBitmapFromUri(u, this));
-                        isToMaxPicNumber = true;
-                    }
-                    picUriList.add(u);
-                    gridViewAdapter.notifyDataSetChanged();
-
-                    break;
-
-            }
         }
     }
-
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mSuggestionSearch.destroy();
-        for (int i = 0; i < gridViewBitmapList.size(); i++) {
-            if (!gridViewBitmapList.get(i).isRecycled()) {
-                gridViewBitmapList.get(i).recycle();
-            }
-        }
-        PoiSearchUtil.destroyPoiSearch();
     }
 
     // 上传数据到服务器
     class UploadData {
-
-        public Dialog waitingDialog;
-
-        public void publishCard() {
-
-            waitingDialog = WaitingDialogUtil.getInstance(PublishItemActivity.this).showFullScreenWaitingDialog("正在上传");
-
-            QiniuUtil qiniuUtil = QiniuUtil.getInstance();
-
-            final String[] imageKey = new String[gridViewBitmapList.size()];
-
-            //将bitmap 转为byte []上传qiniu
-            for (int i = 0; i < gridViewBitmapList.size(); i++) {
-                byte[] imageByte = ImageParseUtil.Bitmap2Bytes(gridViewBitmapList.get(i));
-
-                imageKey[i] = qiniuUtil.generateKey("card");
-                qiniuUtil.uploadBytesDefault(imageByte, imageKey[i], new UpCompletionHandler() {
-                    @Override
-                    public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
-
-                        if (responseInfo.isOK()) {
-                            Log.v(TAG,"ok");
-                        }
-                    }
-                });
-            }
-
-            publishShareItem(imageKey);
-
-        }
-
-        public void publishShareItem(String[] imageKey) {
-
-
+        public void publishShareItem() {
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-            params.add(new BasicNameValuePair("owner", IShareContext.getInstance().getCurrentUser().getUserPhone()));
+            params.add(new BasicNameValuePair("owner", Global.phone));
 
             params.add(new BasicNameValuePair("shop_name", shopLocationEt.getText().toString()));
             params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));
@@ -627,39 +376,31 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //                hashMap.put("time", ownerAvailableTimeEtList.get(i).getText().toString());
 //                ownerAvailableList.add(hashMap);
 //            }
-            if (ownerAvailableList.size() >= 1) {
+            if (ownerAvailableList.size()>=1) {
                 params.add(new BasicNameValuePair("owner_available", JsonObjectUtil.parseListToJsonArray(ownerAvailableList).toString()));
             }
 
-            int shareType = 0;
-            if (friendRb.isChecked()) {
-                shareType = 0;
+            ArrayList<String> shareTypeList = new ArrayList<>();
+            if (friendCb.isChecked()) {
+                shareTypeList.add("0");
             }
-            if (indirectFriendRb.isChecked()) {
-                shareType = 1;
+            if (indirectFriendCb.isChecked()) {
+                shareTypeList.add("1");
             }
-            if (allRb.isChecked()) {
-                shareType = 2;
-            }
-
-            params.add(new BasicNameValuePair("share_type", shareType + ""));
-
-            String[] imgs = new String[imageKey.length];
-            for (int i = 0; i < imageKey.length; i++) {
-                imgs[i] = QiniuUtil.getInstance().getFileUrl(imageKey[i]);
+            if (allCb.isChecked()) {
+                shareTypeList.add("2");
             }
 
-            params.add(new BasicNameValuePair("img", JsonObjectUtil.parseArrayToJsonArray(imgs).toString()));
+            params.add(new BasicNameValuePair("share_type", JsonObjectUtil.parseListToJsonArray(shareTypeList).toString()));
+
 
             HttpTask.startAsyncDataPostRequest(URLConstant.PUBLISH_SHARE_ITEM, params, new HttpDataResponse() {
                 @Override
-                public void onRecvOK(HttpRequestBase request, String result) {
+                public User onRecvOK(HttpRequestBase request, String result) {
 
                     Log.v(TAG, result);
                     Toast.makeText(PublishItemActivity.this, "发卡成功", Toast.LENGTH_LONG).show();
-                    if (waitingDialog!=null){
-                        waitingDialog.dismiss();
-                    }
+                    return null;
                 }
 
                 @Override
@@ -682,43 +423,4 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
         }
     }
-
-    class GridViewAdapter extends BaseAdapter {
-        private LayoutInflater inflater;
-
-        public GridViewAdapter(Context Context) {
-            inflater = (LayoutInflater) Context.getSystemService(LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() {
-            return gridViewBitmapList.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.publishware_cardpic_gridview_item, null);
-            }
-            ImageView picIv = (ImageView) convertView.findViewById(R.id.publishware_cardpic_gridview_iv);
-
-            picIv.setImageBitmap(gridViewBitmapList.get(position));
-
-
-            return convertView;
-        }
-    }
-
-
 }

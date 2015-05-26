@@ -1,28 +1,24 @@
-package com.galaxy.ishare.contact;
+package com.galaxy.ishare.cardState;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
-import com.galaxy.ishare.database.FriendDao;
-import com.galaxy.ishare.database.InviteFriendDao;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.Friend;
 import com.galaxy.ishare.model.InviteFriend;
-
+import com.galaxy.ishare.model.User;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
@@ -31,9 +27,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ContactFragment extends Fragment {
+public class StateFragment extends Fragment {
 
     private ListView contactListView, toInviteContactListView;
 
@@ -42,14 +40,37 @@ public class ContactFragment extends Fragment {
     private ContactListAdapter contactListAdapter;
     private ToInviteContactListAdapter toInviteContactListAdapter;
 
+    View newStatus;
+    ListView cardStatusListView;
+    List<Map<String, Object>> dataList = null;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LayoutInflater lf = LayoutInflater.from(getActivity());
-        View view = lf.inflate(R.layout.contact_fragment, container, false);
+        newStatus = lf.inflate(R.layout.activity_card_status,null);
 
+        dataList = getData();
+        cardStatusListView = (ListView) newStatus.findViewById(R.id.card_statedata_list);
+        cardStatusListView.setAdapter(new CardStateAdapture(getActivity(), dataList));
 
-        contactList = FriendDao.getInstance(getActivity()).query();
+        AdapterView.OnItemClickListener cardListener = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("log", "aaaaaaaaaaaaaaaaa");
+                /*if (id == -1) {
+                    // 点击的是headerView或者footerView
+                    return;
+                }*/
+                Intent intent = new Intent(getActivity(), CardStateDetail.class);
+                startActivity(intent);
+            }
+        };
+        cardStatusListView.setOnItemClickListener(cardListener);
+       
+        
+
+        /*contactList = FriendDao.getInstance(getActivity()).query();
         toInviteContactList = InviteFriendDao.getInstance(getActivity()).query();
 
 
@@ -59,7 +80,7 @@ public class ContactFragment extends Fragment {
 
         toInviteContactListView = (ListView) view.findViewById(R.id.contact_toinvite_friend_listview);
         toInviteContactListAdapter = new ToInviteContactListAdapter(getActivity());
-        toInviteContactListView.setAdapter(toInviteContactListAdapter);
+        toInviteContactListView.setAdapter(toInviteContactListAdapter);*/
 
 //        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
 //        localBroadcastManager.registerReceiver(new BroadcastReceiver() {
@@ -72,10 +93,26 @@ public class ContactFragment extends Fragment {
 //
 //            }
 //        },new IntentFilter(BroadcastConstant.UPDATE_FRIEND_LIST));
-        writeContactList();
-        return view;
+//        writeContactList();
+        return newStatus;
     }
 
+
+    public List<Map<String, Object>> getData() {
+        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < 30; i++) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("image", R.drawable.icon_markd);
+            map.put("type", "发卡" + i);
+            map.put("discount", "1." + i + "折");
+            map.put("location", "知春记录东方尚见旗舰店,大运村" + i);
+            map.put("shopDistance", "2" + i + "km");
+            map.put("cardDistance", "3" + i + "km");
+            map.put("cardStatus", "状态" + i);
+            list.add(map);
+        }
+        return list;
+    }
 
     /**
      * 从网络获取数据，并写入contactList,toInviteContactList
@@ -86,14 +123,14 @@ public class ContactFragment extends Fragment {
         List<NameValuePair> params = new ArrayList<>();
         HttpTask.startAsyncDataGetRequset(URLConstant.FRIEND_CONTACT, params, new HttpDataResponse() {
             @Override
-            public void onRecvOK(HttpRequestBase request, String result) {
+            public User onRecvOK(HttpRequestBase request, String result) {
 
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONArray array = object.getJSONArray("friends");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject contact = array.getJSONObject(i);
-                        Friend friend =new Friend(contact.getString("name"), contact.getString("phone"));
+                        Friend friend = new Friend(contact.getString("name"), contact.getString("phone"));
 //                        FriendDao.getInstance(getActivity()).add(friend);
                         contactList.add(friend);
 
@@ -104,6 +141,7 @@ public class ContactFragment extends Fragment {
 
                 contactListAdapter.notifyDataSetChanged();
 
+                return null;
             }
 
             @Override
@@ -124,14 +162,14 @@ public class ContactFragment extends Fragment {
 
         HttpTask.startAsyncDataGetRequset(URLConstant.INVITE_CONTACT, params, new HttpDataResponse() {
             @Override
-            public void onRecvOK(HttpRequestBase request, String result) {
+            public User onRecvOK(HttpRequestBase request, String result) {
 
                 try {
                     JSONObject object = new JSONObject(result);
                     JSONArray array = object.getJSONArray("friends");
                     for (int i = 0; i < array.length(); i++) {
                         JSONObject contact = array.getJSONObject(i);
-                        InviteFriend inviteFriend =new InviteFriend(contact.getString("name"), contact.getString("phone"));
+                        InviteFriend inviteFriend = new InviteFriend(contact.getString("name"), contact.getString("phone"));
 
                         toInviteContactList.add(inviteFriend);
                     }
@@ -143,6 +181,7 @@ public class ContactFragment extends Fragment {
 
                 toInviteContactListAdapter.notifyDataSetChanged();
 
+                return null;
             }
 
             @Override

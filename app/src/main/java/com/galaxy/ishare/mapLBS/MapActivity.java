@@ -23,6 +23,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.MapShop;
+import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.MapUtil;
 import org.apache.http.NameValuePair;
@@ -306,7 +307,7 @@ public class MapActivity extends Activity {
             params.add(new BasicNameValuePair("page_size", String.valueOf(page_size)));
             HttpTask.startAsyncDataGetRequset(URLConstant.MAP_SHOP_PAGE, params, new HttpDataResponse() {
                 @Override
-                public void onRecvOK(HttpRequestBase request, String result) {
+                public User onRecvOK(HttpRequestBase request, String result) {
                     int status = 0;
                     JSONObject jsonObject = null;
                     List<MapShop> mapShops = new ArrayList<MapShop>();
@@ -337,6 +338,7 @@ public class MapActivity extends Activity {
                     } catch (JSONException e) {
                         Log.e(TAG, e.toString());
                     }
+                    return null;
                 }
 
                 @Override
@@ -405,7 +407,7 @@ public class MapActivity extends Activity {
             params.add(new BasicNameValuePair("page_size", String.valueOf(page_size)));
             HttpTask.startAsyncDataGetRequset(URLConstant.MAP_CARD_PAGE, params, new HttpDataResponse() {
                 @Override
-                public void onRecvOK(HttpRequestBase request, String result) {
+                public User onRecvOK(HttpRequestBase request, String result) {
                     int status = 0;
                     JSONObject jsonObject = null;
                     List<CardItem> mapCards = new ArrayList<CardItem>();
@@ -431,6 +433,7 @@ public class MapActivity extends Activity {
                     } catch (JSONException e) {
                         Log.e(TAG, e.toString());
                     }
+                    return null;
                 }
 
                 @Override

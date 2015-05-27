@@ -122,7 +122,7 @@
 		</activity>
 
 		<activity
-			android:name=".BindPhone.BindPhoneActivity"
+			android:name=".bindphone.BindPhoneActivity"
 			android:label="@string/app_name"
 			android:screenOrientation="portrait">
 

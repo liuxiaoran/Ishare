@@ -37,34 +37,41 @@
     <!--android:text="餐厅" />-->
     <!--</LinearLayout>-->
 
-    <LinearLayout
+    <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/target"
+            android:layout_centerHorizontal="true" />
 
         <info.hoang8f.widget.FButton
             fbutton:shadowEnabled="false"
             android:id="@+id/poi_search_confirm"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="12"
             android:onClick="confirmShopLocation"
-            android:padding="10dip"
-            android:text="确认" />
+            android:text="确认"
+            fbutton:cornerRadius="2dp"
+            android:layout_toLeftOf="@id/target"
+            android:textColor="@color/white" />
 
 
         <info.hoang8f.widget.FButton
             android:layout_marginLeft="10dp"
             fbutton:shadowEnabled="false"
             android:id="@+id/map_next_data"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="12"
             android:onClick="goToNextPage"
-            android:padding="10dip"
-            android:text="下一组数据" />
-    </LinearLayout>
+            android:text="下一组数据"
+            fbutton:cornerRadius="2dp"
+            android:layout_toRightOf="@id/target"
+            android:textColor="@color/white" />
+    </RelativeLayout>
 
     <fragment
         android:id="@+id/poi_map"

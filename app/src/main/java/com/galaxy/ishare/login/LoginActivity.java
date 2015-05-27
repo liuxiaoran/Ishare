@@ -159,7 +159,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
             break;
             case MSG_LOGIN: {
 
-//                String text = getString(R.string.logining, msg.obj);
+                String text = getString(R.string.logining, msg.obj);
 //                Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
 
                 // 用户登录

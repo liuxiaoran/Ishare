@@ -1,5 +1,6 @@
 package com.galaxy.ishare.model;
 
+import com.galaxy.ishare.IShareContext;
 import com.j256.ormlite.field.DatabaseField;
 
 /**

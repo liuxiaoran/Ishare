@@ -23,6 +23,8 @@ public class SearchActivity extends ActionBarActivity {
     private FButton searchBtn;
     private EditText contentEt;
     private LinearLayout adLayout;
+
+    private SearchResultListFragment searchResultListFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ public class SearchActivity extends ActionBarActivity {
         adLayout = (LinearLayout)findViewById(R.id.main_search_ad_layout);
 
 
-
+        searchResultListFragment = new SearchResultListFragment();
 
         contentEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -53,6 +55,21 @@ public class SearchActivity extends ActionBarActivity {
 
                 adLayout.setVisibility(View.INVISIBLE);
 
+
+            }
+        });
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 将搜索内容传入SearchResultFragment 中
+
+                Bundle bundle = new Bundle();
+                bundle.putString(SearchResultListFragment.PARAMETER_KEY_WORD, contentEt.getText().toString());
+
+                searchResultListFragment.setArguments(bundle);
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.search_result_container, searchResultListFragment).commit();
 
 
             }

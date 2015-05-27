@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +52,7 @@ public class CardDetailActivity extends ActionBarActivity {
 
     public static final String PARAMETER_CARD_ITEM = "PARAMETER_CARD_ITEM";
 
+    private static final String TAG = "";
     private FButton borrowBtn, talkBtn;
     private ViewPager cardPager;
     private TextView shopNameTv, discountTv, ownerNameTv, tradeTypeTv, shopAddrTv, shopDistanceTv, cardTypeTv,
@@ -72,6 +75,10 @@ public class CardDetailActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.share_item_card_detail_activity);
+
+        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
+        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
+        titleTv.setText("卡详情");
 
         cardItem = getIntent().getParcelableExtra(PARAMETER_CARD_ITEM);
         if (cardItem.cardImgs != null) {
@@ -261,9 +268,7 @@ public class CardDetailActivity extends ActionBarActivity {
 
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
             params.add(new BasicNameValuePair("borrow_id", IShareContext.getInstance().getCurrentUser().getUserId()));
-            params.add(new BasicNameValuePair("borrow_name", IShareContext.getInstance().getCurrentUser().getUserName()));
             params.add(new BasicNameValuePair("lend_id", cardItem.ownerId));
-            params.add(new BasicNameValuePair("lend_name", cardItem.ownerName));
             params.add(new BasicNameValuePair("card_id", cardItem.id + ""));
             HttpTask.startAsyncDataPostRequest(URLConstant.BORROW_CARD, params, new HttpDataResponse() {
                 @Override

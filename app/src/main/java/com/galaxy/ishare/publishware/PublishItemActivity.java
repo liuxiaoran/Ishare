@@ -1,6 +1,5 @@
 package com.galaxy.ishare.publishware;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -53,7 +51,6 @@ import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.PhoneUtil;
 import com.galaxy.ishare.utils.PoiSearchUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
-import com.galaxy.ishare.utils.WaitingDialogUtil;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -153,7 +150,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                 TextView tv = (TextView) popUpView.findViewById(R.id.publishware_poi_prompt_tv);
                 tv.setText("找到了" + count + "个店，请点击选择");
                 poiCountPromptWindow = new PopupWindow(popUpView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                poiCountPromptWindow.showAsDropDown(shopLocationIv,DisplayUtil.dip2px(PublishItemActivity.this,-40), DisplayUtil.dip2px(PublishItemActivity.this,-50));
+                poiCountPromptWindow.showAsDropDown(shopLocationIv, DisplayUtil.dip2px(PublishItemActivity.this, -40), DisplayUtil.dip2px(PublishItemActivity.this, -50));
             }
         }
     };
@@ -572,33 +569,27 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     // 上传数据到服务器
     class UploadData {
-
-        public Dialog waitingDialog;
-
         public void publishCard() {
-
-            waitingDialog = WaitingDialogUtil.getInstance(PublishItemActivity.this).showFullScreenWaitingDialog("正在上传");
 
             QiniuUtil qiniuUtil = QiniuUtil.getInstance();
 
             final String[] imageKey = new String[gridViewBitmapList.size()];
 
-            //将bitmap 转为byte []上传qiniu
-            for (int i = 0; i < gridViewBitmapList.size(); i++) {
-                byte[] imageByte = ImageParseUtil.Bitmap2Bytes(gridViewBitmapList.get(i));
+
+            for (int i = 0; i < picUriList.size(); i++) {
 
                 imageKey[i] = qiniuUtil.generateKey("card");
-                qiniuUtil.uploadBytesDefault(imageByte, imageKey[i], new UpCompletionHandler() {
+                String filePath = ImageParseUtil.getImageAbsolutePath(PublishItemActivity.this, picUriList.get(i));
+                qiniuUtil.uploadFileDefault(filePath, imageKey[i], new UpCompletionHandler() {
                     @Override
                     public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
 
                         if (responseInfo.isOK()) {
-                            Log.v(TAG,"ok");
+                            Log.v(TAG, "ok");
                         }
                     }
                 });
             }
-
             publishShareItem(imageKey);
 
         }
@@ -607,7 +598,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
 
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-            params.add(new BasicNameValuePair("owner", IShareContext.getInstance().getCurrentUser().getUserPhone()));
+            params.add(new BasicNameValuePair("owner", IShareContext.getInstance().getCurrentUser().getUserId()));
 
             params.add(new BasicNameValuePair("shop_name", shopLocationEt.getText().toString()));
             params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));
@@ -643,22 +634,21 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
             params.add(new BasicNameValuePair("share_type", shareType + ""));
 
-            String[] imgs = new String[imageKey.length];
-            for (int i = 0; i < imageKey.length; i++) {
-                imgs[i] = QiniuUtil.getInstance().getFileUrl(imageKey[i]);
+            if (imageKey != null && imageKey.length > 0) {
+                String[] imgs = new String[imageKey.length];
+                for (int i = 0; i < imageKey.length; i++) {
+                    imgs[i] = QiniuUtil.getInstance().getFileUrl(imageKey[i]);
+                }
+
+                params.add(new BasicNameValuePair("img", JsonObjectUtil.parseArrayToJsonArray(imgs).toString()));
             }
-
-            params.add(new BasicNameValuePair("img", JsonObjectUtil.parseArrayToJsonArray(imgs).toString()));
-
             HttpTask.startAsyncDataPostRequest(URLConstant.PUBLISH_SHARE_ITEM, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
 
                     Log.v(TAG, result);
                     Toast.makeText(PublishItemActivity.this, "发卡成功", Toast.LENGTH_LONG).show();
-                    if (waitingDialog!=null){
-                        waitingDialog.dismiss();
-                    }
+
                 }
 
                 @Override
@@ -720,4 +710,12 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     }
 
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (poiCountPromptWindow != null) {
+            poiCountPromptWindow.dismiss();
+            poiCountPromptWindow = null;
+        }
+    }
 }

@@ -2,11 +2,7 @@ package com.galaxy.ishare.publishware;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -20,29 +16,20 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
-import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.OwnerAvailableItem;
 import com.galaxy.ishare.utils.DisplayUtil;
-import com.galaxy.ishare.utils.PhoneUtil;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
+
+import info.hoang8f.widget.FButton;
 
 /**
  * Created by liuxiaoran on 15/5/19.
@@ -59,14 +46,14 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
     public static final int EDIT_TO_SHOW_RESULT_CODE = 3;
 
 
-
     public static final String INTENT_DELETE_POSITION = "INTENT_DELETE_POSITION";
 
 
     private ListView availableListView;
     ListViewAdapter listViewAdapter;
-    ArrayList <OwnerAvailableItem>dataList;
-
+    ArrayList<OwnerAvailableItem> dataList;
+    PopupWindow publishWindow;
+    LinearLayout container;
 
 
     @Override
@@ -75,7 +62,7 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
         setContentView(R.layout.publishware_owner_location_activity);
 
 
-        android.support.v7.app.ActionBar actionBar =IShareContext.getInstance().createDefaultActionbar(this);
+        android.support.v7.app.ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
         TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
         titleTv.setText("方便取卡的时间地点");
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
@@ -84,7 +71,7 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
 
         availableListView = (ListView) findViewById(R.id.publishware_owner_available_location_listview);
 
-         dataList = PublishItemActivity.dataList;
+        dataList = PublishItemActivity.dataList;
 
         listViewAdapter = new ListViewAdapter(this);
         availableListView.setAdapter(listViewAdapter);
@@ -93,36 +80,55 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CardOwnerAvailableShowActivity.this, CardOwnerAvailableEditActivity.class);
-                intent.putExtra(CardOwnerAvailableEditActivity.PARAMETER_CARD_AVAILABLE_ITEM,  dataList.get(position));
+                intent.putExtra(CardOwnerAvailableEditActivity.PARAMETER_CARD_AVAILABLE_ITEM, dataList.get(position));
                 intent.putExtra(CardOwnerAvailableEditActivity.PARAMETER_CARD_AVAILABLE_POSITION, position);
                 startActivityForResult(intent, CardOwnerAvailableEditActivity.SHOW_TO_EDIT_REQUST_CODE);
             }
         });
 
-        final LinearLayout container = (LinearLayout) findViewById(R.id.pubishware_available_linearlayout);
+        container = (LinearLayout) findViewById(R.id.pubishware_available_linearlayout);
 
+//        container.post(new Runnable() {
+//            public void run() {
+//                View windowView = getLayoutInflater().inflate(R.layout.publishware_publish_card_popupwindow, null);
+//                Button  button = (Button) windowView.findViewById(R.id.publishware_publish_btn);
+//                button.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        publishCard(v);
+//                    }
+//                });
+//               publishWindow = new PopupWindow(windowView, DisplayUtil.dip2px(CardOwnerAvailableShowActivity.this, 100),
+//                        DisplayUtil.dip2px(CardOwnerAvailableShowActivity.this, 100));
+//                publishWindow.showAtLocation(container, Gravity.BOTTOM | Gravity.RIGHT, -200, -200);
+//            }
+//        });
+
+        if (dataList != null && dataList.size() > 0) {
+            listViewAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         container.post(new Runnable() {
             public void run() {
                 View windowView = getLayoutInflater().inflate(R.layout.publishware_publish_card_popupwindow, null);
-                Button  button = (Button) windowView.findViewById(R.id.publishware_publish_btn);
+                Button button = (Button) windowView.findViewById(R.id.publishware_publish_btn);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         publishCard(v);
                     }
                 });
-                PopupWindow publishWindow = new PopupWindow(windowView, DisplayUtil.dip2px(CardOwnerAvailableShowActivity.this, 100),
+                publishWindow = new PopupWindow(windowView, DisplayUtil.dip2px(CardOwnerAvailableShowActivity.this, 100),
                         DisplayUtil.dip2px(CardOwnerAvailableShowActivity.this, 100));
                 publishWindow.showAtLocation(container, Gravity.BOTTOM | Gravity.RIGHT, -200, -200);
             }
         });
-
-        if (dataList!=null&& dataList.size()>0){
-            listViewAdapter.notifyDataSetChanged();
-        }
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -144,7 +150,7 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
             if (dataList.size() == 0) {
 
                 Toast.makeText(this, "请填写方便取卡的时间地点", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 NavUtils.navigateUpFromSameTask(this);
             }
 
@@ -175,7 +181,7 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
 
     }
 
-    public void publishCard (View view ){
+    public void publishCard(View view) {
 
         if (dataList.size() != 0) {
             Intent intent = new Intent(this, PublishItemActivity.class);
@@ -230,6 +236,12 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
         }
     }
 
-
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (publishWindow != null) {
+            publishWindow.dismiss();
+            publishWindow = null;
+        }
+    }
 }

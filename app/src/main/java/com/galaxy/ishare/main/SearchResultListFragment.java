@@ -22,10 +22,14 @@ import com.galaxy.ishare.sharedcard.CardDetailActivity;
 import com.galaxy.ishare.sharedcard.CardListItemAdapter;
 import com.galaxy.ishare.sharedcard.PullToRefreshBase;
 import com.galaxy.ishare.sharedcard.PullToRefreshListView;
+import com.galaxy.ishare.utils.JsonObjectUtil;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -129,6 +133,23 @@ public class SearchResultListFragment extends Fragment {
             HttpTask.startAsyncDataGetRequset(URLConstant.GET_DISTANCE_CARD_LIST, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
+
+                    try {
+                        JSONObject jsonObject =  new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        if (status==0){
+
+                            JSONArray data = jsonObject.getJSONArray("data");
+                            for (int i=0;i<data.length();i++){
+                                JSONObject card= data.getJSONObject(i);
+                                CardItem cardItem = JsonObjectUtil.parseJsonObjectToCardItem(card);
+//                                if
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
 
                 @Override

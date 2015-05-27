@@ -154,7 +154,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
     public boolean handleMessage(Message msg) {
         switch (msg.what) {
             case MSG_USERID_FOUND: {
-//                Toast.makeText(this, R.string.userid_found, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.userid_found, Toast.LENGTH_SHORT).show();
             }
             break;
             case MSG_LOGIN: {
@@ -178,7 +178,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
             }
             break;
             case MSG_AUTH_COMPLETE: {
-//                Toast.makeText(this, R.string.auth_complete, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.auth_complete, Toast.LENGTH_SHORT).show();
                 System.out.println("--------MSG_AUTH_COMPLETE-------");
             }
             break;

@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -151,9 +152,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                 View popUpView = getLayoutInflater().inflate(R.layout.publishware_poi_prompt_popupwindow, null);
                 TextView tv = (TextView) popUpView.findViewById(R.id.publishware_poi_prompt_tv);
                 tv.setText("找到了" + count + "个店，请点击选择");
-                poiCountPromptWindow = new PopupWindow(popUpView, DisplayUtil.dip2px(PublishItemActivity.this, 60),
-                        DisplayUtil.dip2px(PublishItemActivity.this, 40));
-                poiCountPromptWindow.showAsDropDown(shopLocationIv, -40, -40);
+                poiCountPromptWindow = new PopupWindow(popUpView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                poiCountPromptWindow.showAsDropDown(shopLocationIv,DisplayUtil.dip2px(PublishItemActivity.this,-40), DisplayUtil.dip2px(PublishItemActivity.this,-50));
             }
         }
     };

@@ -1,6 +1,5 @@
-package com.galaxy.ishare.BindPhone;
+package com.galaxy.ishare.bindphone;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.R;
@@ -27,7 +25,6 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.CheckInfoValidity;
-import com.galaxy.ishare.utils.Encrypt;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
@@ -47,9 +44,9 @@ public class BindPhoneActivity extends ActionBarActivity {
     private String phone, confirmCode;
     private ConfirmCodeController confirmCodeController;
 
-    private static final String  TAG ="registeractivity";
+    private static final String TAG = "registeractivity";
 
-    public static final String PARAMETER_WHO_COME= "PARAMETER_WHO_COME";
+    public static final String PARAMETER_WHO_COME = "PARAMETER_WHO_COME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +54,12 @@ public class BindPhoneActivity extends ActionBarActivity {
         setContentView(R.layout.register);
 
 
-        ActionBar actionBar=IShareContext.getInstance().createDefaultActionbar(this);
-        TextView tv  = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
+        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
+        TextView tv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
         tv.setText("绑定手机号");
 
         if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.PUBLISH_TO_BING_PHONE)) {
-            Toast.makeText(this,"发卡前请绑定手机号",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "发卡前请绑定手机号", Toast.LENGTH_LONG).show();
 
         }
 
@@ -163,7 +160,7 @@ public class BindPhoneActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
@@ -183,7 +180,7 @@ public class BindPhoneActivity extends ActionBarActivity {
         if (CheckInfoValidity.getInstance().pwPatternMatch(phone) == false) {
             Toast.makeText(this, "手机号码格式错误", Toast.LENGTH_LONG).show();
             return false;
-        }  else if (!confirmCodeController.checkCode(confirmCode)) {
+        } else if (!confirmCodeController.checkCode(confirmCode)) {
             Toast.makeText(this, confirmCodeController.getConfirmCodeErrorMessage(), Toast.LENGTH_LONG).show();
             return false;
         }

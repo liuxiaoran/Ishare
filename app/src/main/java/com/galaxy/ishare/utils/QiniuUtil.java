@@ -1,6 +1,5 @@
 package com.galaxy.ishare.utils;
 
-import android.support.v4.app.NavUtils;
 
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.constant.URLConstant;
@@ -41,8 +40,8 @@ public class QiniuUtil {
 
     }
 
-    public String generateKey (String key){
-        return IShareContext.getInstance().getCurrentUser().getUserId()+key+System.currentTimeMillis();
+    public String generateKey(String name) {
+        return IShareContext.getInstance().getCurrentUser().getUserId() + name + System.currentTimeMillis();
     }
 
     public void uploadBytesDefault (final byte[] bytes ,final String key, final UpCompletionHandler handler){
@@ -84,7 +83,7 @@ public class QiniuUtil {
 
     }
 
-    public void uploadFileDefault (final String fileName ,final String key, final UpCompletionHandler handler){
+    public void uploadFileDefault(final String filePath, final String key, final UpCompletionHandler handler) {
 
         List<NameValuePair>params  = new ArrayList<>();
         params.add(new BasicNameValuePair("qiniu_key",key));
@@ -97,7 +96,7 @@ public class QiniuUtil {
                     int status =  jsonObject.getInt("status");
                     if (status==0) {
                         String token = jsonObject.getString("token");
-                        uploadFile(new File(fileName), key, token, handler, null);
+                        uploadFile(filePath, key, token, handler, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -120,6 +119,12 @@ public class QiniuUtil {
 
             }
         });
+    }
+
+    public void uploadFile(String filePath, String key, String token, UpCompletionHandler handler, UploadOptions options) {
+        UploadManager uploadManager = new UploadManager();
+        uploadManager.put(filePath, key, token,
+                handler, options);
     }
 
     public void uploadBytes(byte[] bytes ,String key,String token,UpCompletionHandler handler,UploadOptions options){

@@ -31,6 +31,7 @@ import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.JsonObjectUtil;
+import com.galaxy.ishare.utils.WidgetController;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -54,7 +55,7 @@ public class ItemListFragment extends Fragment {
     private static final String TAG = "ItemListFragment";
     private HttpInteract httpInteract;
     private int pageNumber = 1;
-    public  LinkedList<CardItem> dataList;
+    public LinkedList<CardItem> dataList;
     private static final int DISTANCE_LOAD_URL_TYPE = 1;
     private static final int DISCOUNT_LOAD_URL_TYPE = 2;
 
@@ -209,6 +210,23 @@ public class ItemListFragment extends Fragment {
 
     }
 
+
+//    public void setTabsUnPressed() {
+//        View views[] = {categoryLayout, distanceLayout, distanceLayout, defaultLayout};
+//        for (int i = 0; i < views.length; i++) {
+//            WidgetController.getInstance().setViewUnPressed(views[i]);
+//        }
+//    }
+
+//    public void recoveryAllClickable() {
+//        View views[] = {categoryLayout, distanceLayout, distanceLayout, defaultLayout};
+//        for (int i = 0; i < views.length; i++) {
+//
+//            WidgetController.getInstance().setViewClickable(views[i]);
+//
+//        }
+//    }
+
     class MyClickListener implements View.OnClickListener {
 
         @Override
@@ -238,6 +256,9 @@ public class ItemListFragment extends Fragment {
                             tradeType = position;
                             pageNumber = 1;
                             dataList.clear();
+
+//                            setTabsUnPressed();
+
                             httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                                     IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                         }
@@ -253,6 +274,9 @@ public class ItemListFragment extends Fragment {
                     urlType = DISCOUNT_LOAD_URL_TYPE;
                     pageNumber = 1;
                     dataList.clear();
+
+//                    setTabsUnPressed();
+
                     httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                             IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
@@ -263,6 +287,9 @@ public class ItemListFragment extends Fragment {
                     urlType = DISTANCE_LOAD_URL_TYPE;
                     pageNumber = 1;
                     dataList.clear();
+
+//                    setTabsUnPressed();
+
                     httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                             IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
@@ -348,6 +375,8 @@ public class ItemListFragment extends Fragment {
                             pullToRefreshListView.setHasMoreData(hasMoreData);
                             setLastUpdateTime();
 
+//                            recoveryAllClickable();
+
 
                         } else {
                             Log.v(TAG, "status is " + status);
@@ -363,6 +392,7 @@ public class ItemListFragment extends Fragment {
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+                    Log.v(TAG, "error" + retCode);
 
                 }
 

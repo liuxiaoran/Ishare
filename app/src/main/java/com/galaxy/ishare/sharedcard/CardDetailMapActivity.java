@@ -1,10 +1,12 @@
 package com.galaxy.ishare.sharedcard;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -55,6 +57,10 @@ public class CardDetailMapActivity extends ActionBarActivity {
 
         mBaiduMap = ((SupportMapFragment) (getSupportFragmentManager()
                 .findFragmentById(R.id.share_item_detail_map_fragment))).getBaiduMap();
+
+        android.support.v7.app.ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
+        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
+        titleTv.setText("三方位置");
 
         shopLatitude = getIntent().getDoubleExtra(PARAMETER_SHOP_LATITUDE, 0);
         shopLongitude = getIntent().getDoubleExtra(PARAMETER_SHOP_LONGITUDE, 0);

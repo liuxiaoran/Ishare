@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <Button
         android:layout_gravity="center"
@@ -9,6 +11,6 @@
         android:textColor="@color/white"
         android:id="@+id/publishware_publish_btn"
         android:text="发布"
-        android:background="@drawable/button_ring_selector"/>
+        android:background="@drawable/button_ring_selector" />
 
 </LinearLayout>

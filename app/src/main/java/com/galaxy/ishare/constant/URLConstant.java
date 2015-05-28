@@ -42,7 +42,7 @@ public class URLConstant {
 
 
     // 借卡，发送借卡请求
-    public static final String BORROW_CARD= SERVER_IP+"Add_Record_C";
+    public static final String BORROW_CARD = SERVER_IP + "/record/Record_C/add";
 
 
     // 获取qiniu token

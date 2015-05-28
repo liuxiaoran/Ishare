@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +52,7 @@ public class CardDetailActivity extends ActionBarActivity {
 
     public static final String PARAMETER_CARD_ITEM = "PARAMETER_CARD_ITEM";
 
+    private static final String TAG = "carddetail";
     private FButton borrowBtn, talkBtn;
     private ViewPager cardPager;
     private TextView shopNameTv, discountTv, ownerNameTv, tradeTypeTv, shopAddrTv, shopDistanceTv, cardTypeTv,
@@ -73,12 +76,17 @@ public class CardDetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.share_item_card_detail_activity);
 
+        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
+        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
+        titleTv.setText("卡详情");
+
         cardItem = getIntent().getParcelableExtra(PARAMETER_CARD_ITEM);
         if (cardItem.cardImgs != null) {
             picNumber = cardItem.cardImgs.length;
         }
-
+        Log.v(TAG, cardItem.cardImgs.length + "  " + cardItem.cardImgs.toString());
         picIvs = new ImageView[picNumber];
+
         pagerList = new ArrayList<>();
         httpInteract = new HttpInteract();
 
@@ -187,6 +195,7 @@ public class CardDetailActivity extends ActionBarActivity {
     private void initCardPager() {
         LayoutInflater inflater = getLayoutInflater();
         for (int i = 0; i < picNumber; i++) {
+            Log.v(TAG, "carddetail: " + i + cardItem.cardImgs[i]);
             View view = inflater.inflate(R.layout.share_item_detail_viewpager, null);
             picIvs[i] = (ImageView) view.findViewById(R.id.share_item_detail_card_pager_iv);
             ImageLoader.getInstance().displayImage(cardItem.cardImgs[i], picIvs[i]);
@@ -261,9 +270,7 @@ public class CardDetailActivity extends ActionBarActivity {
 
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
             params.add(new BasicNameValuePair("borrow_id", IShareContext.getInstance().getCurrentUser().getUserId()));
-            params.add(new BasicNameValuePair("borrow_name", IShareContext.getInstance().getCurrentUser().getUserName()));
             params.add(new BasicNameValuePair("lend_id", cardItem.ownerId));
-            params.add(new BasicNameValuePair("lend_name", cardItem.ownerName));
             params.add(new BasicNameValuePair("card_id", cardItem.id + ""));
             HttpTask.startAsyncDataPostRequest(URLConstant.BORROW_CARD, params, new HttpDataResponse() {
                 @Override

@@ -102,7 +102,7 @@ public class JsonObjectUtil {
                 cardItem.setDescription(jsonObject.getString("description"));
             }
 
-            if (jsonObject.has("img") && jsonObject.get("img") != null && !jsonObject.getString("img").equals("null")) {
+            if (jsonObject.get("img") != JSONObject.NULL) {
                 JSONArray imgArray = jsonObject.getJSONArray("img");
                 String[] imgs = new String[imgArray.length()];
                 for (int i = 0; i < imgArray.length(); i++) {

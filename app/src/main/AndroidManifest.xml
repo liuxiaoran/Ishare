@@ -149,7 +149,15 @@
 		<activity
 			android:name=".main.SearchActivity"
 			android:label="@string/app_name"
-			android:screenOrientation="portrait"></activity>
+			android:parentActivityName=".main.MainActivity"
+			android:screenOrientation="portrait"
+			android:launchMode="singleTop">
+
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".main.MainActivity" />
+
+		</activity>
 
 		<!-- publish card activity-->
 

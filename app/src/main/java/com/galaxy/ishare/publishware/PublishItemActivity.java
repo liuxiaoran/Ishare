@@ -573,13 +573,14 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
             QiniuUtil qiniuUtil = QiniuUtil.getInstance();
 
-            final String[] imageKey = new String[gridViewBitmapList.size()];
+            final String[] imageKey = new String[picUriList.size()];
 
 
             for (int i = 0; i < picUriList.size(); i++) {
 
                 imageKey[i] = qiniuUtil.generateKey("card");
                 String filePath = ImageParseUtil.getImageAbsolutePath(PublishItemActivity.this, picUriList.get(i));
+                Log.v(TAG, "filepath " + i + " " + filePath);
                 qiniuUtil.uploadFileDefault(filePath, imageKey[i], new UpCompletionHandler() {
                     @Override
                     public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
@@ -600,7 +601,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
             params.add(new BasicNameValuePair("owner", IShareContext.getInstance().getCurrentUser().getUserId()));
 
-            params.add(new BasicNameValuePair("shop_name", shopLocationEt.getText().toString()));
+            params.add(new BasicNameValuePair("shop_name", shopNameTv.getText().toString()));
             params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));
             params.add(new BasicNameValuePair("shop_latitude", shopLatitude + ""));
             params.add(new BasicNameValuePair("description", cardDesctiptionEt.getText().toString()));
@@ -638,9 +639,12 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                 String[] imgs = new String[imageKey.length];
                 for (int i = 0; i < imageKey.length; i++) {
                     imgs[i] = QiniuUtil.getInstance().getFileUrl(imageKey[i]);
+                    Log.v(TAG, "file url:" + i + imgs[i]);
+
                 }
 
                 params.add(new BasicNameValuePair("img", JsonObjectUtil.parseArrayToJsonArray(imgs).toString()));
+                Log.v(TAG, "img " + JsonObjectUtil.parseArrayToJsonArray(imgs).toString());
             }
             HttpTask.startAsyncDataPostRequest(URLConstant.PUBLISH_SHARE_ITEM, params, new HttpDataResponse() {
                 @Override

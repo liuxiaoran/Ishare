@@ -12,14 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -29,10 +22,7 @@ import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
-import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.JsonObjectUtil;
-import com.galaxy.ishare.utils.WidgetController;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
@@ -335,7 +325,7 @@ public class ItemListFragment extends Fragment {
             Log.v(TAG, tradeType + " " + pageNumber + " " + pageSize);
             HttpTask.startAsyncDataGetRequset(url, paramsList, new HttpDataResponse() {
                 @Override
-                public User onRecvOK(HttpRequestBase request, String result) {
+                public void onRecvOK(HttpRequestBase request, String result) {
 
                     try {
 
@@ -385,9 +375,6 @@ public class ItemListFragment extends Fragment {
                         Log.v(TAG, e.toString());
                         e.printStackTrace();
                     }
-
-
-                    return null;
                 }
 
                 @Override

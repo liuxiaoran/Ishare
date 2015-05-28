@@ -1,7 +1,6 @@
 package com.galaxy.ishare.login;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,7 +9,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.framework.utils.UIHandler;
+import cn.sharesdk.wechat.friends.Wechat;
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -21,7 +24,6 @@ import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.WaitingDialogUtil;
-
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -30,12 +32,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.framework.utils.UIHandler;
-import cn.sharesdk.wechat.friends.Wechat;
 
 /**
  * Created by liuxiaoran on 15/4/25.
@@ -193,7 +189,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
     class HttpInteract {
         public void userLogin() {
-
+//gaidongle
 
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
             Log.v(TAG,"HTTP wechat id"+wechatId);

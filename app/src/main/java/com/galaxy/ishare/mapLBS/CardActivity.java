@@ -23,7 +23,6 @@ import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
-import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.MapUtil;
 import org.apache.http.NameValuePair;
@@ -79,7 +78,7 @@ public class CardActivity extends Activity {
             .fromResource(R.drawable.icon_marki);
     BitmapDescriptor bdJ = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_markj);
-    BitmapDescriptor bd = BitmapDescriptorFactory
+    BitmapDescriptor basic = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_gcoding);
     BitmapDescriptor cardC = BitmapDescriptorFactory.fromResource(R.drawable.card_choiced);
 
@@ -184,6 +183,8 @@ public class CardActivity extends Activity {
         mMapView = (MapView) findViewById(R.id.bmapView);
 
         mMapView.showScaleControl(true);
+        mMapView.removeViewAt(1);
+
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
         mLocClient = new LocationClient(this);
@@ -349,7 +350,7 @@ public class CardActivity extends Activity {
             params.add(new BasicNameValuePair("page_size", String.valueOf(page_size)));
             HttpTask.startAsyncDataGetRequset(URLConstant.MAP_CARD_PAGE, params, new HttpDataResponse() {
                 @Override
-                public User onRecvOK(HttpRequestBase request, String result) {
+                public void onRecvOK(HttpRequestBase request, String result) {
                     int status = 0;
                     JSONObject jsonObject = null;
                     List<CardItem> mapCards = new ArrayList<CardItem>();
@@ -376,7 +377,6 @@ public class CardActivity extends Activity {
                     } catch (JSONException e) {
                         Log.e(TAG, e.toString());
                     }
-                    return null;
                 }
 
                 @Override

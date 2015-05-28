@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.utils.UserUtils;
 
 /**
  * Created by YangJunLin on 2015/5/23.
@@ -53,7 +55,12 @@ public class MyselfNaneActivity extends Activity {
         View.OnClickListener nameSaveListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserUtils.updateUserInfo(IShareContext.getInstance().getCurrentUser().getUserPhone(), nameEdit.getText().toString(), null, null);
+                if (nameEdit.getText().toString().length() > 0) {
+                    UserUtils.updateUserInfo(IShareContext.getInstance().getCurrentUser().getUserPhone(), nameEdit.getText().toString(), null, null);
+                }
+                User user = IShareContext.getInstance().getCurrentUser();
+                user.setUserName(nameEdit.getText().toString());
+                IShareContext.getInstance().saveCurrentUser(user);
                 finish();
             }
         };

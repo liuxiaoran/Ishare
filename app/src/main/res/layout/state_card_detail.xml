@@ -20,21 +20,24 @@
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="5dp"
 			android:textSize="30dp"
-			android:layout_toRightOf="@+id/card_state_detail_back"
+			android:layout_toRightOf="@id/card_state_detail_back"
 			android:layout_centerVertical="true"
 			android:text="借卡" />
+
+		<Button
+			android:id="@+id/state_detail_change"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="更改状态"
+			android:layout_alignParentRight="true" />
 	</RelativeLayout>
 
 	<RelativeLayout
 		android:layout_width="match_parent"
-		android:layout_height="100dp"
-		android:layout_marginTop="5dp"
-		android:layout_marginLeft="5dp"
-		android:layout_marginRight="5dp"
-		android:background="@drawable/radius_shap">
+		android:layout_height="100dp">
 
 		<com.baidu.mapapi.map.MapView
-			android:id="@+id/bmapView_card_state_detail"
+			android:id="@+id/state_card_detail_bdmap"
 			android:layout_alignParentLeft="true"
 			android:layout_width="100dp"
 			android:layout_height="100dp"
@@ -43,10 +46,10 @@
 		<RelativeLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:layout_toRightOf="@+id/image"
-			android:layout_marginLeft="5dp"
-			android:layout_marginRight="3dp"
-			android:orientation="vertical">
+			android:layout_toRightOf="@id/state_card_detail_bdmap"
+			android:layout_marginLeft="1dp"
+			android:orientation="vertical"
+			android:background="@drawable/radius_shap">
 
 			<RelativeLayout
 				android:id="@+id/layer1"
@@ -70,14 +73,14 @@
 					android:textSize="16dp"
 					android:textStyle="bold"
 					android:text="8.8折"
-					android:layout_toRightOf="@+id/card_type_detail"
+					android:layout_toRightOf="@id/card_type_detail"
 					android:layout_width="50dp"
 					android:layout_height="wrap_content" />
 
 				<TextView
-					android:id="@+id/location"
-					android:layout_toRightOf="@+id/discount_detail"
-					android:textSize="16dp"
+					android:id="@+id/state_shop_name_detail"
+					android:layout_toRightOf="@id/discount_detail"
+					android:textSize="14dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="北航知春路店s可是来得及反发生的开发接口" />
@@ -114,7 +117,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textSize="16dp"
-					android:layout_marginLeft="35dp"
+					android:layout_marginLeft="10dp"
 					android:layout_toRightOf="@+id/shop_distance_detail"
 					android:text="卡主距离:" />
 
@@ -153,7 +156,10 @@
 					android:textColor="@color/red"
 					android:textSize="16dp"
 					android:text="已经向卡主发送请求" />
+
 			</RelativeLayout>
 		</RelativeLayout>
 	</RelativeLayout>
+
+
 </LinearLayout>

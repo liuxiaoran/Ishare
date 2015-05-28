@@ -1,4 +1,4 @@
-package com.galaxy.ishare.usercenter;
+package com.galaxy.ishare.utils;
 
 import android.util.Log;
 import com.galaxy.ishare.constant.URLConstant;
@@ -80,19 +80,16 @@ public class UserUtils {
             params.add(new BasicNameValuePair("avatar", avatar));
         }
         if (gender != null) {
-            if (gender.equals("男")) {
-                params.add(new BasicNameValuePair("gender", String.valueOf(0)));
-            } else if (gender.equals("女")) {
-                params.add(new BasicNameValuePair("gender", String.valueOf(1)));
+            if (gender.equals(0)) {
+                params.add(new BasicNameValuePair("gender", "男"));
             } else {
-                params.add(new BasicNameValuePair("gender", gender));
+                params.add(new BasicNameValuePair("gender", "女"));
             }
         }
         HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_USER, params, new HttpDataResponse() {
             @Override
-            public User onRecvOK(HttpRequestBase request, String result) {
+            public void onRecvOK(HttpRequestBase request, String result) {
                 Log.v(TAG, "yew");
-                return null;
             }
 
             @Override

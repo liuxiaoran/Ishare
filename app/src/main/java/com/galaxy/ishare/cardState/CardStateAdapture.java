@@ -37,7 +37,7 @@ public class CardStateAdapture extends BaseAdapter {
         public ImageView image;
         public TextView type;
         public TextView discount;
-        public TextView location;
+        public TextView shop_name;
         public TextView shopDistance;
         public TextView cardDistance;
         public TextView cardStatus;
@@ -70,11 +70,11 @@ public class CardStateAdapture extends BaseAdapter {
         if (convertView == null) {
             zujian = new Zujian();
             //获得组件，实例化组件
-            convertView = layoutInflater.inflate(R.layout.card_station_list, null);
+            convertView = layoutInflater.inflate(R.layout.state_card_ist, null);
             zujian.image = (ImageView) convertView.findViewById(R.id.card_image_state);
             zujian.type = (TextView) convertView.findViewById(R.id.card_type);
             zujian.discount = (TextView) convertView.findViewById(R.id.discount);
-            zujian.location = (TextView) convertView.findViewById(R.id.location);
+            zujian.shop_name = (TextView) convertView.findViewById(R.id.state_shop_name);
             zujian.shopDistance = (TextView) convertView.findViewById(R.id.shop_distance);
             zujian.cardDistance = (TextView) convertView.findViewById(R.id.card_distance);
             zujian.cardStatus = (TextView) convertView.findViewById(R.id.card_station);
@@ -83,23 +83,14 @@ public class CardStateAdapture extends BaseAdapter {
             zujian = (Zujian) convertView.getTag();
         }
         //绑定数据
-        zujian.image.setBackgroundResource((Integer) data.get(position).get("image"));
-        zujian.type.setText((String) data.get(position).get("type"));
-        zujian.discount.setText((String) data.get(position).get("discount"));
-        zujian.location.setText((String) data.get(position).get("location"));
-        zujian.shopDistance.setText((String) data.get(position).get("shopDistance"));
-        zujian.cardDistance.setText((String) data.get(position).get("cardDistance"));
-        zujian.cardStatus.setText((String) data.get(position).get("cardStatus"));
-
-//        convertView.setClickable(true);
-       /* View.OnClickListener myClickListener = new View.OnClickListener() {
-            public void onClick(View v) {
-//                Intent intent = new Intent(this, CardStateDetail.class);
-                //code to be written to handle the click event 
-            }
-        };
-        convertView.setOnClickListener(myClickListener);*/
-        
+//        zujian.image.setBackgroundResource((Integer) data.get(position).get("image"));
+        zujian.type.setText(String.valueOf(data.get(position).get("type")));
+        zujian.discount.setText(String.valueOf(data.get(position).get("discount")));
+        String shopname = data.get(position).get("shop_name").toString();
+        zujian.shop_name.setText(shopname);
+        zujian.shopDistance.setText(data.get(position).get("shopDistance").toString());
+        zujian.cardDistance.setText(String.valueOf(data.get(position).get("cardDistance")));
+        zujian.cardStatus.setText(String.valueOf(data.get(position).get("cardStatus")));
         return convertView;
     }
 

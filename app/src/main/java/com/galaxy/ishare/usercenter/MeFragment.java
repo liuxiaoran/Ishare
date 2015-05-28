@@ -23,6 +23,7 @@ import org.json.JSONObject;
 public class MeFragment extends Fragment {
 
     private View myself;
+    private static User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +52,7 @@ public class MeFragment extends Fragment {
     private void getUser() {
         HttpTask.startAsyncDataGetRequset(URLConstant.QUERY_USER, null, new HttpDataResponse() {
             @Override
-            public User onRecvOK(HttpRequestBase request, String result) {
+            public void onRecvOK(HttpRequestBase request, String result) {
                 User userInfo = new User();
                 int status = 0;
                 JSONObject jsonObject = null;
@@ -63,7 +64,7 @@ public class MeFragment extends Fragment {
                         userInfo.setUserName(tmp.getString("nickname"));
                         userInfo.setAvatar(tmp.getString("avatar"));
                         userInfo.setUserPhone(tmp.getString("phone"));
-                        userInfo.setGender(tmp.getInt("gender"));
+                        userInfo.setGender(tmp.getString("gender"));
                         userInfo.setUserId(tmp.getString("open_id"));
                     }
                     final TextView myname = (TextView) myself.findViewById(R.id.myself_info_name);
@@ -71,7 +72,6 @@ public class MeFragment extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                return userInfo;
             }
 
             @Override

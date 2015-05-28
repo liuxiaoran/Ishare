@@ -1,12 +1,13 @@
 package com.galaxy.ishare.utils;
 
-import android.app.Activity;
+import android.annotation.TargetApi;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -22,18 +23,18 @@ import java.io.IOException;
  */
 public class ImageParseUtil {
 
-    public static Bitmap getBitmapFromUri(Uri uri,Context context){
-        Bitmap  bitmap=null;
+    public static Bitmap getBitmapFromUri(Uri uri, Context context) {
+        Bitmap bitmap = null;
         try {
             bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
         } catch (IOException e) {
-            Log.v("preview",e.toString());
+            Log.v("preview", e.toString());
             e.printStackTrace();
         }
         return bitmap;
     }
 
-    public static  void saveBitmapToFile(Bitmap photo, String spath) {
+    public static void saveBitmapToFile(Bitmap photo, String spath) {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(
                     new FileOutputStream(spath, false));
@@ -47,16 +48,17 @@ public class ImageParseUtil {
 
     }
 
-    public  static Bitmap getBitmapFromResource (Context context,int res){
-        Bitmap  bitmap = BitmapFactory.decodeResource(context.getResources(), res);
+    public static Bitmap getBitmapFromResource(Context context, int res) {
+        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), res);
         return bitmap;
     }
 
     public static byte[] Bitmap2Bytes(Bitmap bm) {
-              ByteArrayOutputStream baos = new ByteArrayOutputStream();
-               bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-              return baos.toByteArray();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        return baos.toByteArray();
     }
+
     public static int calculateInSampleSize(BitmapFactory.Options options,
                                             int reqWidth, int reqHeight) {
         // 源图片的高度和宽度
@@ -83,7 +85,7 @@ public class ImageParseUtil {
      * @author yaoxing
      * @date 2014-10-12
      */
-
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getImageAbsolutePath(Context context, Uri imageUri) {
         if (context == null || imageUri == null)
             return null;
@@ -177,8 +179,6 @@ public class ImageParseUtil {
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
     }
-
-
 
 
 }

@@ -16,12 +16,18 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.utils.ImageParseUtil;
+import com.galaxy.ishare.utils.QiniuUtil;
+import com.galaxy.ishare.utils.UserUtils;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.UpCompletionHandler;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,11 +52,12 @@ public class MyselfInfoActivity extends Activity {
     boolean num = false;
     private static int imageClick = 0;
 
+    String imageKey = "myselfPhoto";
     final AlertDialog[] imageDialog = new AlertDialog[1];
 
     private static final String IMAGE_FILE_LOCATION = "file:///sdcard/ishare/ishare_portrait.jpg";//temp file
-    private static Uri photoPick = null;
-    Uri imageUri = Uri.parse(IMAGE_FILE_LOCATION);//The Uri to store the big bitmap
+    private static Uri photoPickUri = null;
+    Uri cameraUri = Uri.parse(IMAGE_FILE_LOCATION);//The Uri to store the big bitmap
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +109,7 @@ public class MyselfInfoActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(MyselfInfoActivity.this).setTitle("请选择").setSingleChoiceItems(new String[]{"男", "女"}, 0, new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(MyselfInfoActivity.this).setTitle("请选择").setSingleChoiceItems(new String[]{"男", "女"}, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         gender = which;
@@ -119,6 +126,9 @@ public class MyselfInfoActivity extends Activity {
                                     } else if (gender == 1) {
                                         myGender.setText("女");
                                     }
+                                    User user = IShareContext.getInstance().getCurrentUser();
+                                    user.setGender(myGender.getText().toString());
+                                    IShareContext.getInstance().saveCurrentUser(user);
                                 }
                             }
                         }).show();
@@ -150,7 +160,7 @@ public class MyselfInfoActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);//action is capture
-                            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                            intent.putExtra(MediaStore.EXTRA_OUTPUT, cameraUri);
                             startActivityForResult(intent, 1);
                             imageDialog[0].dismiss();
                         } else if (which == 1) {
@@ -173,32 +183,53 @@ public class MyselfInfoActivity extends Activity {
             case 1:
                 Log.d(TAG, "TAKE_BIG_PICTURE: data = " + data);//it seems to be null
                 //TODO sent to crop
-                cropImageUri(imageUri, 700, 700, 2);
+                cropImageUri(cameraUri, 700, 700, 2);
                 break;
             case 2://from crop_big_picture
                 Log.d(TAG, "CROP_BIG_PICTURE: data = " + data);//it seems to be null
-                if (imageUri != null) {
+                if (cameraUri != null) {
                     Bitmap bitmap = null;
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cameraUri);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     myPhoto.setImageBitmap(bitmap);
+                    QiniuUtil qiniuUtil = new QiniuUtil();
+                    qiniuUtil.uploadFileDefault(ImageParseUtil.getImageAbsolutePath(getApplicationContext(), cameraUri), qiniuUtil.generateKey(imageKey), new UpCompletionHandler() {
+                        @Override
+                        public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
+                            
+                        }
+                    });
+                    Log.i("#######################", ImageParseUtil.getImageAbsolutePath(getApplicationContext(), cameraUri));
+                    User user = IShareContext.getInstance().getCurrentUser();
+                    user.setAvatar(cameraUri.toString());
+                    IShareContext.getInstance().saveCurrentUser(user);
                 }
                 break;
             case 3:
-                photoPick = data.getData();
-                cropImageUri(photoPick, 700, 700, 4);
+                photoPickUri = data.getData();
+                cropImageUri(photoPickUri, 700, 700, 4);
             case 4:
-                if (imageUri != null) {
+                if (photoPickUri != null) {
                     Bitmap bitmap = null;
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoPick);
+                        bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photoPickUri);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     myPhoto.setImageBitmap(bitmap);
+                    QiniuUtil qiniuUtil = new QiniuUtil();
+                    qiniuUtil.uploadFileDefault(ImageParseUtil.getImageAbsolutePath(getApplicationContext(), photoPickUri), qiniuUtil.generateKey(imageKey), new UpCompletionHandler() {
+                        @Override
+                        public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
+
+                        }
+                    });
+                    User user = IShareContext.getInstance().getCurrentUser();
+                    user.setAvatar(photoPickUri.toString());
+                    IShareContext.getInstance().saveCurrentUser(user);
                 }
                 break;
             default:
@@ -225,7 +256,7 @@ public class MyselfInfoActivity extends Activity {
     private void getUser() {
         HttpTask.startAsyncDataGetRequset(URLConstant.QUERY_USER, null, new HttpDataResponse() {
             @Override
-            public User onRecvOK(HttpRequestBase request, String result) {
+            public void onRecvOK(HttpRequestBase request, String result) {
                 User userInfo = new User();
                 int status = 0;
                 JSONObject jsonObject = null;
@@ -237,15 +268,14 @@ public class MyselfInfoActivity extends Activity {
                         userInfo.setUserName(tmp.getString("nickname"));
                         userInfo.setAvatar(tmp.getString("avatar"));
                         userInfo.setUserPhone(tmp.getString("phone"));
-                        userInfo.setGender(tmp.getInt("gender"));
+                        userInfo.setGender(tmp.getString("gender"));
                         userInfo.setUserId(tmp.getString("open_id"));
                     }
                     nickname.setText(userInfo.getUserName());
-                    myGender.setText(userInfo.getGender() == 0 ? "男" : "女");
+                    myGender.setText(userInfo.getGender());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                return userInfo;
             }
 
             @Override

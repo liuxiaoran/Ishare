@@ -1,24 +1,29 @@
 package com.galaxy.ishare.cardState;
 
 import android.app.Fragment;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import com.galaxy.ishare.Global;
+import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.model.CardState;
 import com.galaxy.ishare.model.Friend;
 import com.galaxy.ishare.model.InviteFriend;
-import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.utils.CardStateUtil;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
@@ -27,12 +32,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class StateFragment extends Fragment {
 
+    private final String TAG = "StateFragmene";
     private ListView contactListView, toInviteContactListView;
 
     private ArrayList<Friend> contactList;
@@ -42,33 +47,45 @@ public class StateFragment extends Fragment {
 
     View newStatus;
     ListView cardStatusListView;
-    List<Map<String, Object>> dataList = null;
+    List<CardState> stateLsit = null;
+    List<Map<String, Object>> stateMapList = null;
+    private LocalBroadcastManager localBroadcastManager;
+    private BroadcastReceiver receiver;
+    AdapterView.OnItemClickListener cardListener = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LayoutInflater lf = LayoutInflater.from(getActivity());
-        newStatus = lf.inflate(R.layout.activity_card_status,null);
+        newStatus = lf.inflate(R.layout.state_card_status, null);
 
-        dataList = getData();
         cardStatusListView = (ListView) newStatus.findViewById(R.id.card_statedata_list);
-        cardStatusListView.setAdapter(new CardStateAdapture(getActivity(), dataList));
 
-        AdapterView.OnItemClickListener cardListener = new AdapterView.OnItemClickListener() {
+        cardListener = new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("log", "aaaaaaaaaaaaaaaaa");
-                /*if (id == -1) {
+                if (id == -1) {
                     // 点击的是headerView或者footerView
                     return;
-                }*/
+                }
                 Intent intent = new Intent(getActivity(), CardStateDetail.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("stateDetail", stateLsit.get(position));
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         };
-        cardStatusListView.setOnItemClickListener(cardListener);
-       
-        
+
+        localBroadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                getData();
+                cardStatusListView.setOnItemClickListener(cardListener);
+            }
+        };
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter(BroadcastActionConstant.UPDATE_USER_LOCATION));
+
 
         /*contactList = FriendDao.getInstance(getActivity()).query();
         toInviteContactList = InviteFriendDao.getInstance(getActivity()).query();
@@ -98,32 +115,75 @@ public class StateFragment extends Fragment {
     }
 
 
-    public List<Map<String, Object>> getData() {
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        for (int i = 0; i < 30; i++) {
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("image", R.drawable.icon_markd);
-            map.put("type", "发卡" + i);
-            map.put("discount", "1." + i + "折");
-            map.put("location", "知春记录东方尚见旗舰店,大运村" + i);
-            map.put("shopDistance", "2" + i + "km");
-            map.put("cardDistance", "3" + i + "km");
-            map.put("cardStatus", "状态" + i);
-            list.add(map);
+    public void getData() {
+        try {
+            String lat = String.valueOf(IShareContext.getInstance().getUserLocation().getLatitude());
+            String lon = String.valueOf(IShareContext.getInstance().getUserLocation().getLongitude());
+            if (lat != null && lat.length() > 0 && lon != null && lon.length() > 0) {
+                List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+                List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+                params.add(new BasicNameValuePair("latitude", String.valueOf(lat)));
+                params.add(new BasicNameValuePair("longitude", String.valueOf(lon)));
+                params.add(new BasicNameValuePair("borrow_id", IShareContext.getInstance().getCurrentUser().getUserId()));
+                HttpTask.startAsyncDataPostRequest(URLConstant.STATE_CARD, params, new HttpDataResponse() {
+                    @Override
+                    public void onRecvOK(HttpRequestBase request, String result) {
+                        int status = 0;
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(result);
+                            status = jsonObject.getInt("status");
+                            if (status == 0) {
+                                JSONArray jsonArray = jsonObject.getJSONArray("data");
+                                stateMapList = CardStateUtil.change2ListMap(jsonArray);
+                                stateLsit = CardStateUtil.change2CardState(jsonArray);
+                            } else {
+                                Toast.makeText(getActivity(), "由于网络原因，请求失败，请重试", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            cardStatusListView.setAdapter(new CardStateAdapture(getActivity(), stateMapList));
+                        } catch (JSONException e) {
+                            Log.e(TAG, e.toString());
+                        }
+                    }
+
+                    @Override
+                    public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+                        Log.v(TAG, retCode.toString());
+                        Toast.makeText(getActivity(), "由于网络原因，请求失败，请重试", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onRecvCancelled(HttpRequestBase request) {
+                    }
+
+                    @Override
+                    public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+                    }
+                });
+            }
+        } catch (Exception e) {
+            Log.e("StateFragment getdata", e.toString());
         }
-        return list;
+    }
+
+    @Override
+    public void onStop() {
+        localBroadcastManager.unregisterReceiver(receiver);
+        super.onStop();
     }
 
     /**
      * 从网络获取数据，并写入contactList,toInviteContactList
      */
+
     public void writeContactList() {
 
 
         List<NameValuePair> params = new ArrayList<>();
         HttpTask.startAsyncDataGetRequset(URLConstant.FRIEND_CONTACT, params, new HttpDataResponse() {
             @Override
-            public User onRecvOK(HttpRequestBase request, String result) {
+            public void onRecvOK(HttpRequestBase request, String result) {
 
                 try {
                     JSONObject object = new JSONObject(result);
@@ -141,7 +201,6 @@ public class StateFragment extends Fragment {
 
                 contactListAdapter.notifyDataSetChanged();
 
-                return null;
             }
 
             @Override
@@ -162,7 +221,7 @@ public class StateFragment extends Fragment {
 
         HttpTask.startAsyncDataGetRequset(URLConstant.INVITE_CONTACT, params, new HttpDataResponse() {
             @Override
-            public User onRecvOK(HttpRequestBase request, String result) {
+            public void onRecvOK(HttpRequestBase request, String result) {
 
                 try {
                     JSONObject object = new JSONObject(result);
@@ -181,7 +240,6 @@ public class StateFragment extends Fragment {
 
                 toInviteContactListAdapter.notifyDataSetChanged();
 
-                return null;
             }
 
             @Override

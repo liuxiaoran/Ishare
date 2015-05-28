@@ -52,4 +52,7 @@ public class URLConstant {
     public static final String UPDATE_USER = SERVER_IP + "/user/Update_User_C";
 
     public static final String QUERY_USER = SERVER_IP + "/user/Query_User_C";
+
+    //用户状态相关
+    public static final String STATE_CARD = SERVER_IP + "/record/Record_C/get";
 }

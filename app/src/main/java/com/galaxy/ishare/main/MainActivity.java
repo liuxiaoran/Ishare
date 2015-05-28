@@ -23,8 +23,8 @@ import com.galaxy.ishare.bindphone.BindPhoneActivity;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
-import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.cardState.StateFragment;
+import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.database.FriendDao;
 import com.galaxy.ishare.database.InviteFriendDao;
 import com.galaxy.ishare.mapLBS.CardActivity;
@@ -48,7 +48,7 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
 
 
-    public static final String PUBLISH_TO_BING_PHONE="PUBLISH_TO_BING_PHONE";
+    public static final String PUBLISH_TO_BING_PHONE = "PUBLISH_TO_BING_PHONE";
 
     private RadioGroup mTabGroup = null;
     private RadioButton mShareItemButton, mContactButton, mMeButton;
@@ -151,13 +151,13 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menu_publish) {
-            if(IShareContext.getInstance().getCurrentUser().getUserPhone()==null){
+            if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
 
-                Intent intent = new Intent (this, BindPhoneActivity.class);
-                intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME,PUBLISH_TO_BING_PHONE);
+                Intent intent = new Intent(this, BindPhoneActivity.class);
+                intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
                 startActivity(intent);
 
-            }else {
+            } else {
                 Intent intent = new Intent(this, PublishItemActivity.class);
                 startActivity(intent);
             }

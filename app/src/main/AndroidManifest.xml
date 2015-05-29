@@ -32,6 +32,12 @@
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.SEND_SMS" />
 
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+	<uses-feature android:name="android.hardware.camera" />
+	<uses-feature android:name="android.hardware.camera.autofocus" />
 
 	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	<uses-permission android:name="android.permission.USE_CREDENTIALS" />
@@ -73,23 +79,12 @@
 	<uses-permission android:name="android.permission.INTERNET" />
 	<!-- Include following permission if you want to cache images on SD card -->
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-	<uses-permission android:name="android.permission.GET_TASKS" />
-	<uses-permission android:name="android.permission.INTERNET" />
-	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
-	<uses-permission android:name="android.permission.GET_ACCOUNTS"/>
 	<application
 		android:name=".IShareApplication"
 		android:allowBackup="true"
 		android:icon="@drawable/ic_launcher"
 		android:label="@string/app_name"
-		android:theme="@style/AppTheme"
-		>
+		android:theme="@style/AppTheme">
 
 		<service
 			android:name="com.baidu.location.f"
@@ -98,7 +93,7 @@
 
 		<meta-data
 			android:name="com.baidu.lbsapi.API_KEY"
-			android:value="WHCcaGCrXEVRX3LGcOqEKslN" />
+			android:value="zlxGmBRCuKpES3CKyMPu9LkC" />
 
 		<activity
 			android:name=".main.MainActivity"
@@ -112,12 +107,12 @@
 			android:name=".login.LoginActivity"
 			android:label="@string/app_name"
 			android:screenOrientation="portrait"
-            android:parentActivityName=".main.MainActivity"
-            android:launchMode="singleTask">
+			android:parentActivityName=".main.MainActivity"
+			android:launchMode="singleTask">
 
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".main.MainActivity" />
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".main.MainActivity" />
 
 		</activity>
 
@@ -140,11 +135,11 @@
 
 		</activity>
 
-        <activity
-            android:name="cn.sharesdk.framework.ShareSDKUIShell"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+		<activity
+			android:name="cn.sharesdk.framework.ShareSDKUIShell"
+			android:theme="@android:style/Theme.Translucent.NoTitleBar"
+			android:configChanges="keyboardHidden|orientation|screenSize"
+			android:windowSoftInputMode="stateHidden|adjustResize" />
 
 		<activity
 			android:name=".main.SearchActivity"
@@ -166,7 +161,7 @@
 			android:label="@string/app_name"
 			android:parentActivityName=".main.MainActivity"
 			android:screenOrientation="portrait"
-            android:launchMode="singleTask">
+			android:launchMode="singleTask">
 
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
@@ -210,7 +205,7 @@
 			android:label="@string/app_name"
 			android:parentActivityName=".publishware.CardOwnerAvailableAddActivity"
 			android:screenOrientation="portrait"
-            android:launchMode="singleTop">
+			android:launchMode="singleTop">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value=".publishware.CardOwnerAvailableAddActivity" />
@@ -222,21 +217,22 @@
 			android:label="@string/app_name"
 			android:parentActivityName=".publishware.CardOwnerAvailableShowActivity"
 			android:screenOrientation="portrait"
-            android:launchMode="singleTop">
+			android:launchMode="singleTop">
 			<meta-data
 				android:name="android.support.PARENT_ACTIVITY"
 				android:value=".publishware.CardOwnerAvailableShowActivity" />
 		</activity>
 
-        <activity android:name=".publishware.PreviewPictureActivity"
-            android:label="@string/app_name"
-            android:parentActivityName=".publishware.PublishItemActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".publishware.PublishItemActivity" />
-        </activity>
+		<activity
+			android:name=".publishware.PreviewPictureActivity"
+			android:label="@string/app_name"
+			android:parentActivityName=".publishware.PublishItemActivity"
+			android:screenOrientation="portrait"
+			android:launchMode="singleTop">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".publishware.PublishItemActivity" />
+		</activity>
 
 		<!-- end  publish card-->
 
@@ -244,25 +240,27 @@
 		<!--  card share -->
 
 
-        <activity android:name=".sharedcard.CardDetailActivity"
-            android:label="@string/app_name"
-            android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".main.MainActivity" />
-        </activity>
+		<activity
+			android:name=".sharedcard.CardDetailActivity"
+			android:label="@string/app_name"
+			android:parentActivityName=".main.MainActivity"
+			android:screenOrientation="portrait"
+			android:launchMode="singleTop">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".main.MainActivity" />
+		</activity>
 
-        <activity android:name=".sharedcard.CardDetailMapActivity"
-            android:label="@string/app_name"
-            android:parentActivityName=".sharedcard.CardDetailActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".sharedcard.CardDetailActivity" />
-        </activity>
-        <!--end cars share-->
+		<activity
+			android:name=".sharedcard.CardDetailMapActivity"
+			android:label="@string/app_name"
+			android:parentActivityName=".sharedcard.CardDetailActivity"
+			android:screenOrientation="portrait">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".sharedcard.CardDetailActivity" />
+		</activity>
+		<!--end cars share-->
 
 		<activity
 			android:name=".wxapi.WXEntryActivity"
@@ -281,9 +279,18 @@
 			android:name=".mapLBS.CardActivity"
 			android:screenOrientation="portrait" />
 
+		<activity
+			android:name=".usercenter.MyselfInfoActivity"
+			android:screenOrientation="portrait" />
+
+		<activity
+			android:name=".usercenter.MyselfNaneActivity"
+			android:screenOrientation="portrait" />
 
 
+		<activity
+			android:name=".cardState.CardStateDetail"
+			android:screenOrientation="portrait" />
 	</application>
-
 
 </manifest>

@@ -78,7 +78,7 @@ public class CardActivity extends Activity {
             .fromResource(R.drawable.icon_marki);
     BitmapDescriptor bdJ = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_markj);
-    BitmapDescriptor bd = BitmapDescriptorFactory
+    BitmapDescriptor basic = BitmapDescriptorFactory
             .fromResource(R.drawable.icon_gcoding);
     BitmapDescriptor cardC = BitmapDescriptorFactory.fromResource(R.drawable.card_choiced);
 
@@ -183,6 +183,8 @@ public class CardActivity extends Activity {
         mMapView = (MapView) findViewById(R.id.bmapView);
 
         mMapView.showScaleControl(true);
+        mMapView.removeViewAt(1);
+
         mBaiduMap = mMapView.getMap();
         mBaiduMap.setMyLocationEnabled(true);
         mLocClient = new LocationClient(this);
@@ -290,48 +292,50 @@ public class CardActivity extends Activity {
     }
 
     private void showInfoWindowByTime() {
-        if (flag >= liveMarkers.size()) {
-            flag = 0;
-        } else if (flag < 0) {
-            flag = liveMarkers.size() - 1;
-        }
+        if (liveMarkers != null) {
+            if (flag >= liveMarkers.size()) {
+                flag = 0;
+            } else if (flag < 0) {
+                flag = liveMarkers.size() - 1;
+            }
 
-        if (shopMarker != null) {
-            shopMarker.remove();
-        }
-        LatLng cardLo = liveMarkers.get(flag).getPosition();
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        builder.include(new LatLng(IShareContext.getInstance().getUserLocation().getLatitude(), IShareContext.getInstance().getUserLocation().getLongitude()));
-        if (mapCardList != null && mapCardList.size() > 0) {
-            for (CardItem card : mapCardList) {
+            if (shopMarker != null) {
+                shopMarker.remove();
+            }
+            LatLng cardLo = liveMarkers.get(flag).getPosition();
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(new LatLng(IShareContext.getInstance().getUserLocation().getLatitude(), IShareContext.getInstance().getUserLocation().getLongitude()));
+            if (mapCardList != null && mapCardList.size() > 0) {
+                for (CardItem card : mapCardList) {
 //                builder.include(new LatLng(card.getOwnerLatitude(), card.getOwnerLongtude()));
-                if (card.getOwnerLatitude() == cardLo.latitude && card.getOwnerLongitude() == cardLo.longitude) {
-                    LatLng shop = new LatLng(card.getShopLatitude(), card.getShopLongitude());
-                    builder.include(shop);
-                    builder.include(new LatLng(cardLo.latitude, cardLo.longitude));
-                    OverlayOptions shopOverlay = new MarkerOptions().position(shop).icon(BitmapDescriptorFactory.fromResource(R.drawable.card_shop)).zIndex(9);
-                    shopMarker = (Marker) mBaiduMap.addOverlay(shopOverlay);
-                    Button cardInfo = new Button(getApplicationContext());
-                    cardInfo.setBackgroundResource(R.drawable.popup_big);
+                    if (card.getOwnerLatitude() == cardLo.latitude && card.getOwnerLongitude() == cardLo.longitude) {
+                        LatLng shop = new LatLng(card.getShopLatitude(), card.getShopLongitude());
+                        builder.include(shop);
+                        builder.include(new LatLng(cardLo.latitude, cardLo.longitude));
+                        OverlayOptions shopOverlay = new MarkerOptions().position(shop).icon(BitmapDescriptorFactory.fromResource(R.drawable.card_shop)).zIndex(9);
+                        shopMarker = (Marker) mBaiduMap.addOverlay(shopOverlay);
+                        Button cardInfo = new Button(getApplicationContext());
+                        cardInfo.setBackgroundResource(R.drawable.popup_big);
 //                    cardInfo.setBackgroundResource(R.drawable.button_shape);
-                    StringBuffer cardbuffer = new StringBuffer();
-                    cardbuffer.append(card.getDiscount() + "折，");
-                    cardbuffer.append(card.getShopName());
-                    int i = 12;
-                    while (i < cardbuffer.length()) {
-                        cardbuffer.insert(i, "\n");
-                        i += 12;
+                        StringBuffer cardbuffer = new StringBuffer();
+                        cardbuffer.append(card.getDiscount() + "折，");
+                        cardbuffer.append(card.getShopName());
+                        int i = 12;
+                        while (i < cardbuffer.length()) {
+                            cardbuffer.insert(i, "\n");
+                            i += 12;
+                        }
+                        cardInfo.setText(cardbuffer);
+                        cardInfo.setTextColor(getResources().getColor(R.color.color_primary));
+                        mInfoWindow = new InfoWindow(cardInfo, cardLo, -47);
+                        mBaiduMap.showInfoWindow(mInfoWindow);
                     }
-                    cardInfo.setText(cardbuffer);
-                    cardInfo.setTextColor(getResources().getColor(R.color.color_primary));
-                    mInfoWindow = new InfoWindow(cardInfo, cardLo, -47);
-                    mBaiduMap.showInfoWindow(mInfoWindow);
                 }
             }
+            LatLngBounds latLngBounds = builder.build();
+            MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLngBounds(latLngBounds);
+            mBaiduMap.animateMapStatus(mapStatusUpdate);
         }
-        LatLngBounds latLngBounds = builder.build();
-        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLngBounds(latLngBounds);
-        mBaiduMap.animateMapStatus(mapStatusUpdate);
     }
 
     private void getMapCardInfoFromServer() {
@@ -365,6 +369,7 @@ public class CardActivity extends Activity {
                             for (CardItem card : mapCards) {
                                 tmp.put(card.getOwnerLatitude(), card.getOwnerLongitude());
                             }
+
                             initOverlay(tmp);
                         } else {
                             Toast.makeText(CardActivity.this, "由于网络原因，请求失败，请重试", Toast.LENGTH_LONG).show();
@@ -509,6 +514,7 @@ public class CardActivity extends Activity {
     protected void onPause() {
         page_card = 1;
         mMapView.onPause();
+        timer.cancel();
         super.onPause();
     }
 

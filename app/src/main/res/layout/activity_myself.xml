@@ -7,6 +7,7 @@
 	android:background="@color/fbutton_color_clouds">
 
 	<LinearLayout
+		android:clickable="true"
 		android:id="@+id/myself_info"
 		android:layout_width="fill_parent"
 		android:layout_height="80dp"
@@ -35,14 +36,13 @@
 				android:textSize="14dp" />
 
 			<TextView
-				android:id="@+id/myself_info_wxid"
+				android:id="@+id/myself_info_phone"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="5dp"
 				android:layout_below="@id/myself_info_name"
 				android:layout_marginLeft="5dp"
 				android:gravity="left"
-				android:text="15313150949"
 				android:textSize="14dp" />
 		</RelativeLayout>
 	</LinearLayout>
@@ -134,7 +134,7 @@
 			android:layout_gravity="center_vertical"
 			android:text="我的钱包" />
 	</LinearLayout>
-	
+
 	<LinearLayout
 		android:id="@+id/myself_info_mysetting"
 		android:layout_width="fill_parent"

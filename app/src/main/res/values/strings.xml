@@ -3,35 +3,35 @@
     <string name="save">保存</string>
     <string name="share_item_tab">卡</string>
     <string name="discover_tab">朋友圈</string>
-    <string name="contact_tab">联系人</string>
+    <string name="contact_tab">最新动态</string>
     <string name="me_tab">我</string>
 
-    <string name="menu_refresh">刷新</string>
-    <string name="menu_settings">设置</string>
-    <string name="menu_publish">发布</string>
-    <string name="menu_save">保存</string>
+	<string name="menu_refresh">刷新</string>
+	<string name="menu_settings">设置</string>
+	<string name="menu_publish">发布</string>
+	<string name="menu_save">保存</string>
 
-    <string name="login_register"><u>快速注册</u></string>
-    <string name="login_forgetpw"><u>忘记密码</u></string>
-
-
-    <string name="msm_content">您的验证码是%1$s，在5分钟内有效，非本人操作可忽略该短信。【梦动科技】</string>
-    <string name="search">search</string>
+	<string name="login_register"><u>快速注册</u></string>
+	<string name="login_forgetpw"><u>忘记密码</u></string>
 
 
-    <string name="drop_down_list_header_default_text">正在加载</string>
-    <string name="drop_down_list_header_pull_text">下拉可以刷新</string>
-    <string name="drop_down_list_header_release_text">松开可以刷新</string>
-    <string name="drop_down_list_header_loading_text">加载中&#8230;</string>
-    <string name="drop_down_list_footer_default_text">更多</string>
-    <string name="drop_down_list_footer_loading_text">加载中&#8230;</string>
-    <string name="drop_down_list_footer_no_more_text">没有更多了</string>
+	<string name="msm_content">您的验证码是%1$s，在5分钟内有效，非本人操作可忽略该短信。【梦动科技】</string>
+	<string name="search">search</string>
 
-    <string name="image_content">Image</string>
+
+	<string name="drop_down_list_header_default_text">点击可以刷新</string>
+	<string name="drop_down_list_header_pull_text">下拉可以刷新</string>
+	<string name="drop_down_list_header_release_text">松开可以刷新</string>
+	<string name="drop_down_list_header_loading_text">加载中&#8230;</string>
+	<string name="drop_down_list_footer_default_text">更多</string>
+	<string name="drop_down_list_footer_loading_text">加载中&#8230;</string>
+	<string name="drop_down_list_footer_no_more_text">没有更多了</string>
+
 
     <string name="userid_found">用户信息已存在，正在跳转登录操作…</string>
     <string name="logining">使用%s帐号登录中…</string>
     <string name="auth_cancel">授权操作已取消</string>
     <string name="auth_error">授权操作遇到错误，请阅读Logcat输出</string>
     <string name="auth_complete">授权成功，正在跳转登录操作…</string>
+	<string name="image_content">Image</string>
 </resources>

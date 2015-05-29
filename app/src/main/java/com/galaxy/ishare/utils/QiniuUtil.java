@@ -1,6 +1,8 @@
 package com.galaxy.ishare.utils;
 
 
+import android.util.Log;
+
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
@@ -39,6 +41,12 @@ public class QiniuUtil {
         return hostName +key;
 
     }
+
+
+    public String getFileThumbnailUrl(String fileUrl, int longEdge, int shortEdge) {
+        return fileUrl + "?imageView2" + "/0/w/" + longEdge + "/h/" + shortEdge;
+    }
+
 
     public String generateKey(String name) {
         return IShareContext.getInstance().getCurrentUser().getUserId() + name + System.currentTimeMillis();

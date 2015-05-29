@@ -30,7 +30,6 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.utils.JsonObjectUtil;
-import com.galaxy.ishare.utils.WidgetController;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -46,6 +45,8 @@ import java.util.List;
 
 public class ItemListFragment extends Fragment {
 
+    public static final String INTENT_ITEM_TO_DETAIL = "INTENT_ITEM_TO_DETAIL";
+
     private View mRoot;
     private LinearLayout categoryLayout, discountLayout, distanceLayout, defaultLayout, topSelectorLayout, isLocatingLayout;
     private MyClickListener myClickListener;
@@ -54,7 +55,18 @@ public class ItemListFragment extends Fragment {
     private static final String TAG = "ItemListFragment";
     private HttpInteract httpInteract;
     private int pageNumber = 1;
-    public LinkedList<CardItem> dataList;
+
+    // 存储不同tab 的数据
+    public LinkedList<CardItem> categoryDataList;
+    public LinkedList<CardItem> discountDataList;
+    public LinkedList<CardItem> distanceDataList;
+    public LinkedList<CardItem> defaultDataList;
+
+    public LinkedList<CardItem> listViewDataList; // 最终
+
+    public int tabIndex; // 0: 代表分类Tab， 1：代表折扣排序Tab, 2:代表距离排序Tab, 3：代表默认排序Tab
+
+
     private static final int DISTANCE_LOAD_URL_TYPE = 1;
     private static final int DISCOUNT_LOAD_URL_TYPE = 2;
 
@@ -106,10 +118,13 @@ public class ItemListFragment extends Fragment {
         defaultLayout.setOnClickListener(myClickListener);
 
         httpInteract = new HttpInteract();
-        dataList = new LinkedList<>();
+        categoryDataList = new LinkedList<>();
+        discountDataList = new LinkedList<>();
+        distanceDataList = new LinkedList<>();
+        defaultDataList = new LinkedList<>();
 
 
-        cardListItemAdapter = new CardListItemAdapter(dataList, getActivity());
+        cardListItemAdapter = new CardListItemAdapter(categoryDataList, getActivity());
 
 
         pullToRefreshListView = new PullToRefreshListView(getActivity());
@@ -153,6 +168,7 @@ public class ItemListFragment extends Fragment {
         mPullListView.setPullLoadEnabled(false);
         mPullListView.setScrollLoadEnabled(true);
         cardListView = mPullListView.getRefreshableView();
+        cardListView.setDivider(null);// 设置不显示分割线
         cardListView.setAdapter(cardListItemAdapter);
 
         // listview 条目点击
@@ -160,7 +176,8 @@ public class ItemListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), CardDetailActivity.class);
-                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
+                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, categoryDataList.get(position));
+                intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, INTENT_ITEM_TO_DETAIL);
                 startActivity(intent);
             }
         });
@@ -258,7 +275,7 @@ public class ItemListFragment extends Fragment {
                             // 选择的类别与之前的不同
                             tradeType = position;
                             pageNumber = 1;
-                            dataList.clear();
+                            categoryDataList.clear();
 
 //                            setTabsUnPressed();
 
@@ -276,7 +293,7 @@ public class ItemListFragment extends Fragment {
 
                     urlType = DISCOUNT_LOAD_URL_TYPE;
                     pageNumber = 1;
-                    dataList.clear();
+                    categoryDataList.clear();
 
 //                    setTabsUnPressed();
 
@@ -289,7 +306,7 @@ public class ItemListFragment extends Fragment {
                 if (urlType != DISTANCE_LOAD_URL_TYPE) {
                     urlType = DISTANCE_LOAD_URL_TYPE;
                     pageNumber = 1;
-                    dataList.clear();
+                    categoryDataList.clear();
 
 //                    setTabsUnPressed();
 
@@ -356,10 +373,10 @@ public class ItemListFragment extends Fragment {
                                 CardItem cardItem = JsonObjectUtil.parseJsonObjectToCardItem(card);
                                 Log.v(TAG, cardItem.toString());
                                 if (gestureType == REFRESH_GESTURE) {
-                                    dataList.addFirst(cardItem);
+                                    categoryDataList.addFirst(cardItem);
 
                                 } else {
-                                    dataList.add(cardItem);
+                                    categoryDataList.add(cardItem);
                                 }
                             }
                             if (jsonArray.length() == 0) {

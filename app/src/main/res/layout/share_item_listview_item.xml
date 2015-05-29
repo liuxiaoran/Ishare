@@ -17,9 +17,10 @@
         <ImageView
 
             android:id="@+id/share_item_listview_item_pic_iv"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_width="80dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="fitXY" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

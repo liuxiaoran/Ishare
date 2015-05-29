@@ -1,6 +1,7 @@
 package com.galaxy.ishare.sharedcard;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +10,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.utils.DisplayUtil;
+import com.galaxy.ishare.utils.QiniuUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,6 +27,7 @@ import java.util.LinkedList;
  */
 public class CardListItemAdapter extends BaseAdapter {
 
+    private static final String TAG = "cardlistadapter";
     private LinkedList<CardItem> dataList;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
@@ -31,6 +39,10 @@ public class CardListItemAdapter extends BaseAdapter {
 
     }
 
+    public void setDataAndRefresh(LinkedList<CardItem> data) {
+        dataList = data;
+        this.notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {
@@ -78,8 +90,23 @@ public class CardListItemAdapter extends BaseAdapter {
         cardHolder.cardTypeTv.setText(cardItems[cardItem.wareType]);
         cardHolder.discountTv.setText(cardItem.discount+"");
         cardHolder.shopLocationTv.setText(cardItem.shopLocation);
-        cardHolder.shopDistanceTv.setText(cardItem.shopDistance+"");
-        cardHolder.ownerDistanceTv.setText(cardItem.ownerDistance+"");
+        cardHolder.shopDistanceTv.setText(cardItem.shopDistance + "");
+        cardHolder.ownerDistanceTv.setText(cardItem.ownerDistance + "");
+
+        if (cardItem.cardImgs != null && cardItem.cardImgs.length > 0) {
+
+            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 100));
+            Log.v(TAG, "arrive" + "   " + thumbnailUrl);
+            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 100));
+            final CardHolder finalCardHolder = cardHolder;
+            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                    finalCardHolder.cardIv.setImageBitmap(loadedImage);
+                }
+            });
+        }
 
         return convertView;
     }

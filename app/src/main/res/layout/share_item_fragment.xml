@@ -173,7 +173,9 @@
    <FrameLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       android:id="@+id/share_item_listview_framelayout"/>
+       android:id="@+id/share_item_listview_framelayout"
+       android:paddingLeft="4dp"
+       android:paddingRight="4dp" />
 
 
 

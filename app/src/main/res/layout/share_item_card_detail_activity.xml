@@ -18,7 +18,7 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/share_item_detail_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="400dp" />
 
             <TextView
                 android:id="@+id/share_item_detail_card_status_tv"

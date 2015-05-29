@@ -1,6 +1,7 @@
 package com.galaxy.ishare.sharedcard;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
@@ -26,6 +27,8 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.galaxy.ishare.Global;
+import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
@@ -33,7 +36,10 @@ import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.utils.DisplayUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
@@ -43,6 +49,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import info.hoang8f.widget.FButton;
 
 /**
@@ -51,6 +58,7 @@ import info.hoang8f.widget.FButton;
 public class CardDetailActivity extends ActionBarActivity {
 
     public static final String PARAMETER_CARD_ITEM = "PARAMETER_CARD_ITEM";
+    public static final String PARAMETER_WHO_SEND = "PARAMETER_WHO_SEND";
 
     private static final String TAG = "carddetail";
     private FButton borrowBtn, talkBtn;
@@ -71,6 +79,8 @@ public class CardDetailActivity extends ActionBarActivity {
 
     private BitmapDescriptor defaultPoiBitmap;
     private HttpInteract httpInteract;
+
+    private CircleImageView ownerAvatarCv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +94,7 @@ public class CardDetailActivity extends ActionBarActivity {
         if (cardItem.cardImgs != null) {
             picNumber = cardItem.cardImgs.length;
         }
-        Log.v(TAG, cardItem.cardImgs.length + "  " + cardItem.cardImgs.toString());
+
         picIvs = new ImageView[picNumber];
 
         pagerList = new ArrayList<>();
@@ -165,6 +175,16 @@ public class CardDetailActivity extends ActionBarActivity {
         descriptionTv.setText(cardItem.description);
         statusTv.setText(cardItem.cardStatus);
 
+        ImageSize avatarSize = new ImageSize(DisplayUtil.dip2px(this, 40), DisplayUtil.dip2px(this, 40));
+        Log.v(TAG, "avatar link:" + cardItem.ownerAvatar);
+        ImageLoader.getInstance().loadImage(cardItem.ownerAvatar, avatarSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
+            @Override
+            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+
+                ownerAvatarCv.setImageBitmap(loadedImage);
+            }
+        });
+
 
     }
 
@@ -195,10 +215,19 @@ public class CardDetailActivity extends ActionBarActivity {
     private void initCardPager() {
         LayoutInflater inflater = getLayoutInflater();
         for (int i = 0; i < picNumber; i++) {
-            Log.v(TAG, "carddetail: " + i + cardItem.cardImgs[i]);
             View view = inflater.inflate(R.layout.share_item_detail_viewpager, null);
             picIvs[i] = (ImageView) view.findViewById(R.id.share_item_detail_card_pager_iv);
-            ImageLoader.getInstance().displayImage(cardItem.cardImgs[i], picIvs[i]);
+
+            ImageSize imageSize = new ImageSize(Global.screenWidth - DisplayUtil.dip2px(this, 5), DisplayUtil.dip2px(this, 400));
+            final int finalI = i;
+            Log.v(TAG, "carddetail  " + cardItem.cardImgs[i]);
+            ImageLoader.getInstance().loadImage(cardItem.cardImgs[i], imageSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                    picIvs[finalI].setImageBitmap(loadedImage);
+
+                }
+            });
             pagerList.add(view);
         }
 
@@ -227,9 +256,13 @@ public class CardDetailActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()== android.R.id.home){
-            NavUtils.navigateUpFromSameTask(this);
+            if (getIntent().getStringExtra(PARAMETER_WHO_SEND).equals(ItemListFragment.INTENT_ITEM_TO_DETAIL)) {
+                NavUtils.navigateUpFromSameTask(this);
+            } else {
+                this.finish();
+            }
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public class MyPagerAdapter extends android.support.v4.view.PagerAdapter {

@@ -80,8 +80,6 @@ public class ImageParseUtil {
      *
      * @param context
      * @param imageUri
-     * @author yaoxing
-     * @date 2014-10-12
      */
 
     public static String getImageAbsolutePath(Context context, Uri imageUri) {

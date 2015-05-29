@@ -163,7 +163,7 @@ public class JsonObjectUtil {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
             }
         } catch (Exception e) {
-            Log.v("ItemListFragment", e.toString() + "   exception");
+            Log.v("cardparse", e.toString() + "   exception");
             e.printStackTrace();
         }
         return cardItem;

@@ -209,6 +209,8 @@ public class CardDetailActivity extends ActionBarActivity {
 
         cardMapView = (MapView) findViewById(R.id.share_item_detail_mapview);
 
+        ownerAvatarCv = (CircleImageView) findViewById(R.id.share_item_detail_owner_avatar_cv);
+
 
     }
 

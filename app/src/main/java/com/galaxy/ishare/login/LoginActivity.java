@@ -189,7 +189,6 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
     class HttpInteract {
         public void userLogin() {
-//gaidongle
 
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
             Log.v(TAG,"HTTP wechat id"+wechatId);

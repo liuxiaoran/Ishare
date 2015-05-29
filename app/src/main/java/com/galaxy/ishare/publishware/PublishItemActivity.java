@@ -619,7 +619,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //                ownerAvailableList.add(hashMap);
 //            }
             if (ownerAvailableList.size() >= 1) {
-                params.add(new BasicNameValuePair("owner_available", JsonObjectUtil.parseListToJsonArray(ownerAvailableList).toString()));
+                params.add(new BasicNameValuePair("owner_available", JsonObjectUtil.parseListToJsonString(ownerAvailableList)));
             }
 
             int shareType = 0;
@@ -643,8 +643,10 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
                 }
 
-                params.add(new BasicNameValuePair("img", JsonObjectUtil.parseArrayToJsonArray(imgs).toString()));
-                Log.v(TAG, "img " + JsonObjectUtil.parseArrayToJsonArray(imgs).toString());
+                String arrayStr = JsonObjectUtil.parseArrayToJsonString(imgs);
+                params.add(new BasicNameValuePair("img", arrayStr));
+                Log.v(TAG, "img: " + arrayStr);
+
             }
             HttpTask.startAsyncDataPostRequest(URLConstant.PUBLISH_SHARE_ITEM, params, new HttpDataResponse() {
                 @Override

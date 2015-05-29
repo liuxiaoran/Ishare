@@ -232,8 +232,12 @@ public class ItemListFragment extends Fragment {
                 listViewInPopUpWindow.setAdapter(adapter);
 
                 final PopupWindow popupWindow = new PopupWindow(popUpWindowView, topSelectorLayoutWidth, Global.screenHeight * 2 / 3, false);
-                popupWindow.showAsDropDown(v, 0, 0);
+
+                // 设置点击空白位置popupwindow 能消失
+                popupWindow.setOutsideTouchable(true);
                 popupWindow.setBackgroundDrawable(new BitmapDrawable());
+
+                popupWindow.showAsDropDown(v, 0, 0);
                 listViewInPopUpWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

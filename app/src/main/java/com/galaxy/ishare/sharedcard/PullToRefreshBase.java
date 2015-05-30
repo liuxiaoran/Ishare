@@ -679,6 +679,10 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
             smoothScrollTo(0);
         }
     }
+
+    public void resetFooter() {
+        smoothScrollTo(-mFooterHeight);
+    }
     
     /**
      * 判断是否正在下拉刷新

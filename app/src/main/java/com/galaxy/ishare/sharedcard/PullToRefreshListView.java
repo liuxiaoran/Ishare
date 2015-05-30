@@ -84,8 +84,9 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
             if (null != footerLoadingLayout) {
                 footerLoadingLayout.setState(ILoadingLayout.State.NO_MORE_DATA);
             }
-
+            resetFooter();
         }
+
     }
 
 

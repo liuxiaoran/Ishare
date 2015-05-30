@@ -17,8 +17,11 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         if (IShareContext.getInstance().getCurrentUser()==null){
-            Intent  intent = new Intent (this, LoginActivity.class);
-            startActivity(intent);
+            // 第一次进入系统
+
+
+//            Intent  intent = new Intent (this, LoginActivity.class);
+//            startActivity(intent);
         }else {
             Intent intent = new Intent (this,MainActivity.class);
             startActivity(intent);

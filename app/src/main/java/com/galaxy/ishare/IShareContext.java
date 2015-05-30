@@ -10,6 +10,12 @@ import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.Log;
+import android.view.ActionProvider;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.galaxy.ishare.model.User;
 import org.apache.http.util.EncodingUtils;
 
@@ -27,6 +33,8 @@ public class IShareContext {
     private static final String FIRSTIN = "fistin";
 
     private static User.UserLocation location ;
+
+    private static final String TAG = "IShareContext";
 
     //查询手机联系人的返回值
     @SuppressLint("InlineApi")
@@ -258,12 +266,21 @@ public class IShareContext {
         return ret;
     }
 
-    public ActionBar createDefaultActionbar(AppCompatActivity activity){
+    public ActionBar createDefaultHomeActionbar(AppCompatActivity activity, String title) {
+        return createActionbar(activity, true, title);
+    }
+
+
+    public ActionBar createActionbar(AppCompatActivity activity, boolean isDisplayHome, String title) {
         android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();
         actionBar.setCustomView(R.layout.default_main_action_bar);
+
         actionBar.setDisplayOptions(android.support.v7.app.ActionBar.DISPLAY_SHOW_CUSTOM
                 | android.support.v7.app.ActionBar.DISPLAY_SHOW_HOME);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(isDisplayHome);
+
+        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
+        titleTv.setText(title);
 
         return actionBar;
     }

@@ -62,9 +62,7 @@ public class CardOwnerAvailableShowActivity extends ActionBarActivity {
         setContentView(R.layout.publishware_owner_location_activity);
 
 
-        android.support.v7.app.ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
-        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
-        titleTv.setText("方便取卡的时间地点");
+        android.support.v7.app.ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "方便取卡的时间地点");
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
                 | ActionBar.DISPLAY_SHOW_HOME);
         actionBar.setDisplayHomeAsUpEnabled(true);

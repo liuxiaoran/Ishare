@@ -51,9 +51,7 @@ public class CardOwnerAvailableEditActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publishware_location_add_activity);
 
-        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
-        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
-        titleTv.setText("修改地址");
+        ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "修改地址");
 
         item= getIntent().getParcelableExtra(PARAMETER_CARD_AVAILABLE_ITEM);
         position = getIntent().getIntExtra(PARAMETER_CARD_AVAILABLE_POSITION, 0);

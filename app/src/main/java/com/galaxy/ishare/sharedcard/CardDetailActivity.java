@@ -86,9 +86,7 @@ public class CardDetailActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.share_item_card_detail_activity);
 
-        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
-        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
-        titleTv.setText("卡详情");
+        ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "卡详情");
 
         cardItem = getIntent().getParcelableExtra(PARAMETER_CARD_ITEM);
         if (cardItem.cardImgs != null) {

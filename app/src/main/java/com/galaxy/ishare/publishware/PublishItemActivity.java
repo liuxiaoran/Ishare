@@ -160,9 +160,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publishware_activity);
 
-        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
-        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
-        titleTv.setText("发布新卡");
+        IShareContext.getInstance().createDefaultHomeActionbar(this, "发布新卡");
         findViewsById();
 
         dataList = new ArrayList<>();

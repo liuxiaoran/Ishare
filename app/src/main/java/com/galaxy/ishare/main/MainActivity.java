@@ -15,10 +15,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.galaxy.ishare.Global;
 import com.galaxy.ishare.bindphone.BindPhoneActivity;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
@@ -40,6 +44,7 @@ import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -53,7 +58,9 @@ public class MainActivity extends ActionBarActivity {
     private RadioGroup mTabGroup = null;
     private RadioButton mShareItemButton, mContactButton, mMeButton;
 
-    private Fragment mShareItemFragment, mstatusFragment, mMeFragment;
+    private Fragment mShareItemFragment;
+    //    private Fragment mstatusFragment;
+    private Fragment mMeFragment;
 //    private TextView mTitle;
 
     private int[] mRadioId = new int[]{R.id.GlobalListButton, R.id.MeButton};
@@ -70,12 +77,30 @@ public class MainActivity extends ActionBarActivity {
     private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
     private String tempcoor = "gcj02";
 
+    private ActionBar actionBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        ActionBar actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_action_bar, false);
+        actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_action_bar, false);
+
+        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
+        titleTv.setText("卡");
+//        Button button = (Button)actionBar.getCustomView().findViewById(R.id.mapStyle);
+//        int w = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
+//        int h = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
+//        titleTv.measure(w, h);
+//        button.measure(w,h);
+//        int width =titleTv.getMeasuredWidth();
+//        int buttonWidth = button.getMeasuredWidth();
+//        int  screenWidth = Global.screenWidth;
+//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) titleTv.getLayoutParams(); /*或者 LinearLayout.LayoutParams p = new  LinearLayout.LayoutParams(width,height); 这里的width和height是以像素为单位*/
+//        lp.setMargins((int) ((screenWidth - width) / 2-buttonWidth), 0, 0, 0);
+//        Log.v(TAG, "title width:" + width + "screenwidth:" + screenWidth + "  margin:" + (screenWidth - width) / 2);
+//
+//        titleTv.setLayoutParams(lp);
+
         Button mapButton = (Button) actionBar.getCustomView().findViewById(R.id.mapStyle);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,14 +118,14 @@ public class MainActivity extends ActionBarActivity {
         inviteFriendDao = InviteFriendDao.getInstance(this);
 
         mShareItemFragment = new ItemListFragment();
-        mstatusFragment = new StateFragment();
+//        mstatusFragment = new StateFragment();
         mMeFragment = new MeFragment();
 
         FragmentTransaction mCurTransaction = getFragmentManager().beginTransaction();
         mCurTransaction.add(R.id.fragment_container, mShareItemFragment);
-        mCurTransaction.add(R.id.fragment_container, mstatusFragment);
+//        mCurTransaction.add(R.id.fragment_container, mstatusFragment);
         mCurTransaction.add(R.id.fragment_container, mMeFragment);
-        mCurTransaction.hide(mstatusFragment);
+//        mCurTransaction.hide(mstatusFragment);
         mCurTransaction.hide(mMeFragment);
         mCurTransaction.commit();
 
@@ -258,16 +283,19 @@ public class MainActivity extends ActionBarActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction mCurTransaction = getFragmentManager().beginTransaction();
                 mCurTransaction.hide(mShareItemFragment);
-                mCurTransaction.hide(mstatusFragment);
+//                mCurTransaction.hide(mstatusFragment);
                 mCurTransaction.hide(mMeFragment);
                 if (checkedId == mShareItemButton.getId()) {
 //                	mTitle.setText(R.string.share_item_tab);
+                    actionBar = IShareContext.getInstance().createCustomActionBar(MainActivity.this, R.layout.main_action_bar, false);
                     mCurTransaction.show(mShareItemFragment);
                 } else if (checkedId == mContactButton.getId()) {
 //                    mTitle.setText(R.string.contact_tab);
-                    mCurTransaction.show(mstatusFragment);
+                    ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(MainActivity.this, "最新动态");
+//                    mCurTransaction.show(mstatusFragment);
                 } else if (checkedId == mMeButton.getId()) {
 //                    mTitle.setText(R.string.me_tab);
+                    ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(MainActivity.this, "我");
                     mCurTransaction.show(mMeFragment);
                 }
                 mCurTransaction.commit();

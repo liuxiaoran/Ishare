@@ -54,7 +54,7 @@ public class BindPhoneActivity extends ActionBarActivity {
         setContentView(R.layout.register);
 
 
-        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
+        ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "绑定手机号");
         TextView tv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
         tv.setText("绑定手机号");
 

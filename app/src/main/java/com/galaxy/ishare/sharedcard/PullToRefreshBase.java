@@ -643,7 +643,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     }
 
     /**
-     * 得置header
+     * 重置header
      */
     protected void resetHeaderLayout() {
         final int scrollY = Math.abs(getScrollYValue());

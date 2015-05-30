@@ -390,8 +390,11 @@ public class ItemListFragment extends Fragment {
 //                            }
 
                             cardListItemAdapter.notifyDataSetChanged();
+                            if (gestureType == REFRESH_GESTURE)
                             pullToRefreshListView.onPullDownRefreshComplete();
+                            else
                             pullToRefreshListView.onPullUpRefreshComplete();
+
                             pullToRefreshListView.setHasMoreData(hasMoreData);
                             setLastUpdateTime();
 

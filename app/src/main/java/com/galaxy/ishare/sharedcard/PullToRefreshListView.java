@@ -7,6 +7,7 @@ package com.galaxy.ishare.sharedcard;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -83,8 +84,10 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
             if (null != footerLoadingLayout) {
                 footerLoadingLayout.setState(ILoadingLayout.State.NO_MORE_DATA);
             }
+
         }
     }
+
 
     /**
      * 设置滑动的监听器

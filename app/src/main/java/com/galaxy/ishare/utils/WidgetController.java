@@ -61,11 +61,21 @@ public class WidgetController {
         }
     }
 
-
     public void widgetGetFoucus(View view){
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
         view.requestFocus();
+    }
+
+    public void setViewUnPressed(View view) {
+        view.setEnabled(false);
+        view.setClickable(false);
+//        view.setPressed(false);
+    }
+
+    public void setViewClickable(View view) {
+        view.setEnabled(true);
+        view.setClickable(true);
     }
 
 }

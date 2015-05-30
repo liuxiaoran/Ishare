@@ -60,8 +60,8 @@ public class HttpTask {
     public static void startAsyncDataGetRequset(String request, final List<NameValuePair> params, final HttpDataResponse response) {
 
 
-        if (Global.phone != null && Global.key != null) {
-            request = request + "?" + "phone=" + Global.phone + "&key=" + Global.key;
+        if (Global.userId != null && Global.key != null) {
+            request = request + "?" + "open_id=" + Global.userId + "&key=" + Global.key;
 
             if (params != null) {
                 for (int i = 0; i <= params.size() - 1; i++) {
@@ -83,8 +83,8 @@ public class HttpTask {
     }
 
     public static void startAsyncDataPostRequest(String url, List<BasicNameValuePair> params, HttpDataResponse response) {
-        if (Global.key != null && Global.phone != null) {
-            params.add(new BasicNameValuePair("phone", Global.phone));
+        if (Global.key != null && Global.userId != null) {
+            params.add(new BasicNameValuePair("open_id", Global.userId));
             params.add(new BasicNameValuePair("key", Global.key));
             Log.v(TAG, Global.key);
             startAsyncDataRequset(new HttpPostExt(url), params, response);

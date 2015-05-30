@@ -243,7 +243,7 @@ public class IShareContext {
     }
 
 
-    public boolean checkFirstLogin() {
+    public boolean firstLogin() {
 
         boolean ret = false;
         if (getSharedPreferences().getBoolean(FIRSTIN, false) != false) {
@@ -267,6 +267,7 @@ public class IShareContext {
 
         return actionBar;
     }
+
 
     public ActionBar createCustomActionBar (AppCompatActivity activity , int res, boolean isDisplayHome){
         android.support.v7.app.ActionBar actionBar = activity.getSupportActionBar();

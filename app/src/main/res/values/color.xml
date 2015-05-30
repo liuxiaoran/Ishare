@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_primary">#219CF1</color>
-    <color name="color_primary_dark">#1565C0</color>
-    <color name="color_accent">#42A5F5</color>
-    <color name="white">#FFFFFF</color>
-    <color name="divider">#DADADA</color>
-    <color name="blue">#ff2d99d4</color>
-    <color name="gray">#B9B9B9</color>
-    <color name="huise">#7b747c</color>
-    <color name="layout_pressed">#9d9c9c</color>
-    <color name="color_emerald">#982ecc71</color>
+	<color name="color_primary">#219CF1</color>
+	<color name="color_primary_dark">#1565C0</color>
+	<color name="color_accent">#42A5F5</color>
+	<color name="white">#FFFFFF</color>
+	<color name="divider">#DADADA</color>
+	<color name="blue">#ff2d99d4</color>
+	<color name="gray">#B9B9B9</color>
+	<color name="huise">#7b747c</color>
+	<color name="layout_pressed">#9d9c9c</color>
+	<color name="color_emerald">#982ecc71</color>
 
     <color name="fbutton_color_turquoise">#1abc9c</color>
     <color name="fbutton_color_green_sea">#16a085</color>
@@ -31,13 +31,14 @@
     <color name="fbutton_color_silver">#bdc3c7</color>
     <color name="fbutton_color_concrete">#95a5a6</color>
     <color name="fbutton_color_asbestos">#7f8c8d</color>
+    <color name="loading_background">#FF4B4B4B</color>
 
+	<color name="red">#FF0000</color>
 
-
-    <!-- drop down list header font color -->
-    <color name="drop_down_list_header_font_color">#000000</color>
-    <!-- drop down list header second font color -->
-    <color name="drop_down_list_header_second_font_color">#000000</color>
-    <!-- drop down list footer font color -->
-    <color name="drop_down_list_footer_font_color">#000000</color>
+	<!-- drop down list header font color -->
+	<color name="drop_down_list_header_font_color">#000000</color>
+	<!-- drop down list header second font color -->
+	<color name="drop_down_list_header_second_font_color">#000000</color>
+	<!-- drop down list footer font color -->
+	<color name="drop_down_list_footer_font_color">#000000</color>
 </resources>

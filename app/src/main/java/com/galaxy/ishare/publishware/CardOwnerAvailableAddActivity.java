@@ -3,9 +3,11 @@ package com.galaxy.ishare.publishware;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,7 +29,7 @@ public class CardOwnerAvailableAddActivity extends ActionBarActivity {
     public static final String TAG="CardOwnerAvailableAdd";
     public static final int MAP_TO_ADD_RESULT_CODE=1;
     public static final String AVAILABLE_ITEM="AVAILABLE_ITEM";
-    private EditText nameEt, locationEt,phoneEt,timeEt;
+    private EditText nameEt, locationEt, timeEt;
     private FButton confirmBtn;
     private ImageView gpsIv;
 
@@ -59,7 +61,6 @@ public class CardOwnerAvailableAddActivity extends ActionBarActivity {
                 } else if (checkInfo() == false) {
                     Toast.makeText(CardOwnerAvailableAddActivity.this, toastMessage, Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
         gpsIv.setOnClickListener(new View.OnClickListener() {
@@ -81,22 +82,18 @@ public class CardOwnerAvailableAddActivity extends ActionBarActivity {
     }
     private boolean checkInfo(){
         boolean ret=true;
-        if (locationEt.getText().toString().equals("") || phoneEt.getText().toString().equals("") ||nameEt.getText().toString().equals("")||timeEt.getText().toString().equals("")){
+        if (locationEt.getText().toString().equals("") || nameEt.getText().toString().equals("") || timeEt.getText().toString().equals("")) {
             toastMessage="请填写完整信息";
             ret=false;
         }
 
-        else if (! CheckInfoValidity.getInstance().phonePatternMatch(phoneEt.getText().toString())){
-            toastMessage ="请填写正确的电话";
-            ret= false;
-        }
         return ret;
     }
 
     private void returnShowActivity(){
         Intent intent =new Intent (this,CardOwnerAvailableShowActivity.class);
         OwnerAvailableItem item  = new OwnerAvailableItem(locationEt.getText().toString(),
-                timeEt.getText().toString(),nameEt.getText().toString(),phoneEt.getText().toString(),longitude,latitude);
+                timeEt.getText().toString(), nameEt.getText().toString(), IShareContext.getInstance().getCurrentUser().getUserPhone(), longitude, latitude);
         Log.v("cardpublish",item.location+"  time"+item.time+" "+item.name+" "+item.latitude);
         intent.putExtra(AVAILABLE_ITEM, item);
         setResult(CardOwnerAvailableShowActivity.ADD_TO_SHOW_RESULT_CODE, intent);
@@ -119,10 +116,17 @@ public class CardOwnerAvailableAddActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()== android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void initViews(){
         nameEt= (EditText) findViewById(R.id.publishware_available_name_et);
         locationEt= (EditText)findViewById(R.id.publishware_available_location_et);
-        phoneEt = (EditText)findViewById(R.id.publishware_available_phone_et);
         timeEt = (EditText)findViewById(R.id.publishware_available_time_et);
         confirmBtn = (FButton)findViewById(R.id.publishware_available_cofirm_btn);
         gpsIv = (ImageView)findViewById(R.id.publish_owner_gps_iv);

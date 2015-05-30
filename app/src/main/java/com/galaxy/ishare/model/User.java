@@ -7,6 +7,10 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
+    private String gender;
+
+    private String avatar;
+
     private String userName;
 
     private String userId;
@@ -29,11 +33,22 @@ public class User implements Serializable {
     public User (){
 
     }
-    public User (String phone , String key){
-        this.userPhone = phone;
-        this.key=key;
 
+    public String getGender (){
+        return gender;
     }
+
+    public void setGender(String gender){
+        this.gender=gender;
+    }
+    public String getAvatar(){
+        return avatar;
+    }
+
+    public void setAvatar(String avatar){
+       this. avatar=avatar;
+    }
+
     public String getUserName() {
         return userName;
     }
@@ -67,7 +82,7 @@ public class User implements Serializable {
     }
 
 
-    public static class UserLocation {
+    public static class UserLocation implements Serializable{
 
         private String district;
         private String province;

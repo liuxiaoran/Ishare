@@ -1,10 +1,16 @@
 package com.galaxy.ishare.utils;
 
+import android.util.Log;
+
 import com.galaxy.ishare.model.CardItem;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,41 +20,79 @@ import java.util.Iterator;
  */
 public class JsonObjectUtil {
 
-    public static JSONArray parseListToJsonArray(ArrayList _list) {
-
+    public static JSONArray parseArrayToUTFJsonArray(String[] array) {
         JSONArray jsonArray = new JSONArray();
-        if (_list.get(0) instanceof HashMap) {
-            ArrayList<HashMap<String, String>> list = _list;
-            for (HashMap<String, String> singleHashMap : list) {
+        for (int i = 0; i < array.length; i++) {
+            try {
+                String strEncode = URLEncoder.encode(array[i], "UTF-8");
 
-                JSONObject singleJSONObject = new JSONObject();
+                jsonArray.put(strEncode);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
-                // 遍历hashMap
-                Iterator iterator = singleHashMap.keySet().iterator();
-                while (iterator.hasNext()) {
-                    String _key = iterator.next().toString();
-                    String _value = singleHashMap.get(_key);
-                    try {
-                        singleJSONObject.put(_key, _value);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                jsonArray.put(singleJSONObject);
-            }
-        } else if (_list.get(0) instanceof String) {
-            for (int i = 0; i < _list.size(); i++) {
-                jsonArray.put(_list.get(i).toString());
-            }
         }
         return jsonArray;
     }
 
+    public static String parseArrayToJsonString(String[] array) {
 
-    public static CardItem parseJsonToCardItem(String cardResult) {
+        JSONArray jsonArray = parseArrayToUTFJsonArray(array);
+        String ret = null;
+        try {
+            ret = URLDecoder.decode(jsonArray.toString(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+
+    public static String parseListToJsonString(ArrayList _list) {
+        JSONArray jsonArray = new JSONArray();
+        String ret = "";
+        try {
+
+            if (_list.get(0) instanceof HashMap) {
+                ArrayList<HashMap<String, String>> list = _list;
+                for (HashMap<String, String> singleHashMap : list) {
+
+                    JSONObject singleJSONObject = new JSONObject();
+
+                    // 遍历hashMap
+                    Iterator iterator = singleHashMap.keySet().iterator();
+                    while (iterator.hasNext()) {
+                        String _key = iterator.next().toString();
+
+                        String _valueUTF = URLEncoder.encode(singleHashMap.get(_key), "UTF-8");
+
+                        try {
+                            singleJSONObject.put(_key, _valueUTF);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    jsonArray.put(singleJSONObject);
+                }
+            } else if (_list.get(0) instanceof String) {
+                for (int i = 0; i < _list.size(); i++) {
+                    String strUTF = URLEncoder.encode(_list.get(i).toString(), "UTF-8");
+                    jsonArray.put(strUTF);
+                }
+            }
+
+            ret = URLDecoder.decode(jsonArray.toString(), "UTF-8");
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public static CardItem parseJsonObjectToCardItem(JSONObject jsonObject) {
+
         CardItem cardItem = new CardItem();
         try {
-            JSONObject jsonObject = new JSONObject(cardResult);
             if (jsonObject.has("card_id")) {
                 cardItem.setId(jsonObject.getInt("card_id"));
             }
@@ -91,9 +135,8 @@ public class JsonObjectUtil {
             if (jsonObject.has("description")) {
                 cardItem.setDescription(jsonObject.getString("description"));
             }
-            Object tmp = jsonObject.get("img");
-            String tdd = jsonObject.getString("img");
-            if (jsonObject.has("img") && jsonObject.get("img") != null && !jsonObject.getString("img").equals("null")) {
+
+            if (jsonObject.get("img") != JSONObject.NULL) {
                 JSONArray imgArray = jsonObject.getJSONArray("img");
                 String[] imgs = new String[imgArray.length()];
                 for (int i = 0; i < imgArray.length(); i++) {
@@ -119,9 +162,22 @@ public class JsonObjectUtil {
             if (jsonObject.has("owner_distance")) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
+            Log.v("cardparse", e.toString() + "   exception");
             e.printStackTrace();
         }
         return cardItem;
+    }
+
+    public static CardItem parseJsonToCardItem(String cardResult) {
+
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(cardResult);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return parseJsonObjectToCardItem(jsonObject);
     }
 }

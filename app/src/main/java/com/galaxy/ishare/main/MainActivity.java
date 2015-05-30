@@ -19,11 +19,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.galaxy.ishare.bindphone.BindPhoneActivity;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.cardState.StateFragment;
 import com.galaxy.ishare.constant.URLConstant;
-import com.galaxy.ishare.contact.ContactFragment;
 import com.galaxy.ishare.database.FriendDao;
 import com.galaxy.ishare.database.InviteFriendDao;
 import com.galaxy.ishare.mapLBS.CardActivity;
@@ -46,10 +47,13 @@ import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity {
 
+
+    public static final String PUBLISH_TO_BING_PHONE = "PUBLISH_TO_BING_PHONE";
+
     private RadioGroup mTabGroup = null;
     private RadioButton mShareItemButton, mContactButton, mMeButton;
 
-    private Fragment mShareItemFragment, mContactFragment, mMeFragment;
+    private Fragment mShareItemFragment, mstatusFragment, mMeFragment;
 //    private TextView mTitle;
 
     private int[] mRadioId = new int[]{R.id.GlobalListButton, R.id.MeButton};
@@ -71,8 +75,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-        ActionBar actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_action_bar,false);
+        ActionBar actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_action_bar, false);
         Button mapButton = (Button) actionBar.getCustomView().findViewById(R.id.mapStyle);
         mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,14 +93,14 @@ public class MainActivity extends ActionBarActivity {
         inviteFriendDao = InviteFriendDao.getInstance(this);
 
         mShareItemFragment = new ItemListFragment();
-        mContactFragment = new ContactFragment();
+        mstatusFragment = new StateFragment();
         mMeFragment = new MeFragment();
 
         FragmentTransaction mCurTransaction = getFragmentManager().beginTransaction();
         mCurTransaction.add(R.id.fragment_container, mShareItemFragment);
-        mCurTransaction.add(R.id.fragment_container, mContactFragment);
+        mCurTransaction.add(R.id.fragment_container, mstatusFragment);
         mCurTransaction.add(R.id.fragment_container, mMeFragment);
-        mCurTransaction.hide(mContactFragment);
+        mCurTransaction.hide(mstatusFragment);
         mCurTransaction.hide(mMeFragment);
         mCurTransaction.commit();
 
@@ -112,7 +115,7 @@ public class MainActivity extends ActionBarActivity {
 //			}, 1000);
 //        }
 
-        if (IShareContext.getInstance().checkFirstLogin()) {
+        if (IShareContext.getInstance().firstLogin()) {
             new Thread() {
                 @Override
                 public void run() {
@@ -148,8 +151,16 @@ public class MainActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.menu_publish) {
-            Intent intent = new Intent(this, PublishItemActivity.class);
-            startActivity(intent);
+            if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
+
+                Intent intent = new Intent(this, BindPhoneActivity.class);
+                intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
+                startActivity(intent);
+
+            } else {
+                Intent intent = new Intent(this, PublishItemActivity.class);
+                startActivity(intent);
+            }
         } else if (item.getItemId() == R.id.menu_search) {
             Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
@@ -247,14 +258,14 @@ public class MainActivity extends ActionBarActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction mCurTransaction = getFragmentManager().beginTransaction();
                 mCurTransaction.hide(mShareItemFragment);
-                mCurTransaction.hide(mContactFragment);
+                mCurTransaction.hide(mstatusFragment);
                 mCurTransaction.hide(mMeFragment);
                 if (checkedId == mShareItemButton.getId()) {
 //                	mTitle.setText(R.string.share_item_tab);
                     mCurTransaction.show(mShareItemFragment);
                 } else if (checkedId == mContactButton.getId()) {
 //                    mTitle.setText(R.string.contact_tab);
-                    mCurTransaction.show(mContactFragment);
+                    mCurTransaction.show(mstatusFragment);
                 } else if (checkedId == mMeButton.getId()) {
 //                    mTitle.setText(R.string.me_tab);
                     mCurTransaction.show(mMeFragment);
@@ -263,7 +274,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

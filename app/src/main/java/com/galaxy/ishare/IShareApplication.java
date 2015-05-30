@@ -19,6 +19,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import cn.sharesdk.framework.ShareSDK;
+
 
 public class IShareApplication extends Application {
 
@@ -28,6 +30,7 @@ public class IShareApplication extends Application {
 
     private static final String TAG = "application";
 
+    public static DisplayImageOptions defaultOptions;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -54,7 +57,8 @@ public class IShareApplication extends Application {
         if (IShareContext.getInstance().getCurrentUser() != null) {
             Log.v(TAG, IShareContext.getInstance().getCurrentUser().getKey() + "KEY");
             Global.key = IShareContext.getInstance().getCurrentUser().getKey();
-            Global.phone = IShareContext.getInstance().getCurrentUser().getUserPhone();
+            Global.userId = IShareContext.getInstance().getCurrentUser().getUserId();
+
 
         }
 
@@ -62,8 +66,11 @@ public class IShareApplication extends Application {
         // 初始化 ImageLoader
         // Create default options which will be used for every
         //  displayImage(...) call if no options will be passed to this method
-        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+        defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
+                .showImageForEmptyUri(R.drawable.load_empty)
+                .showImageOnFail(R.drawable.load_error)
+                .showImageOnLoading(R.drawable.loading)
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY)
@@ -71,9 +78,9 @@ public class IShareApplication extends Application {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
                 .defaultDisplayImageOptions(defaultOptions)
                 .threadPoolSize(3)
-
                 .build();
         ImageLoader.getInstance().init(config);
+
 
 
     }

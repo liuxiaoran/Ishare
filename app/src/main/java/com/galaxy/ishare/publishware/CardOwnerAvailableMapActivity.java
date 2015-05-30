@@ -92,7 +92,6 @@ public class CardOwnerAvailableMapActivity extends ActionBarActivity {
 
         searchPoi(addr);
 
-
     }
 
     @Override

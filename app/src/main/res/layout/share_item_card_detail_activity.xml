@@ -18,7 +18,7 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/share_item_detail_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" />
+                android:layout_height="400dp" />
 
             <TextView
                 android:id="@+id/share_item_detail_card_status_tv"
@@ -125,7 +125,7 @@
                     android:id="@+id/share_item_detail_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/share_item_detail_shop_location"
+                    android:layout_below="@id/share_item_detail_shop_location_tv"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
@@ -275,7 +275,8 @@
                 android:text="我要借卡"
                 android:textColor="@android:color/white"
                 fbutton:buttonColor="@color/huise"
-                fbutton:shadowEnabled="false" />
+                fbutton:shadowEnabled="false"
+                android:layout_marginLeft="5dp"/>
 
         </LinearLayout>
 

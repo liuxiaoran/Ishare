@@ -13,4 +13,10 @@
         <item>充值卡</item>
         <item>会员卡</item>
     </string-array>
+
+    <string-array name="pic_source_items">
+
+        <item>从图库选择</item>
+        <item>拍照</item>
+    </string-array>
 </resources>

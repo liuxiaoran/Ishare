@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:listViewAttr="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -82,8 +79,7 @@
                 android:id="@+id/iv_price_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:background="@drawable/ic_dropdown_arrow" />
+                android:layout_gravity="center_vertical|right" />
         </LinearLayout>
 
         <View style="@style/vertical_divider" />
@@ -119,8 +115,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:background="@drawable/ic_dropdown_arrow" />
+                android:layout_gravity="center_vertical|right" />
         </LinearLayout>
 
         <View style="@style/vertical_divider" />
@@ -147,14 +142,14 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:background="@drawable/ic_dropdown_arrow" />
+                android:layout_gravity="center_vertical|right" />
 
         </LinearLayout>
     </LinearLayout>
+
     <View
         style="@style/horizontal_divider"
-        android:layout_height="2dp"/>
+        android:layout_height="2dp" />
 
     <LinearLayout
         android:id="@+id/share_item_is_locating_layout"
@@ -170,16 +165,12 @@
     </LinearLayout>
 
 
-    <com.galaxy.ishare.sharedcard.DropDownListView
-        android:id="@+id/share_item_card_listview"
+    <FrameLayout
+        android:id="@+id/share_item_listview_framelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:drawSelectorOnTop="false"
-        android:paddingBottom="5dp"
-        listViewAttr:isAutoLoadOnBottom="true"
-        listViewAttr:isDropDownStyle="true"
-        listViewAttr:isOnBottomStyle="true"
-        android:divider="@null"/>
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp" />
 
 
 </LinearLayout>

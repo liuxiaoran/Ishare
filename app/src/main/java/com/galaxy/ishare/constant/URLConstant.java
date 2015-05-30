@@ -17,6 +17,9 @@ public class URLConstant {
     // login
     public static final String LOGIN = SERVER_IP + "/user/Login_C";
 
+    // 更新用户信息
+    public static final String UPDATE_USER_INFO =SERVER_IP+"/user/Update_User_C";
+
     //获取分页的地图商铺数据
     public static final String MAP_SHOP_PAGE = SERVER_IP + "/shop/Query_Shop_Sort_Composite_C/index";
     public static final String MAP_CARD_PAGE = SERVER_IP + "/card/Query_Card_Sort_Composite_C/index";
@@ -35,7 +38,21 @@ public class URLConstant {
 
 
     // 根据折扣从大到小得到卡的列表
-    public static final String  GET_DISCOUNT_CARD_LIST = SERVER_IP +"/card/Query_Card_Sort_Discount_C";
+    public static final String GET_DISCOUNT_CARD_LIST = SERVER_IP + "/card/Query_Card_Sort_Discount_C";
 
-    public static final String GET_DISTANCE_CARD_LIST =SERVER_IP +"/card/Query_Card_Sort_Distance_C";
+
+    // 借卡，发送借卡请求
+    public static final String BORROW_CARD = SERVER_IP + "/record/Record_C/add";
+
+
+    // 获取qiniu token
+    public static final String QIUNIU_TOKEN  = SERVER_IP +"/qiniu/Get_Token_C";
+    public static final String GET_DISTANCE_CARD_LIST = SERVER_IP + "/card/Query_Card_Sort_Distance_C";
+
+    public static final String UPDATE_USER = SERVER_IP + "/user/Update_User_C";
+
+    public static final String QUERY_USER = SERVER_IP + "/user/Query_User_C";
+
+    //用户状态相关
+    public static final String STATE_CARD = SERVER_IP + "/record/Record_C/get";
 }

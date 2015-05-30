@@ -1,9 +1,16 @@
 package com.galaxy.ishare.sharedcard;
 
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
@@ -25,6 +32,7 @@ public class CardDetailMapActivity extends ActionBarActivity {
     public static final String PARAMETER_OWNER_LATITUDE = "PARAMETER_OWNER_LATITUDE";
     public static final String PARAMETER_OWNER_LONGITUDE = "PARAMETER_OWNER_LONGITUDE";
 
+    public static final String TAG ="CardDetailMapActivity";
 
     private double shopLatitude;
     private double shopLongitude;
@@ -38,6 +46,9 @@ public class CardDetailMapActivity extends ActionBarActivity {
 
     private LatLng shopLatLng;
     private LatLng ownerLatLng;
+    BitmapDescriptor userLocationBitmap;
+    BitmapDescriptor ownerLocationBitmap;
+    BitmapDescriptor shopLocationBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +57,10 @@ public class CardDetailMapActivity extends ActionBarActivity {
 
         mBaiduMap = ((SupportMapFragment) (getSupportFragmentManager()
                 .findFragmentById(R.id.share_item_detail_map_fragment))).getBaiduMap();
+
+        android.support.v7.app.ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
+        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
+        titleTv.setText("三方位置");
 
         shopLatitude = getIntent().getDoubleExtra(PARAMETER_SHOP_LATITUDE, 0);
         shopLongitude = getIntent().getDoubleExtra(PARAMETER_SHOP_LONGITUDE, 0);
@@ -57,79 +72,131 @@ public class CardDetailMapActivity extends ActionBarActivity {
         shopLatLng = new LatLng(shopLatitude, shopLongitude);
         ownerLatLng = new LatLng(ownerLatitude, ownerLongitude);
 
+        // 初始化 bitmap 信息，不用时及时 recycle
+        userLocationBitmap = BitmapDescriptorFactory
+                .fromResource(R.drawable.icon_marka);
+        ownerLocationBitmap = BitmapDescriptorFactory
+                .fromResource(R.drawable.icon_markb);
+        shopLocationBitmap = BitmapDescriptorFactory
+                .fromResource(R.drawable.icon_markc);
+
+        Log.v(TAG, "shopLatitude: "+shopLatitude+" shopLongitude:"+shopLongitude);
+
         initMap();
 
 
-
     }
-    public void initMap(){
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()== android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void initMap() {
         // 选出三点中东南西北的边界坐标
         double northLatitude = shopLatitude;
         double southLatitude = shopLatitude;
         double westLongitude = shopLongitude;
         double eastLongitude = shopLongitude;
 
-        if (ownerLatitude>userLatitude){
-            if (ownerLatitude>northLatitude){
-                northLatitude=ownerLatitude;
+        if (ownerLatitude > userLatitude) {
+            if (ownerLatitude > northLatitude) {
+                northLatitude = ownerLatitude;
             }
-        }else {
-            if (userLatitude >northLatitude){
-                northLatitude=userLatitude;
-            }
-        }
-
-        if (ownerLatitude<userLatitude){
-            if (ownerLatitude<southLatitude){
-                southLatitude=ownerLatitude;
-            }
-        }else {
-            if (userLatitude<southLatitude){
-                southLatitude=userLatitude;
+        } else {
+            if (userLatitude > northLatitude) {
+                northLatitude = userLatitude;
             }
         }
 
-        if (ownerLongitude<userLongitude){
-            if (ownerLongitude<westLongitude) {
-                westLongitude=ownerLongitude;
+        if (ownerLatitude < userLatitude) {
+            if (ownerLatitude < southLatitude) {
+                southLatitude = ownerLatitude;
             }
-        }else {
-            if (userLongitude<westLongitude){
-                westLongitude=userLongitude;
-            }
-        }
-
-        if (ownerLongitude>userLongitude){
-            if (ownerLongitude>eastLongitude){
-                eastLongitude=ownerLongitude;
-            }
-        }else {
-            if (userLongitude>eastLongitude){
-                eastLongitude=userLongitude;
+        } else {
+            if (userLatitude < southLatitude) {
+                southLatitude = userLatitude;
             }
         }
 
-        // 设置地图范围，要最大显示三个点
-        LatLngBounds latLngBounds =new LatLngBounds.Builder().include(new LatLng(northLatitude+20,eastLongitude+20))
-                .include(new  LatLng(southLatitude-20,westLongitude-20)).build();
+        if (ownerLongitude < userLongitude) {
+            if (ownerLongitude < westLongitude) {
+                westLongitude = ownerLongitude;
+            }
+        } else {
+            if (userLongitude < westLongitude) {
+                westLongitude = userLongitude;
+            }
+        }
 
-        MapStatusUpdate mapStatusUpdate=MapStatusUpdateFactory.newLatLngBounds(latLngBounds);
+        if (ownerLongitude > userLongitude) {
+            if (ownerLongitude > eastLongitude) {
+                eastLongitude = ownerLongitude;
+            }
+        } else {
+            if (userLongitude > eastLongitude) {
+                eastLongitude = userLongitude;
+            }
+        }
+
+        // 设置地图范围，要最大限度显示三个点
+        LatLngBounds latLngBounds = new LatLngBounds.Builder().include(new LatLng(northLatitude + 10, eastLongitude + 10))
+                .include(new LatLng(southLatitude - 10, westLongitude - 10)).build();
+
+        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLngBounds(latLngBounds);
         mBaiduMap.setMapStatus(mapStatusUpdate);
 
 
-//        // 设置Marker 并且显示
-//        LatLng pointLatLng = info.location;
-//
-//
-//        //构建MarkerOption，用于在地图上添加Marker
-//        OverlayOptions option = new MarkerOptions()
-//                .position(pointLatLng)
-//                .icon(defaultPoiBitmap)
-//                .zIndex(9)
-//                .draggable(false);
-//        //在地图上添加Marker，并显示
-//        Marker newMarker = (Marker) mBaiduMap.addOverlay(option);
+        // 设置Marker 并且显示
+        LatLng userLatLng = new LatLng(userLatitude, userLongitude);
+        LatLng ownerLocationLatLng = new LatLng(ownerLatitude, ownerLongitude);
+        LatLng shopLocationLatLng = new LatLng(shopLatitude, shopLongitude);
 
 
+        //构建MarkerOption，用于在地图上添加Marker
+        OverlayOptions userOption = new MarkerOptions()
+                .position(userLatLng)
+                .icon(userLocationBitmap)
+                .zIndex(9)
+                .draggable(false);
+
+        OverlayOptions ownerOption = new MarkerOptions()
+                .position(ownerLocationLatLng)
+                .icon(ownerLocationBitmap)
+                .zIndex(9)
+                .draggable(false);
+        OverlayOptions shopOption = new MarkerOptions()
+                .position(shopLocationLatLng)
+                .icon(shopLocationBitmap)
+                .zIndex(9)
+                .draggable(false);
+        //在地图上添加Marker，并显示
+        Marker userMarker = (Marker) mBaiduMap.addOverlay(userOption);
+        Marker ownerMarker = (Marker) mBaiduMap.addOverlay(ownerOption);
+        Marker shopMarker = (Marker) mBaiduMap.addOverlay(shopOption);
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // 回收 bitmap 资源
+        userLocationBitmap.recycle();
+        shopLocationBitmap.recycle();
+        ownerLocationBitmap.recycle();
     }
 }

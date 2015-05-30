@@ -15,12 +15,14 @@ public class Global {
         mMainThreadHandler.post(task);
     }
 
-    public static String phone;
+    public static String userId;
+
 
     public static String key;
 
     public static int screenHeight;
 
     public static int screenWidth;
+
 }
 

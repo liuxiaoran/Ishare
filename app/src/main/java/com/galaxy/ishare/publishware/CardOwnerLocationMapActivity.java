@@ -20,6 +20,7 @@ import info.hoang8f.widget.FButton;
 
 /**
  * Created by liuxiaoran on 15/5/11.
+ * 暂时不用
  */
 public class CardOwnerLocationMapActivity extends ActionBarActivity implements
         OnGetGeoCoderResultListener {
@@ -49,7 +50,6 @@ public class CardOwnerLocationMapActivity extends ActionBarActivity implements
         ownerMapView = (MapView) findViewById(R.id.publishware_owner_location_mapview);
         confirmBtn = (FButton) findViewById(R.id.publishware_owner_location_confirm_btn);
         ownerBaduMap = ownerMapView.getMap();
-
 
         // 初始化搜索模块，注册事件监听
         mSearch = GeoCoder.newInstance();

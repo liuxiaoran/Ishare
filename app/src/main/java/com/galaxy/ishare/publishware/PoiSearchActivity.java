@@ -3,8 +3,10 @@ package com.galaxy.ishare.publishware;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,8 +15,6 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapStatusUpdate;
-import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -31,9 +31,6 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,7 +40,7 @@ import info.hoang8f.widget.FButton;
  * Created by liuxiaoran on 15/5/7.
  *
  */
-public class PoiSearchActivity extends FragmentActivity {
+public class PoiSearchActivity extends ActionBarActivity {
 
     // 传入参数
     public static final String PARAMETER_SHOP_NAEM = "shopName";
@@ -92,6 +89,9 @@ public class PoiSearchActivity extends FragmentActivity {
         setContentView(R.layout.activity_poisearch);
 
 
+        TextView titleTv = (TextView) IShareContext.getInstance().createDefaultActionbar(this).getCustomView().findViewById(R.id.actionbar_title_tv);
+        titleTv.setText("请选择店的位置");
+
         confirmBtn = (FButton) findViewById(R.id.poi_search_confirm);
         markerAddrInfoMap= new HashMap();
 
@@ -103,7 +103,7 @@ public class PoiSearchActivity extends FragmentActivity {
         Intent intent = getIntent();
         shopName = intent.getStringExtra(PARAMETER_SHOP_NAEM);
         mBaiduMap = ((SupportMapFragment) (getSupportFragmentManager()
-                .findFragmentById(R.id.map))).getBaiduMap();
+                .findFragmentById(R.id.poi_map))).getBaiduMap();
 
 
         // poiSearch
@@ -134,7 +134,6 @@ public class PoiSearchActivity extends FragmentActivity {
 
                 }
             }
-
             @Override
             public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
 
@@ -152,7 +151,6 @@ public class PoiSearchActivity extends FragmentActivity {
         mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-
 
                 clickCount++;
                 choosedShopLatLng = marker.getPosition();
@@ -176,6 +174,7 @@ public class PoiSearchActivity extends FragmentActivity {
                 } else {
                     if (clickCount % 2 == 0) {
                         marker.setIcon(defaultPoiBitmap);
+                        mBaiduMap.hideInfoWindow();
                         isChooseShop = false;
                     } else {
                         marker.setIcon(choosedPoiBitmap);
@@ -284,4 +283,11 @@ public class PoiSearchActivity extends FragmentActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

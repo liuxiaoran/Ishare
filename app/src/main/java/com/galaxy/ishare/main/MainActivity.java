@@ -263,41 +263,39 @@ public class MainActivity extends ActionBarActivity {
         mTabGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 if (checkedId == mShareItemButton.getId()) {
-                    FragmentTransaction shareItemTransaction = getFragmentManager().beginTransaction();
+
                     if (mShareItemFragment == null) {
                         mShareItemFragment = new ItemListFragment();
 
-                        shareItemTransaction.add(R.id.fragment_container, mShareItemFragment);
-                        shareItemTransaction.commit();
+                        transaction.add(R.id.fragment_container, mShareItemFragment);
                     }
                     if (mMeFragment != null) {
-                        shareItemTransaction.hide(mMeFragment);
+                        transaction.hide(mMeFragment);
                     }
 //                	mTitle.setText(R.string.share_item_tab);
                     titleTv.setText("分享");
 
-                    shareItemTransaction.show(mShareItemFragment);
+                    transaction.show(mShareItemFragment);
                 } else if (checkedId == mContactButton.getId()) {
 
 //                    mTitle.setText(R.string.contact_tab);
                     titleTv.setText("动态");
 
                 } else if (checkedId == mMeButton.getId()) {
-                    FragmentTransaction meTransaction = getFragmentManager().beginTransaction();
                     if (mMeFragment == null) {
                         mMeFragment = new MeFragment();
-                        meTransaction.add(R.id.fragment_container, mMeFragment);
-                        meTransaction.commit();
+                        transaction.add(R.id.fragment_container, mMeFragment);
                     }
                     if (mShareItemFragment != null) {
-                        meTransaction.hide(mShareItemFragment);
+                        transaction.hide(mShareItemFragment);
                     }
 //                    mTitle.setText(R.string.me_tab);
                     titleTv.setText("我");
-                    meTransaction.show(mMeFragment);
+                    transaction.show(mMeFragment);
                 }
+                transaction.commit();
 
             }
         });

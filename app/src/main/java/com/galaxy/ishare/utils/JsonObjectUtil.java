@@ -162,6 +162,15 @@ public class JsonObjectUtil {
             if (jsonObject.has("owner_distance")) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
             }
+            if (jsonObject.has("rating_average")) {
+                cardItem.setRatingCount(jsonObject.getDouble("rating_average"));
+            }
+            if (jsonObject.has("lend_count")) {
+                cardItem.setRentCount(jsonObject.getInt("lend_count"));
+            }
+            if (jsonObject.has("rating_num")) {
+                cardItem.setCommentCount(jsonObject.getInt("rating_num"));
+            }
         } catch (Exception e) {
             Log.v("cardparse", e.toString() + "   exception");
             e.printStackTrace();

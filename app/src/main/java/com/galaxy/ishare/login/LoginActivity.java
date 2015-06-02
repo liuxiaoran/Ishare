@@ -23,7 +23,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.User;
-import com.galaxy.ishare.utils.WaitingDialogUtil;
+import com.galaxy.ishare.utils.widget.WaitingDialogUtil;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;

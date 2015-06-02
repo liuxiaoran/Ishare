@@ -12,12 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.galaxy.ishare.Global;
@@ -28,8 +29,11 @@ import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.mapLBS.CardActivity;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
+import com.melnykov.fab.FloatingActionButton;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -42,30 +46,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 public class ItemListFragment extends Fragment {
 
     public static final String INTENT_ITEM_TO_DETAIL = "INTENT_ITEM_TO_DETAIL";
-
-    private View mRoot;
-    private LinearLayout categoryLayout, discountLayout, distanceLayout, defaultLayout, topSelectorLayout, isLocatingLayout;
-    private MyClickListener myClickListener;
-    private int topSelectorLayoutWidth;
-    private TextView categoryTv;
-    private static final String TAG = "ItemListFragment";
-    private HttpInteract httpInteract;
-    private int pageNumber = 1;
-
-    // 存储不同tab 的数据
-    public LinkedList<CardItem> categoryDataList;
-    public LinkedList<CardItem> discountDataList;
-    public LinkedList<CardItem> distanceDataList;
-    public LinkedList<CardItem> defaultDataList;
-
-    public LinkedList<CardItem> listViewDataList; // 最终
-
-    public int tabIndex; // 0: 代表分类Tab， 1：代表折扣排序Tab, 2:代表距离排序Tab, 3：代表默认排序Tab
-
 
     private static final int DISTANCE_LOAD_URL_TYPE = 1;
     private static final int DISCOUNT_LOAD_URL_TYPE = 2;
@@ -74,6 +59,20 @@ public class ItemListFragment extends Fragment {
     private static final int LOAD_MORE_GESTURE = 2;
 
     private static final int pageSize = 6;
+
+    private View mRoot;
+    private LinearLayout categoryLayout, discountLayout, distanceLayout, isLocatingLayout;
+    private MyClickListener myClickListener;
+    private TextView categoryTv;
+    private static final String TAG = "ItemListFragment";
+    private HttpInteract httpInteract;
+    private int pageNumber = 1;
+
+    // 存储不同tab 的数据
+    public LinkedList<CardItem> dataList;
+
+    public RelativeLayout loadingLayout;
+
     private int tradeType = -1;
 
     // 判断使用哪个url
@@ -84,13 +83,17 @@ public class ItemListFragment extends Fragment {
     private CardListItemAdapter cardListItemAdapter;
 
 
-    private LocalBroadcastManager localBroadcastManager;
-    private BroadcastReceiver receiver;
-
     private FrameLayout listViewFrameLayout;
     private ListView cardListView;
     private PullToRefreshListView pullToRefreshListView;
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+
+    private LocalBroadcastManager localBroadcastManager;
+    private BroadcastReceiver receiver;
+
+    private FloatingActionButton mapStyleBtn;
+
+    private int receiveBroadcastCount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,28 +106,18 @@ public class ItemListFragment extends Fragment {
         // 现在默认是以折扣排序
         urlType = DISCOUNT_LOAD_URL_TYPE;
 
-        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        topSelectorLayout.measure(w, h);
-        topSelectorLayoutWidth = topSelectorLayout.getMeasuredWidth();
-        Log.v(TAG, topSelectorLayoutWidth + "layout width");
-        Log.v(TAG, Global.screenWidth + "");
-
 
         myClickListener = new MyClickListener();
         categoryLayout.setOnClickListener(myClickListener);
         discountLayout.setOnClickListener(myClickListener);
         distanceLayout.setOnClickListener(myClickListener);
-        defaultLayout.setOnClickListener(myClickListener);
+
 
         httpInteract = new HttpInteract();
-        categoryDataList = new LinkedList<>();
-        discountDataList = new LinkedList<>();
-        distanceDataList = new LinkedList<>();
-        defaultDataList = new LinkedList<>();
+        dataList = new LinkedList<>();
 
 
-        cardListItemAdapter = new CardListItemAdapter(categoryDataList, getActivity());
+        cardListItemAdapter = new CardListItemAdapter(dataList, getActivity());
 
 
         pullToRefreshListView = new PullToRefreshListView(getActivity());
@@ -146,20 +139,60 @@ public class ItemListFragment extends Fragment {
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                // 不知为何会收到两次，所以在第二次的时候不执行内部代码
+                if (receiveBroadcastCount == 0) {
+                    isLocatingLayout.setVisibility(View.GONE);
+                    pullToRefreshListView.setVisibility(View.VISIBLE);
 
-                isLocatingLayout.setVisibility(View.GONE);
-                pullToRefreshListView.setVisibility(View.VISIBLE);
-
-                httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
-                        IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
+                    pullToRefreshListView.doPullRefreshing(true, 500);
+                    receiveBroadcastCount++;
+                }
 
             }
         };
         localBroadcastManager.registerReceiver(receiver, new IntentFilter(BroadcastActionConstant.UPDATE_USER_LOCATION));
 
-
         listViewFrameLayout = (FrameLayout) mRoot.findViewById(R.id.share_item_listview_framelayout);
-        listViewFrameLayout.addView(pullToRefreshListView);
+        listViewFrameLayout.addView(pullToRefreshListView, 0);
+
+
+        mapStyleBtn = (FloatingActionButton) mRoot.findViewById(R.id.map_style_floating_btn);
+        mapStyleBtn.attachToListView(cardListView);
+
+        // 地图模式按钮点击
+        mapStyleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CardActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        // 设置listview的状态监听来隐藏或者显示地图模式按钮
+        cardListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+                switch (scrollState) {
+                    case SCROLL_STATE_IDLE:
+                        mapStyleBtn.show();
+                        break;
+                    case SCROLL_STATE_TOUCH_SCROLL:
+                        mapStyleBtn.hide();
+                        break;
+                    case SCROLL_STATE_FLING:
+                        mapStyleBtn.hide();
+                        break;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+
+            }
+        });
+
 
         return mRoot;
     }
@@ -176,7 +209,7 @@ public class ItemListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), CardDetailActivity.class);
-                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, categoryDataList.get(position));
+                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
                 intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, INTENT_ITEM_TO_DETAIL);
                 startActivity(intent);
             }
@@ -209,6 +242,7 @@ public class ItemListFragment extends Fragment {
 
         super.onDestroy();
         localBroadcastManager.unregisterReceiver(receiver);
+
     }
 
 
@@ -217,12 +251,11 @@ public class ItemListFragment extends Fragment {
         categoryLayout = (LinearLayout) view.findViewById(R.id.share_item_category_layout);
         discountLayout = (LinearLayout) view.findViewById(R.id.share_item_discount_layout);
         distanceLayout = (LinearLayout) view.findViewById(R.id.share_item_distance_layout);
-        defaultLayout = (LinearLayout) view.findViewById(R.id.share_item_default_layout);
-        topSelectorLayout = (LinearLayout) view.findViewById(R.id.share_item_top_layout);
 
         categoryTv = (TextView) view.findViewById(R.id.share_item_category_tv);
         isLocatingLayout = (LinearLayout) view.findViewById(R.id.share_item_is_locating_layout);
 
+        loadingLayout = (RelativeLayout) view.findViewById(R.id.share_item_loading_layout);
 
     }
 
@@ -249,21 +282,33 @@ public class ItemListFragment extends Fragment {
         public void onClick(View v) {
             if (v.getId() == R.id.share_item_category_layout) {
 
-                View popUpWindowView = LayoutInflater.from(getActivity()).inflate(R.layout.share_item_popup_window, null);
+                final View popUpWindowView = LayoutInflater.from(getActivity()).inflate(R.layout.share_item_popup_window, null);
                 // popupwindow 中的listview
                 ListView listViewInPopUpWindow = (ListView) popUpWindowView.findViewById(R.id.share_item_popupwindow_listview);
 
+                LinearLayout whoLinearLayout = (LinearLayout) popUpWindowView.findViewById(R.id.share_item_popupwindow_background);
+
+
                 final String[] wareItems = getResources().getStringArray(R.array.trade_items);
-                ArrayAdapter adapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, wareItems);
-                listViewInPopUpWindow.setAdapter(adapter);
+                CategoryWindowAdapter categoryWindowAdapter = new CategoryWindowAdapter(wareItems, getActivity());
+                listViewInPopUpWindow.setAdapter(categoryWindowAdapter);
 
-                final PopupWindow popupWindow = new PopupWindow(popUpWindowView, topSelectorLayoutWidth, Global.screenHeight * 2 / 3, false);
+                final PopupWindow popupWindow = new PopupWindow(popUpWindowView, Global.screenWidth, ViewGroup.LayoutParams.MATCH_PARENT, false);
+                // 点击popupwindow 灰色部分，popuowindow 消失
+                whoLinearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (popupWindow != null && popupWindow.isShowing()) {
+                            popupWindow.dismiss();
+                        }
+                    }
+                });
 
-                // 设置点击空白位置popupwindow 能消失
+                // 设置点击popuwindow外的空白位置，popupwindow 能消失
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setBackgroundDrawable(new BitmapDrawable());
 
-                popupWindow.showAsDropDown(v, 0, 0);
+                popupWindow.showAsDropDown(v, 0, DisplayUtil.dip2px(getActivity(), 2));
                 listViewInPopUpWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -275,7 +320,7 @@ public class ItemListFragment extends Fragment {
                             // 选择的类别与之前的不同
                             tradeType = position;
                             pageNumber = 1;
-                            categoryDataList.clear();
+                            dataList.clear();
 
 //                            setTabsUnPressed();
 
@@ -293,7 +338,7 @@ public class ItemListFragment extends Fragment {
 
                     urlType = DISCOUNT_LOAD_URL_TYPE;
                     pageNumber = 1;
-                    categoryDataList.clear();
+                    dataList.clear();
 
 //                    setTabsUnPressed();
 
@@ -306,18 +351,13 @@ public class ItemListFragment extends Fragment {
                 if (urlType != DISTANCE_LOAD_URL_TYPE) {
                     urlType = DISTANCE_LOAD_URL_TYPE;
                     pageNumber = 1;
-                    categoryDataList.clear();
+                    dataList.clear();
 
 //                    setTabsUnPressed();
 
                     httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                             IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
-
-            } else if (v.getId() == R.id.share_item_default_layout) {
-
-                // TODO:点击了默认排序，现在还没有写
-
 
             }
         }
@@ -338,7 +378,21 @@ public class ItemListFragment extends Fragment {
 
     class HttpInteract {
 
+        // 存放这个界面中所有http请求的future
+        ArrayList<Future> httpStatusList = new ArrayList<>();
+
         public void loadData(int loadType, int tradeType, double longitude, double latitude, final int pageNumber, int pageSize) {
+
+            if (pageNumber == 1)
+                loadingLayout.setVisibility(View.VISIBLE);
+
+            for (int i = 0; i < httpStatusList.size(); i++) {
+                Future future = httpStatusList.get(i);
+                if (!future.isDone() && !future.isCancelled()) {
+                    future.cancel(true);
+                    httpStatusList.remove(future);
+                }
+            }
 
             List<NameValuePair> paramsList = new ArrayList<>();
             paramsList.add(new BasicNameValuePair("trade_type", tradeType + ""));
@@ -353,9 +407,10 @@ public class ItemListFragment extends Fragment {
                 url = URLConstant.GET_DISTANCE_CARD_LIST;
             }
             Log.v(TAG, tradeType + " " + pageNumber + " " + pageSize);
-            HttpTask.startAsyncDataGetRequset(url, paramsList, new HttpDataResponse() {
+            Future future = HttpTask.startAsyncDataGetRequset(url, paramsList, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
+                    loadingLayout.setVisibility(View.GONE);
 
                     try {
 
@@ -373,27 +428,23 @@ public class ItemListFragment extends Fragment {
                                 CardItem cardItem = JsonObjectUtil.parseJsonObjectToCardItem(card);
                                 Log.v(TAG, cardItem.toString());
                                 if (gestureType == REFRESH_GESTURE) {
-                                    categoryDataList.addFirst(cardItem);
+                                    dataList.addFirst(cardItem);
 
                                 } else {
-                                    categoryDataList.add(cardItem);
+                                    dataList.add(cardItem);
                                 }
                             }
                             if (jsonArray.length() == 0) {
 
                                 hasMoreData = false;
                             }
-//                            // 没有内容
-//                            if (jsonArray.length() == 0 && pageNumber == 1) {
-//                                pullToRefreshListView.setVisibility(View.GONE);
-//
-//                            }
+
 
                             cardListItemAdapter.notifyDataSetChanged();
                             if (gestureType == REFRESH_GESTURE)
-                            pullToRefreshListView.onPullDownRefreshComplete();
+                                pullToRefreshListView.onPullDownRefreshComplete();
                             else
-                            pullToRefreshListView.onPullUpRefreshComplete();
+                                pullToRefreshListView.onPullUpRefreshComplete();
 
                             pullToRefreshListView.setHasMoreData(hasMoreData);
                             setLastUpdateTime();
@@ -428,6 +479,8 @@ public class ItemListFragment extends Fragment {
 
                 }
             });
+            httpStatusList.add(future);
+
 
 
         }

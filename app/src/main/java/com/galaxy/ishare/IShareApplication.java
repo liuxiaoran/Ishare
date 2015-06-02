@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.WindowManager;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -19,8 +20,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
-import cn.sharesdk.framework.ShareSDK;
-
 
 public class IShareApplication extends Application {
 
@@ -31,6 +30,7 @@ public class IShareApplication extends Application {
     private static final String TAG = "application";
 
     public static DisplayImageOptions defaultOptions;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -82,7 +82,6 @@ public class IShareApplication extends Application {
         ImageLoader.getInstance().init(config);
 
 
-
     }
 
 
@@ -102,10 +101,12 @@ public class IShareApplication extends Application {
             User.UserLocation userLocation = new User.UserLocation(city, province, district, locationStr, longitude, latitude);
             IShareContext.getInstance().setUserLocation(userLocation);
 
+            mLocationClient.stop();
+
             // 获取新的location ，发出广播,更新位置
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(BroadcastActionConstant.UPDATE_USER_LOCATION));
+            Log.v("testbroadcast", "application send broadcast");
 
-            mLocationClient.stop();
 
             // 将新的位置存在sp中
             User user = null;
@@ -117,6 +118,7 @@ public class IShareApplication extends Application {
                 user.setUserLocation(userLocation);
             }
             IShareContext.getInstance().saveCurrentUser(user);
+
 
         }
 

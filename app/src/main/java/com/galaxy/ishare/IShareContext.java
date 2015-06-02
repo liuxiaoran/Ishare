@@ -126,7 +126,8 @@ public class IShareContext {
         if (location!=null) {
             return location;
         }
-        return getCurrentUser().getUserLocation();
+//        return getCurrentUser().getUserLocation();
+        return null;
     }
 
 

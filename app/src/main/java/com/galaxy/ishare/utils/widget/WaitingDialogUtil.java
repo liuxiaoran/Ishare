@@ -1,11 +1,10 @@
-package com.galaxy.ishare.utils;
+package com.galaxy.ishare.utils.widget;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.galaxy.ishare.Global;

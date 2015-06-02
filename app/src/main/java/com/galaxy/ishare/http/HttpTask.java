@@ -16,6 +16,7 @@ import java.lang.ref.SoftReference;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class HttpTask {
 
@@ -29,7 +30,7 @@ public class HttpTask {
     public static void startSyncDataRequset(final HttpPostExt request) {
     }
 
-    public static void startAsyncDataRequset(final HttpGetExt request, final HttpDataResponse response) {
+    public static Future startAsyncDataRequset(final HttpGetExt request, final HttpDataResponse response) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -54,49 +55,10 @@ public class HttpTask {
                 }
             }
         };
-        mDataPool.execute(task);
+        return mDataPool.submit(task);
     }
 
-    public static void startAsyncDataGetRequset(String request, final List<NameValuePair> params, final HttpDataResponse response) {
-
-
-        if (Global.userId != null && Global.key != null) {
-            request = request + "?" + "open_id=" + Global.userId + "&key=" + Global.key;
-
-            if (params != null) {
-                for (int i = 0; i <= params.size() - 1; i++) {
-                    request = request + "&" + params.get(i).getName() + "=" + params.get(i).getValue();
-                }
-            }
-        } else {
-            if (params != null) {
-                request = request + "?" + params.get(0).getName() + "=" + params.get(0).getValue();
-
-                for (int i = 1; i <= params.size() - 1; i++) {
-                    request = request + "&" + params.get(i).getName() + "=" + params.get(i).getValue();
-                }
-            }
-        }
-        Log.v(TAG, request + "----request");
-        HttpGetExt httpGetExt = new HttpGetExt(request);
-        startAsyncDataRequset(httpGetExt, response);
-    }
-
-    public static void startAsyncDataPostRequest(String url, List<BasicNameValuePair> params, HttpDataResponse response) {
-        if (Global.key != null && Global.userId != null) {
-            params.add(new BasicNameValuePair("open_id", Global.userId));
-            params.add(new BasicNameValuePair("key", Global.key));
-            Log.v(TAG, Global.key);
-            startAsyncDataRequset(new HttpPostExt(url), params, response);
-
-        } else {
-            Log.v(TAG, Global.key + "else");
-            if (params != null)
-                startAsyncDataRequset(new HttpPostExt(url), params, response);
-        }
-    }
-
-    public static void startAsyncDataRequset(final HttpPostExt request, final List<BasicNameValuePair> params, final HttpDataResponse response) {
+    public static Future startAsyncDataRequset(final HttpPostExt request, final List<BasicNameValuePair> params, final HttpDataResponse response) {
 
         Runnable task = new Runnable() {
             @Override
@@ -129,9 +91,53 @@ public class HttpTask {
                 }
             }
         };
-        mDataPool.execute(task);
+        return mDataPool.submit(task);
 
     }
+
+
+    public static Future startAsyncDataGetRequset(String request, final List<NameValuePair> params, final HttpDataResponse response) {
+
+
+        if (Global.userId != null && Global.key != null) {
+            request = request + "?" + "open_id=" + Global.userId + "&key=" + Global.key;
+
+            if (params != null) {
+                for (int i = 0; i <= params.size() - 1; i++) {
+                    request = request + "&" + params.get(i).getName() + "=" + params.get(i).getValue();
+                }
+            }
+        } else {
+            if (params != null) {
+                request = request + "?" + params.get(0).getName() + "=" + params.get(0).getValue();
+
+                for (int i = 1; i <= params.size() - 1; i++) {
+                    request = request + "&" + params.get(i).getName() + "=" + params.get(i).getValue();
+                }
+            }
+        }
+        Log.v(TAG, request + "----request");
+        HttpGetExt httpGetExt = new HttpGetExt(request);
+        return startAsyncDataRequset(httpGetExt, response);
+    }
+
+    public static Future startAsyncDataPostRequest(String url, List<BasicNameValuePair> params, HttpDataResponse response) {
+        Future ret = null;
+        if (Global.key != null && Global.userId != null) {
+            params.add(new BasicNameValuePair("open_id", Global.userId));
+            params.add(new BasicNameValuePair("key", Global.key));
+            Log.v(TAG, Global.key);
+            ret = startAsyncDataRequset(new HttpPostExt(url), params, response);
+
+        } else {
+            Log.v(TAG, Global.key + "else");
+            if (params != null)
+                ret = startAsyncDataRequset(new HttpPostExt(url), params, response);
+        }
+        return ret;
+    }
+
+
 
     private static void revDataOk(final HttpRequestBase request, final HttpDataResponse response, final String ret) {
         Global.RunOnUiThread(new Runnable() {

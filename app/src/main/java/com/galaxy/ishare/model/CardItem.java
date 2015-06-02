@@ -36,6 +36,10 @@ public class CardItem implements Parcelable{
 
     public String publishTime;
 
+    public int rentCount;
+    public int commentCount;
+    public double ratingCount;
+
     
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -68,6 +72,9 @@ public class CardItem implements Parcelable{
             dest.writeStringArray(cardImgs);
         }
         dest.writeString(publishTime);
+        dest.writeInt(rentCount);
+        dest.writeInt(commentCount);
+        dest.writeDouble(ratingCount);
 
     }
 
@@ -105,6 +112,10 @@ public class CardItem implements Parcelable{
         }
         cardImgs= tem;
         publishTime=in.readString();
+
+        rentCount = in.readInt();
+        commentCount = in.readInt();
+        ratingCount = in.readDouble();
     }
 
 
@@ -160,6 +171,30 @@ public class CardItem implements Parcelable{
 
         return "id:"+id+" "+"shopName"+shopName+" "+"wareType"+wareType+" "+"owner discount"+ownerDistance +" description"+description;
 
+    }
+
+    public int getRentCount() {
+        return rentCount;
+    }
+
+    public void setRentCount(int rent) {
+        this.rentCount = rent;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public void setRatingCount(double ratingCount) {
+        this.ratingCount = ratingCount;
+    }
+
+    public double getRatingCount() {
+        return ratingCount;
     }
 
     public int getId() {

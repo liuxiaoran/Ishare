@@ -1,10 +1,16 @@
 package com.galaxy.ishare;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.View;
 
+import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.login.LoginActivity;
 import com.galaxy.ishare.main.MainActivity;
 
@@ -19,19 +25,31 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.splash_activity);
 
         if (IShareContext.getInstance().getCurrentUser()==null){
             // 第一次进入系统
 
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
+
+            Intent intent1 = new Intent(SplashActivity.this, LoginActivity.class);
+            startActivity(intent1);
+            SplashActivity.this.finish();
+
+
         }else {
-            Intent intent = new Intent (this,MainActivity.class);
-            startActivity(intent);
+
+
+            Intent intent2 = new Intent(SplashActivity.this, MainActivity.class);
+            startActivity(intent2);
+            SplashActivity.this.finish();
+
+
         }
+    }
 
-        this.finish();
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
     }
 }

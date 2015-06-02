@@ -71,6 +71,9 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Core-2.4.0.jar')
     compile files('libs/ShareSDK-Wechar-Moments-2.4.0.jar')
 
+    // floating action button
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
+
     //照片剪接
 //    compile 'com.soundcloud.android:android-crop:1.0.0@aar'
 }

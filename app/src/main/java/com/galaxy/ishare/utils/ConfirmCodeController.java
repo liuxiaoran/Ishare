@@ -32,9 +32,9 @@ public class ConfirmCodeController {
         if (instance == null) {
             instance = new ConfirmCodeController();
             codeGroup = new ArrayList();
-            ConfirmCodeController.timer = timer;
-            ConfirmCodeController.context = context;
         }
+        ConfirmCodeController.timer = timer;
+        ConfirmCodeController.context = context;
         return instance;
     }
 

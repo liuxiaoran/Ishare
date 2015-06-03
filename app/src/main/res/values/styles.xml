@@ -39,7 +39,7 @@
     <style name="horizontal_divider">
         <item name="android:background">@color/divider</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1px</item>
+        <item name="android:layout_height">2px</item>
     </style>
 
     <style name="vertical_divider">

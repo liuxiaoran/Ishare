@@ -4,7 +4,7 @@
 	<color name="color_primary_dark">#1565C0</color>
 	<color name="color_accent">#42A5F5</color>
 	<color name="white">#FFFFFF</color>
-	<color name="divider">#DADADA</color>
+    <color name="divider">#ECEFF1</color>
 	<color name="blue">#ff2d99d4</color>
 	<color name="gray">#B9B9B9</color>
 	<color name="huise">#7b747c</color>
@@ -55,6 +55,6 @@
     <!-- main activity -->
 
     <color name="floating_btn_normal">#FFFFFF</color>
-    <color name="floationg_btn_pressed">#FFFFFF</color>
+    <color name="floationg_btn_pressed">#34FFFFFF</color>
     <color name="floating_btn_ripple">#FFFFFF</color>
 </resources>

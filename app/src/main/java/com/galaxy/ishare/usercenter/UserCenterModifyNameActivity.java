@@ -2,6 +2,7 @@ package com.galaxy.ishare.usercenter;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.galaxy.ishare.utils.UserUtils;
 /**
  * Created by YangJunLin on 2015/5/23.
  */
-public class MyselfNaneActivity extends Activity {
+public class UserCenterModifyNameActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

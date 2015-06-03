@@ -335,7 +335,7 @@
 			android:exported="false" >
 		</service>
 		<activity
-			android:name=".usercenter.MyselfInfoActivity"
+			android:name=".usercenter.UserInfoActivity"
 			android:screenOrientation="portrait" />
 
 
@@ -398,7 +398,7 @@
 		<meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
 		<meta-data android:name="JPUSH_APPKEY" android:value="745a8e1fdefd28e07578b984" /> <!--  </>值来自开发者平台取得的AppKey-->
 		<activity
-			android:name=".usercenter.MyselfNaneActivity"
+			android:name=".usercenter.UserCenterModifyNameActivity"
 			android:screenOrientation="portrait" />
 
 	</application>

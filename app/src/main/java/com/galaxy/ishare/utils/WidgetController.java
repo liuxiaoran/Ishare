@@ -33,12 +33,12 @@ public class WidgetController {
         Button button = null;
         if (view instanceof TextView) {
             textView = (TextView) view;
-            textView.setSelected(false);
+            textView.setEnabled(true);
             textView.setTextColor(context.getResources().getColor(R.color.blue));
 
         } else if (view instanceof Button) {
             button = (Button) view;
-            button.setSelected(false);
+            button.setEnabled(true);
             button.setTextColor(context.getResources().getColor(R.color.blue));
         }
 
@@ -51,12 +51,12 @@ public class WidgetController {
         Button button = null;
         if (view instanceof TextView) {
             textView = (TextView) view;
-            textView.setSelected(true);
+            textView.setEnabled(false);
             textView.setTextColor(context.getResources().getColor(R.color.gray));
 
         } else if (view instanceof Button) {
             button = (Button) view;
-            button.setSelected(true);
+            button.setEnabled(false);
             button.setTextColor(context.getResources().getColor(R.color.gray));
         }
     }

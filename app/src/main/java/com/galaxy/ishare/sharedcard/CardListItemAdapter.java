@@ -106,18 +106,29 @@ public class CardListItemAdapter extends BaseAdapter {
         double ratingCount = cardItem.ratingCount;
 
         cardHolder.ratingLayout.removeAllViews();
+        int hasStar = 0;
         for (int i = 0; i < ratingCount - 1; i++) {
             View view = inflater.inflate(R.layout.card_item_star_iv, null);
             ImageView imageView = (ImageView) view.findViewById(R.id.share_item_item_star_iv);
             imageView.setImageResource(R.drawable.star_full);
             cardHolder.ratingLayout.addView(view);
+            hasStar++;
         }
         if (ratingCount % 1 >= 0.5) {
             View view = inflater.inflate(R.layout.card_item_star_iv, null);
             ImageView imageView = (ImageView) view.findViewById(R.id.share_item_item_star_iv);
             imageView.setImageResource(R.drawable.star_half);
             cardHolder.ratingLayout.addView(view);
+            hasStar++;
         }
+        for (int i = 1; i <= 5 - hasStar; i++) {
+            View view = inflater.inflate(R.layout.card_item_star_iv, null);
+            ImageView imageView = (ImageView) view.findViewById(R.id.share_item_item_star_iv);
+            imageView.setImageResource(R.drawable.star_empty);
+            cardHolder.ratingLayout.addView(view);
+        }
+
+
 
 
         if (cardItem.cardImgs != null && cardItem.cardImgs.length > 0) {

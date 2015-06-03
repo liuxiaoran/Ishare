@@ -145,6 +145,7 @@ public class MainActivity extends ActionBarActivity {
     private void recoverActionBar(String title) {
         if (title.equals("分享")) {
             actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_share_action_bar, false);
+            titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.action_bar_title_tv);
             ImageView searchIv = (ImageView) actionBar.getCustomView().findViewById(R.id.main_search_iv);
             TextView publishTv = (TextView) actionBar.getCustomView().findViewById(R.id.main_publish_tv);
             View.OnClickListener mOnClickListener = new View.OnClickListener() {
@@ -173,8 +174,9 @@ public class MainActivity extends ActionBarActivity {
             publishTv.setOnClickListener(mOnClickListener);
         } else {
             actionBar = IShareContext.getInstance().createActionbar(this, false, title);
+            titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
         }
-        titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.action_bar_title_tv);
+
         titleTv.setText(title);
     }
 

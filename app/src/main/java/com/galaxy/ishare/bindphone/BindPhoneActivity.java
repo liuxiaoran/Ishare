@@ -70,6 +70,7 @@ public class BindPhoneActivity extends ActionBarActivity {
         initWidgets();
         confirmCodeController = ConfirmCodeController.getInstance(BindPhoneActivity.this, new Timer(60000, 1000));
 
+
         // 点击获取验证码
         getConfirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +83,8 @@ public class BindPhoneActivity extends ActionBarActivity {
                     WidgetController.getInstance().widgetGetFoucus(confirmCodeEt);
 
 
+                } else {
+                    Toast.makeText(BindPhoneActivity.this, "请输入正确的手机号", Toast.LENGTH_LONG).show();
                 }
 
 

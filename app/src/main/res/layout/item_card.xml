@@ -28,10 +28,11 @@
 			android:text="1.0km"/>
 
 		<ImageView
-			android:layout_width="10dp"
-			android:layout_height="10dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:layout_toLeftOf="@id/shop_distance"
-			android:layout_centerVertical="true"/>
+			android:layout_centerVertical="true"
+			android:src="@drawable/share_item_location"/>
 	</RelativeLayout>
 
 	<ImageView

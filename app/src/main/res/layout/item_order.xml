@@ -17,12 +17,13 @@
 			android:layout_height="60dp"
 			android:layout_centerVertical="true" />
 
-		<ImageView
+		<TextView
 			android:id="@+id/card_tag"
 			android:layout_width="30dp"
 			android:layout_height="15dp"
 			android:layout_alignParentRight="true"
-			android:layout_alignParentTop="true"/>
+			android:layout_alignParentTop="true"
+			android:text="美发"/>
 
 		<LinearLayout
 			android:layout_width="match_parent"
@@ -135,6 +136,5 @@
 		android:layout_below="@+id/order_bottom"
 		android:layout_height="3dp"
 		android:layout_marginTop="1dp"
-		android:layout_marginBottom="0dp"
-		android:background="@color/red"/>
+		android:layout_marginBottom="0dp"/>
 </RelativeLayout>

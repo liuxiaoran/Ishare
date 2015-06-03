@@ -49,7 +49,7 @@ public class OrderFragment extends Fragment {
 
     public static final String PARAMETER_ODER_TYPE = "orderType";
 
-    private int orderType;
+    public static int orderType = 1;
     public static final int BORROW_ORDER = 1;
     public static final int LEND_ORDER = -1;
 
@@ -87,6 +87,7 @@ public class OrderFragment extends Fragment {
         pullToRefreshListView = new PullToRefreshListView(getActivity());
         initPullToRefreshListView(pullToRefreshListView);
 
+        loadingLayout = (RelativeLayout) root.findViewById(R.id.order_loading_layout);
         listViewFrameLayout = (FrameLayout) root.findViewById(R.id.order_listview_framelayout);
         listViewFrameLayout.addView(pullToRefreshListView, 0);
     }
@@ -143,8 +144,6 @@ public class OrderFragment extends Fragment {
     }
 
     public void setAdapter() {
-        Bundle bundle = getArguments();
-        orderType = bundle.getInt(PARAMETER_ODER_TYPE);
         if (orderType == 1) {
             orderListView.setAdapter(orderBorrowAdapter);
         } else {
@@ -170,8 +169,6 @@ public class OrderFragment extends Fragment {
     }
 
     class HttpInteract {
-
-
         public void loadData(String borrowId, String lendId, double longitude, double latitude, int type, final int pageNumber, int pageSize) {
 
             if (pageNumber == 1)

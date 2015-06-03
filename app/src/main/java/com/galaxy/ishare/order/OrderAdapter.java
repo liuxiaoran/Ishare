@@ -31,11 +31,18 @@ public class OrderAdapter extends BaseAdapter {
     private List<Order> dataList;
     private LayoutInflater layoutInflater;
     private Context mContext;
+    private String[] cardItems;
+    private String[] tradeItems;
+    private int[] colors = {R.color.main_blue, R.color.main_green, R.color.main_orange, R.color.main_purple, R.color.main_yellow, R.color.main_red};
+    private int[] backgroundRes = {R.drawable.main_trade_tv_blue, R.drawable.main_trade_tv_green, R.drawable.main_trade_tv_orange,
+            R.drawable.main_trade_tv_purple, R.drawable.main_trade_tv_yellow, R.drawable.main_trade_tv_red};
 
     public OrderAdapter(Context context, List<Order> dataList) {
         this.mContext = context;
         this.dataList = dataList;
         this.layoutInflater = LayoutInflater.from(context);
+        cardItems = mContext.getResources().getStringArray(R.array.card_items);
+        tradeItems = mContext.getResources().getStringArray(R.array.trade_items);
     }
 
     /**
@@ -49,7 +56,7 @@ public class OrderAdapter extends BaseAdapter {
         public ImageView shopImage;
         public TextView cardDiscount;
         public TextView cardType;
-        public ImageView cardTag;
+        public TextView cardTag;
         public TextView cardDistance;
         public TextView cardState;
     }
@@ -82,13 +89,13 @@ public class OrderAdapter extends BaseAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             //获得组件，实例化组件
-            convertView = layoutInflater.inflate(R.layout.item_state_card, null);
+            convertView = layoutInflater.inflate(R.layout.item_order, null);
             viewHolder.shopName = (TextView) convertView.findViewById(R.id.shop_name);
             viewHolder.shopDistance = (TextView) convertView.findViewById(R.id.shop_distance);
             viewHolder.shopImage = (ImageView) convertView.findViewById(R.id.shop_image);
             viewHolder.cardDiscount = (TextView) convertView.findViewById(R.id.card_discount);
             viewHolder.cardType = (TextView) convertView.findViewById(R.id.card_type);
-            viewHolder.cardTag = (ImageView) convertView.findViewById(R.id.card_tag);
+            viewHolder.cardTag = (TextView) convertView.findViewById(R.id.card_tag);
             viewHolder.cardDistance = (TextView) convertView.findViewById(R.id.card_distance);
             viewHolder.cardState = (TextView) convertView.findViewById(R.id.card_state);
             convertView.setTag(viewHolder);
@@ -116,31 +123,14 @@ public class OrderAdapter extends BaseAdapter {
         }
 
         viewHolder.cardDiscount.setText(order.cardDiscount + "");
-        setCardType(viewHolder.cardType, order.cardType);
-        setCardTag(viewHolder.cardTag, order.tradeType);
+        viewHolder.cardType.setText(cardItems[order.cardType]);
+        viewHolder.cardTag.setText(tradeItems[order.tradeType]);
+        viewHolder.cardTag.setTextColor(mContext.getResources().getColor(colors[order.tradeType]));
+        viewHolder.cardTag.setBackgroundResource(backgroundRes[order.tradeType]);
         viewHolder.cardDistance.setText(order.borrowDistance + "");
         viewHolder.cardState.setText(order.orderState + "");
 
         return convertView;
     }
-
-    public void setCardTag(ImageView image, int tradeType) {
-        switch (tradeType) {
-            case 0:image.setImageResource(R.drawable.abc_ab_share_pack_mtrl_alpha); break;
-            case 1:image.setImageResource(R.drawable.abc_ab_share_pack_mtrl_alpha); break;
-            case 2:image.setImageResource(R.drawable.abc_ab_share_pack_mtrl_alpha); break;
-            case 3:image.setImageResource(R.drawable.abc_ab_share_pack_mtrl_alpha); break;
-            case 4:image.setImageResource(R.drawable.abc_ab_share_pack_mtrl_alpha); break;
-            case 5:image.setImageResource(R.drawable.abc_ab_share_pack_mtrl_alpha); break;
-        }
-    }
-
-    public void setCardType(TextView text, int cardType) {
-        switch (cardType) {
-            case 0:text.setText(R.string.vip_card); break;
-            case 1:text.setText(R.string.charge_card); break;
-        }
-    }
-
 }
 

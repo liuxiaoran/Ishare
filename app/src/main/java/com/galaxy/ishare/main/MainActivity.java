@@ -50,7 +50,6 @@ public class MainActivity extends ActionBarActivity {
 
 
     public static final String PUBLISH_TO_BING_PHONE = "PUBLISH_TO_BING_PHONE";
-    public static int orderType = 0;
 
     private RadioGroup mTabGroup = null;
     private RadioButton mShareItemButton, orderButton, mMeButton;
@@ -324,7 +323,7 @@ public class MainActivity extends ActionBarActivity {
 //                                  Bundle borrowBundle  = new Bundle();
 //                                  borrowBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
 //                                  orderFragment.setArguments(borrowBundle);
-                                orderType = OrderFragment.BORROW_ORDER;
+                                OrderFragment.orderType = OrderFragment.BORROW_ORDER;
                                 borrowTransaction.show(orderFragment);
                                 borrowTransaction.commit();
 
@@ -339,7 +338,7 @@ public class MainActivity extends ActionBarActivity {
 //                                  Bundle lendBundle  = new Bundle();
 //                                  lendBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.LEND_ORDER);
 //                                  orderFragment.setArguments(lendBundle);
-                                orderType = OrderFragment.LEND_ORDER;
+                                OrderFragment.orderType = OrderFragment.LEND_ORDER;
                                 lendTransaction.show(orderFragment);
                                 lendTransaction.commit();
 
@@ -348,9 +347,9 @@ public class MainActivity extends ActionBarActivity {
                     };
                     borrowTv.setOnClickListener(textViewListener);
                     lendTv.setOnClickListener(textViewListener);
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
-                    orderFragment.setArguments(bundle);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
+//                    orderFragment.setArguments(bundle);
                     transaction.show(orderFragment);
 
                 } else if (checkedId == mMeButton.getId()) {

@@ -40,14 +40,16 @@ public class URLConstant {
     // 根据折扣从大到小得到卡的列表
     public static final String GET_DISCOUNT_CARD_LIST = SERVER_IP + "/card/Query_Card_Sort_Discount_C";
 
+    // 根据距离得到卡的列表
+    public static final String GET_DISTANCE_CARD_LIST =SERVER_IP +"/card/Query_Card_Sort_Distance_C";
 
-    // 借卡，发送借卡请求
-    public static final String BORROW_CARD = SERVER_IP + "/record/Record_C/add";
+    //chat
+    public static final String SEND_CHAT_MSG = SERVER_IP +"/chat/Add_Chat_C";
 
+    public static final String GET_CHAT_DATA = SERVER_IP +"/chat/Query_Chat_C";
 
     // 获取qiniu token
     public static final String QIUNIU_TOKEN  = SERVER_IP +"/qiniu/Get_Token_C";
-    public static final String GET_DISTANCE_CARD_LIST = SERVER_IP + "/card/Query_Card_Sort_Distance_C";
 
     public static final String UPDATE_USER = SERVER_IP + "/user/Update_User_C";
 
@@ -55,4 +57,6 @@ public class URLConstant {
 
     //用户状态相关
     public static final String STATE_CARD = SERVER_IP + "/record/Record_C/get";
+
+    public static final String BORROW_CARD = SERVER_IP + "/record/Record_C/add";
 }

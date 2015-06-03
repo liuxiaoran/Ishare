@@ -116,9 +116,7 @@ public class ItemListFragment extends Fragment {
         httpInteract = new HttpInteract();
         dataList = new LinkedList<>();
 
-
         cardListItemAdapter = new CardListItemAdapter(dataList, getActivity());
-
 
         pullToRefreshListView = new PullToRefreshListView(getActivity());
         initPullToRefreshListView(pullToRefreshListView);
@@ -480,9 +478,6 @@ public class ItemListFragment extends Fragment {
                 }
             });
             httpStatusList.add(future);
-
-
-
         }
 
     }

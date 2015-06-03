@@ -153,7 +153,6 @@ public class MainActivity extends ActionBarActivity {
         mLocationClient.setLocOption(option);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -280,7 +279,6 @@ public class MainActivity extends ActionBarActivity {
 
                     shareItemTransaction.show(mShareItemFragment);
                 } else if (checkedId == mContactButton.getId()) {
-
 //                    mTitle.setText(R.string.contact_tab);
                     titleTv.setText("动态");
 

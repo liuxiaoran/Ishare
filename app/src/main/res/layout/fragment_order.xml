@@ -1,0 +1,28 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+
+	<FrameLayout
+		android:id="@+id/order_listview_framelayout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:paddingLeft="4dp"
+		android:paddingRight="4dp">
+	</FrameLayout>
+
+	<RelativeLayout
+		android:id="@+id/share_item_loading_layout"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/loading_background"
+		android:visibility="invisible">
+
+		<ProgressBar
+
+			style="?android:attr/progressBarStyleLarge"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true" />
+
+	</RelativeLayout>
+</FrameLayout>

@@ -63,6 +63,7 @@ public class FriendDao {
 
         return 0;
     }
+
     public ArrayList<Friend> query() {
         try {
 

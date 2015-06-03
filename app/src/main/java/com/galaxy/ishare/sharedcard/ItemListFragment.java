@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -28,6 +27,8 @@ import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
+import com.galaxy.ishare.http.HttpGetExt;
+import com.galaxy.ishare.http.HttpPostExt;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.mapLBS.CardActivity;
 import com.galaxy.ishare.model.CardItem;
@@ -40,14 +41,12 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Future;
 
 public class ItemListFragment extends Fragment {
 
@@ -158,7 +157,7 @@ public class ItemListFragment extends Fragment {
 
 
         mapStyleBtn = (FloatingActionButton) mRoot.findViewById(R.id.map_style_floating_btn);
-        mapStyleBtn.attachToListView(cardListView);
+//      mapStyleBtn.attachToListView(cardListView);  // 如果attach 之后会在滑下时隐藏，在滑上时显示。所以不attach
 
         // 地图模式按钮点击
         mapStyleBtn.setOnClickListener(new View.OnClickListener() {
@@ -170,29 +169,6 @@ public class ItemListFragment extends Fragment {
             }
         });
 
-        // 设置listview的状态监听来隐藏或者显示地图模式按钮
-        cardListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-                switch (scrollState) {
-                    case SCROLL_STATE_IDLE:
-                        mapStyleBtn.show();
-                        break;
-                    case SCROLL_STATE_TOUCH_SCROLL:
-                        mapStyleBtn.hide();
-                        break;
-                    case SCROLL_STATE_FLING:
-                        mapStyleBtn.hide();
-                        break;
-                }
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i2, int i3) {
-
-            }
-        });
 
 
         return mRoot;
@@ -400,19 +376,19 @@ public class ItemListFragment extends Fragment {
 
     class HttpInteract {
 
-        // 存放这个界面中所有http请求的future
-        ArrayList<Future> httpStatusList = new ArrayList<>();
+        // 存放这个界面中所有http请求
+        ArrayList<HttpGetExt> httpGetExts = new ArrayList<>();
 
         public void loadData(int loadType, int tradeType, double longitude, double latitude, final int pageNumber, int pageSize) {
 
             if (pageNumber == 1)
                 loadingLayout.setVisibility(View.VISIBLE);
 
-            for (int i = 0; i < httpStatusList.size(); i++) {
-                Future future = httpStatusList.get(i);
-                if (!future.isDone() && !future.isCancelled()) {
-                    future.cancel(true);
-                    httpStatusList.remove(future);
+            for (int i = 0; i < httpGetExts.size(); i++) {
+                HttpGetExt httpGetExt = httpGetExts.get(i);
+                if (!httpGetExt.isCancelled()) {
+                    httpGetExt.cancel();
+                    httpGetExts.remove(httpGetExt);
                 }
             }
 
@@ -429,7 +405,7 @@ public class ItemListFragment extends Fragment {
                 url = URLConstant.GET_DISTANCE_CARD_LIST;
             }
             Log.v(TAG, tradeType + " " + pageNumber + " " + pageSize);
-            Future future = HttpTask.startAsyncDataGetRequset(url, paramsList, new HttpDataResponse() {
+            HttpGetExt currentGet = HttpTask.startAsyncDataGetRequset(url, paramsList, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
                     loadingLayout.setVisibility(View.GONE);
@@ -501,7 +477,7 @@ public class ItemListFragment extends Fragment {
 
                 }
             });
-            httpStatusList.add(future);
+            httpGetExts.add(currentGet);
 
 
         }

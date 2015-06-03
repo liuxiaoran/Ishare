@@ -39,6 +39,7 @@ import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import org.apache.http.client.methods.HttpRequestBase;
@@ -218,16 +219,9 @@ public class CardDetailActivity extends ActionBarActivity {
             View view = inflater.inflate(R.layout.share_item_detail_viewpager, null);
             picIvs[i] = (ImageView) view.findViewById(R.id.share_item_detail_card_pager_iv);
 
-            ImageSize imageSize = new ImageSize(Global.screenWidth - DisplayUtil.dip2px(this, 5), DisplayUtil.dip2px(this, 400));
             final int finalI = i;
             Log.v(TAG, "carddetail  " + cardItem.cardImgs[i]);
-            ImageLoader.getInstance().loadImage(cardItem.cardImgs[i], imageSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    picIvs[finalI].setImageBitmap(loadedImage);
-
-                }
-            });
+            ImageLoader.getInstance().displayImage(cardItem.cardImgs[i], picIvs[finalI], IShareApplication.defaultOptions);
             pagerList.add(view);
         }
 

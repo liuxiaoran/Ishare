@@ -1,10 +1,12 @@
 package com.galaxy.ishare.http;
 
 import android.util.Log;
+
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.http.HttpDataFetcher.HttpDataResult;
 import com.galaxy.ishare.http.HttpFileDownloder.FileDownloadResult;
 import com.galaxy.ishare.http.HttpImageDownloder.ImageDownloadResult;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -30,11 +32,11 @@ public class HttpTask {
     public static void startSyncDataRequset(final HttpPostExt request) {
     }
 
-    public static Future startAsyncDataRequset(final HttpGetExt request, final HttpDataResponse response) {
+    public static void startAsyncDataRequset(final HttpGetExt request, final HttpDataResponse response) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                 HttpDataResult result = new HttpDataFetcher().execute(request);
+                HttpDataResult result = new HttpDataFetcher().execute(request);
                 if (result.resultCode == HttpCode.OK) {
                     String retStr = null;
                     if (result.encoding == null || result.equals("")) {
@@ -55,10 +57,10 @@ public class HttpTask {
                 }
             }
         };
-        return mDataPool.submit(task);
+        mDataPool.execute(task);
     }
 
-    public static Future startAsyncDataRequset(final HttpPostExt request, final List<BasicNameValuePair> params, final HttpDataResponse response) {
+    public static void startAsyncDataRequset(final HttpPostExt request, final List<BasicNameValuePair> params, final HttpDataResponse response) {
 
         Runnable task = new Runnable() {
             @Override
@@ -91,13 +93,12 @@ public class HttpTask {
                 }
             }
         };
-        return mDataPool.submit(task);
+        mDataPool.execute(task);
 
     }
 
 
-    public static Future startAsyncDataGetRequset(String request, final List<NameValuePair> params, final HttpDataResponse response) {
-
+    public static HttpGetExt startAsyncDataGetRequset(String request, final List<NameValuePair> params, final HttpDataResponse response) {
 
         if (Global.userId != null && Global.key != null) {
             request = request + "?" + "open_id=" + Global.userId + "&key=" + Global.key;
@@ -118,25 +119,29 @@ public class HttpTask {
         }
         Log.v(TAG, request + "----request");
         HttpGetExt httpGetExt = new HttpGetExt(request);
-        return startAsyncDataRequset(httpGetExt, response);
+        startAsyncDataRequset(httpGetExt, response);
+        return httpGetExt;
     }
 
-    public static Future startAsyncDataPostRequest(String url, List<BasicNameValuePair> params, HttpDataResponse response) {
-        Future ret = null;
+    public static HttpPostExt startAsyncDataPostRequest(String url, List<BasicNameValuePair> params, HttpDataResponse response) {
+        HttpPostExt httpPostExt = null;
         if (Global.key != null && Global.userId != null) {
             params.add(new BasicNameValuePair("open_id", Global.userId));
             params.add(new BasicNameValuePair("key", Global.key));
             Log.v(TAG, Global.key);
-            ret = startAsyncDataRequset(new HttpPostExt(url), params, response);
+            httpPostExt = new HttpPostExt(url);
+            startAsyncDataRequset(httpPostExt, params, response);
 
         } else {
             Log.v(TAG, Global.key + "else");
-            if (params != null)
-                ret = startAsyncDataRequset(new HttpPostExt(url), params, response);
+            if (params != null) {
+                httpPostExt = new HttpPostExt(url);
+                startAsyncDataRequset(httpPostExt, params, response);
+            }
         }
-        return ret;
-    }
+        return httpPostExt;
 
+    }
 
 
     private static void revDataOk(final HttpRequestBase request, final HttpDataResponse response, final String ret) {

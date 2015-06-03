@@ -15,10 +15,13 @@ import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
 import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.model.User;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 
 public class IShareApplication extends Application {
@@ -66,6 +69,7 @@ public class IShareApplication extends Application {
         // 初始化 ImageLoader
         // Create default options which will be used for every
         //  displayImage(...) call if no options will be passed to this method
+        // 之后使用display这个设置有用，使用loadImage 这个函数没有用
         defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .showImageForEmptyUri(R.drawable.load_empty)
@@ -74,12 +78,22 @@ public class IShareApplication extends Application {
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY)
+                .resetViewBeforeLoading(true)
+                .considerExifParams(true)
+                .displayer(new FadeInBitmapDisplayer(300))
                 .build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-                .defaultDisplayImageOptions(defaultOptions)
-                .threadPoolSize(3)
-                .build();
-        ImageLoader.getInstance().init(config);
+
+
+        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(getApplicationContext());
+        config.threadPriority(Thread.NORM_PRIORITY - 2);
+        config.denyCacheImageMultipleSizesInMemory();
+        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
+        config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
+        config.tasksProcessingOrder(QueueProcessingType.LIFO);
+        config.threadPoolSize(3);
+        config.defaultDisplayImageOptions(defaultOptions);
+
+        ImageLoader.getInstance().init(config.build());
 
 
     }

@@ -58,7 +58,7 @@ public class ItemListFragment extends Fragment {
     private static final int REFRESH_GESTURE = 1;
     private static final int LOAD_MORE_GESTURE = 2;
 
-    private static final int pageSize = 6;
+    private static final int pageSize = 12;
 
     private View mRoot;
     private LinearLayout categoryLayout, discountLayout, distanceLayout, isLocatingLayout;
@@ -426,8 +426,8 @@ public class ItemListFragment extends Fragment {
                                 CardItem cardItem = JsonObjectUtil.parseJsonObjectToCardItem(card);
                                 Log.v(TAG, cardItem.toString());
                                 if (gestureType == REFRESH_GESTURE) {
-                                    dataList.addFirst(cardItem);
-
+                                    dataList.add(cardItem);
+                                    setLastUpdateTime();
                                 } else {
                                     dataList.add(cardItem);
                                 }
@@ -445,7 +445,7 @@ public class ItemListFragment extends Fragment {
                                 pullToRefreshListView.onPullUpRefreshComplete();
 
                             pullToRefreshListView.setHasMoreData(hasMoreData);
-                            setLastUpdateTime();
+
 
 //                            recoveryAllClickable();
 

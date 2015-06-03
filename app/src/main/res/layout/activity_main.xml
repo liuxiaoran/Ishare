@@ -35,11 +35,11 @@
         <!--android:background="@drawable/bottom_tab_bg_selector"-->
         <!--android:drawableTop="@drawable/recommend"-->
         <RadioButton
-            android:id="@+id/activityBtn"
+            android:id="@+id/orderBtn"
             style="@style/main_tab_bottom"
             android:checked="false"
             android:drawableTop="@drawable/main_button_activity_selector"
-            android:text="@string/activity_tab" />
+            android:text="@string/order_tab" />
 
 
         <RadioButton

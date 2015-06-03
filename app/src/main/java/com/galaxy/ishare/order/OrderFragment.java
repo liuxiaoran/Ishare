@@ -7,13 +7,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.chat.ChatActivity;
 import com.galaxy.ishare.chat.OrderManager;
 import com.galaxy.ishare.chat.OrderUtil;
-import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
@@ -26,15 +29,12 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Future;
 
 public class OrderFragment extends Fragment {
 
@@ -47,9 +47,11 @@ public class OrderFragment extends Fragment {
     private static final int REFRESH_GESTURE = 1;
     private static final int LOAD_MORE_GESTURE = 2;
 
+    public static final String PARAMETER_ODER_TYPE = "orderType";
+
     private int orderType;
-    private final int BORROW_ORDER = 1;
-    private final int LEND_ORDER = -1;
+    public static final int BORROW_ORDER = 1;
+    public static final int LEND_ORDER = -1;
 
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
 
@@ -114,7 +116,7 @@ public class OrderFragment extends Fragment {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 gestureType = REFRESH_GESTURE;
                 pageNumber = 1;
-                if(orderType == BORROW_ORDER) {
+                if (orderType == BORROW_ORDER) {
                     httpInteract.loadData(user.getUserId(), null, IShareContext.getInstance().getUserLocation().getLongitude(),
                             IShareContext.getInstance().getUserLocation().getLatitude(), 0, pageNumber, pageSize);
                 } else {
@@ -128,7 +130,7 @@ public class OrderFragment extends Fragment {
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 gestureType = LOAD_MORE_GESTURE;
                 pageNumber++;
-                if(orderType == BORROW_ORDER) {
+                if (orderType == BORROW_ORDER) {
                     httpInteract.loadData(user.getUserId(), null, IShareContext.getInstance().getUserLocation().getLongitude(),
                             IShareContext.getInstance().getUserLocation().getLatitude(), 0, pageNumber, pageSize);
                 } else {
@@ -142,8 +144,8 @@ public class OrderFragment extends Fragment {
 
     public void setAdapter() {
         Bundle bundle = getArguments();
-        orderType = bundle.getInt("orderType");
-        if(orderType == 1) {
+        orderType = bundle.getInt(PARAMETER_ODER_TYPE);
+        if (orderType == 1) {
             orderListView.setAdapter(orderBorrowAdapter);
         } else {
             orderListView.setAdapter(orderLendAdapter);
@@ -169,21 +171,12 @@ public class OrderFragment extends Fragment {
 
     class HttpInteract {
 
-        // 存放这个界面中所有http请求的future
-        ArrayList<Future> httpStatusList = new ArrayList<>();
 
         public void loadData(String borrowId, String lendId, double longitude, double latitude, int type, final int pageNumber, int pageSize) {
 
             if (pageNumber == 1)
                 loadingLayout.setVisibility(View.VISIBLE);
 
-            for (int i = 0; i < httpStatusList.size(); i++) {
-                Future future = httpStatusList.get(i);
-                if (!future.isDone() && !future.isCancelled()) {
-                    future.cancel(true);
-                    httpStatusList.remove(future);
-                }
-            }
 
             List<NameValuePair> paramsList = new ArrayList<>();
             paramsList.add(new BasicNameValuePair("borrow_id", borrowId + ""));
@@ -195,7 +188,7 @@ public class OrderFragment extends Fragment {
             paramsList.add(new BasicNameValuePair("page_size", pageSize + ""));
             String url = null;
 
-            Future future = HttpTask.startAsyncDataGetRequset(url, paramsList, new HttpDataResponse() {
+            HttpTask.startAsyncDataGetRequset(url, paramsList, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
                     loadingLayout.setVisibility(View.GONE);
@@ -215,13 +208,13 @@ public class OrderFragment extends Fragment {
                                 Order order = OrderUtil.parserJSONObject2Order(tmpJson);
                                 Log.v(TAG, order.toString());
                                 if (gestureType == REFRESH_GESTURE) {
-                                    if(orderType == BORROW_ORDER) {
+                                    if (orderType == BORROW_ORDER) {
                                         orderBorrowList.add(0, order);
                                     } else {
                                         orderLendList.add(0, order);
                                     }
                                 } else {
-                                    if(orderType == BORROW_ORDER) {
+                                    if (orderType == BORROW_ORDER) {
                                         orderBorrowList.add(order);
                                     } else {
                                         orderLendList.add(order);
@@ -268,7 +261,7 @@ public class OrderFragment extends Fragment {
 
                 }
             });
-            httpStatusList.add(future);
+
         }
     }
 }

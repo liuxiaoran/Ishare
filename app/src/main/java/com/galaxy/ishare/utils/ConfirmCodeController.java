@@ -49,7 +49,7 @@ public class ConfirmCodeController {
         content = String.format(content, code.getValue());
         String url = URLConstant.GET_CHANGZHUO_SHORT_MESSAGE;
         url = url.replace("tmpPhoneNumber", phone).replace("tmpContent", content);
-
+        timer.start();
         AppAsyncHttpClient.get(url, new TextHttpResponseHandler() {
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
@@ -60,7 +60,7 @@ public class ConfirmCodeController {
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
                 Log.v(TAG, responseString);
                 if (responseString.contains("<returnstatus>Success</returnstatus>")) {
-                    timer.start();
+
                 } else if (responseString.contains("手机号码为空"))
                     Toast.makeText(context, "请填写手机号", Toast.LENGTH_LONG).show();
                 else if (responseString.contains("错误的手机号码"))

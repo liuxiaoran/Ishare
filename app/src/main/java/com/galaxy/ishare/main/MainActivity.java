@@ -11,17 +11,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -30,6 +28,7 @@ import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.database.FriendDao;
 import com.galaxy.ishare.database.InviteFriendDao;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.order.OrderFragment;
 import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
@@ -51,12 +50,14 @@ public class MainActivity extends ActionBarActivity {
 
 
     public static final String PUBLISH_TO_BING_PHONE = "PUBLISH_TO_BING_PHONE";
+    public static int orderType = 0;
 
     private RadioGroup mTabGroup = null;
-    private RadioButton mShareItemButton, mContactButton, mMeButton;
+    private RadioButton mShareItemButton, orderButton, mMeButton;
 
     private Fragment mShareItemFragment;
     private Fragment mMeFragment;
+    private Fragment orderFragment;
 //    private TextView mTitle;
 
     private int[] mRadioId = new int[]{R.id.shareBtn, R.id.MeButton};
@@ -78,15 +79,15 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_action_bar, false);
 
-        titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.action_bar_title_tv);
-        titleTv.setText("分享");
+        recoverActionBar("分享");
+
         // 将titleTv放在中间
 //        int w = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
 //        int h = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
@@ -142,6 +143,42 @@ public class MainActivity extends ActionBarActivity {
         mLocationClient.start();
     }
 
+    private void recoverActionBar(String title) {
+        if (title.equals("分享")) {
+            actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_share_action_bar, false);
+            ImageView searchIv = (ImageView) actionBar.getCustomView().findViewById(R.id.main_search_iv);
+            TextView publishTv = (TextView) actionBar.getCustomView().findViewById(R.id.main_publish_tv);
+            View.OnClickListener mOnClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.getId() == R.id.main_search_iv) {
+
+                        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                        startActivity(intent);
+
+                    } else if (v.getId() == R.id.main_publish_tv) {
+                        if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
+
+                            Intent intent = new Intent(MainActivity.this, BindPhoneActivity.class);
+                            intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
+                            startActivity(intent);
+
+                        } else {
+                            Intent intent = new Intent(MainActivity.this, PublishItemActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            };
+            searchIv.setOnClickListener(mOnClickListener);
+            publishTv.setOnClickListener(mOnClickListener);
+        } else {
+            actionBar = IShareContext.getInstance().createActionbar(this, false, title);
+        }
+        titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.action_bar_title_tv);
+        titleTv.setText(title);
+    }
+
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(tempMode);//设置定位模式
@@ -153,27 +190,7 @@ public class MainActivity extends ActionBarActivity {
         mLocationClient.setLocOption(option);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.menu_publish) {
-            if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
-
-                Intent intent = new Intent(this, BindPhoneActivity.class);
-                intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
-                startActivity(intent);
-
-            } else {
-                Intent intent = new Intent(this, PublishItemActivity.class);
-                startActivity(intent);
-            }
-        } else if (item.getItemId() == R.id.menu_search) {
-            Intent intent = new Intent(this, SearchActivity.class);
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-
-    }
 
     private void uploadContactData() {
 
@@ -256,15 +273,14 @@ public class MainActivity extends ActionBarActivity {
     private void initTabs() {
         mTabGroup = (RadioGroup) findViewById(R.id.tab_group);
         mShareItemButton = (RadioButton) findViewById(R.id.shareBtn);
-//        mDiscoverButton = (RadioButton) findViewById(R.id.RecommendButton);
-        mContactButton = (RadioButton) findViewById(R.id.activityBtn);
+        orderButton = (RadioButton) findViewById(R.id.orderBtn);
         mMeButton = (RadioButton) findViewById(R.id.MeButton);
         mTabGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 if (checkedId == mShareItemButton.getId()) {
-
+                    recoverActionBar("分享");
                     if (mShareItemFragment == null) {
                         mShareItemFragment = new ItemListFragment();
 
@@ -273,15 +289,72 @@ public class MainActivity extends ActionBarActivity {
                     if (mMeFragment != null) {
                         transaction.hide(mMeFragment);
                     }
-//                	mTitle.setText(R.string.share_item_tab);
-                    titleTv.setText("分享");
+                    if (orderFragment != null) {
+                        transaction.hide(orderFragment);
+                    }
 
                     transaction.show(mShareItemFragment);
-                } else if (checkedId == mContactButton.getId()) {
-//                    mTitle.setText(R.string.contact_tab);
-                    titleTv.setText("动态");
+                } else if (checkedId == orderButton.getId()) {
+                    if (orderFragment == null) {
+                        orderFragment = new OrderFragment();
+                        transaction.add(R.id.fragment_container, orderFragment);
+                    }
+                    if (mShareItemFragment != null) {
+                        transaction.hide(mShareItemFragment);
+                    }
+                    if (mMeFragment != null) {
+                        transaction.hide(mMeFragment);
+                    }
+                    actionBar = IShareContext.getInstance().createCustomActionBar(MainActivity.this, R.layout.main_order_action_bar, false);
+                    final TextView borrowTv = (TextView) actionBar.getCustomView().findViewById(R.id.order_actionbar_borrow_tv);
+                    final TextView lendTv = (TextView) actionBar.getCustomView().findViewById(R.id.order_actionbar_lend_tv);
+
+
+                    View.OnClickListener textViewListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (v.getId() == R.id.order_actionbar_borrow_tv) {
+                                borrowTv.setTextColor(getResources().getColor(R.color.huise));
+                                borrowTv.setBackgroundResource(R.drawable.order_actionbar_white_tv);
+
+                                lendTv.setTextColor(getResources().getColor(R.color.white));
+                                lendTv.setBackgroundResource(R.drawable.order_actionbar_gray_tv);
+
+                                FragmentTransaction borrowTransaction = getFragmentManager().beginTransaction();
+//                                  Bundle borrowBundle  = new Bundle();
+//                                  borrowBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
+//                                  orderFragment.setArguments(borrowBundle);
+                                orderType = OrderFragment.BORROW_ORDER;
+                                borrowTransaction.show(orderFragment);
+                                borrowTransaction.commit();
+
+                            } else if (v.getId() == R.id.order_actionbar_lend_tv) {
+                                borrowTv.setTextColor(getResources().getColor(R.color.white));
+                                borrowTv.setBackgroundResource(R.drawable.order_actionbar_gray_tv);
+
+                                lendTv.setTextColor(getResources().getColor(R.color.huise));
+                                lendTv.setBackgroundResource(R.drawable.order_actionbar_white_tv);
+
+                                FragmentTransaction lendTransaction = getFragmentManager().beginTransaction();
+//                                  Bundle lendBundle  = new Bundle();
+//                                  lendBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.LEND_ORDER);
+//                                  orderFragment.setArguments(lendBundle);
+                                orderType = OrderFragment.LEND_ORDER;
+                                lendTransaction.show(orderFragment);
+                                lendTransaction.commit();
+
+                            }
+                        }
+                    };
+                    borrowTv.setOnClickListener(textViewListener);
+                    lendTv.setOnClickListener(textViewListener);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
+                    orderFragment.setArguments(bundle);
+                    transaction.show(orderFragment);
 
                 } else if (checkedId == mMeButton.getId()) {
+                    recoverActionBar("我");
                     if (mMeFragment == null) {
                         mMeFragment = new MeFragment();
                         transaction.add(R.id.fragment_container, mMeFragment);
@@ -289,8 +362,9 @@ public class MainActivity extends ActionBarActivity {
                     if (mShareItemFragment != null) {
                         transaction.hide(mShareItemFragment);
                     }
-//                    mTitle.setText(R.string.me_tab);
-                    titleTv.setText("我");
+                    if (orderFragment != null) {
+                        transaction.hide(orderFragment);
+                    }
                     transaction.show(mMeFragment);
                 }
                 transaction.commit();
@@ -299,13 +373,7 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
     @Override
     protected void onStop() {
@@ -345,4 +413,5 @@ public class MainActivity extends ActionBarActivity {
 //                    }
 //                }).show();
 //
+
 }

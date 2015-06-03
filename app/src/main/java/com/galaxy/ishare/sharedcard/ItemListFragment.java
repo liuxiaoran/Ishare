@@ -40,6 +40,7 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,7 +64,7 @@ public class ItemListFragment extends Fragment {
     private View mRoot;
     private LinearLayout categoryLayout, discountLayout, distanceLayout, isLocatingLayout;
     private MyClickListener myClickListener;
-    private TextView categoryTv;
+    private TextView categoryTv, discountTv, distanceTv;
     private static final String TAG = "ItemListFragment";
     private HttpInteract httpInteract;
     private int pageNumber = 1;
@@ -116,7 +117,9 @@ public class ItemListFragment extends Fragment {
         httpInteract = new HttpInteract();
         dataList = new LinkedList<>();
 
+
         cardListItemAdapter = new CardListItemAdapter(dataList, getActivity());
+
 
         pullToRefreshListView = new PullToRefreshListView(getActivity());
         initPullToRefreshListView(pullToRefreshListView);
@@ -251,9 +254,12 @@ public class ItemListFragment extends Fragment {
         distanceLayout = (LinearLayout) view.findViewById(R.id.share_item_distance_layout);
 
         categoryTv = (TextView) view.findViewById(R.id.share_item_category_tv);
+        distanceTv = (TextView) view.findViewById(R.id.share_item_distance_tv);
+        discountTv = (TextView) view.findViewById(R.id.share_item_discount_tv);
         isLocatingLayout = (LinearLayout) view.findViewById(R.id.share_item_is_locating_layout);
 
         loadingLayout = (RelativeLayout) view.findViewById(R.id.share_item_loading_layout);
+
 
     }
 
@@ -276,59 +282,70 @@ public class ItemListFragment extends Fragment {
 
     class MyClickListener implements View.OnClickListener {
 
+        PopupWindow popupWindow;
+
         @Override
         public void onClick(View v) {
             if (v.getId() == R.id.share_item_category_layout) {
 
-                final View popUpWindowView = LayoutInflater.from(getActivity()).inflate(R.layout.share_item_popup_window, null);
-                // popupwindow 中的listview
-                ListView listViewInPopUpWindow = (ListView) popUpWindowView.findViewById(R.id.share_item_popupwindow_listview);
+                if (popupWindow != null && popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                } else {
 
-                LinearLayout whoLinearLayout = (LinearLayout) popUpWindowView.findViewById(R.id.share_item_popupwindow_background);
+                    final View popUpWindowView = LayoutInflater.from(getActivity()).inflate(R.layout.share_item_popup_window, null);
+                    // popupwindow 中的listview
+                    ListView listViewInPopUpWindow = (ListView) popUpWindowView.findViewById(R.id.share_item_popupwindow_listview);
+
+                    LinearLayout whoLinearLayout = (LinearLayout) popUpWindowView.findViewById(R.id.share_item_popupwindow_background);
 
 
-                final String[] wareItems = getResources().getStringArray(R.array.trade_items);
-                CategoryWindowAdapter categoryWindowAdapter = new CategoryWindowAdapter(wareItems, getActivity());
-                listViewInPopUpWindow.setAdapter(categoryWindowAdapter);
+                    final String[] wareItems = getResources().getStringArray(R.array.trade_items);
+                    CategoryWindowAdapter categoryWindowAdapter = new CategoryWindowAdapter(wareItems, getActivity());
+                    listViewInPopUpWindow.setAdapter(categoryWindowAdapter);
 
-                final PopupWindow popupWindow = new PopupWindow(popUpWindowView, Global.screenWidth, ViewGroup.LayoutParams.MATCH_PARENT, false);
-                // 点击popupwindow 灰色部分，popuowindow 消失
-                whoLinearLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (popupWindow != null && popupWindow.isShowing()) {
-                            popupWindow.dismiss();
+                    popupWindow = new PopupWindow(popUpWindowView, Global.screenWidth, ViewGroup.LayoutParams.MATCH_PARENT, true);
+                    // 点击popupwindow 灰色部分，popuowindow 消失
+                    whoLinearLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (popupWindow != null && popupWindow.isShowing()) {
+                                popupWindow.dismiss();
+                            }
                         }
-                    }
-                });
+                    });
 
-                // 设置点击popuwindow外的空白位置，popupwindow 能消失
-                popupWindow.setOutsideTouchable(true);
-                popupWindow.setBackgroundDrawable(new BitmapDrawable());
+                    // 设置点击popuwindow外的空白位置，popupwindow 能消失
+                    popupWindow.setOutsideTouchable(true);
+                    popupWindow.setBackgroundDrawable(new BitmapDrawable());
 
-                popupWindow.showAsDropDown(v, 0, DisplayUtil.dip2px(getActivity(), 2));
-                listViewInPopUpWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        categoryTv.setText(wareItems[position]);
-                        // 选择了某个类别
-                        popupWindow.dismiss();
+                    popupWindow.showAsDropDown(v, 0, DisplayUtil.dip2px(getActivity(), 2));
+                    listViewInPopUpWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            categoryTv.setText(wareItems[position]);
+                            categoryTv.setTextColor(getResources().getColor(R.color.red));
+                            // 选择了某个类别
+                            popupWindow.dismiss();
 
-                        if (position != tradeType) {
-                            // 选择的类别与之前的不同
-                            tradeType = position;
-                            pageNumber = 1;
-                            dataList.clear();
+                            if (position != tradeType) {
+                                // 选择的类别与之前的不同
+                                tradeType = position;
+                                pageNumber = 1;
+                                dataList.clear();
 
 //                            setTabsUnPressed();
 
-                            httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
-                                    IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
+                                httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
+                                        IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
+                            }
+
                         }
+                    });
+                }
 
-                    }
-                });
 
+                distanceTv.setTextColor(getResources().getColor(R.color.huise));
+                discountTv.setTextColor(getResources().getColor(R.color.huise));
 
             } else if (v.getId() == R.id.share_item_discount_layout) {
 
@@ -343,6 +360,9 @@ public class ItemListFragment extends Fragment {
                     httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                             IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
+                categoryTv.setTextColor(getResources().getColor(R.color.huise));
+                distanceTv.setTextColor(getResources().getColor(R.color.huise));
+                discountTv.setTextColor(getResources().getColor(R.color.red));
 
             } else if (v.getId() == R.id.share_item_distance_layout) {
 
@@ -356,6 +376,10 @@ public class ItemListFragment extends Fragment {
                     httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                             IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
+
+                categoryTv.setTextColor(getResources().getColor(R.color.huise));
+                distanceTv.setTextColor(getResources().getColor(R.color.red));
+                discountTv.setTextColor(getResources().getColor(R.color.huise));
 
             }
         }
@@ -478,6 +502,8 @@ public class ItemListFragment extends Fragment {
                 }
             });
             httpStatusList.add(future);
+
+
         }
 
     }

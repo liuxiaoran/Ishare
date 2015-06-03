@@ -42,8 +42,8 @@
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:text="折扣优先"
-                    android:textColor="@color/huise"
-                    android:textSize="14.0sp" />
+                    android:textSize="14.0sp"
+                    android:textColor="@color/huise" />
 
 
             </LinearLayout>
@@ -65,8 +65,8 @@
                     android:layout_height="40.0dp"
                     android:gravity="center"
                     android:text="距离优先"
-                    android:textColor="@color/huise"
-                    android:textSize="14.0sp" />
+                    android:textSize="14.0sp"
+                    android:textColor="@color/huise" />
 
 
             </LinearLayout>
@@ -94,8 +94,8 @@
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:text="分类"
-                    android:textColor="@color/huise"
-                    android:textSize="14.0sp" />
+                    android:textSize="14.0sp"
+                    android:textColor="@color/huise" />
 
 
                 <ImageView

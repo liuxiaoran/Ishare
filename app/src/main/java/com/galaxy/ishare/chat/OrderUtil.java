@@ -1,7 +1,10 @@
 package com.galaxy.ishare.chat;
 
+import android.util.Log;
+
 import com.galaxy.ishare.model.Order;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -9,20 +12,7 @@ import org.json.JSONObject;
  */
 public class OrderUtil {
 
-    public static String getOrderState(int type) {
-        String result = null;
-        switch (type) {
-            case 0: result = "申请中"; break;
-            case 1: result = "申请中"; break;
-            case 2: result = "申请中"; break;
-            case 3: result = "申请中"; break;
-            case 4: result = "申请中"; break;
-            case 5: result = "申请中"; break;
-            default: result = "申请中"; break;
-        }
-
-        return result;
-    }
+    private static String TAG = "OrderUtil";
 
     public static Order parserJSONObject2Order(JSONObject jsonObject) {
         Order order = new Order();
@@ -30,12 +20,21 @@ public class OrderUtil {
             if(jsonObject.has("id")) {
                 order.id = jsonObject.getInt("id");
             }
+
             if(jsonObject.has("shop_name")) {
                 order.shopName = jsonObject.getString("shop_name");
             }
-            if(jsonObject.has("shop_image")) {
-                order.shopImage = jsonObject.getString("shop_image");
+
+            if(jsonObject.has("shop_img")) {
+                Log.d(TAG, jsonObject.getString("shop_img"));
+                JSONArray jsonArray = jsonObject.getJSONArray("shop_img");
+                String[] shopImage = new String[jsonArray.length()];
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    shopImage[i] = jsonArray.getString(i);
+                }
+                order.shopImage = shopImage;
             }
+
             if(jsonObject.has("shop_distance")) {
                 order.shopDistance = jsonObject.getDouble("shop_distance");
             }
@@ -49,8 +48,8 @@ public class OrderUtil {
             if (jsonObject.has("borrow_avatar")) {
                 order.borrowAvatar = jsonObject.getString("borrow_avatar");
             }
-            if(jsonObject.has("borrow_distance")) {
-                order.borrowDistance = jsonObject.getDouble("borrow_distance");
+            if(jsonObject.has("lend_distance")) {
+                order.lendDistance = jsonObject.getDouble("lend_distance");
             }
 
             if(jsonObject.has("discount")) {
@@ -73,6 +72,24 @@ public class OrderUtil {
                 order.lendAvatar = jsonObject.getString("lend_avatar");
             }
 
+            if(jsonObject.has("status")) {
+                order.orderState = jsonObject.getInt("status");
+            }
+            if(jsonObject.has("t_apply")) {
+                order.applyTime = jsonObject.getString("t_apply");
+            }
+            if(jsonObject.has("t_get")) {
+                order.applyTime = jsonObject.getString("t_get");
+            }
+            if(jsonObject.has("t_use")) {
+                order.applyTime = jsonObject.getString("t_use");
+            }
+            if(jsonObject.has("t_finish")) {
+                order.applyTime = jsonObject.getString("t_finish");
+            }
+            if(jsonObject.has("t_cancel")) {
+                order.applyTime = jsonObject.getString("t_cancel");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

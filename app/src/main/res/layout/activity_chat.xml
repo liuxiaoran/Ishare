@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:orientation="vertical"
     android:background="#ECEFF1" >
 
     <RelativeLayout
@@ -102,12 +103,33 @@
         android:id="@+id/card_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_below="@id/shop_info"
         android:layout_marginTop="15dp"
         android:background="@drawable/shape"
         android:padding="5dp"
         android:text="当前与卡主相距1.2km"/>
+
+    <ListView
+        android:id="@+id/chat_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stackFromBottom="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:scrollingCache="false"
+        android:layout_weight="1"
+        android:fadingEdge="none"
+        android:cacheColorHint="#00000000"
+        android:fastScrollEnabled="true"
+        android:transcriptMode="normal"
+        android:scrollbarStyle="insideInset"
+        android:layout_gravity="bottom"
+        android:divider="@null"
+        android:dividerHeight="5dp"
+        android:scrollbars="vertical" />
+    <!-- 就是listview加了滚动条，所以输入法才会在最底层的布局下面，而不是在editview下面。 -->
 
     <RelativeLayout
         android:id="@+id/chat_bottom"
@@ -118,6 +140,13 @@
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:background="#ffffff" >
+
+        <ImageView
+            android:id="@+id/sep_line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#B0BEC5"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/chat_btn_send"
@@ -147,32 +176,6 @@
             android:textColor="#78909C"/>
     </RelativeLayout>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_above="@id/chat_bottom"
-        android:background="#B0BEC5"/>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/chat_bottom"
-        android:layout_below="@+id/card_distance"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
 
-        <ListView
-            android:id="@+id/chat_listview"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="0.0dip"
-            android:layout_marginRight="0.0dip"
-            android:layout_marginTop="2.0dip"
-            android:cacheColorHint="#00000000"
-            android:divider="@null"
-            android:dividerHeight="5dp"
-            android:scrollbars="vertical" />
-    </RelativeLayout>
-    <!-- 就是listview加了滚动条，所以输入法才会在最底层的布局下面，而不是在editview下面。 -->
-</RelativeLayout>
+</LinearLayout>

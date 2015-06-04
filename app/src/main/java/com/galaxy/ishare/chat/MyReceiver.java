@@ -86,14 +86,16 @@ public class MyReceiver extends BroadcastReceiver {
 	public void notifyData(Bundle bundle) {
 		Chat chatMsg = new Chat();
 		for (String key : bundle.keySet()) {
-			if(key.equals(JPushInterface.EXTRA_ALERT)) {
+			if(key.equals(JPushInterface.EXTRA_NOTIFICATION_TITLE)) {
+				chatMsg.fromName = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);
+			} else if(key.equals(JPushInterface.EXTRA_ALERT)) {
 				chatMsg.content = bundle.getString(key);
 			} else if(key.equals(JPushInterface.EXTRA_EXTRA)) {
 				try {
 					String extra = bundle.getString(key);
 					JSONObject jsonObject = new JSONObject(extra);
 					if(jsonObject.has("open_id")) {
-						chatMsg.type = jsonObject.getInt("open_id");
+						chatMsg.fromUser = jsonObject.getString("open_id");
 					}
 					if(jsonObject.has("type")) {
 						chatMsg.type = jsonObject.getInt("type");
@@ -109,7 +111,10 @@ public class MyReceiver extends BroadcastReceiver {
 		}
 
 		if(chatMsg.content != null) {
-			chatMsg.toUser = IShareContext.getInstance().getCurrentUser().getUserPhone();
+			chatMsg.toUser = IShareContext.getInstance().getCurrentUser().getUserId();
+			chatMsg.toName = IShareContext.getInstance().getCurrentUser().getUserName();
+			chatMsg.isRead = 0;
+			chatDao.add(chatMsg);
 			ChatManager.getInstance().notifyData(chatMsg);
 		}
 	}

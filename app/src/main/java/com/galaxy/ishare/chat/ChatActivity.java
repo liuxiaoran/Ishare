@@ -1,15 +1,15 @@
 package com.galaxy.ishare.chat;
 
-import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,7 +30,6 @@ import com.galaxy.ishare.model.Order;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.DateUtil;
 import com.galaxy.ishare.utils.DisplayUtil;
-import com.galaxy.ishare.utils.JPushUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
@@ -46,11 +45,15 @@ import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class ChatActivity extends Activity {
+public class ChatActivity extends ActionBarActivity {
     private Context mContext;
     private User user;
     private Order order;
     private ChatDao chatDao;
+
+    private ActionBar actionBar;
+    private ImageView btnBack;
+    private TextView title;
 
     private ImageView shopImage;
     private TextView shopName;
@@ -70,6 +73,9 @@ public class ChatActivity extends Activity {
     public static int PAGE_NUM = 20;
     private static final String TAG="ChatActivity";
 
+    private String[] borrowStateItems;
+    private String[] lendStateItems;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,10 +84,50 @@ public class ChatActivity extends Activity {
         user = IShareContext.getInstance().getCurrentUser();
         order = OrderManager.getInstance().order;
         chatDao = ChatDao.getInstance(mContext);
-        JPushUtil.getInstance(getApplicationContext()).setAlias(MD5.md5(user.getUserId()));
 
+        borrowStateItems = mContext.getResources().getStringArray(R.array.borrow_state_items);
+        lendStateItems = mContext.getResources().getStringArray(R.array.lend_state_items);
+
+
+        setActionBar();
         initWidget();
         ChatManager.getInstance().addObserver(this);
+    }
+
+    public void setBundle() {
+        Bundle bundle = getIntent().getExtras();
+        String fromUser = null;
+        String toUser = user.getUserId();
+        if(bundle != null && bundle.size() != 0) {
+            for (String key : bundle.keySet()) {
+                if(key.equals(JPushInterface.EXTRA_EXTRA)) {
+                    try {
+                        String extra = bundle.getString(key);
+                        JSONObject jsonObject = new JSONObject(extra);
+                        if(jsonObject.has("open_id")) {
+                            fromUser = jsonObject.getString("open_id");
+                        }
+                    } catch (JSONException e) {
+                        Log.v(TAG,e.toString());
+                        e.printStackTrace();
+                    }
+                }
+            }
+            showNewMessage(fromUser, toUser);
+        }
+    }
+
+    public void setActionBar() {
+        actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.chat_action_bar, false);
+        btnBack = (ImageView) actionBar.getCustomView().findViewById(R.id.btn_back);
+        title = (TextView) actionBar.getCustomView().findViewById(R.id.title);
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void initWidget() {
@@ -97,7 +143,7 @@ public class ChatActivity extends Activity {
         btnSend = (TextView) findViewById(R.id.chat_btn_send);
         chatListView = (ListView) findViewById(R.id.chat_listview);
 
-        String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(order.shopImage, DisplayUtil.dip2px(mContext, 100), DisplayUtil.dip2px(mContext, 60));
+        String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(order.shopImage[0], DisplayUtil.dip2px(mContext, 100), DisplayUtil.dip2px(mContext, 60));
         ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 100), DisplayUtil.dip2px(mContext, 60));
         ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
                 new SimpleImageLoadingListener() {
@@ -110,7 +156,12 @@ public class ChatActivity extends Activity {
         shopDistance.setText(order.shopDistance + "");
         cardDiscount.setText(order.cardDiscount + "折");
         cardType.setText(CardTypeUtil.getCardType(order.cardType));
-        orderState.setText("状态： " + OrderUtil.getOrderState(order.orderState));
+        if(user.getUserId().equals(order.borrowId)) {
+            orderState.setText("状态： " +borrowStateItems[order.orderState]);
+        } else {
+            orderState.setText("状态： " + lendStateItems[order.orderState]);
+        }
+
 
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,13 +171,17 @@ public class ChatActivity extends Activity {
                 chatMsg.toUser = order.borrowId;
                 chatMsg.type = 0;
                 chatMsg.content = etMsg.getText().toString().trim();
+                chatMsg.time = DateUtil.getCurtime("yyyy-MM-dd HH:mm:ss");
 
-                chatDao.add(chatMsg);
+//                chatDao.add(chatMsg);
 
+                Log.d(TAG, chatList.size() + "$$$");
                 chatList.add(chatMsg);
-                etMsg.setText("");
-                chatListView.setSelection(chatList.size() - 1);
+                Log.d(TAG, chatList.size() + "$$$");
                 chatAdapter.notifyDataSetChanged();
+                etMsg.setText("");
+//                chatListView.setSelection(chatList.size() - 1);
+
 
                 sendMsg(chatMsg);
             }
@@ -135,22 +190,33 @@ public class ChatActivity extends Activity {
         chatListView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        if(chatListView.getFirstVisiblePosition() == 0) {
+                            showChatRecords();
+                        }
+                }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem == 0) {
-                    showChatRecords();
-                    Log.e("log", "滑到顶部");
-                }
-                if (visibleItemCount + firstVisibleItem == totalItemCount) {
-                    Log.e("log", "滑到底部");
-                }
+//                if (firstVisibleItem == 0) {
+//                    showChatRecords();
+//                    Log.e("log", "滑到顶部");
+//                }
+//                if (visibleItemCount + firstVisibleItem == totalItemCount) {
+//                    Log.e("log", "滑到底部");
+//                }
             }
         });
 
-        chatList = getChatData();
-        chatAdapter = new ChatAdapter(mContext, chatList, order.borrowAvatar);
+        chatList.addAll(getChatData());
+        if(OrderManager.getInstance().order.borrowId.equals(user.getUserId())) {
+            chatAdapter = new ChatAdapter(mContext, chatList, order.borrowAvatar, order.lendAvatar);
+        } else {
+            chatAdapter = new ChatAdapter(mContext, chatList, order.lendAvatar, order.borrowAvatar);
+        }
+
         chatListView.setAdapter(chatAdapter);
     }
 
@@ -219,12 +285,18 @@ public class ChatActivity extends Activity {
 
     public void showChatRecords() {
         List<Chat> tmpList = getChatData();
-        if(tmpList.size() == 0) {
-            Toast.makeText(mContext, "没有更多聊天记录", Toast.LENGTH_LONG).show();
-        } else {
-            tmpList.addAll(chatList);
-            chatList = tmpList;
-            chatAdapter.notifyDataSetChanged();
+        if(tmpList != null) {
+            if(tmpList.size() == 0) {
+                Toast.makeText(mContext, "没有更多聊天记录", Toast.LENGTH_LONG).show();
+            } else {
+                tmpList.addAll(chatList);
+                chatList = tmpList;
+                if(chatAdapter != null) {
+                    chatAdapter.setChatList(chatList);
+                    chatAdapter.notifyDataSetChanged();
+                }
+
+            }
         }
     }
 
@@ -240,34 +312,42 @@ public class ChatActivity extends Activity {
 
     @Override
     public void onResume() {
-        JPushInterface.onResume(mContext);
         super.onResume();
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(btnSend.getWindowToken(), 0); //强制隐藏键盘
-
+        setBundle();
         isForeground = true;
-
-        ChatManager.getInstance().notifyData();
     }
 
     @Override
     protected void onPause() {
-        JPushInterface.onPause(mContext);
         super.onPause();
 
         isForeground = false;
     }
 
-    public void notifyData(List<Chat> tmpList) {
-        if(tmpList != null && tmpList.size() != 0) {
-            chatList.addAll(tmpList);
-            chatAdapter.notifyDataSetChanged();
+    public void showNewMessage(String fromUser, String toUser) {
+        Log.d(TAG, "showNewMessage");
+        Log.d(TAG, order.borrowId);
+        Log.d(TAG, fromUser);
+        Log.d(TAG, toUser);
+        if(order != null) {
+            if(order.borrowId.equals(fromUser) || order.lendId.equals(fromUser)) {
+                List<Chat> tmpList = chatDao.queryUnRead(fromUser, toUser);
+                chatDao.updateunRead(tmpList);
+
+                Log.d(TAG, chatList.size() + "asdsa");
+                if(tmpList.size() != 0) {
+                    chatList.addAll(tmpList);
+                    chatAdapter.notifyDataSetChanged();
+                }
+                Log.d(TAG, chatList.size() + "asdfs");
+
+                Log.d(TAG, isForeground + "showNewMessage");
+                NotificationManager m_NotificationManager=(NotificationManager)this.getSystemService(NOTIFICATION_SERVICE);
+                m_NotificationManager.cancelAll();
+            }
+        } else {
+
         }
 
-        if(isForeground) {
-            NotificationManager m_NotificationManager=(NotificationManager)this.getSystemService(NOTIFICATION_SERVICE);
-            m_NotificationManager.cancelAll();
-        }
     }
 }

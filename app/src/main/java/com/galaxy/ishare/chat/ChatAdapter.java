@@ -36,12 +36,14 @@ public class ChatAdapter extends BaseAdapter {
     private List<Chat> chatList;
     private LayoutInflater mInflater;
     private User user;
-    private String chatAvatar;
+    private String fromAvatar;
+    private String toAvatar;
 
-    public ChatAdapter(Context mContext, List<Chat> chatList, String chatAvatar) {
+    public ChatAdapter(Context mContext, List<Chat> chatList, String fromAvatar, String toAvatar) {
         this.mContext = mContext;
         this.chatList = chatList;
-        this.chatAvatar = chatAvatar;
+        this.fromAvatar = fromAvatar;
+        this.toAvatar = toAvatar;
         mInflater = LayoutInflater.from(mContext);
         user = IShareContext.getInstance().getCurrentUser();
     }
@@ -64,17 +66,17 @@ public class ChatAdapter extends BaseAdapter {
         String avatarUrl = null;
         ViewHolder viewHolder = null;
 
-//        if (convertView == null)
-//        {
+        if (convertView == null)
+        {
             if (!user.getUserId().equals(msg.fromUser))
             {
                 Log.e(TAG, "chat_msg_right");
                 convertView = mInflater.inflate(R.layout.chat_msg_left, null);
-                avatarUrl = chatAvatar;
+                avatarUrl = toAvatar;
             }else{
                 Log.e(TAG, "chat_msg_left");
                 convertView = mInflater.inflate(R.layout.chat_msg_right, null);
-                avatarUrl = user.getAvatar();
+                avatarUrl = fromAvatar;
             }
 
             viewHolder = new ViewHolder();
@@ -83,25 +85,25 @@ public class ChatAdapter extends BaseAdapter {
             viewHolder.tvText = (TextView) convertView.findViewById(R.id.tv_text);
 
             convertView.setTag(viewHolder);
-//        }else{
-//            viewHolder = (ViewHolder) convertView.getTag();
-//        }
+        }else{
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
 
         String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(avatarUrl, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
-        Log.v(TAG, "arrive" + "   " + thumbnailUrl);
         ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
         final ViewHolder finalCardHolder = viewHolder;
         ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
                 new SimpleImageLoadingListener() {
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
                         finalCardHolder.ivUserHead.setImageBitmap(loadedImage);
                     }
                 });
 
         if(isShowTime(position)) {
             viewHolder.tvSendTime.setText(getTime(position));
+        } else {
+            viewHolder.tvSendTime.setVisibility(View.GONE);
         }
 
         viewHolder.tvText.setText(msg.content + "");
@@ -112,10 +114,15 @@ public class ChatAdapter extends BaseAdapter {
     public boolean isShowTime(int position) {
         boolean result =  true;
         String format = "yyyy-MM-dd HH:mm:ss";
-        if(position > 0) {
+        if(position > 0 && position + 1 < chatList.size()) {
             if(DateUtil.date2TimeStamp(chatList.get(position + 1).time, format)
                     - DateUtil.date2TimeStamp(chatList.get(position).time, format) < 300000) {
                 result = false;
+            }
+        } else if(position == chatList.size() - 1) {
+            if(DateUtil.getTimeStamp()
+                    - DateUtil.date2TimeStamp(chatList.get(position).time, format) < 300000) {
+                return false;
             }
         }
         return result;
@@ -123,19 +130,15 @@ public class ChatAdapter extends BaseAdapter {
 
     public String getTime(int position) {
         String result = "";
-        String format1 = "HH:mm:ss";
-        String format2 = "yyyy-MM-dd HH:mm:ss";
         String curDate = DateUtil.getDate(0);
         String nextDate = DateUtil.getDate(1);
         Chat chat = chatList.get(position);
 
         if(curDate.compareTo(chat.time) > 0
                 && nextDate.compareTo(chat.time) < 0) {
-            SimpleDateFormat sf = new SimpleDateFormat(format1);
-            result =  sf.format(chat.time);
+            result =  chat.time.substring(0, 11);
         } else {
-            SimpleDateFormat sf = new SimpleDateFormat(format2);
-            result =sf.format(chat.time);
+            result = chat.time.substring(11, 19);
         }
 
         return result;

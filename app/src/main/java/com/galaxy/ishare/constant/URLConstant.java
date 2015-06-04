@@ -60,6 +60,10 @@ public class URLConstant {
 
     public static final String BORROW_CARD = SERVER_IP + "/record/Record_C/add";
 
+    public static final String GET_ORDER = SERVER_IP + "/record/Record_C/get";
+
+    public static final String ADD_ORDER = SERVER_IP + "/record/Record_C/add";
+
     // 用户获取附近的借卡
     public static final String REQUEST_CARD_GET = SERVER_IP + "/card/Request_Card_C/get";
 }

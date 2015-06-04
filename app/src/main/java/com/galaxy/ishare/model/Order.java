@@ -8,10 +8,10 @@ public class Order {
     public String borrowId;
     public String borrowName;
     public String borrowAvatar;
-    public double borrowDistance;
+
 
     public String shopName;
-    public String shopImage;
+    public String[] shopImage;
     public double shopDistance;
 
     public double cardDiscount;
@@ -21,6 +21,12 @@ public class Order {
     public String lendId;
     public String lendName;
     public String lendAvatar;
+    public double lendDistance;
 
     public int orderState;
+    public String applyTime;
+    public String getTime;
+    public String useTime;
+    public String finishTime;
+    public String cancelTime;
 }

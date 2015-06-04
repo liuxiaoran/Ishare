@@ -18,8 +18,6 @@ public class ChatManager {
 
     private ChatActivity activity;
 
-    private List<Chat> chatList = new ArrayList<Chat>();
-
     public static  ChatManager getInstance() {
         if(instance == null) {
             instance = new ChatManager();
@@ -33,23 +31,14 @@ public class ChatManager {
 
     public void notifyData(Chat chatMsg) {
         Log.e(TAG, "notifyData*****");
-        chatList.add(chatMsg);
+        Log.e(TAG, ChatActivity.isForeground + "*****");
 
         if(ChatActivity.isForeground) {
             if(activity != null) {
-                activity.notifyData(chatList);
+                activity.showNewMessage(chatMsg.fromUser, chatMsg.toUser);
             }
-            chatList.clear();
         }
-
     }
 
-    public void notifyData() {
-        if(!chatList.isEmpty()) {
-            Log.e(TAG, chatList.size() + "^^^^");
-            activity.notifyData(chatList);
-        }
-        chatList.clear();
-    }
 
 }

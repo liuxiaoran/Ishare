@@ -204,7 +204,6 @@ public class ItemListFragment extends Fragment {
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-
                 gestureType = LOAD_MORE_GESTURE;
                 pageNumber++;
                 httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),

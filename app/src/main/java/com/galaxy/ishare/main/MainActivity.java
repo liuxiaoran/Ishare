@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -24,6 +24,7 @@ import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.bindphone.BindPhoneActivity;
+import com.galaxy.ishare.chat.MD5;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.database.FriendDao;
 import com.galaxy.ishare.database.InviteFriendDao;
@@ -34,6 +35,7 @@ import com.galaxy.ishare.sharedcard.ItemListFragment;
 import com.galaxy.ishare.user_request.RequestFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
 import com.galaxy.ishare.utils.AppAsyncHttpClient;
+import com.galaxy.ishare.utils.JPushUtil;
 import com.galaxy.ishare.utils.PhoneContactManager;
 import com.galaxy.ishare.utils.SPUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -47,8 +49,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class MainActivity extends ActionBarActivity {
 
+    private User user;
+    private Context mContext;
 
     public static final String PUBLISH_TO_BING_PHONE = "PUBLISH_TO_BING_PHONE";
 
@@ -86,6 +92,10 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        mContext = this;
+        user = IShareContext.getInstance().getCurrentUser();
+        JPushUtil.getInstance(getApplicationContext()).setAlias(MD5.md5(user.getUserId()));
 
         recoverActionBar("分享");
 
@@ -354,10 +364,11 @@ public class MainActivity extends ActionBarActivity {
 //                                  lendBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.LEND_ORDER);
 //                                  orderFragment.setArguments(lendBundle);
                                 OrderFragment.orderType = OrderFragment.LEND_ORDER;
+
                                 lendTransaction.show(orderFragment);
                                 lendTransaction.commit();
-
                             }
+                            OrderFragment.instance.setListView();
                         }
                     };
                     borrowTv.setOnClickListener(textViewListener);
@@ -407,6 +418,16 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    @Override
+    public void onResume() {
+        JPushInterface.onResume(mContext);
+        super.onResume();
+    }
+
+    protected void onPause() {
+        JPushInterface.onPause(mContext);
+        super.onPause();
+    }
 
     @Override
     protected void onStop() {

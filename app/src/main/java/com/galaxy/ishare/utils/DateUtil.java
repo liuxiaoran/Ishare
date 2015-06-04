@@ -41,13 +41,11 @@ public class DateUtil {
     }
 
     /**
-     * 取得当前时间戳（精确到秒）
+     * 取得当前时间戳
      * @return
      */
-    public static String timeStamp(){
-        long time = System.currentTimeMillis();
-        String t = String.valueOf(time/1000);
-        return t;
+    public static Long getTimeStamp(){
+        return System.currentTimeMillis();
     }
 
     /**

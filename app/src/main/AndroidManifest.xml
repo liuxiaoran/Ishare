@@ -300,6 +300,19 @@
 		</activity>
 		<!--end cars share-->
 
+		<!-- start chat -->
+		<activity
+			android:name=".chat.ChatActivity"
+			android:label="@string/app_name"
+			android:screenOrientation="portrait"
+			android:windowSoftInputMode="adjustUnspecified|stateHidden"
+			android:configChanges="orientation|keyboardHidden" >
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+				android:value=".sharedcard.CardDetailActivity" />
+		</activity>
+		<!-- end chat -->
+
 		<activity
 			android:name=".wxapi.WXEntryActivity"
 			android:configChanges="keyboardHidden|orientation|screenSize"

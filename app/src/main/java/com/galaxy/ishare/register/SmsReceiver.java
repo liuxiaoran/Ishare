@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 public class SmsReceiver extends BroadcastReceiver {
     public  static String code=null;
     public static String address=null;
-//    public static String msgconfirmed=null;
     private  static final String TAG ="smsreceiver";
     public EditText et;
     @Override
@@ -40,11 +39,12 @@ public class SmsReceiver extends BroadcastReceiver {
                 sb.append("msg:" + message[i].getDisplayMessageBody());
             }
             System.out.println(sb.toString());
-            RegisterActivity.confirmCodeEt.setText(getCode());
+//            if(address.equals("")){
+//                RegisterActivity.confirmCodeEt.setText(getCode());
+//            }
         }
 
     }
-    //获得短信内容里的验证码
     private String getCode(){
         Pattern p;
         p=Pattern.compile("\\d{4}");

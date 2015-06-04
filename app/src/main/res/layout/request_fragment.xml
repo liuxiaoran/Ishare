@@ -4,27 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/request_framelayout">
-
-    <FrameLayout
-        android:id="@+id/share_item_listview_framelayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp">
-
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/request_plus_floating_btn"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:src="@drawable/icon_plus"
-            fab:fab_colorNormal="@color/floating_btn_normal"
-            fab:fab_colorPressed="@color/floationg_btn_pressed"
-            fab:fab_colorRipple="@color/floating_btn_ripple" />
+    android:id="@+id/request_container_layout"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
 
 
-    </FrameLayout>
 
 </FrameLayout>

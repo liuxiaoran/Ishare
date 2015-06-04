@@ -30,7 +30,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="km" />
+                android:text="km"
+                android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/share_item_listview_item_shop_distance_tv"
@@ -38,7 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/share_item_km"
                 android:singleLine="true"
-                android:text="25" />
+                android:text="25"
+                android:visibility="invisible" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -46,7 +48,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="5dp"
                 android:layout_toLeftOf="@id/share_item_listview_item_shop_distance_tv"
-                android:src="@drawable/share_item_location" />
+                android:src="@drawable/share_item_location"
+                android:visibility="invisible" />
 
         </RelativeLayout>
 
@@ -118,6 +121,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
+                        android:layout_marginLeft="5dp"
                         android:text="57" />
 
                     <TextView

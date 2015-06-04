@@ -197,6 +197,7 @@ public class ItemListFragment extends Fragment {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 gestureType = REFRESH_GESTURE;
                 pageNumber = 1;
+                dataList.clear();
                 httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
                         IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
             }

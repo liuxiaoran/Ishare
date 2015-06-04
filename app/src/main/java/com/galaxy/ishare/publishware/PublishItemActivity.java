@@ -196,7 +196,17 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
             @Override
             public void afterTextChanged(Editable arg0) {
-
+                if (shopNameTv.getText().toString().length() <= 0) {
+                    return;
+                }
+                /**
+                 * 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
+                 */
+                if (shopNameTv.getText().toString() != null && !shopNameTv.getText().toString().equals("")) {
+                    mSuggestionSearch
+                            .requestSuggestion((new SuggestionSearchOption())
+                                    .keyword(shopNameTv.getText().toString()).city(IShareContext.getInstance().getUserLocationNotNull().getCity()));
+                }
             }
 
             @Override
@@ -208,15 +218,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2,
                                       int arg3) {
-                if (cs.length() <= 0) {
-                    return;
-                }
-                /**
-                 * 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
-                 */
-                mSuggestionSearch
-                        .requestSuggestion((new SuggestionSearchOption())
-                                .keyword(cs.toString()).city(IShareContext.getInstance().getUserLocation().getCity()));
+
             }
         });
 
@@ -562,7 +564,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                 gridViewBitmapList.get(i).recycle();
             }
         }
-        PoiSearchUtil.destroyPoiSearch();
+//        PoiSearchUtil.destroyPoiSearch();
     }
 
     // 上传数据到服务器

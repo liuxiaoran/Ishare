@@ -74,7 +74,15 @@ public class CardOwnerAvailableMapActivity extends ActionBarActivity {
 
         initViews();
         // 将用户现在的位置设置默认的位置
-        LatLng currentLatLng = new LatLng(IShareContext.getInstance().getUserLocationNotNull().getLatitude(), IShareContext.getInstance().getUserLocationNotNull().getLongitude());
+        double currentLatitude = 39.96;
+        double currentLongtitude = 116;
+        if (IShareContext.getInstance().getUserLocationNotNull() != null) {
+            currentLatitude = IShareContext.getInstance().getUserLocationNotNull().getLatitude();
+        }
+        if (IShareContext.getInstance().getUserLocationNotNull() != null) {
+            currentLongtitude = IShareContext.getInstance().getUserLocationNotNull().getLongitude();
+        }
+        LatLng currentLatLng = new LatLng(currentLatitude, currentLongtitude);
         MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(currentLatLng);
         baiduMap.setMapStatus(update);
         initPoiSearch();

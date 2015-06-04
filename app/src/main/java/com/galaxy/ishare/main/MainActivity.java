@@ -31,6 +31,7 @@ import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.order.OrderFragment;
 import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
+import com.galaxy.ishare.user_request.RequestFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
 import com.galaxy.ishare.utils.AppAsyncHttpClient;
 import com.galaxy.ishare.utils.PhoneContactManager;
@@ -52,11 +53,12 @@ public class MainActivity extends ActionBarActivity {
     public static final String PUBLISH_TO_BING_PHONE = "PUBLISH_TO_BING_PHONE";
 
     private RadioGroup mTabGroup = null;
-    private RadioButton mShareItemButton, orderButton, mMeButton;
+    private RadioButton mShareItemButton, orderButton, mMeButton, requestBtn;
 
     private Fragment mShareItemFragment;
     private Fragment mMeFragment;
     private Fragment orderFragment;
+    private Fragment requestFragment;
 //    private TextView mTitle;
 
     private int[] mRadioId = new int[]{R.id.shareBtn, R.id.MeButton};
@@ -172,6 +174,10 @@ public class MainActivity extends ActionBarActivity {
             };
             searchIv.setOnClickListener(mOnClickListener);
             publishTv.setOnClickListener(mOnClickListener);
+        } else if (title.equals("附近的请求")) {
+            actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_request_action_bar, false);
+            titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.action_bar_title_tv);
+            titleTv.setText(title);
         } else {
             actionBar = IShareContext.getInstance().createActionbar(this, false, title);
             titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
@@ -276,6 +282,7 @@ public class MainActivity extends ActionBarActivity {
         mShareItemButton = (RadioButton) findViewById(R.id.shareBtn);
         orderButton = (RadioButton) findViewById(R.id.orderBtn);
         mMeButton = (RadioButton) findViewById(R.id.MeButton);
+        requestBtn = (RadioButton) findViewById(R.id.requestBtn);
         mTabGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -293,6 +300,9 @@ public class MainActivity extends ActionBarActivity {
                     if (orderFragment != null) {
                         transaction.hide(orderFragment);
                     }
+                    if (requestFragment != null) {
+                        transaction.hide(requestFragment);
+                    }
 
                     transaction.show(mShareItemFragment);
                 } else if (checkedId == orderButton.getId()) {
@@ -305,6 +315,9 @@ public class MainActivity extends ActionBarActivity {
                     }
                     if (mMeFragment != null) {
                         transaction.hide(mMeFragment);
+                    }
+                    if (requestFragment != null) {
+                        transaction.hide(requestFragment);
                     }
                     actionBar = IShareContext.getInstance().createCustomActionBar(MainActivity.this, R.layout.main_order_action_bar, false);
                     final TextView borrowTv = (TextView) actionBar.getCustomView().findViewById(R.id.order_actionbar_borrow_tv);
@@ -354,6 +367,22 @@ public class MainActivity extends ActionBarActivity {
 //                    orderFragment.setArguments(bundle);
                     transaction.show(orderFragment);
 
+                } else if (checkedId == requestBtn.getId()) {
+                    recoverActionBar("附近的请求");
+                    if (requestFragment == null) {
+                        requestFragment = new RequestFragment();
+                        transaction.add(R.id.fragment_container, requestFragment);
+                    }
+                    if (mShareItemFragment != null) {
+                        transaction.hide(mShareItemFragment);
+                    }
+                    if (orderFragment != null) {
+                        transaction.hide(orderFragment);
+                    }
+                    if (mMeFragment != null) {
+                        transaction.hide(mMeFragment);
+                    }
+                    transaction.show(requestFragment);
                 } else if (checkedId == mMeButton.getId()) {
                     recoverActionBar("我");
                     if (mMeFragment == null) {
@@ -365,6 +394,9 @@ public class MainActivity extends ActionBarActivity {
                     }
                     if (orderFragment != null) {
                         transaction.hide(orderFragment);
+                    }
+                    if (requestFragment != null) {
+                        transaction.hide(requestFragment);
                     }
                     transaction.show(mMeFragment);
                 }

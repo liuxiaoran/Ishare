@@ -136,13 +136,22 @@ public class JsonObjectUtil {
                 cardItem.setDescription(jsonObject.getString("description"));
             }
 
-            if (jsonObject.get("img") != JSONObject.NULL) {
-                JSONArray imgArray = jsonObject.getJSONArray("img");
-                String[] imgs = new String[imgArray.length()];
-                for (int i = 0; i < imgArray.length(); i++) {
-                    imgs[i] = imgArray.getString(i);
+            if (jsonObject.has("img")) {
+                if (jsonObject.get("img") != JSONObject.NULL) {
+                    JSONArray imgArray = jsonObject.getJSONArray("img");
+                    String[] imgs = new String[imgArray.length()];
+                    for (int i = 0; i < imgArray.length(); i++) {
+                        imgs[i] = imgArray.getString(i);
+                    }
+                    cardItem.setCardImgs(imgs);
+
+                    // 如果一张图没有，给个默认的图
+                    if (imgArray.length() == 0) {
+                        String[] tem = new String[1];
+                        tem[0] = "http://7xixyl.com1.z0.glb.clouddn.com/h_default_pic.png";
+                        cardItem.setCardImgs(tem);
+                    }
                 }
-                cardItem.setCardImgs(imgs);
             }
             if (jsonObject.has("publish_time")) {
                 cardItem.setPublishTime(jsonObject.getString("publish_time"));
@@ -162,8 +171,43 @@ public class JsonObjectUtil {
             if (jsonObject.has("owner_distance")) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
             }
+            if (jsonObject.has("rating_average")) {
+                cardItem.setRatingCount(jsonObject.getDouble("rating_average"));
+            }
+            if (jsonObject.has("lend_count")) {
+                cardItem.setRentCount(jsonObject.getInt("lend_count"));
+            }
+            if (jsonObject.has("rating_num")) {
+                cardItem.setCommentCount(jsonObject.getInt("rating_num"));
+            }
+            if (jsonObject.has("requester_gender")) {
+                cardItem.setOwnerGender(jsonObject.getString("requester_gender"));
+
+            }
+            if (jsonObject.has("gender")) {
+                cardItem.setOwnerGender(jsonObject.getString("gender"));
+            }
+            if (jsonObject.has("avatar")) {
+                cardItem.setOwnerGender(jsonObject.getString("avatar"));
+            }
+            if (jsonObject.has("user_location")) {
+                cardItem.setRequesterLocation(jsonObject.getString("user_location"));
+            }
+            if (jsonObject.has("avatar")) {
+                cardItem.setOwnerAvatar(jsonObject.getString("avatar"));
+            }
+            if (jsonObject.has("gender")) {
+                cardItem.setOwnerGender(jsonObject.getString("gender"));
+                Log.v("RequestFragment", jsonObject.getString("gender"));
+            }
+            if (jsonObject.has("distance")) {
+                cardItem.setOwnerDistance(jsonObject.getDouble("distance"));
+            }
+            if (jsonObject.has("nickname")) {
+                cardItem.setOwnerName(jsonObject.getString("nickname"));
+            }
         } catch (Exception e) {
-            Log.v("cardparse", e.toString() + "   exception");
+            Log.v("RequestFragment", e.toString() + "   exception");
             e.printStackTrace();
         }
         return cardItem;

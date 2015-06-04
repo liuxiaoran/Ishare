@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">IShare</string>
     <string name="save">保存</string>
-    <string name="share_item_tab">卡</string>
+	<string name="share_item_tab">分享</string>
     <string name="discover_tab">朋友圈</string>
-    <string name="contact_tab">最新动态</string>
+	<string name="order_tab">订单</string>
     <string name="me_tab">我</string>
+	<string name="request_tab">请求</string>
 
 	<string name="menu_refresh">刷新</string>
 	<string name="menu_settings">设置</string>
@@ -27,11 +28,16 @@
 	<string name="drop_down_list_footer_loading_text">加载中&#8230;</string>
 	<string name="drop_down_list_footer_no_more_text">没有更多了</string>
 
+    <string name="image_content">Image</string>
 
     <string name="userid_found">用户信息已存在，正在跳转登录操作…</string>
     <string name="logining">使用%s帐号登录中…</string>
     <string name="auth_cancel">授权操作已取消</string>
     <string name="auth_error">授权操作遇到错误，请阅读Logcat输出</string>
     <string name="auth_complete">授权成功，正在跳转登录操作…</string>
-	<string name="image_content">Image</string>
+
+    <string name="send">发送</string>
+	
+	<string name="vip_card">会员卡</string>
+	<string name="charge_card">充值卡</string>
 </resources>

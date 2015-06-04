@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/default_layout_padding"
+        android:paddingRight="@dimen/default_layout_padding"
+        android:paddingTop="@dimen/default_layout_padding">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/request_item_requester_avatar_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+
+        <TextView
+            android:id="@+id/request_item_requester_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/request_item_requester_avatar_iv"
+            android:text="liu"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/request_item_requester_gender_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/request_item_requester_name_tv"
+            android:layout_alignTop="@id/request_item_requester_name_tv"
+            android:layout_toRightOf="@id/request_item_requester_name_tv"
+            android:src="@drawable/icon_female" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="p"
+            android:visibility="invisible"
+            android:id="@+id/invisible_p"
+            android:layout_toRightOf="@id/request_item_requester_gender_iv" />
+
+        <ImageView
+            android:id="@+id/request_item_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_alignTop="@id/invisible_p"
+            android:layout_alignBottom="@id/invisible_p"
+            android:layout_toRightOf="@id/invisible_p"
+            android:src="@drawable/share_item_location" />
+
+
+        <TextView
+            android:id="@+id/request_item_distance_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/request_item_location"
+            android:text="12km"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp" />
+
+
+        <TextView
+            android:id="@+id/request_item_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="2dp"
+            android:text="1min" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/request_item_requester_name_tv"
+            android:layout_below="@id/request_item_requester_name_tv"
+            android:text="发布了一条求卡的请求" />
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/request_item_card_shopname_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/request_item_card_shop_location_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:inputType="textMultiLine" />
+    </LinearLayout>
+
+
+</LinearLayout>

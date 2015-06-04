@@ -66,17 +66,25 @@ public class CardOwnerAvailableMapActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publishware_available_map_activity);
 
-        android.support.v7.app.ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
-        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
-        titleTv.setText("确定地址位置");
+        android.support.v7.app.ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "确定地址位置");
 
         String addr = getIntent().getStringExtra(PARAMETER_ADDR);
         requstCode=getIntent().getIntExtra(PARAMETER_REQUEST_CODE,0);
-        Log.v("cardpublish","addr"+addr);
+        Log.v("cardpublish", "addr" + addr);
 
         initViews();
-        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(14.0f);
-        baiduMap.setMapStatus(msu);
+        // 将用户现在的位置设置默认的位置
+        double currentLatitude = 39.96;
+        double currentLongtitude = 116;
+        if (IShareContext.getInstance().getUserLocationNotNull() != null) {
+            currentLatitude = IShareContext.getInstance().getUserLocationNotNull().getLatitude();
+        }
+        if (IShareContext.getInstance().getUserLocationNotNull() != null) {
+            currentLongtitude = IShareContext.getInstance().getUserLocationNotNull().getLongitude();
+        }
+        LatLng currentLatLng = new LatLng(currentLatitude, currentLongtitude);
+        MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(currentLatLng);
+        baiduMap.setMapStatus(update);
         initPoiSearch();
 
         locationAlterListView.setAdapter(adapter);

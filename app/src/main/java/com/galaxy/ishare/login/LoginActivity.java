@@ -23,7 +23,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.User;
-import com.galaxy.ishare.utils.WaitingDialogUtil;
+import com.galaxy.ishare.utils.widget.WaitingDialogUtil;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -171,6 +171,9 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
             case MSG_AUTH_ERROR: {
                 Toast.makeText(this, R.string.auth_error, Toast.LENGTH_SHORT).show();
                 System.out.println("-------MSG_AUTH_ERROR--------");
+                WaitingDialogUtil.getInstance(this).dimissWaitingDialog();
+                Toast.makeText(this, "请先安装微信应用", Toast.LENGTH_LONG).show();
+
             }
             break;
             case MSG_AUTH_COMPLETE: {

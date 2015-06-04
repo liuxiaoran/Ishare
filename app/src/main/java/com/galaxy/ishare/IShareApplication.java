@@ -8,18 +8,20 @@ import android.graphics.Bitmap;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.WindowManager;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.mapapi.SDKInitializer;
 import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.model.User;
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-
-import cn.sharesdk.framework.ShareSDK;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 
 public class IShareApplication extends Application {
@@ -31,6 +33,7 @@ public class IShareApplication extends Application {
     private static final String TAG = "application";
 
     public static DisplayImageOptions defaultOptions;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -66,6 +69,7 @@ public class IShareApplication extends Application {
         // 初始化 ImageLoader
         // Create default options which will be used for every
         //  displayImage(...) call if no options will be passed to this method
+        // 之后使用display这个设置有用，使用loadImage 这个函数没有用
         defaultOptions = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
                 .showImageForEmptyUri(R.drawable.load_empty)
@@ -74,13 +78,22 @@ public class IShareApplication extends Application {
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY)
+                .resetViewBeforeLoading(true)
+                .considerExifParams(true)
+                .displayer(new FadeInBitmapDisplayer(300))
                 .build();
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-                .defaultDisplayImageOptions(defaultOptions)
-                .threadPoolSize(3)
-                .build();
-        ImageLoader.getInstance().init(config);
 
+
+        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(getApplicationContext());
+        config.threadPriority(Thread.NORM_PRIORITY - 2);
+        config.denyCacheImageMultipleSizesInMemory();
+        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
+        config.diskCacheSize(50 * 1024 * 1024); // 50 MiB
+        config.tasksProcessingOrder(QueueProcessingType.LIFO);
+        config.threadPoolSize(3);
+        config.defaultDisplayImageOptions(defaultOptions);
+
+        ImageLoader.getInstance().init(config.build());
 
 
     }
@@ -102,10 +115,12 @@ public class IShareApplication extends Application {
             User.UserLocation userLocation = new User.UserLocation(city, province, district, locationStr, longitude, latitude);
             IShareContext.getInstance().setUserLocation(userLocation);
 
+            mLocationClient.stop();
+
             // 获取新的location ，发出广播,更新位置
             LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(new Intent(BroadcastActionConstant.UPDATE_USER_LOCATION));
+            Log.v("testbroadcast", "application send broadcast");
 
-            mLocationClient.stop();
 
             // 将新的位置存在sp中
             User user = null;
@@ -117,6 +132,7 @@ public class IShareApplication extends Application {
                 user.setUserLocation(userLocation);
             }
             IShareContext.getInstance().saveCurrentUser(user);
+
 
         }
 

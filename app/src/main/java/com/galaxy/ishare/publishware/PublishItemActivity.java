@@ -160,9 +160,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publishware_activity);
 
-        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
-        TextView titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
-        titleTv.setText("发布新卡");
+        IShareContext.getInstance().createDefaultHomeActionbar(this, "发布新卡");
         findViewsById();
 
         dataList = new ArrayList<>();
@@ -198,7 +196,17 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
             @Override
             public void afterTextChanged(Editable arg0) {
-
+                if (shopNameTv.getText().toString().length() <= 0) {
+                    return;
+                }
+                /**
+                 * 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
+                 */
+                if (shopNameTv.getText().toString() != null && !shopNameTv.getText().toString().equals("")) {
+                    mSuggestionSearch
+                            .requestSuggestion((new SuggestionSearchOption())
+                                    .keyword(shopNameTv.getText().toString()).city(IShareContext.getInstance().getUserLocationNotNull().getCity()));
+                }
             }
 
             @Override
@@ -210,15 +218,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             @Override
             public void onTextChanged(CharSequence cs, int arg1, int arg2,
                                       int arg3) {
-                if (cs.length() <= 0) {
-                    return;
-                }
-                /**
-                 * 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
-                 */
-                mSuggestionSearch
-                        .requestSuggestion((new SuggestionSearchOption())
-                                .keyword(cs.toString()).city(IShareContext.getInstance().getUserLocation().getCity()));
+
             }
         });
 
@@ -564,7 +564,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                 gridViewBitmapList.get(i).recycle();
             }
         }
-        PoiSearchUtil.destroyPoiSearch();
+//        PoiSearchUtil.destroyPoiSearch();
     }
 
     // 上传数据到服务器

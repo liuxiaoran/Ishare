@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginLeft="8dp"
+	android:layout_marginRight="8dp">
+
+	<RelativeLayout
+		android:id="@+id/card_top"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="3dp">
+		<TextView
+			android:id="@+id/shop_name"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:text="永琪美容美发(知春路店)"/>
+
+		<TextView
+			android:id="@+id/shop_distance"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_marginRight="15dp"
+			android:layout_centerVertical="true"
+			android:textSize="12sp"
+			android:text="1.0km"/>
+
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_toLeftOf="@id/shop_distance"
+			android:layout_centerVertical="true"
+			android:src="@drawable/share_item_location"/>
+	</RelativeLayout>
+
+	<ImageView
+		android:id="@+id/sep_line"
+		android:layout_width="match_parent"
+		android:layout_below="@+id/card_top"
+		android:layout_height="1dp"
+		android:layout_marginTop="5dp"
+		android:background="@color/gray"/>
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@+id/sep_line"
+		android:layout_marginTop="5dp"
+		android:layout_marginBottom="8dp">
+		<ImageView
+			android:id="@+id/shop_image"
+			android:layout_alignParentLeft="true"
+			android:layout_width="100dp"
+			android:layout_height="60dp"
+			android:layout_centerVertical="true" />
+
+		<ImageView
+			android:id="@+id/card_tag"
+			android:layout_width="30dp"
+			android:layout_height="15dp"
+			android:layout_alignParentRight="true"
+			android:layout_alignParentTop="true"/>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_alignBottom="@+id/shop_image"
+			android:layout_alignTop="@+id/shop_image"
+			android:layout_toRightOf="@+id/shop_image"
+			android:layout_toLeftOf="@+id/card_tag"
+			android:orientation="vertical">
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal"
+				android:layout_weight="1">
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textColor="@color/red"
+					android:textSize="16sp"
+					android:text="1折"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="8dp"
+					android:textSize="12sp"
+					android:text="优惠卡"/>
+			</LinearLayout>
+
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="与卡主相距 1.2千米"
+				android:textSize="12sp"
+				android:layout_weight="1"/>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_weight="1">
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:textSize="12sp"
+					android:text="出借 10 次"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_vertical"
+					android:layout_marginLeft="5dp"
+					android:textSize="12sp"
+					android:text="8评"/>
+
+				<RatingBar
+					android:id="@+id/rating"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="5dp"
+					style="?android:attr/ratingBarStyleSmall"
+					android:layout_gravity="center_vertical"
+					android:rating="4"
+					android:numStars="5"/>
+			</LinearLayout>
+		</LinearLayout>
+	</RelativeLayout>
+</RelativeLayout>

@@ -1,79 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:layout_marginTop="10dp"
-	android:orientation="vertical"
-	android:background="@color/fbutton_color_clouds">
+	android:layout_height="match_parent">
 
-	<LinearLayout
-		android:clickable="true"
-		android:id="@+id/myself_info"
-		android:layout_width="fill_parent"
+	<RelativeLayout
+
+		android:layout_marginTop="10dp"
+		android:id="@+id/myself_info_layout"
+		android:layout_width="match_parent"
 		android:layout_height="80dp"
 		android:background="@color/white">
 
-		<ImageButton
-			android:id="@+id/mysqlf_image_id"
-			android:layout_height="fill_parent"
-			android:layout_width="100dp"
-			android:layout_marginLeft="5dp"
-			android:src="@drawable/card_choiced" />
+		<de.hdodenhof.circleimageview.CircleImageView
+			android:id="@+id/usercenter_avatar_iv"
+			android:layout_height="60dp"
+			android:layout_width="60dp"
+			android:layout_marginLeft="15dp"
+			app:border_width="2dp"
+			app:border_color="#FF000000"
+			android:layout_centerVertical="true" />
 
-		<RelativeLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_gravity="center_vertical">
+
 
 			<TextView
-				android:id="@+id/myself_info_name"
+				android:id="@+id/usercenter_name_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="5dp"
-				android:gravity="left"
+				android:layout_marginLeft="15dp"
+				android:layout_centerInParent="true"
 				android:textStyle="bold"
-				android:text="杨俊林"
-				android:textSize="14dp" />
+				android:textSize="14dp"
+				android:layout_toRightOf="@id/usercenter_avatar_iv"
+				android:layout_marginTop="20dp" />
 
-			<TextView
-				android:id="@+id/myself_info_phone"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="5dp"
-				android:layout_below="@id/myself_info_name"
-				android:layout_marginLeft="5dp"
-				android:gravity="left"
-				android:textSize="14dp" />
-		</RelativeLayout>
-	</LinearLayout>
 
-	<LinearLayout
-		android:id="@+id/myself_info_mybrow"
-		android:layout_width="fill_parent"
-		android:layout_height="50dp"
-		android:layout_below="@+id/myself_info"
-		android:layout_marginTop="20dp"
-		android:background="@color/white">
+	</RelativeLayout>
 
-		<ImageView
-			android:layout_width="20dp"
-			android:layout_height="fill_parent"
-			android:layout_marginLeft="20dp"
-			android:src="@drawable/icon_marka" />
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="20dp"
-			android:layout_gravity="center_vertical"
-			android:text="我的卡" />
-	</LinearLayout>
 
 	<LinearLayout
 		android:id="@+id/myself_info_mycollect"
 		android:layout_width="fill_parent"
 		android:layout_height="50dp"
-		android:layout_below="@+id/myself_info_mybrow"
+		android:layout_below="@+id/myself_info_layout"
 		android:layout_marginTop="10dp"
 		android:background="@color/white">
 
@@ -81,7 +51,7 @@
 			android:layout_width="20dp"
 			android:layout_height="fill_parent"
 			android:layout_marginLeft="20dp"
-			android:src="@drawable/icon_marka" />
+			android:src="@drawable/ic_action_setting" />
 
 		<TextView
 			android:layout_width="wrap_content"
@@ -103,7 +73,7 @@
 			android:layout_width="20dp"
 			android:layout_height="fill_parent"
 			android:layout_marginLeft="20dp"
-			android:src="@drawable/icon_marka" />
+			android:src="@drawable/ic_action_setting" />
 
 		<TextView
 			android:layout_width="wrap_content"

@@ -89,8 +89,7 @@ public class PoiSearchActivity extends ActionBarActivity {
         setContentView(R.layout.activity_poisearch);
 
 
-        TextView titleTv = (TextView) IShareContext.getInstance().createDefaultActionbar(this).getCustomView().findViewById(R.id.actionbar_title_tv);
-        titleTv.setText("请选择店的位置");
+        IShareContext.getInstance().createDefaultHomeActionbar(this, "请选择店的位置");
 
         confirmBtn = (FButton) findViewById(R.id.poi_search_confirm);
         markerAddrInfoMap= new HashMap();

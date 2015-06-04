@@ -43,9 +43,7 @@ public class CardOwnerAvailableAddActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publishware_location_add_activity);
 
-        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
-        TextView titleTv  = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
-        titleTv.setText("增加地址");
+        ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "增加地址");
 
 
         initViews();

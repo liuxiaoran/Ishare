@@ -1,0 +1,148 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto"
+	style="@style/UniversalCardViewStyle"
+	android:padding="5dp"
+	card_view:cardCornerRadius="@dimen/default_card_view_corner_radius"
+	card_view:cardElevation="@dimen/default_card_view_elevation">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:padding="@dimen/default_layout_padding">
+
+			<ImageView
+				android:id="@+id/shop_image"
+				android:layout_width="100dp"
+				android:layout_height="80dp"
+				android:layout_gravity="center_vertical"
+				android:scaleType="fitXY" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="80dp"
+				android:layout_gravity="center"
+				android:layout_marginLeft="10dp"
+				android:layout_weight="1"
+				android:orientation="vertical">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="horizontal"
+					android:layout_weight="1">
+
+					<TextView
+						android:id="@+id/shop_name"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_weight="1"
+						android:text="美琪美容美发"
+						android:textSize="15sp"
+						android:singleLine="true"/>
+
+					<TextView
+						android:id="@+id/card_tag"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentRight="true"
+						android:paddingLeft="8dp"
+						android:paddingRight="8dp"
+						android:paddingTop="4dp"
+						android:paddingBottom="4dp"
+						android:text="美发"
+						android:visibility="gone"/>
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="2dp"
+					android:orientation="horizontal"
+					android:layout_weight="1">
+
+					<TextView
+						android:id="@+id/card_discount"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="1折" />
+
+					<TextView
+						android:id="@+id/card_type"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="15dp"
+						android:singleLine="true"
+						android:text="优惠卡" />
+
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="2dp"
+					android:orientation="horizontal"
+					android:layout_weight="1">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="状态：" />
+
+					<TextView
+						android:id="@+id/order_state"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="已同意"
+						android:textColor="@color/blue"/>
+
+					</LinearLayout>
+
+
+				</LinearLayout>
+
+
+			</LinearLayout>
+
+			<View style="@style/horizontal_divider" />
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:padding="5dp">
+
+				<ImageView
+					android:id="@+id/is_read"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_marginLeft="12dp"
+					android:src="@drawable/is_read" />
+
+				<TextView
+					android:id="@+id/order_last_state"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_toRightOf="@id/is_read"
+					android:layout_marginLeft="8dp"
+					android:maxWidth="200dp"
+					android:text="麻辣龙虾" />
+
+				<TextView
+					android:id="@+id/order_last_time"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentRight="true"
+					android:layout_marginRight="12dp"
+					android:maxWidth="200dp"
+					android:text="麻辣龙虾" />
+
+			</RelativeLayout>
+		</LinearLayout>
+</android.support.v7.widget.CardView>

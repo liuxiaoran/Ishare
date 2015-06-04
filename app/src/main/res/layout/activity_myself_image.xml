@@ -5,7 +5,7 @@
 	android:layout_height="match_parent">
 
 	<ImageView
-		android:id="@+id/myself_info_myphoto"
+		android:id="@+id/usercenter_info_avatar_iv"
 		android:layout_width="wrap_content"
 		android:layout_height="fill_parent"
 		android:layout_marginRight="10dp"

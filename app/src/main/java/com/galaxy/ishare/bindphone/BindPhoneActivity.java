@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.R;
@@ -54,17 +55,21 @@ public class BindPhoneActivity extends ActionBarActivity {
         setContentView(R.layout.register);
 
 
-        ActionBar actionBar = IShareContext.getInstance().createDefaultActionbar(this);
+        ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "绑定手机号");
         TextView tv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
         tv.setText("绑定手机号");
 
         if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.PUBLISH_TO_BING_PHONE)) {
-            Toast.makeText(this, "发卡前请绑定手机号", Toast.LENGTH_LONG).show();
+            new MaterialDialog.Builder(this)
+                    .title("绑定手机号")
+                    .content("发卡之前请绑定手机号")
+                    .show();
 
         }
 
         initWidgets();
         confirmCodeController = ConfirmCodeController.getInstance(BindPhoneActivity.this, new Timer(60000, 1000));
+
 
         // 点击获取验证码
         getConfirmBtn.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +83,8 @@ public class BindPhoneActivity extends ActionBarActivity {
                     WidgetController.getInstance().widgetGetFoucus(confirmCodeEt);
 
 
+                } else {
+                    Toast.makeText(BindPhoneActivity.this, "请输入正确的手机号", Toast.LENGTH_LONG).show();
                 }
 
 

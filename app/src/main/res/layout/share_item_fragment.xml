@@ -1,177 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
 
     <LinearLayout
-        android:id="@+id/share_item_top_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/share_item_category_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/selector_layout_pressed"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical|left"-->
-            <!--android:gravity="left"-->
-            <!--android:layout_marginLeft="5dp"-->
-            <!--android:background="@drawable/ic_category_movie"/>-->
-
-            <TextView
-                android:id="@+id/share_item_category_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="分类"
-                android:textColor="@color/huise"
-                android:textSize="14.0sp" />
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:background="@drawable/selector_arrow_dropdown" />
-        </LinearLayout>
-
-        <View style="@style/vertical_divider" />
-
-        <LinearLayout
-            android:id="@+id/share_item_discount_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/selector_layout_pressed"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <!--<ImageView-->
-
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical|left"-->
-            <!--android:layout_marginLeft="5dp"-->
-            <!--android:background="@drawable/ic_location"-->
-            <!--/>-->
-
-            <TextView
-                android:id="@+id/share_item_discount_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="折扣排序"
-                android:textColor="@color/huise"
-                android:textSize="14.0sp" />
-
-
-            <ImageView
-                android:id="@+id/iv_price_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right" />
-        </LinearLayout>
-
-        <View style="@style/vertical_divider" />
-
-        <LinearLayout
-            android:id="@+id/share_item_distance_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/selector_layout_pressed"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <!--<ImageView-->
-
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_vertical|left"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:background="@drawable/ic_order"-->
-            <!--/>-->
-
-            <TextView
-                android:id="@+id/share_item_distance_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="40.0dp"
-                android:gravity="center"
-                android:text="距离排序"
-                android:textColor="@color/huise"
-                android:textSize="14.0sp" />
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right" />
-        </LinearLayout>
-
-        <View style="@style/vertical_divider" />
-
-        <LinearLayout
-            android:id="@+id/share_item_default_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/selector_layout_pressed"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/share_item_default_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:text="默认排序"
-                android:textColor="@color/huise"
-                android:textSize="14.0sp" />
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <View
-        style="@style/horizontal_divider"
-        android:layout_height="2dp" />
-
-    <LinearLayout
-        android:id="@+id/share_item_is_locating_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="正在定位..." />
-    </LinearLayout>
-
-
-    <FrameLayout
-        android:id="@+id/share_item_listview_framelayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp" />
+        android:orientation="vertical">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:orientation="horizontal">
 
 
-</LinearLayout>
+            <LinearLayout
+                android:id="@+id/share_item_discount_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_layout_pressed"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <!--<ImageView-->
+
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical|left"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:background="@drawable/ic_location"-->
+                <!--/>-->
+
+                <TextView
+                    android:id="@+id/share_item_discount_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="折扣优先"
+                    android:textSize="14.0sp"
+                    android:textColor="@color/huise" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/share_item_distance_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_layout_pressed"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/share_item_distance_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40.0dp"
+                    android:gravity="center"
+                    android:text="距离优先"
+                    android:textSize="14.0sp"
+                    android:textColor="@color/huise" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/share_item_category_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/selector_layout_pressed"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center_vertical|left"-->
+                <!--android:gravity="left"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:background="@drawable/ic_category_movie"/>-->
+
+                <TextView
+                    android:id="@+id/share_item_category_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:text="分类"
+                    android:textSize="14.0sp"
+                    android:textColor="@color/huise" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|right"
+                    android:background="@drawable/selector_arrow_dropdown" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            style="@style/horizontal_divider"
+            android:layout_height="1dp" />
+
+        <LinearLayout
+            android:id="@+id/share_item_is_locating_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="正在定位..." />
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:id="@+id/share_item_listview_framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp">
+
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/map_style_floating_btn"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="16dp"
+                android:src="@drawable/icon_map"
+                fab:fab_colorNormal="@color/floating_btn_normal"
+                fab:fab_colorPressed="@color/floationg_btn_pressed"
+                fab:fab_colorRipple="@color/floating_btn_ripple" />
+
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/share_item_loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/loading_background"
+        android:visibility="invisible">
+
+        <ProgressBar
+
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+</FrameLayout>
 

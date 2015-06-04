@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:hint="手机号码"
                 style="@style/edit_text_next"
+                android:inputType="number"
                 android:textSize="@dimen/body_text_size" />
 
             <ImageView style="@style/horizontal_divider" />
@@ -46,17 +47,20 @@
                     android:layout_height="wrap_content"
                     style="@style/edit_text_next"
                     android:hint="验证码"
-                    android:textSize="@dimen/body_text_size" />
+                    android:textSize="@dimen/body_text_size"
+                    android:inputType="number" />
 
                 <Button
-                    android:background="@drawable/button_selector"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="获取验证码"
                     android:textSize="14sp"
                     android:layout_alignParentRight="true"
                     android:textColor="@color/blue"
-                    android:id="@+id/register_get_confirm_btn" />
+                    android:enabled="true"
+                    android:id="@+id/register_get_confirm_btn"
+                    android:background="@drawable/button_selector" />
 
             </RelativeLayout>
 

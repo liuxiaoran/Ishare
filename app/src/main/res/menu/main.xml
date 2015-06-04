@@ -36,7 +36,6 @@
         support:showAsAction="always" />
     <item
         android:id="@+id/menu_publish"
-        android:icon="@drawable/ic_action_new"
         android:title="发布"
         support:showAsAction="always" />
 

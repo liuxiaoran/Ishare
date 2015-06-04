@@ -66,11 +66,19 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 
     // share sdk
+
+    //    compile files('libs/MobTools.jar')
     compile files('libs/ShareSDK-Core-2.4.0.jar')
     compile files('libs/ShareSDK-Wechat-2.4.0.jar')
     compile files('libs/ShareSDK-Wechat-Core-2.4.0.jar')
     compile files('libs/ShareSDK-Wechar-Moments-2.4.0.jar')
 
-    //照片剪接
+    // jPush
+    compile files('libs/jpush-sdk-release1.7.4.jar')
+
+    // floating action button
+    compile 'com.melnykov:floatingactionbutton:1.3.0'
+
+    //��Ƭ����
 //    compile 'com.soundcloud.android:android-crop:1.0.0@aar'
 }

@@ -75,6 +75,7 @@ public class PoiSearchUtil {
     public static  void destroyPoiSearch(){
         if (poiSearch!=null){
             poiSearch.destroy();
+            poiSearch = null;
         }
     }
 

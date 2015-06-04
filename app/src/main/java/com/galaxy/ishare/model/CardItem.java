@@ -36,6 +36,16 @@ public class CardItem implements Parcelable{
 
     public String publishTime;
 
+    public int rentCount;
+    public int commentCount;
+    public double ratingCount;
+
+    public String ownerGender;
+
+    public String requesterLocation; // 请求界面中请求者的地址
+
+
+
     
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -68,7 +78,11 @@ public class CardItem implements Parcelable{
             dest.writeStringArray(cardImgs);
         }
         dest.writeString(publishTime);
-
+        dest.writeInt(rentCount);
+        dest.writeInt(commentCount);
+        dest.writeDouble(ratingCount);
+        dest.writeString(ownerGender);
+        dest.writeString(requesterLocation);
     }
 
     public CardItem (){
@@ -105,6 +119,12 @@ public class CardItem implements Parcelable{
         }
         cardImgs= tem;
         publishTime=in.readString();
+
+        rentCount = in.readInt();
+        commentCount = in.readInt();
+        ratingCount = in.readDouble();
+        ownerGender = in.readString();
+        requesterLocation = in.readString();
     }
 
 
@@ -160,6 +180,45 @@ public class CardItem implements Parcelable{
 
         return "id:"+id+" "+"shopName"+shopName+" "+"wareType"+wareType+" "+"owner discount"+ownerDistance +" description"+description;
 
+    }
+
+    public void setRequesterLocation(String location) {
+        this.requesterLocation = location;
+    }
+
+    public String getRequesterLocation() {
+        return requesterLocation;
+    }
+
+    public void setOwnerGender(String gender) {
+        this.ownerGender = gender;
+    }
+
+    public String getOwnerGender() {
+        return ownerGender;
+    }
+    public int getRentCount() {
+        return rentCount;
+    }
+
+    public void setRentCount(int rent) {
+        this.rentCount = rent;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public void setRatingCount(double ratingCount) {
+        this.ratingCount = ratingCount;
+    }
+
+    public double getRatingCount() {
+        return ratingCount;
     }
 
     public int getId() {

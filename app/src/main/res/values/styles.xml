@@ -3,15 +3,16 @@
 
     <style name="main_tab_bottom">
         <item name="android:textSize">13sp</item>
-        <item name="android:textColor">#666666</item>
+        <item name="android:textColor">#FFFFFF</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_weight">1.0</item>
         <!-- 隐藏单选按钮 -->
         <item name="android:button">@null</item>
-        <item name="android:layout_marginTop">1.0dip</item>
-        <item name="android:paddingBottom">5.0dip</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5.0dp</item>
     </style>
 
 
@@ -26,18 +27,19 @@
         <!--theme UI controls like checkboxes and text fields-->
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textCursorDrawable">@null</item>
+
+        <!--  actionbar height -->
+        <item name="actionBarSize">48dp</item>
     </style>
 
-    <style name="Custom"  parent="">
 
-    </style>
 
 
     <!-- block style -->
     <style name="horizontal_divider">
         <item name="android:background">@color/divider</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1px</item>
+        <item name="android:layout_height">2px</item>
     </style>
 
     <style name="vertical_divider">
@@ -125,5 +127,29 @@
     <style name="drop_down_list_footer_font_style">
         <item name="android:textColor">@color/drop_down_list_footer_font_color</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
+    <style name="chat_text_date_style">
+        <item name="android:padding">2dp</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">#bfbfbf</item>
+    </style>
+
+    <style name="chat_content_date_style">
+        <item name="android:minHeight">50dp</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">#bfbfbf</item>
+    </style>
+
+    <style name="ratingBar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/rating_bar</item>
+        <item name="android:minHeight">16dp</item>
+        <item name="android:maxHeight">16dp</item>
     </style>
 </resources>

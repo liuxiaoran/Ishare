@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true">
+    <item android:state_enabled="false">
         <shape>
             <stroke android:width="2px" android:color="@color/gray" />
             <!--圆角-->
@@ -8,7 +8,7 @@
         </shape>
 
     </item>
-    <item android:state_selected="false">
+    <item android:state_enabled="true">
 
 
         <!--边框-->

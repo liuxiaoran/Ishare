@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,32 +12,35 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.galaxy.ishare.bindphone.BindPhoneActivity;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
-import com.galaxy.ishare.cardState.StateFragment;
+import com.galaxy.ishare.bindphone.BindPhoneActivity;
+import com.galaxy.ishare.chat.MD5;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.database.FriendDao;
 import com.galaxy.ishare.database.InviteFriendDao;
-import com.galaxy.ishare.mapLBS.CardActivity;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.order.OrderFragment;
 import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
+import com.galaxy.ishare.user_request.RequestFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
 import com.galaxy.ishare.utils.AppAsyncHttpClient;
+import com.galaxy.ishare.utils.JPushUtil;
 import com.galaxy.ishare.utils.PhoneContactManager;
 import com.galaxy.ishare.utils.SPUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,18 +49,25 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import cn.jpush.android.api.JPushInterface;
+
 public class MainActivity extends ActionBarActivity {
 
+    private User user;
+    private Context mContext;
 
     public static final String PUBLISH_TO_BING_PHONE = "PUBLISH_TO_BING_PHONE";
 
     private RadioGroup mTabGroup = null;
-    private RadioButton mShareItemButton, mContactButton, mMeButton;
+    private RadioButton mShareItemButton, orderButton, mMeButton, requestBtn;
 
-    private Fragment mShareItemFragment, mstatusFragment, mMeFragment;
+    private Fragment mShareItemFragment;
+    private Fragment mMeFragment;
+    private Fragment orderFragment;
+    private Fragment requestFragment;
 //    private TextView mTitle;
 
-    private int[] mRadioId = new int[]{R.id.GlobalListButton, R.id.MeButton};
+    private int[] mRadioId = new int[]{R.id.shareBtn, R.id.MeButton};
 
     private static final String TAG = "mainactivity";
 
@@ -70,20 +81,34 @@ public class MainActivity extends ActionBarActivity {
     private LocationClientOption.LocationMode tempMode = LocationClientOption.LocationMode.Hight_Accuracy;
     private String tempcoor = "gcj02";
 
+    private ActionBar actionBar;
+    private TextView titleTv;
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        ActionBar actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_action_bar, false);
-        Button mapButton = (Button) actionBar.getCustomView().findViewById(R.id.mapStyle);
-        mapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CardActivity.class);
-                startActivity(intent);
-            }
-        });
+
+        mContext = this;
+        user = IShareContext.getInstance().getCurrentUser();
+        JPushUtil.getInstance(getApplicationContext()).setAlias(MD5.md5(user.getUserId()));
+
+        recoverActionBar("分享");
+
+        // 将titleTv放在中间
+//        int w = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
+//        int h = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
+//        titleTv.measure(w, h);
+//        int width = titleTv.getMeasuredWidth();
+//        int screenWidth = Global.screenWidth;
+//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) titleTv.getLayoutParams(); /*或者 LinearLayout.LayoutParams p = new  LinearLayout.LayoutParams(width,height); 这里的width和height是以像素为单位*/
+//        lp.setMargins( (screenWidth) / 2, 0, 0, 0);
+//        titleTv.setLayoutParams(lp);
+
 
 //        mTitle = (TextView)findViewById(R.id.title);
 
@@ -93,15 +118,9 @@ public class MainActivity extends ActionBarActivity {
         inviteFriendDao = InviteFriendDao.getInstance(this);
 
         mShareItemFragment = new ItemListFragment();
-        mstatusFragment = new StateFragment();
-        mMeFragment = new MeFragment();
-
+        // 一个trasaction 只能commit一次
         FragmentTransaction mCurTransaction = getFragmentManager().beginTransaction();
         mCurTransaction.add(R.id.fragment_container, mShareItemFragment);
-        mCurTransaction.add(R.id.fragment_container, mstatusFragment);
-        mCurTransaction.add(R.id.fragment_container, mMeFragment);
-        mCurTransaction.hide(mstatusFragment);
-        mCurTransaction.hide(mMeFragment);
         mCurTransaction.commit();
 
         setTab();
@@ -135,6 +154,48 @@ public class MainActivity extends ActionBarActivity {
         mLocationClient.start();
     }
 
+    private void recoverActionBar(String title) {
+        if (title.equals("分享")) {
+            actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_share_action_bar, false);
+            titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.action_bar_title_tv);
+            ImageView searchIv = (ImageView) actionBar.getCustomView().findViewById(R.id.main_search_iv);
+            TextView publishTv = (TextView) actionBar.getCustomView().findViewById(R.id.main_publish_tv);
+            View.OnClickListener mOnClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (v.getId() == R.id.main_search_iv) {
+
+                        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                        startActivity(intent);
+
+                    } else if (v.getId() == R.id.main_publish_tv) {
+                        if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
+
+                            Intent intent = new Intent(MainActivity.this, BindPhoneActivity.class);
+                            intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
+                            startActivity(intent);
+
+                        } else {
+                            Intent intent = new Intent(MainActivity.this, PublishItemActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                }
+            };
+            searchIv.setOnClickListener(mOnClickListener);
+            publishTv.setOnClickListener(mOnClickListener);
+        } else if (title.equals("附近的请求")) {
+            actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_request_action_bar, false);
+            titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.action_bar_title_tv);
+            titleTv.setText(title);
+        } else {
+            actionBar = IShareContext.getInstance().createActionbar(this, false, title);
+            titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
+        }
+
+        titleTv.setText(title);
+    }
+
     private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(tempMode);//设置定位模式
@@ -147,27 +208,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.menu_publish) {
-            if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
-
-                Intent intent = new Intent(this, BindPhoneActivity.class);
-                intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
-                startActivity(intent);
-
-            } else {
-                Intent intent = new Intent(this, PublishItemActivity.class);
-                startActivity(intent);
-            }
-        } else if (item.getItemId() == R.id.menu_search) {
-            Intent intent = new Intent(this, SearchActivity.class);
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
-
-    }
 
     private void uploadContactData() {
 
@@ -249,38 +289,144 @@ public class MainActivity extends ActionBarActivity {
 
     private void initTabs() {
         mTabGroup = (RadioGroup) findViewById(R.id.tab_group);
-        mShareItemButton = (RadioButton) findViewById(R.id.GlobalListButton);
-//        mDiscoverButton = (RadioButton) findViewById(R.id.RecommendButton);
-        mContactButton = (RadioButton) findViewById(R.id.ContactButton);
+        mShareItemButton = (RadioButton) findViewById(R.id.shareBtn);
+        orderButton = (RadioButton) findViewById(R.id.orderBtn);
         mMeButton = (RadioButton) findViewById(R.id.MeButton);
+        requestBtn = (RadioButton) findViewById(R.id.requestBtn);
         mTabGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                FragmentTransaction mCurTransaction = getFragmentManager().beginTransaction();
-                mCurTransaction.hide(mShareItemFragment);
-                mCurTransaction.hide(mstatusFragment);
-                mCurTransaction.hide(mMeFragment);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 if (checkedId == mShareItemButton.getId()) {
-//                	mTitle.setText(R.string.share_item_tab);
-                    mCurTransaction.show(mShareItemFragment);
-                } else if (checkedId == mContactButton.getId()) {
-//                    mTitle.setText(R.string.contact_tab);
-                    mCurTransaction.show(mstatusFragment);
+                    recoverActionBar("分享");
+                    if (mShareItemFragment == null) {
+                        mShareItemFragment = new ItemListFragment();
+
+                        transaction.add(R.id.fragment_container, mShareItemFragment);
+                    }
+                    if (mMeFragment != null) {
+                        transaction.hide(mMeFragment);
+                    }
+                    if (orderFragment != null) {
+                        transaction.hide(orderFragment);
+                    }
+                    if (requestFragment != null) {
+                        transaction.hide(requestFragment);
+                    }
+
+                    transaction.show(mShareItemFragment);
+                } else if (checkedId == orderButton.getId()) {
+                    if (orderFragment == null) {
+                        orderFragment = new OrderFragment();
+                        transaction.add(R.id.fragment_container, orderFragment);
+                    }
+                    if (mShareItemFragment != null) {
+                        transaction.hide(mShareItemFragment);
+                    }
+                    if (mMeFragment != null) {
+                        transaction.hide(mMeFragment);
+                    }
+                    if (requestFragment != null) {
+                        transaction.hide(requestFragment);
+                    }
+                    actionBar = IShareContext.getInstance().createCustomActionBar(MainActivity.this, R.layout.main_order_action_bar, false);
+                    final TextView borrowTv = (TextView) actionBar.getCustomView().findViewById(R.id.order_actionbar_borrow_tv);
+                    final TextView lendTv = (TextView) actionBar.getCustomView().findViewById(R.id.order_actionbar_lend_tv);
+
+
+                    View.OnClickListener textViewListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (v.getId() == R.id.order_actionbar_borrow_tv) {
+                                borrowTv.setTextColor(getResources().getColor(R.color.huise));
+                                borrowTv.setBackgroundResource(R.drawable.order_actionbar_white_tv);
+
+                                lendTv.setTextColor(getResources().getColor(R.color.white));
+                                lendTv.setBackgroundResource(R.drawable.order_actionbar_gray_tv);
+
+                                FragmentTransaction borrowTransaction = getFragmentManager().beginTransaction();
+//                                  Bundle borrowBundle  = new Bundle();
+//                                  borrowBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
+//                                  orderFragment.setArguments(borrowBundle);
+                                OrderFragment.orderType = OrderFragment.BORROW_ORDER;
+                                borrowTransaction.show(orderFragment);
+                                borrowTransaction.commit();
+
+                            } else if (v.getId() == R.id.order_actionbar_lend_tv) {
+                                borrowTv.setTextColor(getResources().getColor(R.color.white));
+                                borrowTv.setBackgroundResource(R.drawable.order_actionbar_gray_tv);
+
+                                lendTv.setTextColor(getResources().getColor(R.color.huise));
+                                lendTv.setBackgroundResource(R.drawable.order_actionbar_white_tv);
+
+                                FragmentTransaction lendTransaction = getFragmentManager().beginTransaction();
+//                                  Bundle lendBundle  = new Bundle();
+//                                  lendBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.LEND_ORDER);
+//                                  orderFragment.setArguments(lendBundle);
+                                OrderFragment.orderType = OrderFragment.LEND_ORDER;
+
+                                lendTransaction.show(orderFragment);
+                                lendTransaction.commit();
+                            }
+                            OrderFragment.instance.setListView();
+                        }
+                    };
+                    borrowTv.setOnClickListener(textViewListener);
+                    lendTv.setOnClickListener(textViewListener);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
+//                    orderFragment.setArguments(bundle);
+                    transaction.show(orderFragment);
+
+                } else if (checkedId == requestBtn.getId()) {
+                    recoverActionBar("附近的请求");
+                    if (requestFragment == null) {
+                        requestFragment = new RequestFragment();
+                        transaction.add(R.id.fragment_container, requestFragment);
+                    }
+                    if (mShareItemFragment != null) {
+                        transaction.hide(mShareItemFragment);
+                    }
+                    if (orderFragment != null) {
+                        transaction.hide(orderFragment);
+                    }
+                    if (mMeFragment != null) {
+                        transaction.hide(mMeFragment);
+                    }
+                    transaction.show(requestFragment);
                 } else if (checkedId == mMeButton.getId()) {
-//                    mTitle.setText(R.string.me_tab);
-                    mCurTransaction.show(mMeFragment);
+                    recoverActionBar("我");
+                    if (mMeFragment == null) {
+                        mMeFragment = new MeFragment();
+                        transaction.add(R.id.fragment_container, mMeFragment);
+                    }
+                    if (mShareItemFragment != null) {
+                        transaction.hide(mShareItemFragment);
+                    }
+                    if (orderFragment != null) {
+                        transaction.hide(orderFragment);
+                    }
+                    if (requestFragment != null) {
+                        transaction.hide(requestFragment);
+                    }
+                    transaction.show(mMeFragment);
                 }
-                mCurTransaction.commit();
+                transaction.commit();
+
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+    @Override
+    public void onResume() {
+        JPushInterface.onResume(mContext);
+        super.onResume();
+    }
+
+    protected void onPause() {
+        JPushInterface.onPause(mContext);
+        super.onPause();
     }
 
     @Override
@@ -321,4 +467,5 @@ public class MainActivity extends ActionBarActivity {
 //                    }
 //                }).show();
 //
+
 }

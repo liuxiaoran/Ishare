@@ -17,6 +17,6 @@
     <string-array name="pic_source_items">
 
         <item>从图库选择</item>
-        <item>拍照</item>
+        <!--<item>拍照</item>-->
     </string-array>
 </resources>

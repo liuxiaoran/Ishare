@@ -171,6 +171,28 @@ public class JsonObjectUtil {
             if (jsonObject.has("rating_num")) {
                 cardItem.setCommentCount(jsonObject.getInt("rating_num"));
             }
+            if (jsonObject.has("requester_gender")) {
+                cardItem.setOwnerGender(jsonObject.getString("requester_gender"));
+
+            }
+            if (jsonObject.has("gender")) {
+                cardItem.setOwnerGender(jsonObject.getString("gender"));
+            }
+            if (jsonObject.has("avatar")) {
+                cardItem.setOwnerGender(jsonObject.getString("avatar"));
+            }
+            if (jsonObject.has("user_location")) {
+                cardItem.setRequesterLocation(jsonObject.getString("user_location"));
+            }
+            if (jsonObject.has("avatar")) {
+                cardItem.setOwnerAvatar(jsonObject.getString("avatar"));
+            }
+            if (jsonObject.has("gender")) {
+                cardItem.setOwnerGender(jsonObject.getString("gender"));
+            }
+            if (jsonObject.has("distance")) {
+                cardItem.setOwnerDistance(jsonObject.getDouble("distance"));
+            }
         } catch (Exception e) {
             Log.v("cardparse", e.toString() + "   exception");
             e.printStackTrace();

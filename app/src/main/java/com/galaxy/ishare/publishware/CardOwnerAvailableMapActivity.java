@@ -70,11 +70,13 @@ public class CardOwnerAvailableMapActivity extends ActionBarActivity {
 
         String addr = getIntent().getStringExtra(PARAMETER_ADDR);
         requstCode=getIntent().getIntExtra(PARAMETER_REQUEST_CODE,0);
-        Log.v("cardpublish","addr"+addr);
+        Log.v("cardpublish", "addr" + addr);
 
         initViews();
-        MapStatusUpdate msu = MapStatusUpdateFactory.zoomTo(14.0f);
-        baiduMap.setMapStatus(msu);
+        // 将用户现在的位置设置默认的位置
+        LatLng currentLatLng = new LatLng(IShareContext.getInstance().getUserLocationNotNull().getLatitude(), IShareContext.getInstance().getUserLocationNotNull().getLongitude());
+        MapStatusUpdate update = MapStatusUpdateFactory.newLatLng(currentLatLng);
+        baiduMap.setMapStatus(update);
         initPoiSearch();
 
         locationAlterListView.setAdapter(adapter);

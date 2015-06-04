@@ -71,7 +71,7 @@ public class WaitingDialogUtil {
     }
 
     public void dimissWaitingDialog (){
-        if (alertDialog!=null){
+        if (alertDialog != null && alertDialog.isShowing()) {
             alertDialog.dismiss();
         }
     }

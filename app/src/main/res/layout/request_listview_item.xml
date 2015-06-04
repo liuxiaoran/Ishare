@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!--<android.support.v7.widget.CardView xmlns:card_view="//schemas.android.com/apk/res-auto"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="2dp"-->
+    <!--android:layout_marginRight="2dp"-->
+    <!--card_view:cardCornerRadius="@dimen/default_card_view_corner_radius"-->
+    <!--card_view:cardElevation="0dp">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<RelativeLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:padding="@dimen/default_layout_padding">-->
+
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+    <!--android:id="@+id/request_item_requester_avatar_iv"-->
+    <!--android:layout_width="40dp"-->
+    <!--android:layout_height="40dp" />-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/request_item_requester_name_tv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_toRightOf="@id/request_item_requester_avatar_iv"-->
+    <!--android:text="liu"-->
+    <!--android:textSize="16sp"/>-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/request_item_requester_gender_iv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_toRightOf="@id/request_item_requester_name_tv"-->
+    <!--android:src="@drawable/icon_female"-->
+    <!--android:layout_alignTop="@id/request_item_requester_name_tv"-->
+    <!--android:layout_alignBottom="@id/request_item_requester_name_tv"/>-->
+    <!-- -->
+    <!--<TextView-->
+    <!--android:layout_width="wrap_contentw"-->
+    <!--android:layout_height="wrap_content" -->
+    <!--android:text="发布了一条求卡的请求"-->
+    <!--android:layout_/>-->
+
+
+    <!--<ImageView-->
+    <!--android:id="@+id/request_item_gender"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_marginTop="2dp"-->
+    <!--android:layout_toRightOf="@id/request_item_requester_gender_iv"-->
+    <!--android:src="@drawable/share_item_location"-->
+    <!--android:layout_alignTop="@id/request_item_distance_tv"-->
+    <!--android:layout_alignBottom="@id/request_item_distance_tv"/>-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/request_item_distance_tv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_toRightOf="@id/request_item_gender"-->
+    <!--android:text="12km"-->
+    <!--android:textSize="16sp"/>-->
+
+
+    <!--<TextView-->
+    <!--android:id="@+id/request_item_before"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:text="前" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/request_item_time_tv"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginRight="2dp"-->
+    <!--android:layout_toLeftOf="@id/request_item_before"-->
+    <!--android:text="1min" />-->
+
+
+    <!--</RelativeLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/request_item_card_request_tv"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:textStyle="bold"-->
+    <!--android:inputType="textMultiLine"/>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/request_item_card_description_tv"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="2dp"-->
+    <!--android:inputType="textMultiLine"/>-->
+    <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
+    <!--</android.support.v7.widget.CardView>-->
+</LinearLayout>

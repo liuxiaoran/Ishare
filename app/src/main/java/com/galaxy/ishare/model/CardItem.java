@@ -40,6 +40,12 @@ public class CardItem implements Parcelable{
     public int commentCount;
     public double ratingCount;
 
+    public String ownerGender;
+
+    public String requesterLocation; // 请求界面中请求者的地址
+
+
+
     
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -75,7 +81,8 @@ public class CardItem implements Parcelable{
         dest.writeInt(rentCount);
         dest.writeInt(commentCount);
         dest.writeDouble(ratingCount);
-
+        dest.writeString(ownerGender);
+        dest.writeString(requesterLocation);
     }
 
     public CardItem (){
@@ -116,6 +123,8 @@ public class CardItem implements Parcelable{
         rentCount = in.readInt();
         commentCount = in.readInt();
         ratingCount = in.readDouble();
+        ownerGender = in.readString();
+        requesterLocation = in.readString();
     }
 
 
@@ -173,6 +182,21 @@ public class CardItem implements Parcelable{
 
     }
 
+    public void setRequesterLocation(String location) {
+        this.requesterLocation = location;
+    }
+
+    public String getRequesterLocation() {
+        return requesterLocation;
+    }
+
+    public void setOwnerGender(String gender) {
+        this.ownerGender = gender;
+    }
+
+    public String getOwnerGender() {
+        return ownerGender;
+    }
     public int getRentCount() {
         return rentCount;
     }

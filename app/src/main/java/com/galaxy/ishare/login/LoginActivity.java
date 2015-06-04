@@ -171,6 +171,9 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
             case MSG_AUTH_ERROR: {
                 Toast.makeText(this, R.string.auth_error, Toast.LENGTH_SHORT).show();
                 System.out.println("-------MSG_AUTH_ERROR--------");
+                WaitingDialogUtil.getInstance(this).dimissWaitingDialog();
+                Toast.makeText(this, "请先安装微信应用", Toast.LENGTH_LONG).show();
+
             }
             break;
             case MSG_AUTH_COMPLETE: {

@@ -130,6 +130,13 @@ public class IShareContext {
         return null;
     }
 
+    public User.UserLocation getUserLocationNotNull() {
+        if (location != null) {
+            return location;
+        }
+        return getCurrentUser().getUserLocation();
+    }
+
 
     /**
      * 获得手机所有联系人 信息包括名字和电话号码

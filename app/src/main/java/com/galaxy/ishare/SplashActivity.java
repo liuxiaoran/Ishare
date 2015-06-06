@@ -57,42 +57,32 @@ public class SplashActivity extends Activity {
             pageViews = new ArrayList<View>();
             pageViews.add(inflater.inflate(R.layout.viewpager_page1, null));
             pageViews.add(inflater.inflate(R.layout.viewpager_page2, null));
-
-            //创建imageviews数组，大小是要显示的图片的数量
             imageViews = new ImageView[pageViews.size()];
             //从指定的XML文件加载视图
             viewPics = (ViewGroup) inflater.inflate(R.layout.activity_guide, null);
-
-            //实例化小圆点的linearLayout和viewpager
             viewPoints = (ViewGroup) viewPics.findViewById(R.id.viewGroup);
             viewPager = (ViewPager) viewPics.findViewById(R.id.guidePages);
 
-            //添加小圆点的图片
             for(int i=0;i<pageViews.size();i++){
                 imageView = new ImageView(SplashActivity.this);
-                //设置小圆点imageview的参数
-                imageView.setLayoutParams(new ViewGroup.LayoutParams(20,20));//创建一个宽高均为20 的布局
+                imageView.setLayoutParams(new ViewGroup.LayoutParams(20,20));
                 imageView.setPadding(20, 0, 20, 0);
-                //将小圆点layout添加到数组中
                 imageViews[i] = imageView;
 
-                //默认选中的是第一张图片，此时第一个小圆点是选中状态，其他不是
                 if(i==0){
                     imageViews[i].setBackgroundResource(R.drawable.dot2_w);
                 }else{
                     imageViews[i].setBackgroundResource(R.drawable.dot1_w);
                 }
-
-                //将imageviews添加到小圆点视图组
                 viewPoints.addView(imageViews[i]);
             }
 
-            //显示滑动图片的视图
             setContentView(viewPics);
 
             //设置viewpager的适配器和监听事件
             viewPager.setAdapter(new GuidePageAdapter());
             viewPager.setOnPageChangeListener(new GuidePageChangeListener());
+            viewPager.setPageTransformer(true,new DepthPageTransformer());
 //            Intent intent1 = new Intent(SplashActivity.this, LoginActivity.class);
 //            startActivity(intent1);
 //            SplashActivity.this.finish();
@@ -105,7 +95,6 @@ public class SplashActivity extends Activity {
     }
     private Button.OnClickListener  Button_OnClickListener = new Button.OnClickListener() {
         public void onClick(View v) {
-            //设置已经引导
             setGuided();
 
             //跳转
@@ -217,10 +206,10 @@ public class SplashActivity extends Activity {
         public void onPageSelected(int position) {
             // TODO Auto-generated method stub
             for(int i=0;i<imageViews.length;i++){
-                imageViews[position].setBackgroundResource(R.drawable.dot1_w);
+                imageViews[position].setBackgroundResource(R.drawable.dot2_w);
                 //不是当前选中的page，其小圆点设置为未选中的状态
                 if(position !=i){
-                    imageViews[i].setBackgroundResource(R.drawable.dot2_w);
+                    imageViews[i].setBackgroundResource(R.drawable.dot1_w);
                 }
             }
 
@@ -231,5 +220,30 @@ public class SplashActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+    public class DepthPageTransformer implements ViewPager.PageTransformer{
+        private static final float MIN_SCALE=0.75f;
+        @Override
+        public void transformPage(View view, float position) {
+            int pageWidth=view.getWidth();
+
+            if(position<-1){
+                view.setAlpha(0);
+            }else if (position<=0){
+                view.setAlpha(1);
+                view.setTranslationX(0);
+                view.setScaleX(1);
+                view.setScaleY(1);
+            }else if (position<=1){
+                view.setAlpha(1-position);
+                view.setTranslationX(pageWidth*-position);
+                float scaleFactor=MIN_SCALE+(1-MIN_SCALE)*(1-Math.abs(position));
+                view.setScaleX(scaleFactor);
+                view.setScaleY(scaleFactor);
+            }else {
+                view.setAlpha(0);
+            }
+
+        }
     }
 }

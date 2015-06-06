@@ -1,10 +1,12 @@
 package com.galaxy.ishare.login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +31,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,25 +41,23 @@ import java.util.List;
  */
 public class LoginActivity extends Activity implements PlatformActionListener, Handler.Callback {
 
-    private static final int MSG_USERID_FOUND = 1;
-    private static final int MSG_LOGIN = 2;
-    private static final int MSG_AUTH_CANCEL = 3;
-    private static final int MSG_AUTH_ERROR = 4;
-    private static final int MSG_AUTH_COMPLETE = 5;
+    public static final int MSG_USERID_FOUND = 1;
+    public static final int MSG_LOGIN = 2;
+    public static final int MSG_AUTH_CANCEL = 3;
+    public static final int MSG_AUTH_ERROR = 4;
+    public static final int MSG_AUTH_COMPLETE = 5;
 
 //    private MaterialEditText accountEt, passwordEt;
 //    private FButton loginBtn;
 //    private TextView registerTv, findPwTv;
 //    private String phone, password;
 
-    private String wechatId;
-    private String gender = "女";
-    private String avatar;
-    private String name;
-    private static final String TAG = "loginactivity";
-
-
-    private HttpInteract httpInteract;
+    public String wechatId;
+    public String gender = "女";
+    public String avatar;
+    public String name;
+    public static final String TAG = "loginactivity";
+    public HttpInteract httpInteract;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +81,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
     }
 
 
-    private void authorize(Platform plat) {
+    public void authorize(Platform plat) {
         if (plat.isValid()) {
             String userId = plat.getDb().getUserId();
             if (!TextUtils.isEmpty(userId)) {
@@ -104,7 +105,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
     }
 
     // 用户登录wechat 成功，之后调用login
-    private void login(String plat, String userId, HashMap<String, Object> userInfo) {
+    public void login(String plat, String userId, HashMap<String, Object> userInfo) {
         Message msg = new Message();
         msg.what = MSG_LOGIN;
         msg.obj = plat;
@@ -190,7 +191,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
         super.onDestroy();
     }
 
-    class HttpInteract {
+    public class HttpInteract {
         public void userLogin() {
 
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();

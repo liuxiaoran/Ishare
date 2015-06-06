@@ -56,6 +56,7 @@ public class SplashActivity extends Activity {
             LayoutInflater inflater = getLayoutInflater();
             pageViews = new ArrayList<View>();
             pageViews.add(inflater.inflate(R.layout.viewpager_page1, null));
+            pageViews.add(inflater.inflate(R.layout.viewpager_page3,null));
             pageViews.add(inflater.inflate(R.layout.viewpager_page2, null));
             imageViews = new ImageView[pageViews.size()];
             //从指定的XML文件加载视图
@@ -83,9 +84,6 @@ public class SplashActivity extends Activity {
             viewPager.setAdapter(new GuidePageAdapter());
             viewPager.setOnPageChangeListener(new GuidePageChangeListener());
             viewPager.setPageTransformer(true,new DepthPageTransformer());
-//            Intent intent1 = new Intent(SplashActivity.this, LoginActivity.class);
-//            startActivity(intent1);
-//            SplashActivity.this.finish();
 
         }else {
             Intent intent2 = new Intent(SplashActivity.this, MainActivity.class);

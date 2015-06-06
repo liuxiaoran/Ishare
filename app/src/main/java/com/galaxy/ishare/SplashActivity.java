@@ -56,7 +56,6 @@ public class SplashActivity extends Activity {
             LayoutInflater inflater = getLayoutInflater();
             pageViews = new ArrayList<View>();
             pageViews.add(inflater.inflate(R.layout.viewpager_page1, null));
-            pageViews.add(inflater.inflate(R.layout.viewpager_page3,null));
             pageViews.add(inflater.inflate(R.layout.viewpager_page2, null));
             imageViews = new ImageView[pageViews.size()];
             //从指定的XML文件加载视图

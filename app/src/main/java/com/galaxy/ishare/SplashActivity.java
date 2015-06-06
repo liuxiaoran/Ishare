@@ -83,9 +83,6 @@ public class SplashActivity extends Activity {
             viewPager.setAdapter(new GuidePageAdapter());
             viewPager.setOnPageChangeListener(new GuidePageChangeListener());
             viewPager.setPageTransformer(true,new DepthPageTransformer());
-//            Intent intent1 = new Intent(SplashActivity.this, LoginActivity.class);
-//            startActivity(intent1);
-//            SplashActivity.this.finish();
 
         }else {
             Intent intent2 = new Intent(SplashActivity.this, MainActivity.class);

@@ -2,16 +2,24 @@ package com.galaxy.ishare.usercenter;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.utils.PhoneUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.soundcloud.android.crop.Crop;
+
+import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

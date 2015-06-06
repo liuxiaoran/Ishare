@@ -9,4 +9,6 @@ public class BroadcastActionConstant {
 
     public static final String UPDATE_USER_LOCATION ="update_user_location";
 
+    public static final String UPDATE_USER_AVATAR = "update_user_avatar";
+
 }

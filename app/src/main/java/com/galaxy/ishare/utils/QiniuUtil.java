@@ -37,6 +37,7 @@ public class QiniuUtil {
         return  instance;
     }
 
+    // 通过generatekey得到的key 得到file url
     public String getFileUrl (String key ){
         return hostName +key;
 
@@ -47,7 +48,11 @@ public class QiniuUtil {
         return fileUrl + "?imageView2" + "/0/w/" + longEdge + "/h/" + shortEdge;
     }
 
+    public String getThumbnailUrl(String key, int longEdge, int shortEdge) {
+        return getFileUrl(key) + "?imageView2" + "/0/w/" + longEdge + "/h/" + shortEdge;
+    }
 
+    // 返回key
     public String generateKey(String name) {
         return IShareContext.getInstance().getCurrentUser().getUserId() + name + System.currentTimeMillis();
     }
@@ -91,6 +96,13 @@ public class QiniuUtil {
 
     }
 
+    /**
+     * 最常用的上传文件，内部会于服务器取得token
+     *
+     * @param filePath 文件路径
+     * @param key      通过generateKey 获得
+     * @param handler
+     */
     public void uploadFileDefault(final String filePath, final String key, final UpCompletionHandler handler) {
 
         List<NameValuePair>params  = new ArrayList<>();

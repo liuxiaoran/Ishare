@@ -79,6 +79,6 @@ dependencies {
     // floating action button
     compile 'com.melnykov:floatingactionbutton:1.3.0'
 
-    //��Ƭ����
-//    compile 'com.soundcloud.android:android-crop:1.0.0@aar'
+    // photo picker and crop
+    compile 'com.soundcloud.android:android-crop:0.9.10@aar'
 }

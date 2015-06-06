@@ -330,7 +330,10 @@
 			android:name=".mapLBS.CardActivity"
 			android:screenOrientation="portrait" />
 
-		<!-- Required SDK核心功能-->
+        <!-- depency crop and pick need -->
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
+
+        <!-- Required SDK核心功能-->
 		<activity
 			android:name="cn.jpush.android.ui.PushActivity"
 			android:theme="@android:style/Theme.Translucent.NoTitleBar"

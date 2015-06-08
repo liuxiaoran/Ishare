@@ -3,7 +3,6 @@ package com.galaxy.ishare.utils;
 import java.util.Date;
 
 /**
- * Created by wchao911 on 14-7-9.
  */
 public class TimeUtils {
 

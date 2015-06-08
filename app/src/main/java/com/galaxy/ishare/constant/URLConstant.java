@@ -66,4 +66,8 @@ public class URLConstant {
 
     // 用户获取附近的借卡
     public static final String REQUEST_CARD_GET = SERVER_IP + "/card/Request_Card_C/get";
+
+    // 用户评论相关
+    // 得到用户评论
+    public static final String GET_CARD_COMMENTS = SERVER_IP + "/user/Comment_C/get";
 }

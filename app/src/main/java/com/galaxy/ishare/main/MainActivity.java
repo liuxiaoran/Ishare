@@ -315,6 +315,7 @@ public class MainActivity extends ActionBarActivity {
                     }
 
                     transaction.show(mShareItemFragment);
+
                 } else if (checkedId == orderButton.getId()) {
                     if (orderFragment == null) {
                         orderFragment = new OrderFragment();

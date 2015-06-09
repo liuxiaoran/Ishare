@@ -110,16 +110,18 @@ public class CardListItemAdapter extends BaseAdapter {
 
         if (cardItem.cardImgs != null && cardItem.cardImgs.length > 0) {
 
-            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 100));
-            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 100), DisplayUtil.dip2px(mContext, 80));
+            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
+            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
             final CardHolder finalCardHolder = cardHolder;
-            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
+//                @Override
+//                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//
+//                    finalCardHolder.cardIv.setImageBitmap(loadedImage);
+//                }
+//            });
+            ImageLoader.getInstance().displayImage(thumbnailUrl, finalCardHolder.cardIv);
 
-                    finalCardHolder.cardIv.setImageBitmap(loadedImage);
-                }
-            });
         }
 
         return convertView;

@@ -73,6 +73,6 @@ public class URLConstant {
 
 
     // 用户发布请求
-    public static final String PUBLISH_CARD_REQUEST = SERVER_IP + "/Request_Card_C";
+    public static final String PUBLISH_CARD_REQUEST = SERVER_IP + "/card/Request_Card_C";
 
 }

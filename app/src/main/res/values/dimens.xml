@@ -13,6 +13,7 @@
     <!-- padding -->
     <dimen name="default_layout_padding">15dp</dimen>
     <dimen name="register_edittext_padding">10dp</dimen>
+    <dimen name="middle_padding">10dp</dimen>
 
     <!-- margin -->
     <dimen name="login_tv_margin_right">8dp</dimen>

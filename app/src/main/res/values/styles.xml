@@ -3,7 +3,6 @@
 
     <style name="main_tab_bottom">
         <item name="android:textSize">13sp</item>
-        <item name="android:textColor">#FFFFFF</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
@@ -27,7 +26,7 @@
         <!--theme UI controls like checkboxes and text fields-->
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textCursorDrawable">@null</item>
-
+        <item name="android:windowBackground">@color/window_background</item>
         <!--  actionbar height -->
         <item name="actionBarSize">48dp</item>
     </style>

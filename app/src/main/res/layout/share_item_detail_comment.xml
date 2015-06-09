@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/middle_padding"
+        android:id="@+id/share_item_detail_comment_layout">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/share_item_detail_comment_avatar_iv"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="5dp" />
+
+        <TextView
+            android:id="@+id/share_item_detail_commenter_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/share_item_detail_comment_avatar_iv"
+            android:text="name" />
+
+        <ImageView
+            android:layout_marginLeft="5dp"
+            android:id="@+id/share_item_detail_comment_gender_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/share_item_detail_commenter_name_tv"
+            android:layout_alignTop="@id/share_item_detail_commenter_name_tv"
+            android:layout_toRightOf="@id/share_item_detail_commenter_name_tv"
+            android:src="@drawable/icon_male" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/share_item_comment_rating_layout"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/share_item_detail_comment_gender_iv"
+            android:layout_alignTop="@id/share_item_detail_commenter_name_tv"
+            android:layout_alignBottom="@id/share_item_detail_commenter_name_tv"
+            android:layout_marginTop="2dp">
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/share_item_detail_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="2012"
+            android:textSize="12sp"
+            android:textColor="@color/huise" />
+
+        <TextView
+            android:id="@+id/share_item_detail_comment_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/share_item_detail_commenter_name_tv"
+            android:layout_below="@id/share_item_detail_commenter_name_tv"
+            android:layout_marginTop="5dp"
+            android:inputType="textMultiLine"
+            android:maxLines="2"
+            android:text="adsfadsf" />
+    </RelativeLayout>
+
+    <View
+
+        style="@style/horizontal_divider"
+        android:layout_below="@id/share_item_detail_comment_layout" />
+
+
+</RelativeLayout>

@@ -16,6 +16,7 @@ import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
+import com.galaxy.ishare.utils.WidgetController;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -103,31 +104,7 @@ public class CardListItemAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
-        double ratingCount = cardItem.ratingCount;
-
-        cardHolder.ratingLayout.removeAllViews();
-        int hasStar = 0;
-        for (int i = 0; i < ratingCount - 1; i++) {
-            View view = inflater.inflate(R.layout.card_item_star_iv, null);
-            ImageView imageView = (ImageView) view.findViewById(R.id.share_item_item_star_iv);
-            imageView.setImageResource(R.drawable.star_full);
-            cardHolder.ratingLayout.addView(view);
-            hasStar++;
-        }
-        if (ratingCount % 1 >= 0.5) {
-            View view = inflater.inflate(R.layout.card_item_star_iv, null);
-            ImageView imageView = (ImageView) view.findViewById(R.id.share_item_item_star_iv);
-            imageView.setImageResource(R.drawable.star_half);
-            cardHolder.ratingLayout.addView(view);
-            hasStar++;
-        }
-        for (int i = 1; i <= 5 - hasStar; i++) {
-            View view = inflater.inflate(R.layout.card_item_star_iv, null);
-            ImageView imageView = (ImageView) view.findViewById(R.id.share_item_item_star_iv);
-            imageView.setImageResource(R.drawable.star_empty);
-            cardHolder.ratingLayout.addView(view);
-        }
-
+        WidgetController.getInstance().setRatingLayout(cardItem.ratingCount, mContext, cardHolder.ratingLayout);
 
 
 

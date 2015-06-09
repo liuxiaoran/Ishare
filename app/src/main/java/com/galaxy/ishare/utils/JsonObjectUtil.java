@@ -2,6 +2,7 @@ package com.galaxy.ishare.utils;
 
 import android.util.Log;
 
+import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
 
 import org.json.JSONArray;
@@ -133,7 +134,11 @@ public class JsonObjectUtil {
                 cardItem.setShopDistance(jsonObject.getDouble("shop_distance"));
             }
             if (jsonObject.has("description")) {
-                cardItem.setDescription(jsonObject.getString("description"));
+                String description = jsonObject.getString("description");
+                if (description.equals("null")) {
+                    description = "暂无评价";
+                }
+                cardItem.setDescription(description);
             }
 
             if (jsonObject.has("img")) {
@@ -223,5 +228,29 @@ public class JsonObjectUtil {
         }
 
         return parseJsonObjectToCardItem(jsonObject);
+    }
+
+    public static CardComment parseJsonToComment(JSONObject jsonObject) {
+        CardComment cardComment = null;
+        try {
+
+            int commentId = jsonObject.getInt("id");
+            int cardId = jsonObject.getInt("card_id");
+            String nickName = jsonObject.getString("nickname");
+            String gender = jsonObject.getString("gender");
+            String avatar = jsonObject.getString("avatar");
+            String commentStr = jsonObject.getString("comment");
+            double rating = jsonObject.getDouble("rating");
+            String time = jsonObject.getString("time");
+
+            cardComment = new CardComment(commentId, cardId, nickName, avatar, rating, gender, time, commentStr);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return cardComment;
+
+
     }
 }

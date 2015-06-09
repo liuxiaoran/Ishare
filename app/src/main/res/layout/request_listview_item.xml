@@ -2,14 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/middle_padding">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/default_layout_padding"
         android:paddingRight="@dimen/default_layout_padding"
-        android:paddingTop="@dimen/default_layout_padding">
+        android:paddingTop="@dimen/middle_padding">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/request_item_requester_avatar_iv"
@@ -32,36 +33,38 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/request_item_requester_name_tv"
             android:layout_alignTop="@id/request_item_requester_name_tv"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/request_item_requester_name_tv"
             android:src="@drawable/icon_female" />
 
         <TextView
+            android:id="@+id/invisible_p"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/request_item_requester_gender_iv"
             android:text="p"
-            android:visibility="invisible"
-            android:id="@+id/invisible_p"
-            android:layout_toRightOf="@id/request_item_requester_gender_iv" />
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/request_item_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_alignTop="@id/invisible_p"
             android:layout_alignBottom="@id/invisible_p"
+            android:layout_alignTop="@id/invisible_p"
+            android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/invisible_p"
-            android:src="@drawable/share_item_location" />
+            android:src="@drawable/icon_people" />
 
 
         <TextView
             android:id="@+id/request_item_distance_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/request_item_location"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/request_item_location"
             android:text="12km"
-            android:textSize="16sp"
-            android:layout_marginLeft="5dp" />
+            android:textSize="12sp" />
 
 
         <TextView
@@ -86,27 +89,64 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginRight="10dp"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="5dp"
-        android:layout_marginTop="5dp">
+        android:padding="5dp">
 
-        <TextView
-            android:id="@+id/request_item_card_shopname_tv"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/request_item_card_shopname_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:text="fadf"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/request_location_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/request_item_card_shopname_tv"
+                android:layout_alignTop="@id/request_item_card_shopname_tv"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/request_item_card_shopname_tv"
+                android:src="@drawable/share_item_location" />
+
+            <TextView
+                android:id="@+id/request_item_shop_distance_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/request_location_iv"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@id/request_location_iv"
+                android:text="adf"
+                android:textColor="@color/huise"
+                android:textSize="@dimen/caption_text_size" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/request_item_shop_distance_tv"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@id/request_item_shop_distance_tv"
+                android:text="km"
+                android:textColor="@color/huise"
+                android:textSize="@dimen/caption_text_size" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/request_item_card_shop_location_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:inputType="textMultiLine" />
+            android:inputType="textMultiLine"
+            android:textColor="@color/huise" />
     </LinearLayout>
 
 

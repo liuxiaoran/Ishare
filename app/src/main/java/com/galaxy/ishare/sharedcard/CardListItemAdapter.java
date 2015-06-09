@@ -88,7 +88,7 @@ public class CardListItemAdapter extends BaseAdapter {
 
         String[] cardItems = mContext.getResources().getStringArray(R.array.card_items);
         cardHolder.cardTypeTv.setText(cardItems[cardItem.wareType]);
-        cardHolder.discountTv.setText(cardItem.discount + "");
+        cardHolder.discountTv.setText(cardItem.getStringDiscount());
         cardHolder.shopDistanceTv.setText(cardItem.shopDistance + "");
         cardHolder.ownerDistanceTv.setText(cardItem.ownerDistance + "");
         cardHolder.rentCountTv.setText(cardItem.rentCount + "");

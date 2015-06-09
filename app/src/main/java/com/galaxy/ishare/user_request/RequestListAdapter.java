@@ -73,6 +73,7 @@ public class RequestListAdapter extends BaseAdapter {
             holder.timeTv = (TextView) convertView.findViewById(R.id.request_item_time_tv);
             holder.shopNameTv = (TextView) convertView.findViewById(R.id.request_item_card_shopname_tv);
             holder.shopLocationTv = (TextView) convertView.findViewById(R.id.request_item_card_shop_location_tv);
+            holder.shopDistanceTv = (TextView) convertView.findViewById(R.id.request_item_shop_distance_tv);
             convertView.setTag(holder);
 
 
@@ -104,7 +105,7 @@ public class RequestListAdapter extends BaseAdapter {
 
         holder.shopNameTv.setText(cardItem.getShopName());
         holder.shopLocationTv.setText(cardItem.getShopLocation());
-
+        holder.shopDistanceTv.setText(cardItem.shopDistance + "");
 
         return convertView;
     }
@@ -117,6 +118,7 @@ public class RequestListAdapter extends BaseAdapter {
         public TextView timeTv;
         public TextView shopNameTv;
         public TextView shopLocationTv;
+        public TextView shopDistanceTv;
 
     }
 

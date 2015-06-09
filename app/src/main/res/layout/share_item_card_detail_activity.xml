@@ -216,7 +216,7 @@
                     android:layout_alignLeft="@id/share_item_detail_owner_name_tv"
                     android:layout_below="@id/share_item_detail_owner_name_tv"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/people_icon" />
+                    android:src="@drawable/icon_people" />
 
                 <TextView
                     android:id="@+id/share_item_detail_owner_distance_tv"

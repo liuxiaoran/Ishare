@@ -182,6 +182,16 @@ public class CardItem implements Parcelable{
 
     }
 
+    // 得到折扣的字符串标示，整数值不显示小数
+    public String getStringDiscount() {
+        double d = discount * 10;
+        if (d % 10 == 0.0) {
+            int ret = (int) discount;
+            return Integer.toString(ret);
+        }
+        return Double.toString(discount);
+    }
+
     public void setRequesterLocation(String location) {
         this.requesterLocation = location;
     }

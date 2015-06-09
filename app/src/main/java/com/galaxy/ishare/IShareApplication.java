@@ -74,7 +74,7 @@ public class IShareApplication extends Application {
                 .cacheInMemory(true)
                 .showImageForEmptyUri(R.drawable.load_empty)
                 .showImageOnFail(R.drawable.load_error)
-                .showImageOnLoading(R.drawable.loading)
+//                .showImageOnLoading(R.drawable.loading)
                 .cacheOnDisk(true)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .imageScaleType(ImageScaleType.EXACTLY)

@@ -82,7 +82,7 @@ public class RequestFragment extends Fragment {
         pullToRefreshListView.setPullLoadEnabled(false);
         pullToRefreshListView.setScrollLoadEnabled(true);
         requestListView = pullToRefreshListView.getRefreshableView();
-        requestListView.setDivider(null);// 设置不显示分割线
+//        requestListView.setDivider(null);// 设置不显示分割线
         requestListView.setAdapter(requestListAdapter);
 
         requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

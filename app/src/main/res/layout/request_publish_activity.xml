@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/middle_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="店名" />
+
+            <EditText
+                android:id="@+id/request_publish_shop_name_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
+
+        <View
+            style="@style/horizontal_divider"
+            android:layout_marginLeft="@dimen/middle_padding" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/middle_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="店址" />
+
+            <EditText
+                android:id="@+id/request_publish_shop_addr_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/request_publish_shop_locate_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/icon_aim" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/horizontal_divider"
+            android:layout_marginLeft="@dimen/middle_padding" />
+
+        <RelativeLayout
+            android:id="@+id/request_publish_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/middle_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="折扣" />
+
+
+            <ImageView
+                android:id="@+id/request_publish_choose_discount_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/arrow_right" />
+
+            <TextView
+                android:id="@+id/request_publish_discount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/request_publish_choose_discount_iv" />
+
+
+        </RelativeLayout>
+
+        <View
+            style="@style/horizontal_divider"
+            android:layout_marginLeft="@dimen/middle_padding" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/middle_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="种类" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+
+                >
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/request_publish_meirong_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:text="美容"
+                    app:buttonColor="@color/transparent_gray"
+                    app:cornerRadius="2dp"
+                    app:shadowEnabled="false" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/request_publish_meifa_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/request_publish_meirong_btn"
+                    android:text="美发"
+                    app:buttonColor="@color/transparent_gray"
+                    app:cornerRadius="2dp"
+                    app:shadowEnabled="false" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/request_publish_meijia_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/request_publish_meifa_btn"
+                    android:text="美甲"
+                    app:buttonColor="@color/transparent_gray"
+                    app:cornerRadius="2dp"
+                    app:shadowEnabled="false" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/request_publish_movie_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/request_publish_meijia_btn"
+                    android:text="电影"
+                    app:buttonColor="@color/transparent_gray"
+                    app:cornerRadius="2dp"
+                    app:shadowEnabled="false" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/request_publish_qingzi_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_below="@id/request_publish_meirong_btn"
+                    android:layout_marginTop="5dp"
+                    android:text="亲子"
+                    app:buttonColor="@color/transparent_gray"
+                    app:cornerRadius="2dp"
+                    app:shadowEnabled="false" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/request_publish_other_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="20dp"
+                    android:layout_alignBottom="@id/request_publish_qingzi_btn"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toRightOf="@id/request_publish_qingzi_btn"
+                    android:text="其他"
+                    app:buttonColor="@color/transparent_gray"
+                    app:cornerRadius="2dp"
+                    app:shadowEnabled="false" />
+
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <View
+            style="@style/horizontal_divider"
+            android:layout_marginLeft="@dimen/middle_padding" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/middle_padding">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="描述" />
+
+            <EditText
+                android:id="@+id/request_publish_description_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <info.hoang8f.widget.FButton
+        android:id="@+id/request_publish_confirm_btn"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="确定找这种卡"
+        android:textColor="@color/white"
+        app:buttonColor="@color/color_primary"
+        app:cornerRadius="2dp"
+        app:shadowEnabled="false" />
+
+</LinearLayout>

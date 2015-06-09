@@ -19,7 +19,7 @@
         android:layout_alignParentRight="true"
         android:id="@+id/main_publish_request_iv"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_action_new" />
+        android:src="@drawable/icon_plus" />
 
 
 </RelativeLayout>

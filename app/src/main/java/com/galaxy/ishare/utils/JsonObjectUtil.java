@@ -116,7 +116,9 @@ public class JsonObjectUtil {
                 cardItem.setWareType(jsonObject.getInt("ware_type"));
             }
             if (jsonObject.has("discount")) {
+
                 cardItem.setDiscount(jsonObject.getDouble("discount"));
+
             }
             if (jsonObject.has("trade_type")) {
                 cardItem.setTradeType(jsonObject.getInt("trade_type"));
@@ -208,6 +210,10 @@ public class JsonObjectUtil {
             if (jsonObject.has("distance")) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("distance"));
             }
+            if (jsonObject.has("owner_distance")) {
+                cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
+            }
+
             if (jsonObject.has("nickname")) {
                 cardItem.setOwnerName(jsonObject.getString("nickname"));
             }
@@ -253,4 +259,6 @@ public class JsonObjectUtil {
 
 
     }
+
+
 }

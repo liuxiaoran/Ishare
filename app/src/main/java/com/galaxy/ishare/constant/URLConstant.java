@@ -70,4 +70,9 @@ public class URLConstant {
     // 用户评论相关
     // 得到用户评论
     public static final String GET_CARD_COMMENTS = SERVER_IP + "/user/Comment_C/get";
+
+
+    // 用户发布请求
+    public static final String PUBLISH_CARD_REQUEST = SERVER_IP + "/Request_Card_C";
+
 }

@@ -4,7 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/transparent_gray"
-    android:id="@+id/share_item_popupwindow_background">
+    android:id="@+id/share_item_popupwindow_background"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:paddingBottom="2dp">
 
     <ListView
 

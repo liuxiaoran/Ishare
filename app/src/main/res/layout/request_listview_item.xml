@@ -73,14 +73,18 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="2dp"
-            android:text="1min" />
+            android:text="1min"
+            android:textSize="@dimen/caption_text_size"
+            android:textColor="@color/dark_secondary_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/request_item_requester_name_tv"
             android:layout_below="@id/request_item_requester_name_tv"
-            android:text="发布了一条求卡的请求" />
+            android:text="发布了一条求卡的请求"
+            android:textSize="@dimen/caption_text_size"
+            android:textColor="@color/dark_secondary_text" />
 
 
     </RelativeLayout>
@@ -105,7 +109,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:text="fadf"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textSize="@dimen/caption_text_size"
+                android:textColor="@color/dark_secondary_text" />
 
             <ImageView
                 android:id="@+id/request_location_iv"
@@ -124,9 +130,9 @@
                 android:layout_alignBottom="@id/request_location_iv"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/request_location_iv"
-                android:text="adf"
-                android:textColor="@color/huise"
-                android:textSize="@dimen/caption_text_size" />
+                android:text="12"
+                android:textSize="@dimen/caption_text_size"
+                android:textColor="@color/dark_secondary_text" />
 
 
             <TextView
@@ -136,8 +142,8 @@
                 android:layout_marginLeft="2dp"
                 android:layout_toRightOf="@id/request_item_shop_distance_tv"
                 android:text="km"
-                android:textColor="@color/huise"
-                android:textSize="@dimen/caption_text_size" />
+                android:textSize="@dimen/caption_text_size"
+                android:textColor="@color/dark_secondary_text" />
         </RelativeLayout>
 
         <TextView
@@ -146,7 +152,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:inputType="textMultiLine"
-            android:textColor="@color/huise" />
+            android:textSize="@dimen/caption_text_size"
+            android:textColor="@color/dark_secondary_text" />
     </LinearLayout>
 
 

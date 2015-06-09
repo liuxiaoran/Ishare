@@ -279,7 +279,7 @@ public class ItemListFragment extends Fragment {
                     CategoryWindowAdapter categoryWindowAdapter = new CategoryWindowAdapter(wareItems, getActivity());
                     listViewInPopUpWindow.setAdapter(categoryWindowAdapter);
 
-                    popupWindow = new PopupWindow(popUpWindowView, Global.screenWidth, ViewGroup.LayoutParams.MATCH_PARENT, true);
+                    popupWindow = new PopupWindow(popUpWindowView, Global.screenWidth / 3, ViewGroup.LayoutParams.WRAP_CONTENT, true);
                     // 点击popupwindow 灰色部分，popuowindow 消失
                     whoLinearLayout.setOnClickListener(new View.OnClickListener() {
                         @Override

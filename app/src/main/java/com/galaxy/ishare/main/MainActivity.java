@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
@@ -32,6 +33,7 @@ import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.order.OrderFragment;
 import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.sharedcard.ItemListFragment;
+import com.galaxy.ishare.user_request.PublishRequestActivity;
 import com.galaxy.ishare.user_request.RequestFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
 import com.galaxy.ishare.utils.AppAsyncHttpClient;
@@ -169,16 +171,17 @@ public class MainActivity extends ActionBarActivity {
                         startActivity(intent);
 
                     } else if (v.getId() == R.id.main_publish_tv) {
-                        if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
-
-                            Intent intent = new Intent(MainActivity.this, BindPhoneActivity.class);
-                            intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
-                            startActivity(intent);
-
-                        } else {
-                            Intent intent = new Intent(MainActivity.this, PublishItemActivity.class);
-                            startActivity(intent);
-                        }
+//                        if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
+//
+//                            Intent intent = new Intent(MainActivity.this, BindPhoneActivity.class);
+//                            intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
+//                            startActivity(intent);
+//
+//                        } else {
+//                            Intent intent = new Intent(MainActivity.this, PublishItemActivity.class);
+//                            startActivity(intent);
+//                        }
+                        Toast.makeText(MainActivity.this, "待修改", Toast.LENGTH_LONG).show();
                     }
                 }
             };
@@ -188,6 +191,15 @@ public class MainActivity extends ActionBarActivity {
             actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_request_action_bar, false);
             titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.action_bar_title_tv);
             titleTv.setText(title);
+            ImageView publishIV = (ImageView) actionBar.getCustomView().findViewById(R.id.main_publish_request_iv);
+            publishIV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, PublishRequestActivity.class);
+                    startActivity(intent);
+                }
+            });
+
         } else {
             actionBar = IShareContext.getInstance().createActionbar(this, false, title);
             titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);

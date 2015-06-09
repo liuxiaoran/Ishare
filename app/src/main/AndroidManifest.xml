@@ -275,6 +275,18 @@
 
 		<!-- end  publish card-->
 
+		<!--  request -->
+
+		<activity
+			android:name=".user_request.PublishRequestActivity"
+			android:label="@string/app_name"
+			android:launchMode="singleTop">
+
+		</activity>
+
+
+		<!--end request -->
+
 
 		<!--  card share -->
 

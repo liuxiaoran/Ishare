@@ -54,7 +54,7 @@ public class MeFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        nameTv = (TextView) view.findViewById(R.id.usercenter_name_tv);
+        nameTv = (TextView) view.findViewById(R.id.usercenter_info_nickname_tv);
         avatarIV = (CircleImageView) view.findViewById(R.id.usercenter_avatar_iv);
 
     }

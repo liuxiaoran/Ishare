@@ -130,9 +130,8 @@
 
     <style name="chat_text_date_style">
         <item name="android:padding">2dp</item>
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:textColor">#bfbfbf</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:background">#bfbfbf</item>
     </style>
 
     <style name="chat_content_date_style">
@@ -150,5 +149,15 @@
         <item name="android:progressDrawable">@drawable/rating_bar</item>
         <item name="android:minHeight">16dp</item>
         <item name="android:maxHeight">16dp</item>
+    </style>
+
+    <style name="order_state_un_confirm">
+        <item name="android:textColor">@color/chat_purple</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="order_state_confirm">
+        <item name="android:textColor">@color/chat_transparent</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

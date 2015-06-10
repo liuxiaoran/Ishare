@@ -40,4 +40,20 @@
 	
 	<string name="vip_card">会员卡</string>
 	<string name="charge_card">充值卡</string>
+
+	<string name="lend">借出</string>
+	<string name="have_lent">已借出</string>
+
+	<string name="confirm">确认</string>
+	<string name="have_confirmed">已确认</string>
+
+	<string name="pay">付款</string>
+	<string name="have_paid">已付款</string>
+
+	<string name="apply_cancel">撤销</string>
+	<string name="have_canceled">已撤销</string>
+
+	<string name="apply">申请</string>
+	<string name="have_applied">已申请</string>
+
 </resources>

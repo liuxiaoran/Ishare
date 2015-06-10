@@ -86,9 +86,6 @@ public class MainActivity extends ActionBarActivity {
     private ActionBar actionBar;
     private TextView titleTv;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +94,7 @@ public class MainActivity extends ActionBarActivity {
 
         mContext = this;
         user = IShareContext.getInstance().getCurrentUser();
+
         JPushUtil.getInstance(getApplicationContext()).setAlias(MD5.md5(user.getUserId()));
 
         recoverActionBar("分享");
@@ -350,42 +348,42 @@ public class MainActivity extends ActionBarActivity {
                     View.OnClickListener textViewListener = new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (v.getId() == R.id.order_actionbar_borrow_tv) {
-                                borrowTv.setTextColor(getResources().getColor(R.color.huise));
-                                borrowTv.setBackgroundResource(R.drawable.order_actionbar_white_tv);
-
-                                lendTv.setTextColor(getResources().getColor(R.color.white));
-                                lendTv.setBackgroundResource(R.drawable.order_actionbar_gray_tv);
+//                            if (v.getId() == R.id.order_actionbar_borrow_tv) {
+//                                borrowTv.setTextColor(getResources().getColor(R.color.huise));
+//                                borrowTv.setBackgroundResource(R.drawable.order_actionbar_white_tv);
+//
+//                                lendTv.setTextColor(getResources().getColor(R.color.white));
+//                                lendTv.setBackgroundResource(R.drawable.order_actionbar_gray_tv);
 
                                 FragmentTransaction borrowTransaction = getFragmentManager().beginTransaction();
 //                                  Bundle borrowBundle  = new Bundle();
 //                                  borrowBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
 //                                  orderFragment.setArguments(borrowBundle);
-                                OrderFragment.orderType = OrderFragment.BORROW_ORDER;
+//                                OrderFragment.orderType = OrderFragment.BORROW_ORDER;
                                 borrowTransaction.show(orderFragment);
                                 borrowTransaction.commit();
 
-                            } else if (v.getId() == R.id.order_actionbar_lend_tv) {
-                                borrowTv.setTextColor(getResources().getColor(R.color.white));
-                                borrowTv.setBackgroundResource(R.drawable.order_actionbar_gray_tv);
-
-                                lendTv.setTextColor(getResources().getColor(R.color.huise));
-                                lendTv.setBackgroundResource(R.drawable.order_actionbar_white_tv);
-
-                                FragmentTransaction lendTransaction = getFragmentManager().beginTransaction();
-//                                  Bundle lendBundle  = new Bundle();
-//                                  lendBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.LEND_ORDER);
-//                                  orderFragment.setArguments(lendBundle);
-                                OrderFragment.orderType = OrderFragment.LEND_ORDER;
-
-                                lendTransaction.show(orderFragment);
-                                lendTransaction.commit();
-                            }
-                            OrderFragment.instance.setListView();
+//                            } else if (v.getId() == R.id.order_actionbar_lend_tv) {
+//                                borrowTv.setTextColor(getResources().getColor(R.color.white));
+//                                borrowTv.setBackgroundResource(R.drawable.order_actionbar_gray_tv);
+//
+//                                lendTv.setTextColor(getResources().getColor(R.color.huise));
+//                                lendTv.setBackgroundResource(R.drawable.order_actionbar_white_tv);
+//
+//                                FragmentTransaction lendTransaction = getFragmentManager().beginTransaction();
+////                                  Bundle lendBundle  = new Bundle();
+////                                  lendBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.LEND_ORDER);
+////                                  orderFragment.setArguments(lendBundle);
+//                                OrderFragment.orderType = OrderFragment.LEND_ORDER;
+//
+//                                lendTransaction.show(orderFragment);
+//                                lendTransaction.commit();
+//                            }
+//                            OrderFragment.instance.setListView();
                         }
                     };
-                    borrowTv.setOnClickListener(textViewListener);
-                    lendTv.setOnClickListener(textViewListener);
+//                    borrowTv.setOnClickListener(textViewListener);
+//                    lendTv.setOnClickListener(textViewListener);
 //                    Bundle bundle = new Bundle();
 //                    bundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
 //                    orderFragment.setArguments(bundle);

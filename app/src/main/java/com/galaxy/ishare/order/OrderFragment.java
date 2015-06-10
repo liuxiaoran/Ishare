@@ -17,8 +17,6 @@ import android.widget.Toast;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.chat.ChatActivity;
-import com.galaxy.ishare.chat.OrderManager;
-import com.galaxy.ishare.chat.OrderUtil;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
@@ -49,32 +47,34 @@ public class OrderFragment extends Fragment {
     private static final int REFRESH_GESTURE = 1;
     private static final int LOAD_MORE_GESTURE = 2;
 
-    public static int orderType = 1;
-    public static final int BORROW_ORDER = 1;
-    public static final int LEND_ORDER = -1;
+//    public static int orderType = 1;
+//    public static final int BORROW_ORDER = 1;
+//    public static final int LEND_ORDER = -1;
 
     private SimpleDateFormat mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
 
     private View root;
 
     private FrameLayout listViewFrameLayout;
+//    private ListView orderLendListView;
+//    List<Order> orderLendList = new ArrayList<>();
+//    private OrderAdapter orderLendAdapter;
+//    private PullToRefreshListView lendPullToRefreshListView;
 
-    List<Order> orderLendList = new ArrayList<>();
-    private OrderAdapter orderLendAdapter;
+//    private int lendPageNum = 1;
+//    private boolean lendHasMoreData = true;
+
     private ListView orderBorrowListView;
-    private ListView orderLendListView;
     List<Order> orderBorrowList = new ArrayList<>();
     private OrderAdapter orderBorrowAdapter;
     private PullToRefreshListView borrowPullToRefreshListView;
-    private PullToRefreshListView lendPullToRefreshListView;
     public RelativeLayout loadingLayout;
 
     private HttpInteract httpInteract;
-    private int lendPageNum = 1;
+
     private int borrowPageNum = 1;
-    private final int pageSize = 6;
     private boolean borrowHasMoreData = true;
-    private boolean lendHasMoreData = true;
+    private final int pageSize = 6;
 
     public static OrderFragment instance;
 
@@ -84,6 +84,7 @@ public class OrderFragment extends Fragment {
         LayoutInflater lf = LayoutInflater.from(getActivity());
         root = lf.inflate(R.layout.fragment_order, null);
         user = IShareContext.getInstance().getCurrentUser();
+        httpInteract = new HttpInteract();
         instance = this;
         initWidget();
         getData();
@@ -94,20 +95,19 @@ public class OrderFragment extends Fragment {
 
     public void initWidget() {
         borrowPullToRefreshListView = new PullToRefreshListView(getActivity());
-        lendPullToRefreshListView = new PullToRefreshListView(getActivity());
+//        lendPullToRefreshListView = new PullToRefreshListView(getActivity());
         initBorrowPullToRefreshListView(borrowPullToRefreshListView);
-        initLendPullToRefreshListView(lendPullToRefreshListView);
+//        initLendPullToRefreshListView(lendPullToRefreshListView);
 
         loadingLayout = (RelativeLayout) root.findViewById(R.id.order_loading_layout);
         listViewFrameLayout = (FrameLayout) root.findViewById(R.id.order_listview_framelayout);
         listViewFrameLayout.addView(borrowPullToRefreshListView, 0);
-        listViewFrameLayout.addView(lendPullToRefreshListView, 1);
-        lendPullToRefreshListView.setVisibility(View.GONE);
+//        listViewFrameLayout.addView(lendPullToRefreshListView, 1);
+//        lendPullToRefreshListView.setVisibility(View.GONE);
 
     }
 
     public void initBorrowPullToRefreshListView(PullToRefreshListView mPullListView) {
-        httpInteract = new HttpInteract();
         mPullListView.setPullLoadEnabled(false);
         mPullListView.setScrollLoadEnabled(true);
         orderBorrowListView = mPullListView.getRefreshableView();
@@ -120,7 +120,9 @@ public class OrderFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemClick");
                 Intent intent = new Intent(getActivity(), ChatActivity.class);
-                OrderManager.getInstance().order = orderBorrowList.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("order", orderBorrowList.get(position));
+                intent.putExtras(bundle);
                 startActivity(intent);
                 Log.d(TAG, "startActivity");
             }
@@ -147,61 +149,60 @@ public class OrderFragment extends Fragment {
         });
     }
 
-    public void initLendPullToRefreshListView(PullToRefreshListView mPullListView) {
-        httpInteract = new HttpInteract();
-        mPullListView.setPullLoadEnabled(false);
-        mPullListView.setScrollLoadEnabled(true);
-        orderLendListView = mPullListView.getRefreshableView();
-        orderLendListView.setDivider(null);// 设置不显示分割线
-        orderLendAdapter = new OrderAdapter(getActivity(), orderLendList);
-        orderLendListView.setAdapter(orderLendAdapter);
-
-
-
-        orderLendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                OrderManager.getInstance().order = orderLendList.get(position);
-                startActivity(intent);
-            }
-        });
-
-        mPullListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                gestureType = REFRESH_GESTURE;
-                httpInteract.loadData(null, user.getUserId(), IShareContext.getInstance().getUserLocation().getLongitude(),
-                        IShareContext.getInstance().getUserLocation().getLatitude(), 0, 1, pageSize);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                gestureType = LOAD_MORE_GESTURE;
-                lendPageNum++;
-                httpInteract.loadData(null, user.getUserId(), IShareContext.getInstance().getUserLocation().getLongitude(),
-                        IShareContext.getInstance().getUserLocation().getLatitude(), 0, lendPageNum, pageSize);
-            }
-        });
-    }
+//    public void initLendPullToRefreshListView(PullToRefreshListView mPullListView) {
+//        mPullListView.setPullLoadEnabled(false);
+//        mPullListView.setScrollLoadEnabled(true);
+//        orderLendListView = mPullListView.getRefreshableView();
+//        orderLendListView.setDivider(null);// 设置不显示分割线
+//        orderLendAdapter = new OrderAdapter(getActivity(), orderLendList);
+//        orderLendListView.setAdapter(orderLendAdapter);
+//
+//
+//
+//        orderLendListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(getActivity(), ChatActivity.class);
+//                OrderManager.getInstance().order = orderLendList.get(position);
+//                startActivity(intent);
+//            }
+//        });
+//
+//        mPullListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+//            @Override
+//            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                gestureType = REFRESH_GESTURE;
+//                httpInteract.loadData(null, user.getUserId(), IShareContext.getInstance().getUserLocation().getLongitude(),
+//                        IShareContext.getInstance().getUserLocation().getLatitude(), 0, 1, pageSize);
+//            }
+//
+//            @Override
+//            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                gestureType = LOAD_MORE_GESTURE;
+//                lendPageNum++;
+//                httpInteract.loadData(null, user.getUserId(), IShareContext.getInstance().getUserLocation().getLongitude(),
+//                        IShareContext.getInstance().getUserLocation().getLatitude(), 0, lendPageNum, pageSize);
+//            }
+//        });
+//    }
 
     public void getData() {
         httpInteract.loadData(user.getUserId(), null, IShareContext.getInstance().getUserLocation().getLongitude(),
                 IShareContext.getInstance().getUserLocation().getLatitude(), 0, 1, pageSize);
 
-        httpInteract.loadData(null, user.getUserId(), IShareContext.getInstance().getUserLocation().getLongitude(),
-                IShareContext.getInstance().getUserLocation().getLatitude(), 0, 1, pageSize);
+//        httpInteract.loadData(null, user.getUserId(), IShareContext.getInstance().getUserLocation().getLongitude(),
+//                IShareContext.getInstance().getUserLocation().getLatitude(), 0, 1, pageSize);
     }
 
-    public void setListView() {
-        if (orderType == BORROW_ORDER) {
-            borrowPullToRefreshListView.setVisibility(View.VISIBLE);
-            lendPullToRefreshListView.setVisibility(View.GONE);
-        } else {
-            borrowPullToRefreshListView.setVisibility(View.GONE);
-            lendPullToRefreshListView.setVisibility(View.VISIBLE);
-        }
-    }
+//    public void setListView() {
+//        if (orderType == BORROW_ORDER) {
+//            borrowPullToRefreshListView.setVisibility(View.VISIBLE);
+//            lendPullToRefreshListView.setVisibility(View.GONE);
+//        } else {
+//            borrowPullToRefreshListView.setVisibility(View.GONE);
+//            lendPullToRefreshListView.setVisibility(View.VISIBLE);
+//        }
+//    }
 
     private void setLastUpdateTime(PullToRefreshListView pullToRefreshListView) {
         String text = formatDateTime(System.currentTimeMillis());
@@ -238,7 +239,7 @@ public class OrderFragment extends Fragment {
             paramsList.add(new BasicNameValuePair("type", type + ""));
             paramsList.add(new BasicNameValuePair("page_num", pageNumber + ""));
             paramsList.add(new BasicNameValuePair("page_size", pageSize + ""));
-            String url = URLConstant.GET_ORDER;
+            String url = URLConstant.GET_ORDER_LIST;
 
             Log.v(TAG, borrowId + " " + pageNumber + " " + pageSize);
 
@@ -278,10 +279,11 @@ public class OrderFragment extends Fragment {
 
                                 if (gestureType == REFRESH_GESTURE) {
                                     setLastUpdateTime(borrowPullToRefreshListView);
-                                    borrowPullToRefreshListView.onPullUpRefreshComplete();
+                                    borrowPullToRefreshListView.onPullDownRefreshComplete();
                                 } else {
                                     Log.e(TAG, "onPullDownRefreshComplete");
-                                    borrowPullToRefreshListView.onPullDownRefreshComplete();
+                                    borrowPullToRefreshListView.onPullUpRefreshComplete();
+
                                 }
 
                                 if (jsonArray.length() == 0) {
@@ -289,37 +291,38 @@ public class OrderFragment extends Fragment {
                                     borrowPullToRefreshListView.setHasMoreData(borrowHasMoreData);
                                 }
                                 Log.e(TAG, "end");
-                            } else {
-                                int addNum = 0;
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject tmpJson = jsonArray.getJSONObject(i);
-                                    Order order = OrderUtil.parserJSONObject2Order(tmpJson);
-
-                                    if (gestureType == REFRESH_GESTURE) {
-                                        addNum += add2List(orderLendList, order);
-                                    } else {
-                                        orderLendList.add(order);
-                                    }
-                                }
-
-                                orderLendAdapter.notifyDataSetChanged();
-
-                                if(addNum == 0 && gestureType == REFRESH_GESTURE) {
-                                    Toast.makeText(getActivity(), "已经是最新数据", Toast.LENGTH_LONG).show();
-                                }
-
-                                if (gestureType == REFRESH_GESTURE) {
-                                    lendPullToRefreshListView.onPullUpRefreshComplete();
-                                } else {
-                                    lendPullToRefreshListView.onPullDownRefreshComplete();
-                                }
-
-                                if (jsonArray.length() == 0) {
-                                    setLastUpdateTime(lendPullToRefreshListView);
-                                    lendHasMoreData = false;
-                                    lendPullToRefreshListView.setHasMoreData(lendHasMoreData);
-                                }
                             }
+//                            else {
+//                                int addNum = 0;
+//                                for (int i = 0; i < jsonArray.length(); i++) {
+//                                    JSONObject tmpJson = jsonArray.getJSONObject(i);
+//                                    Order order = OrderUtil.parserJSONObject2Order(tmpJson);
+//
+//                                    if (gestureType == REFRESH_GESTURE) {
+//                                        addNum += add2List(orderLendList, order);
+//                                    } else {
+//                                        orderLendList.add(order);
+//                                    }
+//                                }
+//
+//                                orderLendAdapter.notifyDataSetChanged();
+//
+//                                if(addNum == 0 && gestureType == REFRESH_GESTURE) {
+//                                    Toast.makeText(getActivity(), "已经是最新数据", Toast.LENGTH_LONG).show();
+//                                }
+//
+//                                if (gestureType == REFRESH_GESTURE) {
+//                                    lendPullToRefreshListView.onPullDownRefreshComplete();
+//                                } else {
+//                                    lendPullToRefreshListView.onPullUpRefreshComplete();
+//                                }
+//
+//                                if (jsonArray.length() == 0) {
+//                                    setLastUpdateTime(lendPullToRefreshListView);
+//                                    lendHasMoreData = false;
+//                                    lendPullToRefreshListView.setHasMoreData(lendHasMoreData);
+//                                }
+//                            }
 //                            recoveryAllClickable();
                         } else {
                             Log.v(TAG, "status is " + status);

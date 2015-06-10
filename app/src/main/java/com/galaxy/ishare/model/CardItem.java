@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by liuxiaoran on 15/5/16.
  */
-public class CardItem implements Parcelable{
+public class CardItem implements Parcelable {
 
     public int id;
     public String ownerId;

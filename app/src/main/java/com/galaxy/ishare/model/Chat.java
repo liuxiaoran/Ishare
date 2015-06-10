@@ -9,11 +9,20 @@ public class Chat {
     @DatabaseField(generatedId = true)
     public int id;
 
+    @DatabaseField(columnName = "orderId")
+    public int orderId;
+
+    @DatabaseField(columnName = "cardId")
+    public int cardId;
+
     @DatabaseField(columnName = "fromUser")
     public String fromUser;
 
     @DatabaseField(columnName = "fromName")
     public String fromName;
+
+    @DatabaseField(columnName = "fromAvatar")
+    public String fromAvatar;
 
     @DatabaseField(columnName = "toUser")
     public String toUser;
@@ -32,4 +41,7 @@ public class Chat {
 
     @DatabaseField(columnName = "isRead")
     public int isRead;
+
+    @DatabaseField(columnName = "isSend")
+    public int isSend;
 }

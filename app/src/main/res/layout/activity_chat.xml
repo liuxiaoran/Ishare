@@ -1,114 +1,334 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chat_view"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#ECEFF1" >
 
-    <RelativeLayout
-        android:id="@+id/shop_info"
+    <LinearLayout
+        android:id="@+id/order_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
+        android:paddingLeft="20dp"
         android:paddingTop="20dp"
-        android:paddingBottom="15dp"
-        android:background="#ffffff">
-        <ImageView
-            android:id="@+id/shop_image"
-            android:layout_width="100dp"
-            android:layout_height="70dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <LinearLayout
+        android:orientation="vertical"
+        android:background="#ffffff" >
+        <RelativeLayout
+            android:id="@+id/shop_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/shop_image"
-            android:layout_alignTop="@+id/shop_image"
-            android:layout_marginLeft="8dp"
-            android:layout_alignBottom="@+id/shop_image"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-                <TextView
-                    android:id="@+id/shop_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="永琪美容美发（知春路点店）"/>
-
-                <TextView
-                    android:id="@+id/shop_distance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="1.0km"/>
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@+id/shop_distance"/>
-            </RelativeLayout>
+            android:layout_marginLeft="3dp"
+            >
+            <ImageView
+                android:id="@+id/shop_image"
+                android:layout_width="100dp"
+                android:layout_height="70dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/card_discount"
-                    android:layout_width="wrap_content"
+                android:layout_toRightOf="@id/shop_image"
+                android:layout_alignTop="@+id/shop_image"
+                android:layout_marginLeft="8dp"
+                android:layout_alignBottom="@+id/shop_image"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="2折"/>
-                <TextView
-                    android:id="@+id/card_type"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/shop_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="永琪美容美发（知春路点店）"/>
+
+                    <TextView
+                        android:id="@+id/shop_distance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="1.0km"
+                        android:visibility="gone"/>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/shop_distance"
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/share_item_location"
+                        android:visibility="gone"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:text="优惠卡"/>
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/card_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="2折"/>
+                    <TextView
+                        android:id="@+id/card_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="8dp"
+                        android:text="优惠卡"/>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/order_state"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="状态：申请中"/>
+                    <ImageView
+                        android:id="@+id/change_state"
+                        android:layout_width="50dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"/>
+                </RelativeLayout>
             </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/first_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/first_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:src="@color/gray"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:orientation="horizontal"
+                android:padding="5dp">
+
                 <TextView
-                    android:id="@+id/order_state"
+                    android:id="@+id/first_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:text="收到刘笑然的借卡请求"
+                    android:layout_centerVertical="true"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:id="@+id/first_confirm"
+                    style="@style/order_state_confirm"
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="25dp"
+                    android:padding="3dp"
+                    android:gravity="center"
+                    android:background="@drawable/order_state_tv_confirm"
+                    android:text="已同意" />
+
+                <TextView
+                    android:id="@+id/first_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/first_confirm"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:text="2015-07-14"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/second_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/second_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:src="@color/gray"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+                <TextView
+                    android:id="@+id/second_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="0dp"
+                    android:layout_centerVertical="true"
+                    android:text="取回卡了吗？"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/second_confirm"
+                    style="@style/order_state_confirm"
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="3dp"
+                    android:layout_marginRight="25dp"
+                    android:gravity="center"
+                    android:background="@drawable/order_state_tv_confirm"
+                    android:text="已确认"
+                     />
+
+                <TextView
+                    android:id="@+id/second_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/second_confirm"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:text="2015-07-14"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/third_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/third_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:src="@color/gray"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <TextView
+                    android:id="@+id/third_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="状态：申请中"/>
-                <ImageView
-                    android:id="@+id/change_state"
-                    android:layout_width="50dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"/>
-            </RelativeLayout>
+                    android:layout_marginLeft="0dp"
+                    android:text="收到刘笑然的借卡请求"
+                    android:textSize="14dp"/>
 
+                <TextView
+                    android:id="@+id/third_confirm"
+                    style="@style/order_state_un_confirm"
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:background="@drawable/order_state_tv_un_confirm"
+                    android:text="确认"/>
+
+                <TextView
+                    android:id="@+id/third_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/third_confirm"
+                    android:layout_marginRight="15dp"
+                    android:text="2015-07-14"
+                    android:textSize="14dp" />
+            </RelativeLayout>
         </LinearLayout>
-    </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/forth_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/forth_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:src="@color/gray"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+                <TextView
+                    android:id="@+id/forth_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="0dp"
+                    android:text="收到刘笑然的借卡请求"
+                    android:textSize="14dp"/>
+
+                <TextView
+                    android:id="@+id/forth_confirm"
+                    style="@style/order_state_un_confirm"
+                    android:layout_width="55dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="25dp"
+                    android:gravity="center"
+                    android:padding="3dp"
+                    android:background="@drawable/order_state_tv_un_confirm"
+                    android:text="确认"/>
+
+                <TextView
+                    android:id="@+id/forth_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/forth_confirm"
+                    android:layout_marginRight="15dp"
+                    android:text="2015-07-14"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:src="@color/gray"/>
+
 
     <TextView
         android:id="@+id/card_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_below="@id/shop_info"
+        android:layout_below="@id/order_info"
         android:layout_marginTop="15dp"
         android:background="@drawable/shape"
         android:padding="5dp"
-        android:text="当前与卡主相距1.2km"/>
+        android:text="当前与卡主相距1.2km"
+        android:visibility="gone"/>
 
     <ListView
         android:id="@+id/chat_listview"
@@ -116,8 +336,6 @@
         android:layout_height="match_parent"
         android:stackFromBottom="true"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:scrollingCache="false"
         android:layout_weight="1"
         android:fadingEdge="none"
@@ -139,14 +357,7 @@
         android:layout_marginBottom="0dip"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:background="#ffffff" >
-
-        <ImageView
-            android:id="@+id/sep_line"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#B0BEC5"
-            android:visibility="gone"/>
+        android:background="@drawable/chat_msg_send_bk" >
 
         <TextView
             android:id="@+id/chat_btn_send"
@@ -169,11 +380,21 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/chat_btn_send"
-            android:inputType="textLongMessage"
             android:padding="4dip"
             android:singleLine="false"
             android:textSize="16sp"
-            android:textColor="#78909C"/>
+            android:textColor="#78909C"
+            android:background="@null"/>
+
+        <ImageView
+            android:id="@+id/sep_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_below="@+id/chat_et_msg"
+            android:layout_alignLeft="@+id/chat_et_msg"
+            android:layout_alignRight="@+id/chat_et_msg"
+            android:background="@color/chat_purple"/>
     </RelativeLayout>
 
 

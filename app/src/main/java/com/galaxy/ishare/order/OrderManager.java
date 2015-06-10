@@ -1,4 +1,4 @@
-package com.galaxy.ishare.chat;
+package com.galaxy.ishare.order;
 
 import com.galaxy.ishare.model.Order;
 
@@ -15,6 +15,7 @@ public class OrderManager {
 
     private OrderManager() {
         orderList = new ArrayList<>();
+        order = null;
     }
 
     public static OrderManager getInstance() {

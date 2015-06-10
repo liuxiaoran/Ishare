@@ -60,7 +60,10 @@ public class URLConstant {
 
     public static final String BORROW_CARD = SERVER_IP + "/record/Record_C/add";
 
-    public static final String GET_ORDER = SERVER_IP + "/record/Record_C/get";
+    //Order
+    public static final String GET_ORDER_LIST = SERVER_IP + "/record/Record_C/get";
+
+    public static final String GET_ORDER = SERVER_IP + "/record/Record_C/get_by_id";
 
     public static final String ADD_ORDER = SERVER_IP + "/record/Record_C/add";
 
@@ -70,6 +73,7 @@ public class URLConstant {
     // 用户评论相关
     // 得到用户评论
     public static final String GET_CARD_COMMENTS = SERVER_IP + "/user/Comment_C/get";
+    public static final String UPDATE_ORDER_STATE = SERVER_IP + "/record/Record_C/update";
 
 
     // 用户发布请求

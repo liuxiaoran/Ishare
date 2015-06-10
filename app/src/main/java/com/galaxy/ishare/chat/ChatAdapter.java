@@ -2,7 +2,6 @@ package com.galaxy.ishare.chat;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,9 +21,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Zhan on 2015/5/19.
@@ -36,14 +35,14 @@ public class ChatAdapter extends BaseAdapter {
     private List<Chat> chatList;
     private LayoutInflater mInflater;
     private User user;
-    private String fromAvatar;
-    private String toAvatar;
+    private String leftAvatar;
+    private String rightAvatar;
 
-    public ChatAdapter(Context mContext, List<Chat> chatList, String fromAvatar, String toAvatar) {
+    public ChatAdapter(Context mContext, List<Chat> chatList, String leftAvatar, String rightAvatar) {
         this.mContext = mContext;
         this.chatList = chatList;
-        this.fromAvatar = fromAvatar;
-        this.toAvatar = toAvatar;
+        this.leftAvatar = leftAvatar;
+        this.rightAvatar = rightAvatar;
         mInflater = LayoutInflater.from(mContext);
         user = IShareContext.getInstance().getCurrentUser();
     }
@@ -63,50 +62,72 @@ public class ChatAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         Chat msg = chatList.get(position);
-        String avatarUrl = null;
         ViewHolder viewHolder = null;
 
         if (convertView == null)
         {
-            if (!user.getUserId().equals(msg.fromUser))
-            {
-                Log.e(TAG, "chat_msg_right");
-                convertView = mInflater.inflate(R.layout.chat_msg_left, null);
-                avatarUrl = toAvatar;
-            }else{
-                Log.e(TAG, "chat_msg_left");
-                convertView = mInflater.inflate(R.layout.chat_msg_right, null);
-                avatarUrl = fromAvatar;
-            }
-
             viewHolder = new ViewHolder();
-            viewHolder.ivUserHead = (ImageView) convertView.findViewById(R.id.iv_userhead);
+            convertView = mInflater.inflate(R.layout.chat_msg, null);
             viewHolder.tvSendTime = (TextView) convertView.findViewById(R.id.tv_sendtime);
-            viewHolder.tvText = (TextView) convertView.findViewById(R.id.tv_text);
+            viewHolder.leftLayout = convertView.findViewById(R.id.left_layout);
+            viewHolder.ivLeftAvatar = (CircleImageView) convertView.findViewById(R.id.iv_left_avatar);
+            viewHolder.tvLeftText = (TextView) convertView.findViewById(R.id.tv_left_text);
+            viewHolder.rightLayout = convertView.findViewById(R.id.right_layout);
+            viewHolder.ivRightAvatar = (CircleImageView) convertView.findViewById(R.id.iv_right_avatar);
+            viewHolder.tvRightText = (TextView) convertView.findViewById(R.id.tv_right_text);
 
             convertView.setTag(viewHolder);
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(avatarUrl, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
-        ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
-        final ViewHolder finalCardHolder = viewHolder;
-        ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
-                new SimpleImageLoadingListener() {
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        finalCardHolder.ivUserHead.setImageBitmap(loadedImage);
-                    }
-                });
+        if(user.getUserId().equals(msg.fromUser)) {
+            viewHolder.leftLayout.setVisibility(View.GONE);
+            viewHolder.rightLayout.setVisibility(View.VISIBLE);
 
-        if(isShowTime(position)) {
-            viewHolder.tvSendTime.setText(getTime(position));
+            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(rightAvatar, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
+            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
+            final ViewHolder finalCardHolder = viewHolder;
+            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
+                    new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            finalCardHolder.ivRightAvatar.setImageBitmap(loadedImage);
+                        }
+                    });
+
+            if(isShowTime(position)) {
+                viewHolder.tvSendTime.setText(getTime(position));
+            } else {
+                viewHolder.tvSendTime.setVisibility(View.GONE);
+            }
+
+            viewHolder.tvRightText.setText(msg.content + "");
         } else {
-            viewHolder.tvSendTime.setVisibility(View.GONE);
+            viewHolder.leftLayout.setVisibility(View.VISIBLE);
+            viewHolder.rightLayout.setVisibility(View.GONE);
+
+            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(leftAvatar, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
+            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
+            final ViewHolder finalCardHolder = viewHolder;
+            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
+                    new SimpleImageLoadingListener() {
+                        @Override
+                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                            finalCardHolder.ivLeftAvatar.setImageBitmap(loadedImage);
+                        }
+                    });
+
+            if(isShowTime(position)) {
+                viewHolder.tvSendTime.setText(getTime(position));
+            } else {
+                viewHolder.tvSendTime.setVisibility(View.GONE);
+            }
+
+            viewHolder.tvLeftText.setText(msg.content + "");
         }
 
-        viewHolder.tvText.setText(msg.content + "");
+
 
         return convertView;
     }
@@ -149,9 +170,13 @@ public class ChatAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        public ImageView ivUserHead;
         public TextView tvSendTime;
-        public TextView tvText;
+        public View leftLayout;
+        public CircleImageView ivLeftAvatar;
+        public TextView tvLeftText;
+        public View rightLayout;
+        public CircleImageView ivRightAvatar;
+        public TextView tvRightText;
         public ImageView ivPic;
         public ImageView ivSound;
         public TextView tvSoundTime;

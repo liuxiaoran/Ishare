@@ -49,14 +49,14 @@ public class ChatDao {
         return id;
     }
 
-    public List<Chat> query(String fromUser, String toUser, String time, int pageNum) {
+    public List<Chat> query(String fromUser, String toUser, int orderId, String time, int pageNum) {
         List<Chat> chatList = new ArrayList<>();
         try {
             GenericRawResults<String[]> rawResults =
                     chatDao.queryRaw("select fromUser, toUser, time, type, content from chat" +
-                            " where (fromUser = '" + fromUser + "' and toUser = '" + toUser + "')" +
-                            " or (fromUser = '" + toUser + "' and toUser = '" + fromUser + "') " +
-                            " and time < '" + time +
+                            " where ((fromUser = '" + fromUser + "' and toUser = '" + toUser + "')" +
+                            " or (fromUser = '" + toUser + "' and toUser = '" + fromUser + "')) " +
+                            " and orderId = " + orderId + " and time < '" + time +
                             "' limit 0, " + pageNum );
             List<String[]> results = rawResults.getResults();
 
@@ -78,18 +78,19 @@ public class ChatDao {
     }
 
     /**
+     * 查询未读信息
      * @param fromUser
      * @param toUser
      * @return
      */
-    public List<Chat> queryUnRead(String fromUser, String toUser) {
+    public List<Chat> queryUnRead(String fromUser, String toUser, int orderId) {
         List<Chat> chatList = new ArrayList<>();
         try {
             GenericRawResults<String[]> rawResults =
                     chatDao.queryRaw("select id, fromUser, toUser, time, type, content from chat" +
                             " where ((fromUser = '" + fromUser + "' and toUser = '" + toUser + "')" +
                             " or (fromUser = '" + toUser + "' and toUser = '" + fromUser + "'))" +
-                            " and isRead  = 0 ");
+                            " and orderId = " + orderId + "and isRead  = 0 ");
             List<String[]> results = rawResults.getResults();
 
             for(int k = 0; k < results.size(); k++) {
@@ -112,12 +113,34 @@ public class ChatDao {
         return chatList;
     }
 
-    public void updateunRead(List<Chat> chatList) {
+    public void updateUnRead(List<Chat> chatList) {
         try {
             for(Chat chat : chatList) {
                 String sql = "update chat set isRead = 1 where id = " + chat.id;
                 chatDao.queryRaw(sql);
             }
+        } catch (SQLException e) {
+            Log.d(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateUnSend(Chat chat) {
+        try {
+            String sql = "update chat set isSend = 1 where id = " + chat.id;
+            chatDao.queryRaw(sql);
+        } catch (SQLException e) {
+            Log.d(TAG, e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateOrderId(int orderId, String fromUser, String toUser, int cardId) {
+        try {
+            String sql = "update chat set orderId = " + orderId +  " where cardId = " + cardId
+                     + " and ((fromUser = " + fromUser + " and toUser = " + toUser + ") or "
+                     + "(fromUser = " + toUser + " and toUser = " + toUser + "))";
+            chatDao.queryRaw(sql);
         } catch (SQLException e) {
             Log.d(TAG, e.getMessage());
             e.printStackTrace();

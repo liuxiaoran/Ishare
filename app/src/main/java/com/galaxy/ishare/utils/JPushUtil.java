@@ -1,6 +1,7 @@
 package com.galaxy.ishare.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Looper;

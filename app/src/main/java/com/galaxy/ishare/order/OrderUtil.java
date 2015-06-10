@@ -1,5 +1,6 @@
-package com.galaxy.ishare.chat;
+package com.galaxy.ishare.order;
 
+import android.nfc.Tag;
 import android.util.Log;
 
 import com.galaxy.ishare.model.Order;
@@ -19,6 +20,7 @@ public class OrderUtil {
         try {
             if(jsonObject.has("id")) {
                 order.id = jsonObject.getInt("id");
+                Log.d(TAG, order.id + "");
             }
 
             if(jsonObject.has("shop_name")) {
@@ -71,25 +73,23 @@ public class OrderUtil {
             if(jsonObject.has("lend_avatar")) {
                 order.lendAvatar = jsonObject.getString("lend_avatar");
             }
-
             if(jsonObject.has("status")) {
                 order.orderState = jsonObject.getInt("status");
             }
-            if(jsonObject.has("t_apply")) {
-                order.applyTime = jsonObject.getString("t_apply");
+
+            if(jsonObject.has("t_agree")) {
+                order.lendTime = jsonObject.getString("t_agree");
             }
-            if(jsonObject.has("t_get")) {
-                order.applyTime = jsonObject.getString("t_get");
+            if(jsonObject.has("t_return")) {
+                order.returnTime = jsonObject.getString("t_return");
             }
-            if(jsonObject.has("t_use")) {
-                order.applyTime = jsonObject.getString("t_use");
+            if(jsonObject.has("t_pay")) {
+                order.payTime = jsonObject.getString("t_pay");
             }
-            if(jsonObject.has("t_finish")) {
-                order.applyTime = jsonObject.getString("t_finish");
+            if(jsonObject.has("t_ver_pay")) {
+                order.confirmTime = jsonObject.getString("t_ver_pay");
             }
-            if(jsonObject.has("t_cancel")) {
-                order.applyTime = jsonObject.getString("t_cancel");
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

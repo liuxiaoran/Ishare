@@ -71,4 +71,8 @@
     <color name="floating_btn_normal">#e1698c</color>
     <color name="floationg_btn_pressed">#67e1698c</color>
     <color name="floating_btn_ripple">#e1698c</color>
+
+    <color name="chat_purple">#E1698C</color>
+    <color name="chat_gray">#A3A4A5</color>
+    <color name="chat_transparent">#FFFFFFFF</color>
 </resources>

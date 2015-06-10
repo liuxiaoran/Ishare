@@ -12,8 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.galaxy.ishare.IShareApplication;
+import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.Order;
+import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.DateUtil;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
@@ -30,6 +32,7 @@ public class OrderAdapter extends BaseAdapter {
     private List<Order> dataList;
     private LayoutInflater layoutInflater;
     private Context mContext;
+    private User user;
     private String[] cardItems;
     private String[] tradeItems;
     private String[] borrowStateItems;
@@ -45,6 +48,7 @@ public class OrderAdapter extends BaseAdapter {
     public OrderAdapter(Context context, List<Order> dataList) {
         this.mContext = context;
         this.dataList = dataList;
+        user = IShareContext.getInstance().getCurrentUser();
         this.layoutInflater = LayoutInflater.from(context);
         cardItems = mContext.getResources().getStringArray(R.array.card_items);
         tradeItems = mContext.getResources().getStringArray(R.array.trade_items);
@@ -66,7 +70,7 @@ public class OrderAdapter extends BaseAdapter {
         public ImageView shopImage;
         public TextView cardDiscount;
         public TextView cardType;
-        public TextView cardTag;
+//        public TextView cardTag;
         public TextView orderState;
         public ImageView isRead;
         public TextView orderLastState;
@@ -106,7 +110,7 @@ public class OrderAdapter extends BaseAdapter {
             viewHolder.shopImage = (ImageView) convertView.findViewById(R.id.shop_image);
             viewHolder.cardDiscount = (TextView) convertView.findViewById(R.id.card_discount);
             viewHolder.cardType = (TextView) convertView.findViewById(R.id.card_type);
-            viewHolder.cardTag = (TextView) convertView.findViewById(R.id.card_tag);
+//            viewHolder.cardTag = (TextView) convertView.findViewById(R.id.card_tag);
             viewHolder.orderState = (TextView) convertView.findViewById(R.id.order_state);
             viewHolder.isRead = (ImageView) convertView.findViewById(R.id.is_read);
             viewHolder.orderLastState = (TextView) convertView.findViewById(R.id.order_last_state);
@@ -119,7 +123,6 @@ public class OrderAdapter extends BaseAdapter {
         viewHolder.shopName.setText(order.shopName + "");
 
         if (order.shopImage != null && order.shopImage.length > 0) {
-            Log.d(TAG, order.shopImage[0] + "****");
             String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(order.shopImage[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 100));
             ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 100), DisplayUtil.dip2px(mContext, 80));
             final ViewHolder finalHolder = viewHolder;
@@ -131,13 +134,13 @@ public class OrderAdapter extends BaseAdapter {
             });
         }
 
-        viewHolder.cardDiscount.setText(order.cardDiscount + "折");
+        viewHolder.cardDiscount.setText(getStringDiscount(order.cardDiscount) + "折");
         viewHolder.cardType.setText(cardItems[order.cardType]);
-        viewHolder.cardTag.setText(tradeItems[order.tradeType]);
-        viewHolder.cardTag.setTextColor(mContext.getResources().getColor(colors[order.tradeType]));
-        viewHolder.cardTag.setBackgroundResource(backgroundRes[order.tradeType]);
+//        viewHolder.cardTag.setText(tradeItems[order.tradeType]);
+//        viewHolder.cardTag.setTextColor(mContext.getResources().getColor(colors[order.tradeType]));
+//        viewHolder.cardTag.setBackgroundResource(backgroundRes[order.tradeType]);
 
-        if(OrderFragment.orderType == OrderFragment.BORROW_ORDER) {
+        if(order.borrowId.equals(user.getUserId())) {
             viewHolder.orderState.setText(borrowStateItems[order.orderState]);
             viewHolder.orderLastState.setText(borrowLastStateBegin[order.orderState] + order.lendName + borrowLastStateEnd[order.orderState]);
         } else {
@@ -149,20 +152,30 @@ public class OrderAdapter extends BaseAdapter {
         return convertView;
     }
 
+    // 得到折扣的字符串标示，整数值不显示小数
+    public String getStringDiscount(double discount) {
+        double d = discount * 10;
+        if (d % 10 == 0.0) {
+            int ret = (int) discount;
+            return Integer.toString(ret);
+        }
+        return Double.toString(discount);
+    }
+
     public String getShowTime(Order order) {
         String result = null;
         switch(order.orderState) {
-            case 0: result = order.cancelTime; break;
-            case 1: result = order.applyTime; break;
-            case 2: result = order.getTime; break;
-            case 3: result = order.useTime; break;
-            case 4: result = order.finishTime; break;
+            case 2: result = order.lendTime; break;
+            case 3: result = order.returnTime; break;
+            case 4: result = order.payTime; break;
+            case 5: result = order.confirmTime; break;
             default: result = "服务器数据错误"; break;
         }
         return result;
     }
 
     public String getShowTimeFormat(String time) {
+        Log.d(TAG, "time : " + time);
         String result = null;
         if(time != null && !"null".equals(time)) {
             Long curTime = DateUtil.getTimeStamp() / 1000;

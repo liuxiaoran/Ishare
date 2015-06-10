@@ -66,24 +66,24 @@ public class ChatManager {
         }
     }
 
-    public void startActivityFromActivity(int orderId, String borrowId, String borrowName, String borrowGender, String borrowAvatar,
+    public void startActivityFromActivity(int cardId, String borrowId, String borrowName, String borrowGender, String borrowAvatar,
                                           String lendId, String lendName, String lendGender, String lendAvatar, CardItem cardItem) {
-        Order order = getOrder(orderId, borrowId, lendId);
+        Order order = getOrder(cardId, borrowId, lendId);
         if(order != null) {
             Message msg = handler.obtainMessage();
             msg.what = 0;
             msg.obj = order;
             handler.sendMessage(msg);
         } else {
-            transform2Order(orderId, borrowId, borrowName, borrowGender, borrowAvatar, lendId, lendGender, lendAvatar, lendName, cardItem);
-            getOrder2Activity(orderId, order);
+            order = transform2Order(cardId, borrowId, borrowName, borrowGender, borrowAvatar, lendId, lendGender, lendAvatar, lendName, cardItem);
+            getOrder2Activity(order.id, order);
         }
     }
 
     public Order transform2Order(int orderId, String borrowId, String borrowName, String borrowGender, String borrowAvatar,
                                  String lendId, String lendName, String lendGender, String lendAvatar, CardItem cardItem) {
         Order order = new Order();
-        order.id = orderId;
+        order.id = 0;
         order.cardId = cardItem.id;
         order.shopName = cardItem.shopName;
         order.shopImage = cardItem.cardImgs;
@@ -120,7 +120,7 @@ public class ChatManager {
 
     public Order getOrder(Chat chat) {
         for(Order order : orderList) {
-            if(order.id == chat.orderId && ((order.borrowId == chat.fromUser && order.lendId == chat.toUser)
+            if(order.cardId == chat.cardId && ((order.borrowId == chat.fromUser && order.lendId == chat.toUser)
                     || (order.borrowId == chat.toUser && order.lendId == chat.fromUser))) {
                 return order;
             }
@@ -128,9 +128,9 @@ public class ChatManager {
         return null;
     }
 
-    public Order getOrder(int orderId, String borrowId, String lendId) {
+    public Order getOrder(int cardId, String borrowId, String lendId) {
         for(Order order : orderList) {
-            if(order.id == orderId && order.borrowId == borrowId && order.lendId == lendId) {
+            if(order.cardId == cardId && order.borrowId == borrowId && order.lendId == lendId) {
                 return order;
             }
         }

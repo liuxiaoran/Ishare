@@ -93,6 +93,9 @@ public class MyReceiver extends BroadcastReceiver {
 					if(jsonObject.has("from_user")) {
 						chatMsg.fromUser = jsonObject.getString("from_user");
 					}
+					if(jsonObject.has("from_gender")) {
+						chatMsg.fromUser = jsonObject.getString("from_gender");
+					}
 					if(jsonObject.has("from_avatar")) {
 						chatMsg.fromAvatar = jsonObject.getString("from_avatar");
 					}
@@ -116,6 +119,7 @@ public class MyReceiver extends BroadcastReceiver {
 		if(chatMsg.content != null) {
 			chatMsg.toUser = IShareContext.getInstance().getCurrentUser().getUserId();
 			chatMsg.toName = IShareContext.getInstance().getCurrentUser().getUserName();
+			chatMsg.toGender = IShareContext.getInstance().getCurrentUser().getGender();
 			chatMsg.isRead = 0;
 			chatDao.add(chatMsg);
 		}

@@ -21,6 +21,9 @@ public class Chat {
     @DatabaseField(columnName = "fromName")
     public String fromName;
 
+    @DatabaseField(columnName = "fromName")
+    public String fromGender;
+
     @DatabaseField(columnName = "fromAvatar")
     public String fromAvatar;
 
@@ -29,6 +32,9 @@ public class Chat {
 
     @DatabaseField(columnName = "toName")
     public String toName;
+
+    @DatabaseField(columnName = "toGender")
+    public String toGender;
 
     @DatabaseField(columnName = "time")
     public String time;

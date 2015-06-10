@@ -140,6 +140,9 @@ public class OrderAdapter extends BaseAdapter {
 //        viewHolder.cardTag.setTextColor(mContext.getResources().getColor(colors[order.tradeType]));
 //        viewHolder.cardTag.setBackgroundResource(backgroundRes[order.tradeType]);
 
+        Log.d(TAG, (order == null) + "");
+        Log.d(TAG, (order.borrowId == null) + "");
+        Log.d(TAG, (user == null) + "");
         if(order.borrowId.equals(user.getUserId())) {
             viewHolder.orderState.setText(borrowStateItems[order.orderState]);
             viewHolder.orderLastState.setText(borrowLastStateBegin[order.orderState] + order.lendName + borrowLastStateEnd[order.orderState]);

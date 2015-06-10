@@ -47,6 +47,9 @@ public class OrderUtil {
             if(jsonObject.has("borrow_name")) {
                 order.borrowName = jsonObject.getString("borrow_name");
             }
+            if(jsonObject.has("borrow_gender")) {
+                order.borrowGender = jsonObject.getString("borrow_gender");
+            }
             if (jsonObject.has("borrow_avatar")) {
                 order.borrowAvatar = jsonObject.getString("borrow_avatar");
             }
@@ -69,6 +72,9 @@ public class OrderUtil {
             }
             if(jsonObject.has("lend_name")) {
                 order.lendName = jsonObject.getString("lend_name");
+            }
+            if(jsonObject.has("lend_gender")) {
+                order.lendGender = jsonObject.getString("lend_gender");
             }
             if(jsonObject.has("lend_avatar")) {
                 order.lendAvatar = jsonObject.getString("lend_avatar");

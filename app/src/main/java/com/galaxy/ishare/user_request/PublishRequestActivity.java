@@ -242,7 +242,7 @@ public class PublishRequestActivity extends ActionBarActivity {
             params.add(new BasicNameValuePair("user_location", IShareContext.getInstance().getUserLocation().getLocationStr()));
             params.add(new BasicNameValuePair("user_longitude", IShareContext.getInstance().getUserLocation().getLongitude() + ""));
             params.add(new BasicNameValuePair("user_latitude", IShareContext.getInstance().getUserLocation().getLatitude() + ""));
-            params.add(new BasicNameValuePair("ware_type", cardType + ""));
+            params.add(new BasicNameValuePair("trade_type", cardType + ""));
             params.add(new BasicNameValuePair("description", descriptionEt.getText().toString()));
 
             HttpTask.startAsyncDataPostRequest(URLConstant.PUBLISH_CARD_REQUEST, params, new HttpDataResponse() {
@@ -252,7 +252,7 @@ public class PublishRequestActivity extends ActionBarActivity {
                         Log.v(TAG, "result:  " + result);
                         JSONObject jsonObject = new JSONObject(result);
                         if (jsonObject.getInt("status") == 0) {
-                            Toast.makeText(PublishRequestActivity.this, "发表请求成功", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PublishRequestActivity.this, "发布请求成功", Toast.LENGTH_SHORT).show();
                             PublishRequestActivity.this.finish();
                         } else {
                             Toast.makeText(PublishRequestActivity.this, "失败请重发", Toast.LENGTH_SHORT).show();

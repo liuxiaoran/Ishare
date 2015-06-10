@@ -169,17 +169,17 @@ public class MainActivity extends ActionBarActivity {
                         startActivity(intent);
 
                     } else if (v.getId() == R.id.main_publish_tv) {
-//                        if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
-//
-//                            Intent intent = new Intent(MainActivity.this, BindPhoneActivity.class);
-//                            intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
-//                            startActivity(intent);
-//
-//                        } else {
-//                            Intent intent = new Intent(MainActivity.this, PublishItemActivity.class);
-//                            startActivity(intent);
-//                        }
-                        Toast.makeText(MainActivity.this, "待修改", Toast.LENGTH_LONG).show();
+                        if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
+
+                            Intent intent = new Intent(MainActivity.this, BindPhoneActivity.class);
+                            intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
+                            startActivity(intent);
+
+                        } else {
+                            Intent intent = new Intent(MainActivity.this, PublishItemActivity.class);
+                            startActivity(intent);
+                        }
+
                     }
                 }
             };
@@ -327,6 +327,7 @@ public class MainActivity extends ActionBarActivity {
                     transaction.show(mShareItemFragment);
 
                 } else if (checkedId == orderButton.getId()) {
+                    recoverActionBar("订单");
                     if (orderFragment == null) {
                         orderFragment = new OrderFragment();
                         transaction.add(R.id.fragment_container, orderFragment);
@@ -340,53 +341,9 @@ public class MainActivity extends ActionBarActivity {
                     if (requestFragment != null) {
                         transaction.hide(requestFragment);
                     }
-                    actionBar = IShareContext.getInstance().createCustomActionBar(MainActivity.this, R.layout.main_order_action_bar, false);
-                    final TextView borrowTv = (TextView) actionBar.getCustomView().findViewById(R.id.order_actionbar_borrow_tv);
-                    final TextView lendTv = (TextView) actionBar.getCustomView().findViewById(R.id.order_actionbar_lend_tv);
 
 
-                    View.OnClickListener textViewListener = new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-//                            if (v.getId() == R.id.order_actionbar_borrow_tv) {
-//                                borrowTv.setTextColor(getResources().getColor(R.color.huise));
-//                                borrowTv.setBackgroundResource(R.drawable.order_actionbar_white_tv);
-//
-//                                lendTv.setTextColor(getResources().getColor(R.color.white));
-//                                lendTv.setBackgroundResource(R.drawable.order_actionbar_gray_tv);
 
-                                FragmentTransaction borrowTransaction = getFragmentManager().beginTransaction();
-//                                  Bundle borrowBundle  = new Bundle();
-//                                  borrowBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
-//                                  orderFragment.setArguments(borrowBundle);
-//                                OrderFragment.orderType = OrderFragment.BORROW_ORDER;
-                                borrowTransaction.show(orderFragment);
-                                borrowTransaction.commit();
-
-//                            } else if (v.getId() == R.id.order_actionbar_lend_tv) {
-//                                borrowTv.setTextColor(getResources().getColor(R.color.white));
-//                                borrowTv.setBackgroundResource(R.drawable.order_actionbar_gray_tv);
-//
-//                                lendTv.setTextColor(getResources().getColor(R.color.huise));
-//                                lendTv.setBackgroundResource(R.drawable.order_actionbar_white_tv);
-//
-//                                FragmentTransaction lendTransaction = getFragmentManager().beginTransaction();
-////                                  Bundle lendBundle  = new Bundle();
-////                                  lendBundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.LEND_ORDER);
-////                                  orderFragment.setArguments(lendBundle);
-//                                OrderFragment.orderType = OrderFragment.LEND_ORDER;
-//
-//                                lendTransaction.show(orderFragment);
-//                                lendTransaction.commit();
-//                            }
-//                            OrderFragment.instance.setListView();
-                        }
-                    };
-//                    borrowTv.setOnClickListener(textViewListener);
-//                    lendTv.setOnClickListener(textViewListener);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putInt(OrderFragment.PARAMETER_ODER_TYPE, OrderFragment.BORROW_ORDER);
-//                    orderFragment.setArguments(bundle);
                     transaction.show(orderFragment);
 
                 } else if (checkedId == requestBtn.getId()) {

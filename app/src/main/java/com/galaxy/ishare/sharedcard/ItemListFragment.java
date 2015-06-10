@@ -309,10 +309,10 @@ public class ItemListFragment extends Fragment {
                                 pageNumber = 1;
                                 dataList.clear();
 
-//                            setTabsUnPressed();
 
-                                httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
-                                        IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
+                                pullToRefreshListView.doPullRefreshing(true, 500);
+//                                httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
+//                                        IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                             }
 
                         }
@@ -332,9 +332,9 @@ public class ItemListFragment extends Fragment {
                     dataList.clear();
 
 //                    setTabsUnPressed();
-
-                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
-                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
+                    pullToRefreshListView.doPullRefreshing(true, 500);
+//                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
+//                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
                 categoryTv.setTextColor(getResources().getColor(R.color.huise));
                 distanceTv.setTextColor(getResources().getColor(R.color.huise));
@@ -348,9 +348,9 @@ public class ItemListFragment extends Fragment {
                     dataList.clear();
 
 //                    setTabsUnPressed();
-
-                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
-                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
+                    pullToRefreshListView.doPullRefreshing(true, 500);
+//                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
+//                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
 
                 categoryTv.setTextColor(getResources().getColor(R.color.huise));
@@ -381,8 +381,9 @@ public class ItemListFragment extends Fragment {
 
         public void loadData(int loadType, int tradeType, double longitude, double latitude, final int pageNumber, int pageSize) {
 
-            if (pageNumber == 1)
-                loadingLayout.setVisibility(View.VISIBLE);
+//           之前是如果是显示第一页，显示加载layout，现在只是显示下拉刷新，不显示加载layout
+//            if (pageNumber == 1)
+//                loadingLayout.setVisibility(View.VISIBLE);
 
             for (int i = 0; i < httpGetExts.size(); i++) {
                 HttpGetExt httpGetExt = httpGetExts.get(i);
@@ -447,7 +448,6 @@ public class ItemListFragment extends Fragment {
                             pullToRefreshListView.setHasMoreData(hasMoreData);
 
 
-//                            recoveryAllClickable();
 
 
                         } else {

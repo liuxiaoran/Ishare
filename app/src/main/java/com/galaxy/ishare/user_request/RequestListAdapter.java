@@ -2,6 +2,7 @@ package com.galaxy.ishare.user_request;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by liuxiaoran on 15/6/3.
  */
 public class RequestListAdapter extends BaseAdapter {
+
+    public static final String TAG = "requestListAdapter";
 
     private Context mContext;
     private ArrayList<CardItem> dataList;
@@ -91,7 +94,7 @@ public class RequestListAdapter extends BaseAdapter {
         });
         CardItem cardItem = dataList.get(position);
         holder.requesterNameTv.setText(cardItem.ownerName);
-        if (cardItem.ownerGender.equals("男")) {
+        if ("男".equals(cardItem.ownerGender)) {
             holder.genderIv.setImageResource(R.drawable.icon_male);
         } else {
             holder.genderIv.setImageResource(R.drawable.icon_female);
@@ -101,6 +104,8 @@ public class RequestListAdapter extends BaseAdapter {
 
         setCurrentTime();
         // 显示过去了多长时间
+        Log.v(TAG, cardItem.getShopName() + "   " + cardItem.getPublishTime());
+
         holder.timeTv.setText(getPresentPassTime(cardItem.getPublishTime()));
 
         holder.shopNameTv.setText(cardItem.getShopName());

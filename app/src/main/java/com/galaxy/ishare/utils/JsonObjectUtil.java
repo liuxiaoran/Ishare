@@ -94,45 +94,45 @@ public class JsonObjectUtil {
 
         CardItem cardItem = new CardItem();
         try {
-            if (jsonObject.has("card_id")) {
+            if (jsonObject.has("card_id") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setId(jsonObject.getInt("card_id"));
             }
-            if (jsonObject.has("owner_name")) {
+            if (jsonObject.has("owner_name") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setOwnerName(jsonObject.getString("owner_name"));
             }
-            if (jsonObject.has("owner_avatar")) {
+            if (jsonObject.has("owner_avatar") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setOwnerAvatar(jsonObject.getString("owner_avatar"));
             }
-            if (jsonObject.has("owner_id")) {
+            if (jsonObject.has("owner_id") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setOwnerId(jsonObject.getString("owner_id"));
             }
-            if (jsonObject.has("card_status")) {
+            if (jsonObject.has("card_status") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setCardStatus(jsonObject.getString("card_status"));
             }
-            if (jsonObject.has("shop_name")) {
+            if (jsonObject.has("shop_name") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setShopName(jsonObject.getString("shop_name"));
             }
-            if (jsonObject.has("ware_type")) {
+            if (jsonObject.has("ware_type") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setWareType(jsonObject.getInt("ware_type"));
             }
-            if (jsonObject.has("discount")) {
+            if (jsonObject.has("discount") && jsonObject.get("ware_type") != JSONObject.NULL) {
 
                 cardItem.setDiscount(jsonObject.getDouble("discount"));
 
             }
-            if (jsonObject.has("trade_type")) {
+            if (jsonObject.has("trade_type") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setTradeType(jsonObject.getInt("trade_type"));
             }
-            if (jsonObject.has("shop_location")) {
+            if (jsonObject.has("shop_location") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setShopLocation(jsonObject.getString("shop_location"));
             }
-            if (jsonObject.has("shop_longitude")) {
+            if (jsonObject.has("shop_longitude") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setShopLongitude(jsonObject.getDouble("shop_longitude"));
             }
-            if (jsonObject.has("shop_latitude")) {
+            if (jsonObject.has("shop_latitude") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setShopLatitude(jsonObject.getDouble("shop_latitude"));
             }
-            if (jsonObject.has("shop_distance")) {
+            if (jsonObject.has("shop_distance") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 cardItem.setShopDistance(jsonObject.getDouble("shop_distance"));
             }
             if (jsonObject.has("description")) {
@@ -143,7 +143,7 @@ public class JsonObjectUtil {
                 cardItem.setDescription(description);
             }
 
-            if (jsonObject.has("img")) {
+            if (jsonObject.has("img") && jsonObject.get("ware_type") != JSONObject.NULL) {
                 if (jsonObject.get("img") != JSONObject.NULL) {
                     JSONArray imgArray = jsonObject.getJSONArray("img");
                     String[] imgs = new String[imgArray.length()];
@@ -160,61 +160,61 @@ public class JsonObjectUtil {
                     }
                 }
             }
-            if (jsonObject.has("publish_time")) {
+            if (jsonObject.has("publish_time") && jsonObject.get("publish_time") != JSONObject.NULL) {
                 cardItem.setPublishTime(jsonObject.getString("publish_time"));
             }
-            if (jsonObject.has("owner_longitude")) {
+            if (jsonObject.has("owner_longitude") && jsonObject.get("owner_longitude") != JSONObject.NULL) {
                 cardItem.setOwnerLongitude(jsonObject.getDouble("owner_longitude"));
             }
-            if (jsonObject.has("owner_latitude")) {
+            if (jsonObject.has("owner_latitude") && jsonObject.get("owner_latitude") != JSONObject.NULL) {
                 cardItem.setOwnerLatitude(jsonObject.getDouble("owner_latitude"));
             }
-            if (jsonObject.has("available_addr")) {
+            if (jsonObject.has("available_addr") && jsonObject.get("available_addr") != JSONObject.NULL) {
                 cardItem.setOwnerLocation(jsonObject.getString("available_addr"));
             }
-            if (jsonObject.has("available_time")) {
+            if (jsonObject.has("available_time") && jsonObject.get("available_time") != JSONObject.NULL) {
                 cardItem.setAvailableTime(jsonObject.getString("available_time"));
             }
-            if (jsonObject.has("owner_distance")) {
+            if (jsonObject.has("owner_distance") && jsonObject.get("owner_distance") != JSONObject.NULL) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
             }
-            if (jsonObject.has("rating_average")) {
+            if (jsonObject.has("rating_average") && jsonObject.get("rating_average") != JSONObject.NULL) {
                 cardItem.setRatingCount(jsonObject.getDouble("rating_average"));
             }
-            if (jsonObject.has("lend_count")) {
+            if (jsonObject.has("lend_count") && jsonObject.get("lend_count") != JSONObject.NULL) {
                 cardItem.setRentCount(jsonObject.getInt("lend_count"));
             }
-            if (jsonObject.has("rating_num")) {
+            if (jsonObject.has("rating_num") && jsonObject.get("rating_num") != JSONObject.NULL) {
                 cardItem.setCommentCount(jsonObject.getInt("rating_num"));
             }
-            if (jsonObject.has("requester_gender")) {
+            if (jsonObject.has("requester_gender") && jsonObject.get("requester_gender") != JSONObject.NULL) {
                 cardItem.setOwnerGender(jsonObject.getString("requester_gender"));
 
             }
-            if (jsonObject.has("gender")) {
+            if (jsonObject.has("gender") && jsonObject.get("gender") != JSONObject.NULL) {
                 cardItem.setOwnerGender(jsonObject.getString("gender"));
             }
-            if (jsonObject.has("avatar")) {
+            if (jsonObject.has("avatar") && jsonObject.get("avatar") != JSONObject.NULL) {
                 cardItem.setOwnerGender(jsonObject.getString("avatar"));
             }
-            if (jsonObject.has("user_location")) {
+            if (jsonObject.has("user_location") && jsonObject.get("user_location") != JSONObject.NULL) {
                 cardItem.setRequesterLocation(jsonObject.getString("user_location"));
             }
-            if (jsonObject.has("avatar")) {
+            if (jsonObject.has("avatar") && jsonObject.get("avatar") != JSONObject.NULL) {
                 cardItem.setOwnerAvatar(jsonObject.getString("avatar"));
             }
-            if (jsonObject.has("gender")) {
+            if (jsonObject.has("gender") && jsonObject.get("gender") != JSONObject.NULL) {
                 cardItem.setOwnerGender(jsonObject.getString("gender"));
                 Log.v("RequestFragment", jsonObject.getString("gender"));
             }
-            if (jsonObject.has("distance")) {
+            if (jsonObject.has("distance") && jsonObject.get("distance") != JSONObject.NULL) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("distance"));
             }
-            if (jsonObject.has("owner_distance")) {
+            if (jsonObject.has("owner_distance") && jsonObject.get("owner_distance") != JSONObject.NULL) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
             }
 
-            if (jsonObject.has("nickname")) {
+            if (jsonObject.has("nickname") && jsonObject.get("nickname") != JSONObject.NULL) {
                 cardItem.setOwnerName(jsonObject.getString("nickname"));
             }
         } catch (Exception e) {

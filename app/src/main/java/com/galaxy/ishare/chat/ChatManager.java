@@ -66,6 +66,18 @@ public class ChatManager {
         }
     }
 
+    /**
+     * @param cardId
+     * @param borrowId     userId
+     * @param borrowName
+     * @param borrowGender
+     * @param borrowAvatar
+     * @param lendId       ownerId
+     * @param lendName
+     * @param lendGender
+     * @param lendAvatar
+     * @param cardItem
+     */
     public void startActivityFromActivity(int cardId, String borrowId, String borrowName, String borrowGender, String borrowAvatar,
                                           String lendId, String lendName, String lendGender, String lendAvatar, CardItem cardItem) {
         Order order = getOrder(cardId, borrowId, lendId);

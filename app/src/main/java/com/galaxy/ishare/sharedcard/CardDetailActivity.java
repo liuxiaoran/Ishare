@@ -20,12 +20,14 @@ import android.widget.Toast;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.chat.ChatManager;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
@@ -151,6 +153,11 @@ public class CardDetailActivity extends ActionBarActivity {
         contactBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // 跳到聊天
+                User currentUser = IShareContext.getInstance().getCurrentUser();
+                ChatManager.getInstance().startActivityFromActivity(cardItem.getId(), currentUser.getUserId(), currentUser.getUserName(),
+                        currentUser.getGender(), currentUser.getAvatar(), cardItem.ownerId, cardItem.ownerName, cardItem.ownerGender,
+                        cardItem.ownerAvatar, cardItem);
 
             }
         });

@@ -169,16 +169,16 @@ public class MainActivity extends ActionBarActivity {
                         startActivity(intent);
 
                     } else if (v.getId() == R.id.main_publish_tv) {
-                        if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
-
-                            Intent intent = new Intent(MainActivity.this, BindPhoneActivity.class);
-                            intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
-                            startActivity(intent);
-
-                        } else {
-                            Intent intent = new Intent(MainActivity.this, PublishItemActivity.class);
-                            startActivity(intent);
-                        }
+//                        if (IShareContext.getInstance().getCurrentUser().getUserPhone() == null) {
+//
+//                            Intent intent = new Intent(MainActivity.this, BindPhoneActivity.class);
+//                            intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, PUBLISH_TO_BING_PHONE);
+//                            startActivity(intent);
+//
+//                        } else {
+//                            Intent intent = new Intent(MainActivity.this, PublishItemActivity.class);
+//                            startActivity(intent);
+//                        }
 
                     }
                 }

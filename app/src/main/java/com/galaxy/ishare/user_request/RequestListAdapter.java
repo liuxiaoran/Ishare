@@ -150,11 +150,11 @@ public class RequestListAdapter extends BaseAdapter {
             e.printStackTrace();
         }
 
-        int publishMonth = publishDate.getMonth();
-        int publishDay = publishDate.getDay();
+        int publishMonth = publishDate.getMonth() + 1;
+        int publishDay = publishDate.getDate();
         int publishHour = publishDate.getHours();
         int publishMinute = publishDate.getMinutes();
-
+        Log.v(TAG, "publishMonth: " + publishMonth + "  publishDay:  " + publishDay + "  publishHour: " + publishHour + "  publishMinute:  " + publishMinute);
         if (publishMonth < currentMonth) {
             ret = (currentMonth - publishMonth) + "月前";
         } else if (publishMonth == currentMonth) {

@@ -185,10 +185,12 @@ public class ItemListFragment extends Fragment {
         cardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), CardDetailActivity.class);
-                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
-                intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, INTENT_ITEM_TO_DETAIL);
-                startActivity(intent);
+                if (position < dataList.size()) {  // 防止点footer
+                    Intent intent = new Intent(getActivity(), CardDetailActivity.class);
+                    intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
+                    intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, INTENT_ITEM_TO_DETAIL);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -240,21 +242,6 @@ public class ItemListFragment extends Fragment {
     }
 
 
-//    public void setTabsUnPressed() {
-//        View views[] = {categoryLayout, distanceLayout, distanceLayout, defaultLayout};
-//        for (int i = 0; i < views.length; i++) {
-//            WidgetController.getInstance().setViewUnPressed(views[i]);
-//        }
-//    }
-
-//    public void recoveryAllClickable() {
-//        View views[] = {categoryLayout, distanceLayout, distanceLayout, defaultLayout};
-//        for (int i = 0; i < views.length; i++) {
-//
-//            WidgetController.getInstance().setViewClickable(views[i]);
-//
-//        }
-//    }
 
     class MyClickListener implements View.OnClickListener {
 
@@ -331,7 +318,6 @@ public class ItemListFragment extends Fragment {
                     pageNumber = 1;
                     dataList.clear();
 
-//                    setTabsUnPressed();
                     pullToRefreshListView.doPullRefreshing(true, 500);
 //                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
 //                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);

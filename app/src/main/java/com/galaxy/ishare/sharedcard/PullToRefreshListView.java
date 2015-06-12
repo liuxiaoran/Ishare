@@ -138,7 +138,8 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
             // 设置Footer
             if (null == mLoadMoreFooterLayout) {
                 mLoadMoreFooterLayout = new FooterLoadingLayout(getContext());
-                mListView.addFooterView(mLoadMoreFooterLayout, null, false);
+//                mListView.addFooterView(mLoadMoreFooterLayout, null, false);
+                mListView.addFooterView(mLoadMoreFooterLayout);   // 上一句是原来的，下一句是我改的，因为http://stackoverflow.com/questions/6950069/indexoutofboundsexception-with-listview
             }
 
             mLoadMoreFooterLayout.show(true);

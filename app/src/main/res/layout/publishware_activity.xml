@@ -12,6 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/white"
             android:orientation="vertical"
             android:padding="@dimen/default_layout_padding">
 
@@ -29,13 +30,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="店名" />
+                    android:text="店名"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="@dimen/primary_text" />
 
                 <AutoCompleteTextView
                     android:id="@+id/publish_shop_name_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/selector_layout_background" />
+                    android:background="@null" />
 
             </LinearLayout>
 
@@ -43,27 +46,27 @@
                 style="@style/horizontal_divider"
                 android:layout_marginTop="5dp" />
 
+
             <RelativeLayout
                 android:id="@+id/publish_ware_location_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_layout_marginTop"
-
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/default_layout_marginTop">
 
                 <TextView
-                    android:id="@+id/publish_ware_location_tv"
+                    android:id="@+id/publish_ware_shop_location_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="店址" />
+                    android:text="店址"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="@dimen/primary_text" />
 
 
                 <ImageView
                     android:id="@+id/publish_shop_location_iv"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-
                     android:layout_alignParentRight="true"
                     android:src="@drawable/icon_aim" />
 
@@ -73,8 +76,8 @@
                     android:id="@+id/publish_shop_location_et"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/publish_ware_location_tv"
-                    android:layout_toRightOf="@id/publish_ware_location_tv"
+                    android:layout_alignBaseline="@id/publish_ware_shop_location_tv"
+                    android:layout_toRightOf="@id/publish_ware_shop_location_tv"
                     android:background="@null"
                     android:gravity="center" />
             </RelativeLayout>
@@ -83,22 +86,64 @@
                 style="@style/horizontal_divider"
                 android:layout_marginTop="2dp" />
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_layout_marginTop">
+
+                <TextView
+                    android:id="@+id/publish_discount_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="折扣"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="@dimen/primary_text" />
+
+
+                <ImageView
+                    android:id="@+id/publish_discount_arrow_iv"
+                    android:layout_width="25dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/right_arrow" />
+
+                <TextView
+                    android:id="@+id/publish_ware_discount_tv"
+                    style="@style/secondary_textview"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/publish_discount_arrow_iv" />
+
+
+            </RelativeLayout>
+
+
+            <View
+                style="@style/horizontal_divider"
+                android:layout_marginTop="2dp" />
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_layout_marginTop">
 
                 <TextView
                     android:id="@+id/publish_card_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="类型" />
+                    android:text="类型"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="@dimen/primary_text" />
 
                 <RadioGroup
                     android:id="@+id/publish_card_type_radio_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/publish_card_tv"
                     android:orientation="horizontal">
 
@@ -106,7 +151,7 @@
                         android:id="@+id/publish_type_charge_rb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/card_type_unselect_btn"
+                        android:background="@color/card_type_radio_btn_selector"
                         android:button="@null"
                         android:padding="5dp"
                         android:text="充值卡"
@@ -116,7 +161,8 @@
                         android:id="@+id/publish_type_member_rb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/card_type_unselect_btn"
+                        android:layout_marginLeft="5dp"
+                        android:background="@color/card_type_radio_btn_selector"
                         android:button="@null"
                         android:padding="5dp"
                         android:text="会员卡"
@@ -132,204 +178,155 @@
                 android:id="@+id/publish_trade_radio_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-
-                android:layout_toRightOf="@id/publish_card_tv">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/publish_meirong_rb"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/card_type_unselect_btn"
-                            android:button="@null"
-                            android:padding="5dp"
-                            android:text="美容"
-                            android:textColor="@color/dark_secondary_text" />
-
-                        <RadioButton
-                            android:id="@+id/publish_meifa_rb"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/card_type_unselect_btn"
-                            android:button="@null"
-                            android:padding="5dp"
-                            android:text="美发"
-                            android:textColor="@color/dark_secondary_text" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-
-            </RadioGroup>
-
-
-        </LinearLayout>
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_layout_marginTop"
-            android:background="@drawable/selector_layout_background"
-            android:padding="5dp">
-
-            <TextView
-                android:id="@+id/publish_discount_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="折扣" />
-
-            <EditText
-                android:id="@+id/publish_discount_et"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/publish_discount_tv"
-                android:gravity="center"
-                android:textSize="@dimen/caption_text_size" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@id/publish_discount_et"
-                android:text="折" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/publish_industry_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_layout_marginTop"
-            android:background="@drawable/selector_layout_background"
-            android:clickable="true"
-            android:padding="5dp">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:text="行业" />
-
-
-            <ImageView
-                android:id="@+id/publish_right_arrow"
-                android:layout_width="25dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/right_arrow" />
-
-            <TextView
-                android:id="@+id/publish_industry_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/publish_right_arrow" />
-
-        </RelativeLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_layout_marginTop"
-            android:background="@drawable/selector_layout_background"
-            android:padding="5dp">
-
-            <com.rengwuxian.materialedittext.MaterialEditText
-                android:id="@+id/publish_card_description_et"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="卡描述"
-                android:inputType="textMultiLine"
-                android:textSize="@dimen/caption_text_size"
-                app:met_floatingLabel="highlight"
-                app:met_floatingLabelText="卡描述"
-                app:met_floatingLabelTextSize="@dimen/caption_text_size"
-                app:met_maxCharacters="60" />
-
-        </LinearLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/publish_ware_sharetype_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/default_layout_marginTop"
-            android:background="@drawable/selector_layout_background"
-            android:clickable="true"
-            android:padding="5dp">
-
-            <TextView
-                android:id="@+id/publish_ware_sharetype_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="可见人群" />
-
-            <RadioGroup
-                android:id="@+id/publish_visibility_group"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/publish_ware_sharetype_tv"
+                android:layout_marginLeft="45dp"
+                android:layout_marginTop="@dimen/default_layout_marginTop"
+                android:layout_toRightOf="@id/publish_card_tv"
                 android:orientation="horizontal">
 
 
                 <RadioButton
-                    android:id="@+id/publish_ware_friend_rb"
+                    android:id="@+id/publish_meirong_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-
-                    android:checked="true"
-                    android:text="好友" />
-
-                <RadioButton
-                    android:id="@+id/publish_ware_indirect_friend_rb"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/publish_ware_friend_rb"
-                    android:layout_toRightOf="@id/publish_ware_friend_rb"
-                    android:checked="false"
-                    android:text="好友的好友" />
+                    android:background="@color/card_type_radio_btn_selector"
+                    android:button="@null"
+                    android:padding="5dp"
+                    android:text="美容"
+                    android:textColor="@color/dark_secondary_text" />
 
                 <RadioButton
-                    android:id="@+id/publish_ware_all_rb"
+                    android:id="@+id/publish_meifa_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/publish_ware_friend_rb"
-                    android:layout_toRightOf="@id/publish_ware_indirect_friend_rb"
-                    android:checked="false"
-                    android:text="所有人" />
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/card_type_radio_btn_selector"
+                    android:button="@null"
+                    android:padding="5dp"
+                    android:text="美发"
+                    android:textColor="@color/dark_secondary_text" />
+
+                <RadioButton
+                    android:id="@+id/publish_meijia_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/card_type_radio_btn_selector"
+                    android:button="@null"
+                    android:padding="5dp"
+                    android:text="美甲"
+                    android:textColor="@color/dark_secondary_text" />
+
+                <RadioButton
+                    android:id="@+id/publish_qinzi_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/card_type_radio_btn_selector"
+                    android:button="@null"
+                    android:padding="5dp"
+                    android:text="亲子"
+                    android:textColor="@color/dark_secondary_text" />
+
+                <RadioButton
+                    android:id="@+id/publish_other_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:background="@color/card_type_radio_btn_selector"
+                    android:button="@null"
+                    android:padding="5dp"
+                    android:text="其他"
+                    android:textColor="@color/dark_secondary_text" />
+
+
             </RadioGroup>
 
 
-        </RelativeLayout>
+            <View
+                style="@style/horizontal_divider"
+                android:layout_marginTop="5dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_layout_marginTop"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="描述"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="@dimen/primary_text" />
+
+                <EditText
+                    android:id="@+id/publish_card_description_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:inputType="textMultiLine" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/publish_ware_sharetype_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/default_layout_padding">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/primary_textview"
+                    android:text="地址" />
+
+                <TextView
+                    android:id="@+id/publish_ware_choose_available_tv"
+                    style="@style/primary_textview"
+                    android:layout_alignParentRight="true"
+                    android:text="更改"
+                    android:textColor="@color/color_primary" />
+
+            </RelativeLayout>
+
+            <View
+                style="@style/horizontal_divider"
+                android:layout_marginTop="5dp" />
+
+            <LinearLayout
+                android:id="@+id/publish_ware_avaialble_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:orientation="vertical"
+                android:paddingTop="5dp">
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_layout_marginTop"
-            android:background="@drawable/selector_layout_background"
+            android:background="@color/white"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:padding="@dimen/default_layout_padding">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -346,6 +343,17 @@
                 android:verticalSpacing="5dp"></GridView>
         </LinearLayout>
 
-
+        <info.hoang8f.widget.FButton
+            android:id="@+id/publish_ware_publish_btn"
+            android:layout_marginTop="20dp"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            app:buttonColor="@color/color_primary"
+            app:cornerRadius="2dp"
+            app:shadowEnabled="false"
+            android:layout_gravity="center_horizontal"
+            android:text="发布这样卡"
+            android:textColor="@color/white"
+            android:textSize="@dimen/secondary_text" />
     </LinearLayout>
 </ScrollView>

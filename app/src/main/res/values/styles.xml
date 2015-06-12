@@ -160,4 +160,25 @@
         <item name="android:textColor">@color/chat_transparent</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="primary_textview">
+        <item name="android:textColor">@color/dark_primary_text</item>
+        <item name="android:textSize">@dimen/primary_text</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="secondary_textview">
+        <item name="android:textColor">@color/dark_secondary_text</item>
+        <item name="android:textSize">@dimen/secondary_text</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="hint_textview">
+        <item name="android:textColor">@color/dark_hint_text</item>
+        <item name="android:textSize">@dimen/hint_text</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>

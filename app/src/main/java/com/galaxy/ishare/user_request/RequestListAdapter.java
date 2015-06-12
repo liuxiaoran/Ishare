@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Vector;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -34,12 +35,12 @@ public class RequestListAdapter extends BaseAdapter {
     public static final String TAG = "requestListAdapter";
 
     private Context mContext;
-    private ArrayList<CardItem> dataList;
+    private Vector<CardItem> dataList;
     private LayoutInflater inflater;
 
     private int currentMonth, currentDay, currentHour, currentMinute;
 
-    public RequestListAdapter(Context context, ArrayList dataList) {
+    public RequestListAdapter(Context context, Vector dataList) {
         mContext = context;
         this.dataList = dataList;
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

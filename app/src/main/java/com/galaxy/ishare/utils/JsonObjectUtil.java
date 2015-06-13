@@ -21,6 +21,8 @@ import java.util.Iterator;
  */
 public class JsonObjectUtil {
 
+    private static String TAG = "JsonObjectUtil";
+
     public static JSONArray parseArrayToUTFJsonArray(String[] array) {
         JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < array.length; i++) {
@@ -143,7 +145,8 @@ public class JsonObjectUtil {
                 cardItem.setDescription(description);
             }
 
-            if (jsonObject.has("img") && jsonObject.get("img") != JSONObject.NULL) {
+            Log.d(TAG, jsonObject.get("img") + "");
+            if (jsonObject.has("img") && !"null".equals(jsonObject.get("img"))) {
                 if (jsonObject.get("img") != JSONObject.NULL) {
                     JSONArray imgArray = jsonObject.getJSONArray("img");
                     String[] imgs = new String[imgArray.length()];

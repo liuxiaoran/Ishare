@@ -122,6 +122,7 @@ public class ChatActivity extends ActionBarActivity {
 
         setActionBar();
         initWidget();
+
         initData();
         ChatManager.getInstance().addObserver(this);
         if(order.borrowId == user.getUserId()) {
@@ -330,8 +331,6 @@ public class ChatActivity extends ActionBarActivity {
 
         chatListView.setAdapter(chatAdapter);
     }
-
-
 
     public void sendMsg(final Chat chatMsg) {
         List<BasicNameValuePair> params = new ArrayList<>();

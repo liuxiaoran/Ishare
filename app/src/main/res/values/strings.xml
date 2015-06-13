@@ -55,5 +55,9 @@
 
 	<string name="apply">申请</string>
 	<string name="have_applied">已申请</string>
+    <string name="title_activity_card_ishare">CardIshareActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

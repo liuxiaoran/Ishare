@@ -94,7 +94,7 @@ public class MyReceiver extends BroadcastReceiver {
 						chatMsg.fromUser = jsonObject.getString("from_user");
 					}
 					if(jsonObject.has("from_gender")) {
-						chatMsg.fromUser = jsonObject.getString("from_gender");
+						chatMsg.fromGender = jsonObject.getString("from_gender");
 					}
 					if(jsonObject.has("from_avatar")) {
 						chatMsg.fromAvatar = jsonObject.getString("from_avatar");

@@ -102,7 +102,7 @@ public class JPushUtil {
                     Log.e(TAG, logs);
             }
 
-            showToast(logs);
+//            showToast(logs);
         }
 
     };

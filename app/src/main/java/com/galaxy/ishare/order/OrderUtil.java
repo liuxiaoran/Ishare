@@ -27,7 +27,7 @@ public class OrderUtil {
                 order.shopName = jsonObject.getString("shop_name");
             }
 
-            if(jsonObject.has("shop_img")) {
+            if(jsonObject.has("shop_img")&& !"null".equals(jsonObject.getString("shop_img"))) {
                 Log.d(TAG, jsonObject.getString("shop_img"));
                 JSONArray jsonArray = jsonObject.getJSONArray("shop_img");
                 String[] shopImage = new String[jsonArray.length()];
@@ -82,6 +82,8 @@ public class OrderUtil {
             if(jsonObject.has("status")) {
                 order.orderState = jsonObject.getInt("status");
             }
+
+            Log.d(TAG, order.orderState + "");
 
             if(jsonObject.has("t_agree")) {
                 order.lendTime = jsonObject.getString("t_agree");

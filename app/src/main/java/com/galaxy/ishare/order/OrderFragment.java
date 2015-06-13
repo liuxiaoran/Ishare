@@ -87,7 +87,8 @@ public class OrderFragment extends Fragment {
         httpInteract = new HttpInteract();
         instance = this;
         initWidget();
-        getData();
+//        getData();
+        borrowPullToRefreshListView.doPullRefreshing(true, 500);
 //        setAdapter();
 
         return root;
@@ -224,8 +225,8 @@ public class OrderFragment extends Fragment {
     class HttpInteract {
         public void loadData(final String borrowId, final String lendId, double longitude, double latitude, int type, final int pageNumber, int pageSize) {
 
-            if (pageNumber == 1)
-                loadingLayout.setVisibility(View.VISIBLE);
+//            if (pageNumber == 1)
+//                loadingLayout.setVisibility(View.VISIBLE);
 
             List<BasicNameValuePair> paramsList = new ArrayList<>();
             if(borrowId != null) {

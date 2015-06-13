@@ -67,6 +67,8 @@ public class URLConstant {
 
     public static final String ADD_ORDER = SERVER_IP + "/record/Record_C/add";
 
+    public static final String IS_EXIST = SERVER_IP + "/record/Record_C/is_exist";
+
     // 用户获取附近的借卡
     public static final String REQUEST_CARD_GET = SERVER_IP + "/card/Request_Card_C/get";
 
@@ -78,5 +80,9 @@ public class URLConstant {
 
     // 用户发布请求
     public static final String PUBLISH_CARD_REQUEST = SERVER_IP + "/card/Request_Card_C";
+
+    //card
+    //我分享的卡
+    public static final String GET_I_SHARE_CARD = SERVER_IP + "/card/Query_Card_I_Share";
 
 }

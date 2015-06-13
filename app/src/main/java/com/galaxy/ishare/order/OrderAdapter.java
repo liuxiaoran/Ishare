@@ -2,7 +2,6 @@ package com.galaxy.ishare.order;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -143,7 +142,7 @@ public class OrderAdapter extends BaseAdapter {
         Log.d(TAG, (order == null) + "");
         Log.d(TAG, (order.borrowId == null) + "");
         Log.d(TAG, (user == null) + "");
-        if(order.borrowId.equals(user.getUserId())) {
+        if(user.getUserId().equals(order.borrowId)) {
             viewHolder.orderState.setText(borrowStateItems[order.orderState]);
             viewHolder.orderLastState.setText(borrowLastStateBegin[order.orderState] + order.lendName + borrowLastStateEnd[order.orderState]);
         } else {
@@ -167,12 +166,12 @@ public class OrderAdapter extends BaseAdapter {
 
     public String getShowTime(Order order) {
         String result = null;
+        Log.d(TAG, order.orderState + "");
         switch(order.orderState) {
             case 2: result = order.lendTime; break;
             case 3: result = order.returnTime; break;
             case 4: result = order.payTime; break;
             case 5: result = order.confirmTime; break;
-            default: result = "服务器数据错误"; break;
         }
         return result;
     }

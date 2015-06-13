@@ -87,12 +87,12 @@ public class ChatManager {
             msg.obj = order;
             handler.sendMessage(msg);
         } else {
-            order = transform2Order(cardId, borrowId, borrowName, borrowGender, borrowAvatar, lendId, lendGender, lendAvatar, lendName, cardItem);
-            getOrder2Activity(order.id, order);
+            order = transform2Order(borrowId, borrowName, borrowGender, borrowAvatar, lendId, lendGender, lendAvatar, lendName, cardItem);
+            getVirtualOrder2Activity(borrowId, lendId, cardId, order);
         }
     }
 
-    public Order transform2Order(int orderId, String borrowId, String borrowName, String borrowGender, String borrowAvatar,
+    public Order transform2Order(String borrowId, String borrowName, String borrowGender, String borrowAvatar,
                                  String lendId, String lendName, String lendGender, String lendAvatar, CardItem cardItem) {
         Order order = new Order();
         order.id = 0;
@@ -124,7 +124,7 @@ public class ChatManager {
             msg.obj = order;
             handler.sendMessage(msg);
         } else if(chat.orderId == 0) {//处于交流阶段，并没有产生订单
-            getVirtualOrder2Activity(chat.fromUser, chat.toUser, chat.cardId);
+            getVirtualOrder2Activity(chat.fromUser, chat.toUser, chat.cardId, null);
         } else {
             getOrder2Activity(chat.orderId, null);
         }
@@ -208,13 +208,13 @@ public class ChatManager {
         });
     }
 
-    public void getVirtualOrder2Activity(String fromUser, String toUser, int cardId) {
+    public void getVirtualOrder2Activity(String borrowId, String lendId, int cardId, final Order order) {
         List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-        params.add(new BasicNameValuePair("fromUser", fromUser + ""));
-        params.add(new BasicNameValuePair("toUser", toUser + ""));
-        params.add(new BasicNameValuePair("cardId", cardId + ""));
+        params.add(new BasicNameValuePair("borrow_id", borrowId + ""));
+        params.add(new BasicNameValuePair("lend_id", lendId + ""));
+        params.add(new BasicNameValuePair("card_id", cardId + ""));
 
-        HttpTask.startAsyncDataPostRequest(URLConstant.GET_ORDER, params, new HttpDataResponse() {
+        HttpTask.startAsyncDataPostRequest(URLConstant.IS_EXIST, params, new HttpDataResponse() {
             @Override
             public void onRecvOK(HttpRequestBase request, String result) {
 
@@ -232,6 +232,11 @@ public class ChatManager {
                         Message msg = handler.obtainMessage();
                         msg.what = 0;
                         msg.obj = tmpOrder;
+                        handler.sendMessage(msg);
+                    } else if(status == 1) {
+                        Message msg = handler.obtainMessage();
+                        msg.what = 0;
+                        msg.obj = order;
                         handler.sendMessage(msg);
                     } else {
                         Toast.makeText(mContext, "服务器错误！", Toast.LENGTH_LONG).show();
@@ -267,6 +272,7 @@ public class ChatManager {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
+                    Log.d(TAG, "handler");
                     Order order = (Order) msg.obj;
                     Intent intent = new Intent(mContext, ChatActivity.class);
                     Bundle bundle = new Bundle();

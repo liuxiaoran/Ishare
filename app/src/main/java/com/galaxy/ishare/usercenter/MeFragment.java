@@ -9,12 +9,14 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.me.CardIshareActivity;
 import com.galaxy.ishare.utils.PhoneUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.soundcloud.android.crop.Crop;
@@ -28,6 +30,8 @@ public class MeFragment extends Fragment {
     private View myself;
     private TextView nameTv;
     private CircleImageView avatarIV;
+
+    private RelativeLayout cardIshareLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +60,15 @@ public class MeFragment extends Fragment {
     private void initViews(View view) {
         nameTv = (TextView) view.findViewById(R.id.usercenter_info_nickname_tv);
         avatarIV = (CircleImageView) view.findViewById(R.id.usercenter_avatar_iv);
+        cardIshareLayout = (RelativeLayout) view.findViewById(R.id.usercenter_info_publishcard_layout);
 
+        cardIshareLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CardIshareActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void writeValueToWidget() {

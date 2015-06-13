@@ -142,6 +142,8 @@ public class RequestListAdapter extends BaseAdapter {
         String ret = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//小写的mm表示的是分钟
 
+        Log.d(TAG, "publishTime: " + publishTime);
+
         Date publishDate = null;
         try {
             publishDate = sdf.parse(publishTime);

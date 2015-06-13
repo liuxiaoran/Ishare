@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
@@ -61,11 +60,11 @@ public class MainActivity extends ActionBarActivity {
     public static final String PUBLISH_TO_BING_PHONE = "PUBLISH_TO_BING_PHONE";
 
     private RadioGroup mTabGroup = null;
-    private RadioButton mShareItemButton, orderButton, mMeButton, requestBtn;
+    private RadioButton mShareItemButton, activityButton, mMeButton, requestBtn;
 
     private Fragment mShareItemFragment;
     private Fragment mMeFragment;
-    private Fragment orderFragment;
+    private Fragment activityFragment;
     private Fragment requestFragment;
 //    private TextView mTitle;
 
@@ -300,7 +299,7 @@ public class MainActivity extends ActionBarActivity {
     private void initTabs() {
         mTabGroup = (RadioGroup) findViewById(R.id.tab_group);
         mShareItemButton = (RadioButton) findViewById(R.id.shareBtn);
-        orderButton = (RadioButton) findViewById(R.id.orderBtn);
+        activityButton = (RadioButton) findViewById(R.id.activityBtn);
         mMeButton = (RadioButton) findViewById(R.id.MeButton);
         requestBtn = (RadioButton) findViewById(R.id.requestBtn);
         mTabGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -311,14 +310,13 @@ public class MainActivity extends ActionBarActivity {
                     recoverActionBar("分享");
                     if (mShareItemFragment == null) {
                         mShareItemFragment = new ItemListFragment();
-
                         transaction.add(R.id.fragment_container, mShareItemFragment);
                     }
                     if (mMeFragment != null) {
                         transaction.hide(mMeFragment);
                     }
-                    if (orderFragment != null) {
-                        transaction.hide(orderFragment);
+                    if (activityFragment != null) {
+                        transaction.hide(activityFragment);
                     }
                     if (requestFragment != null) {
                         transaction.hide(requestFragment);
@@ -326,11 +324,11 @@ public class MainActivity extends ActionBarActivity {
 
                     transaction.show(mShareItemFragment);
 
-                } else if (checkedId == orderButton.getId()) {
-                    recoverActionBar("订单");
-                    if (orderFragment == null) {
-                        orderFragment = new OrderFragment();
-                        transaction.add(R.id.fragment_container, orderFragment);
+                } else if (checkedId == activityButton.getId()) {
+                    recoverActionBar("活动");
+                    if (activityFragment == null) {
+                        activityFragment = new OrderFragment();
+                        transaction.add(R.id.fragment_container, activityFragment);
                     }
                     if (mShareItemFragment != null) {
                         transaction.hide(mShareItemFragment);
@@ -343,8 +341,7 @@ public class MainActivity extends ActionBarActivity {
                     }
 
 
-
-                    transaction.show(orderFragment);
+                    transaction.show(activityFragment);
 
                 } else if (checkedId == requestBtn.getId()) {
                     recoverActionBar("附近的请求");
@@ -355,8 +352,8 @@ public class MainActivity extends ActionBarActivity {
                     if (mShareItemFragment != null) {
                         transaction.hide(mShareItemFragment);
                     }
-                    if (orderFragment != null) {
-                        transaction.hide(orderFragment);
+                    if (activityFragment != null) {
+                        transaction.hide(activityFragment);
                     }
                     if (mMeFragment != null) {
                         transaction.hide(mMeFragment);
@@ -371,8 +368,8 @@ public class MainActivity extends ActionBarActivity {
                     if (mShareItemFragment != null) {
                         transaction.hide(mShareItemFragment);
                     }
-                    if (orderFragment != null) {
-                        transaction.hide(orderFragment);
+                    if (activityFragment != null) {
+                        transaction.hide(activityFragment);
                     }
                     if (requestFragment != null) {
                         transaction.hide(requestFragment);

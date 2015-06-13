@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import info.hoang8f.widget.FButton;
 
@@ -69,7 +70,7 @@ public class SearchActivity extends ActionBarActivity {
 
     private CardListItemAdapter itemAdapter;
 
-    private LinkedList<CardItem> resultDataList;
+    private Vector<CardItem> resultDataList;
 
     private int gestureType;
 
@@ -153,7 +154,7 @@ public class SearchActivity extends ActionBarActivity {
         httpInteract = new HttpInteract();
 
 
-        resultDataList = new LinkedList();
+        resultDataList = new Vector();
         itemAdapter = new CardListItemAdapter(resultDataList, this);
 
         resultRefreshListView = new PullToRefreshListView(this);
@@ -273,7 +274,7 @@ public class SearchActivity extends ActionBarActivity {
                                 JSONObject card = data.getJSONObject(i);
                                 CardItem cardItem = JsonObjectUtil.parseJsonObjectToCardItem(card);
                                 if (gestureType == REFRESH_GESTURE) {
-                                    resultDataList.addFirst(cardItem);
+                                    resultDataList.add(cardItem);
 
                                 } else {
                                     resultDataList.add(cardItem);

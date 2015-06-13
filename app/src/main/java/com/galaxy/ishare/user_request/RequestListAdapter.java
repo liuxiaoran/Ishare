@@ -14,6 +14,7 @@ import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.utils.DisplayUtil;
+import com.galaxy.ishare.utils.QiniuUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -85,16 +86,13 @@ public class RequestListAdapter extends BaseAdapter {
             holder = (RequestItemHolder) convertView.getTag();
         }
 
-        ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 60), DisplayUtil.dip2px(mContext, 60));
-        final RequestItemHolder finalHolder = holder;
-        ImageLoader.getInstance().loadImage(IShareContext.getInstance().getCurrentUser().getAvatar(), imageSize, null, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                finalHolder.avatarIv.setImageBitmap(loadedImage);
-            }
-        });
         CardItem cardItem = dataList.get(position);
         holder.requesterNameTv.setText(cardItem.ownerName);
+
+        ImageLoader.getInstance().displayImage(QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.getOwnerAvatar(), DisplayUtil.dip2px(mContext, 60), DisplayUtil.dip2px(mContext, 60)),
+                holder.avatarIv);
+
+
         if ("男".equals(cardItem.ownerGender)) {
             holder.genderIv.setImageResource(R.drawable.icon_male);
         } else {

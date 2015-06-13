@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 public class ItemListFragment extends Fragment {
 
@@ -69,7 +70,7 @@ public class ItemListFragment extends Fragment {
     private int pageNumber = 1;
 
     // 存储不同tab 的数据
-    public LinkedList<CardItem> dataList;
+    public Vector<CardItem> dataList;
 
     public RelativeLayout loadingLayout;
 
@@ -114,7 +115,7 @@ public class ItemListFragment extends Fragment {
 
 
         httpInteract = new HttpInteract();
-        dataList = new LinkedList<>();
+        dataList = new Vector<>();
 
 
         cardListItemAdapter = new CardListItemAdapter(dataList, getActivity());

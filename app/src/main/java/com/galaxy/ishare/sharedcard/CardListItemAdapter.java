@@ -22,6 +22,7 @@ import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.LinkedList;
+import java.util.Vector;
 
 /**
  * Created by liuxiaoran on 15/5/16.
@@ -29,11 +30,11 @@ import java.util.LinkedList;
 public class CardListItemAdapter extends BaseAdapter {
 
     private static final String TAG = "cardlistadapter";
-    private LinkedList<CardItem> dataList;
+    private Vector<CardItem> dataList;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
-    public CardListItemAdapter(LinkedList<CardItem> data, Context context) {
+    public CardListItemAdapter(Vector<CardItem> data, Context context) {
         this.dataList = data;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -113,13 +114,7 @@ public class CardListItemAdapter extends BaseAdapter {
             String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
             ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
             final CardHolder finalCardHolder = cardHolder;
-//            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
-//                @Override
-//                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//
-//                    finalCardHolder.cardIv.setImageBitmap(loadedImage);
-//                }
-//            });
+
             ImageLoader.getInstance().displayImage(thumbnailUrl, finalCardHolder.cardIv);
 
         }

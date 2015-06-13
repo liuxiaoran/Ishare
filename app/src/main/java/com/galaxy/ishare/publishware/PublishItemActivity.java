@@ -296,7 +296,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
         shopNameTv = (AutoCompleteTextView) findViewById(R.id.publish_shop_name_tv);
 
-        shopLocationEt = (EditText) findViewById(R.id.publish_ware_shop_location_tv);
+        shopLocationEt = (EditText) findViewById(R.id.publish_shop_location_et);
         discountTv = (TextView) findViewById(R.id.publish_ware_discount_tv);
 
 

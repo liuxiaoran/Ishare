@@ -13,87 +13,95 @@
         android:orientation="vertical"
         android:padding="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="姓名" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/publishware_available_name_et"/>
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/primary_textview"
+                android:layout_gravity="center"
                 android:text="地址" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/publishware_available_location_et"/>
+                android:layout_marginLeft="20dp"
+                android:orientation="horizontal"
+                android:id="@+id/publishware_available_add_layout">
 
-            <ImageView
-                android:id="@+id/publish_owner_gps_iv"
-                android:layout_width="20dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/gps" />
+                <ImageView
+
+                    android:id="@+id/publish_owner_gps_iv"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/icon_aim"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/publishware_available_add_addr_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null" />
+
+            </LinearLayout>
+
+
         </LinearLayout>
+
+        <View
+            android:layout_marginTop="5dp"
+            style="@style/horizontal_divider"
+            android:layout_marginBottom="5dp" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <TextView
+                style="@style/primary_textview"
+                android:text="时间" />
+
+            <TextView
+                android:id="@+id/publishware_available_add_begin_time_tv"
+                style="@style/secondary_textview"
+                android:layout_marginLeft="20dp"
+                android:layout_width="50dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="时间"/>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/publishware_available_time_et"/>
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:text="--" />
 
+            <TextView
+                android:id="@+id/publishware_available_add_end_time_tv"
+                style="@style/secondary_textview"
+                android:layout_width="50dp" />
         </LinearLayout>
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="电话"/>-->
-        <!--<EditText-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/publishware_available_phone_et"-->
-        <!--/>-->
-        <!--</LinearLayout>-->
+
 
     </LinearLayout>
 
     <info.hoang8f.widget.FButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:id="@+id/publishware_available_edit_confirm_btn"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
         android:text="确定"
         android:textColor="@color/white"
         android:textSize="16sp"
+        app:buttonColor="@color/color_primary"
         app:cornerRadius="2dp"
-        android:id="@+id/publishware_available_cofirm_btn"
-        app:shadowEnabled="false"/>
+        app:shadowEnabled="false" />
 
 
 </LinearLayout>

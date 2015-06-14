@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -105,7 +106,11 @@ public class RequestListAdapter extends BaseAdapter {
         // 显示过去了多长时间
         Log.v(TAG, cardItem.getShopName() + "   " + cardItem.getPublishTime());
 
+        if (cardItem.getPublishTime() != null)
         holder.timeTv.setText(getPresentPassTime(cardItem.getPublishTime()));
+        else {
+            Toast.makeText(mContext, "TMD server publish time is empty again", Toast.LENGTH_LONG).show();
+        }
 
         holder.shopNameTv.setText(cardItem.getShopName());
         holder.shopLocationTv.setText(cardItem.getShopLocation());

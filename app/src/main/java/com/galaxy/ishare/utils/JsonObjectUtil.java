@@ -145,7 +145,6 @@ public class JsonObjectUtil {
                 cardItem.setDescription(description);
             }
 
-            Log.d(TAG, jsonObject.get("img") + "");
             if (jsonObject.has("img") && !"null".equals(jsonObject.get("img"))) {
                 if (jsonObject.get("img") != JSONObject.NULL) {
                     JSONArray imgArray = jsonObject.getJSONArray("img");
@@ -215,7 +214,6 @@ public class JsonObjectUtil {
             if (jsonObject.has("owner_distance") && jsonObject.get("owner_distance") != JSONObject.NULL) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
             }
-
             if (jsonObject.has("nickname") && jsonObject.get("nickname") != JSONObject.NULL) {
                 cardItem.setOwnerName(jsonObject.getString("nickname"));
             }

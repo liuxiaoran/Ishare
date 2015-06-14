@@ -123,14 +123,8 @@ public class OrderAdapter extends BaseAdapter {
 
         if (order.shopImage != null && order.shopImage.length > 0) {
             String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(order.shopImage[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 100));
-            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 100), DisplayUtil.dip2px(mContext, 80));
-            final ViewHolder finalHolder = viewHolder;
-            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    finalHolder.shopImage.setImageBitmap(loadedImage);
-                }
-            });
+
+            ImageLoader.getInstance().displayImage(thumbnailUrl, viewHolder.shopImage);
         }
 
         viewHolder.cardDiscount.setText(getStringDiscount(order.cardDiscount) + "折");

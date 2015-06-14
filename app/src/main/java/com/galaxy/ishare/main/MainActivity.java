@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
@@ -98,18 +99,6 @@ public class MainActivity extends ActionBarActivity {
 
         recoverActionBar("分享");
 
-        // 将titleTv放在中间
-//        int w = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
-//        int h = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
-//        titleTv.measure(w, h);
-//        int width = titleTv.getMeasuredWidth();
-//        int screenWidth = Global.screenWidth;
-//        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) titleTv.getLayoutParams(); /*或者 LinearLayout.LayoutParams p = new  LinearLayout.LayoutParams(width,height); 这里的width和height是以像素为单位*/
-//        lp.setMargins( (screenWidth) / 2, 0, 0, 0);
-//        titleTv.setLayoutParams(lp);
-
-
-//        mTitle = (TextView)findViewById(R.id.title);
 
         initTabs();
 
@@ -192,8 +181,9 @@ public class MainActivity extends ActionBarActivity {
             publishIV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, PublishRequestActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(MainActivity.this, PublishRequestActivity.class);
+//                    startActivity(intent);
+                    Toast.makeText(MainActivity.this, "正在开发", Toast.LENGTH_LONG).show();
                 }
             });
 

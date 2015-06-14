@@ -47,6 +47,7 @@ public class PublishRequestActivity extends ActionBarActivity {
     double shopLongitude;
     int cardType = -1;
     private static final String TAG = "publishRequestActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

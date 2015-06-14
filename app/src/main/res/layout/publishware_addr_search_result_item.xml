@@ -10,21 +10,16 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/publishware_addr_name_tv"
+            android:id="@+id/publishware_add_addr_name_tv"
             style="@style/primary_textview"
             android:text="adf" />
 
         <TextView
-            android:id="@+id/publishware_addr_tv"
+            android:id="@+id/publishware_add_addr_tv"
             style="@style/secondary_textview"
             android:text="afd" />
 
     </LinearLayout>
-    <TextView
-        style="@style/hint_textview"
-        android:text="当前"
-        android:textColor="@color/red"
-        android:id="@+id/publishware_current_tv"
-        android:visibility="invisible" />
+
 
 </FrameLayout>

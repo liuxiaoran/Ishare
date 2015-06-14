@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/publishware_available_map_layout">
 
-
-        <com.baidu.mapapi.map.MapView
-            android:id="@+id/publishware_owner_available_mapview"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-
-        <ImageView
-            android:id="@+id/publishware_map_center_iv"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/icon_gcoding" />
-    </FrameLayout>
+            android:layout_weight="1">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="您的位置在这附近？" />
 
-    <View style="@style/horizontal_divider" />
+            <com.baidu.mapapi.map.MapView
+                android:id="@+id/publishware_owner_available_mapview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" />
+
+            <ImageView
+                android:id="@+id/publishware_map_center_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/icon_gcoding" />
+        </FrameLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="您的位置在这附近？" />
+
+        <View style="@style/horizontal_divider" />
+
+        <ListView
+            android:id="@+id/publishware_owner_location_listview"
+            android:layout_width="match_parent"
+            android:layout_height="280dp">
+
+
+        </ListView>
+
+    </LinearLayout>
 
     <ListView
-        android:id="@+id/publishware_owner_location_listview"
         android:layout_width="match_parent"
-        android:layout_height="200dp">
-
-
-    </ListView>
-
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/publishware_addr_search_result_listview"
+        android:visibility="invisible"></ListView>
+</FrameLayout>

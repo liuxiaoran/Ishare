@@ -38,7 +38,8 @@
                     android:id="@+id/publish_shop_name_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null" />
+                    android:background="@null"
+                    android:gravity="center" />
 
             </LinearLayout>
 
@@ -74,10 +75,10 @@
                 <EditText
 
                     android:id="@+id/publish_shop_location_et"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@id/publish_ware_shop_location_tv"
                     android:layout_toRightOf="@id/publish_ware_shop_location_tv"
+                    android:layout_toLeftOf="@id/publish_shop_location_iv"
                     android:background="@null"
                     android:gravity="center" />
             </RelativeLayout>
@@ -87,6 +88,7 @@
                 android:layout_marginTop="2dp" />
 
             <RelativeLayout
+                android:id="@+id/publishware_discount_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_layout_marginTop">
@@ -151,7 +153,7 @@
                         android:id="@+id/publish_type_charge_rb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/card_type_radio_btn_selector"
+                        android:background="@drawable/card_type_radio_btn_selector"
                         android:button="@null"
                         android:padding="5dp"
                         android:text="充值卡"
@@ -161,8 +163,8 @@
                         android:id="@+id/publish_type_member_rb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:background="@color/card_type_radio_btn_selector"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/card_type_radio_btn_selector"
                         android:button="@null"
                         android:padding="5dp"
                         android:text="会员卡"
@@ -188,7 +190,7 @@
                     android:id="@+id/publish_meirong_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/card_type_radio_btn_selector"
+                    android:background="@drawable/card_type_radio_btn_selector"
                     android:button="@null"
                     android:padding="5dp"
                     android:text="美容"
@@ -198,8 +200,8 @@
                     android:id="@+id/publish_meifa_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@color/card_type_radio_btn_selector"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/card_type_radio_btn_selector"
                     android:button="@null"
                     android:padding="5dp"
                     android:text="美发"
@@ -209,8 +211,8 @@
                     android:id="@+id/publish_meijia_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@color/card_type_radio_btn_selector"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/card_type_radio_btn_selector"
                     android:button="@null"
                     android:padding="5dp"
                     android:text="美甲"
@@ -220,8 +222,8 @@
                     android:id="@+id/publish_qinzi_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@color/card_type_radio_btn_selector"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/card_type_radio_btn_selector"
                     android:button="@null"
                     android:padding="5dp"
                     android:text="亲子"
@@ -231,8 +233,8 @@
                     android:id="@+id/publish_other_rb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:background="@color/card_type_radio_btn_selector"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/card_type_radio_btn_selector"
                     android:button="@null"
                     android:padding="5dp"
                     android:text="其他"
@@ -296,7 +298,7 @@
                     android:id="@+id/publish_ware_choose_available_tv"
                     style="@style/primary_textview"
                     android:layout_alignParentRight="true"
-                    android:text="更改"
+                    android:text="选择"
                     android:textColor="@color/color_primary" />
 
             </RelativeLayout>
@@ -334,6 +336,7 @@
                 android:text="上传图片(最多3张)" />
 
             <GridView
+                android:layout_marginTop="5dp"
                 android:id="@+id/publishware_cardpic_gridview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -352,7 +355,7 @@
             app:cornerRadius="2dp"
             app:shadowEnabled="false"
             android:layout_gravity="center_horizontal"
-            android:text="发布这样卡"
+            android:text="发布这张卡"
             android:textColor="@color/white"
             android:textSize="@dimen/secondary_text" />
     </LinearLayout>

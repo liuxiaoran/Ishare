@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,10 +41,11 @@ import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
+import com.galaxy.ishare.database.UserAvailableDao;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
-import com.galaxy.ishare.model.OwnerAvailableItem;
+import com.galaxy.ishare.model.UserAvailable;
 import com.galaxy.ishare.utils.ImageParseUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.PhoneUtil;
@@ -125,10 +127,9 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     private boolean isToMaxPicNumber = false;
     GridViewAdapter gridViewAdapter;
 
-    // 存空闲的时间地点，为了使进入CardOwnerAvailableShowActivity 重新载入数据展示。
-    public static ArrayList<OwnerAvailableItem> dataList;
+    private ImageView shopLocateIv;
 
-
+    private RelativeLayout discountLayout;
 
     Handler poiSearchHandler = new Handler() {
         @Override
@@ -152,7 +153,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         IShareContext.getInstance().createDefaultHomeActionbar(this, "发布新卡");
         findViewsById();
 
-        dataList = new ArrayList<>();
 
         myClickListener = new MyClickListener();
 
@@ -217,13 +217,13 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == gridViewBitmapList.size() - 1 && !isToMaxPicNumber) {
                     // 点击的是选择添加图片
-                    new MaterialDialog.Builder(PublishItemActivity.this)
-                            .title("选择图片来源")
-                            .items(R.array.pic_source_items)
-                            .itemsCallback(new MaterialDialog.ListCallback() {
-                                @Override
-                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                    if (which == 0) {
+//                    new MaterialDialog.Builder(PublishItemActivity.this)
+//                            .title("选择图片来源")
+//                            .items(R.array.pic_source_items)
+//                            .itemsCallback(new MaterialDialog.ListCallback() {
+//                                @Override
+//                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+//                                    if (which == 0) {
                                         //选择本地图片
                                         Intent intentFromGallery = new Intent();
                                         intentFromGallery.setType("image/*"); // 设置文件类型
@@ -231,31 +231,31 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                                                 .setAction(Intent.ACTION_GET_CONTENT);
                                         startActivityForResult(intentFromGallery,
                                                 IMAGE_REQUEST_CODE);
-                                    } else if (which == 1) {
+//                                    } else if (which == 1) {
+//
+//                                        cameraPicCount++;
+//                                        //拍照
+//                                        Intent intentFromCapture = new Intent(
+//                                                MediaStore.ACTION_IMAGE_CAPTURE);
+//                                        // 判断存储卡是否可以用，可用进行存储
+//                                        if (PhoneUtil.hasSdcard()) {
+//
+//                                            File cardPicFile = new File(PublishItemActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+//                                                    "cardimg" + cameraPicCount + ".jpg");
+//                                            intentFromCapture.putExtra(
+//                                                    MediaStore.EXTRA_OUTPUT,
+//                                                    Uri.fromFile(cardPicFile));
+//                                            startActivityForResult(intentFromCapture,
+//                                                    CAMERA_REQUEST_CODE);
+//                                        } else {
+//                                            Toast.makeText(getApplicationContext(), "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
+//                                        }
 
-                                        cameraPicCount++;
-                                        //拍照
-                                        Intent intentFromCapture = new Intent(
-                                                MediaStore.ACTION_IMAGE_CAPTURE);
-                                        // 判断存储卡是否可以用，可用进行存储
-                                        if (PhoneUtil.hasSdcard()) {
-
-                                            File cardPicFile = new File(PublishItemActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                                                    "cardimg" + cameraPicCount + ".jpg");
-                                            intentFromCapture.putExtra(
-                                                    MediaStore.EXTRA_OUTPUT,
-                                                    Uri.fromFile(cardPicFile));
-                                            startActivityForResult(intentFromCapture,
-                                                    CAMERA_REQUEST_CODE);
-                                        } else {
-                                            Toast.makeText(getApplicationContext(), "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
-                                        }
-
-
-                                    }
-                                }
-                            })
-                            .show();
+//
+//                                    }
+//                                }
+//                            })
+//                            .show();
                 } else {
                     // 点击的是已经选择的图片，进行预览或删除
                     Intent intent = new Intent(PublishItemActivity.this, PreviewPictureActivity.class);
@@ -284,10 +284,12 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         });
 
 
+
         shopLocationIv.setOnClickListener(myClickListener);
         changeAvailableTv.setOnClickListener(myClickListener);
         publishBtn.setOnClickListener(myClickListener);
         discountIv.setOnClickListener(myClickListener);
+        discountLayout.setOnClickListener(myClickListener);
 
 
     }
@@ -298,6 +300,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
         shopLocationEt = (EditText) findViewById(R.id.publish_shop_location_et);
         discountTv = (TextView) findViewById(R.id.publish_ware_discount_tv);
+        discountIv = (ImageView) findViewById(R.id.publish_discount_arrow_iv);
 
 
         chargeRb = (RadioButton) findViewById(R.id.publish_type_charge_rb);
@@ -319,6 +322,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
 
         publishBtn = (FButton) findViewById(R.id.publish_ware_publish_btn);
+        discountLayout = (RelativeLayout) findViewById(R.id.publishware_discount_layout);
+
 
     }
 
@@ -333,7 +338,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     private boolean checkInfo() {
         boolean ret = true;
         if (shopNameTv.getText().toString().equals("") || trade_type == -1 || ware_type == -1 || discountTv.getText().toString().equals("") ||
-                descriptionEt.getText().toString().equals("") || shopLocationEt.getText().toString().equals("")) {
+                descriptionEt.getText().toString().equals("") || shopLocationEt.getText().toString().equals("") || ownerAvailableList.size() == 0) {
 
             ret = false;
             Toast.makeText(this, "请填写完整信息", Toast.LENGTH_SHORT).show();
@@ -356,6 +361,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     NumberPicker picker2 = null;
     NumberPicker picker1 = null;
+    FButton confirmBtn = null;
     class MyClickListener implements View.OnClickListener {
 
         @Override
@@ -378,32 +384,29 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
                 if (checkInfo()) {
                     uploadDataClient.publishCard();
+
                 }
-
-
-            } else if (v.getId() == R.id.publish_shop_location_iv) {
-
-                Intent intent = new Intent(PublishItemActivity.this, PoiSearchActivity.class);
-                intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameTv.getText().toString());
-                startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
 
 
             } else if (v.getId() == R.id.publish_ware_choose_available_tv) {
 
-            } else if (v.getId() == R.id.publish_discount_arrow_iv) {
+                Intent intent = new Intent(PublishItemActivity.this, CardOwnerAvailableShowActivity.class);
+                startActivityForResult(intent, 0);
+
+            } else if (v.getId() == R.id.publishware_discount_layout) {
 
 
                 MaterialDialog discountDialog = new MaterialDialog.Builder(PublishItemActivity.this).title("填写卡的折扣")
                         .customView(R.layout.publish_card_discount_dialog, true)
-                        .positiveText("确定")
                         .callback(new MaterialDialog.ButtonCallback() {
                             @Override
                             public void onPositive(MaterialDialog dialog) {
                                 discountInteger = picker1.getValue();
                                 discountDecimal = picker2.getValue();
-                                discountTv.setText(Double.parseDouble(discountInteger + "." + discountDecimal) + "");
+                                discountTv.setText(Double.parseDouble(discountInteger + "." + discountDecimal) + "折");
                             }
                         })
+                        .positiveText("确定")
                         .build();
                 View view = discountDialog.getCustomView();
                 final View positiveAction = discountDialog.getActionButton(DialogAction.POSITIVE);
@@ -419,6 +422,9 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                 picker2.setFocusableInTouchMode(true);
 
 
+                discountDialog.show();
+
+
             }
         }
     }
@@ -429,28 +435,32 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == PARAMETER_AVAILABLE_RESULT_CODE) {
+            Log.v(TAG, "arrive result");
 
+            availableLayout.removeAllViews();
             // 得到有空的列表，构造ownerAvailableList， 上传服务器
-            ArrayList<OwnerAvailableItem> cardItemArrayList = data.getParcelableArrayListExtra(CardOwnerAvailableShowActivity.PARAMETER_RETURN_AVAILABLE_LIST);
+            ArrayList<UserAvailable> cardItemArrayList = UserAvailableDao.getInstance(this).query();
 
-            for (OwnerAvailableItem item : cardItemArrayList) {
-                HashMap hashMap = new HashMap();
-                hashMap.put("name", item.name);
-                hashMap.put("phone", item.phone);
-                hashMap.put("location", item.location);
-                hashMap.put("time", item.time);
-                hashMap.put("longitude", item.longitude + "");
-                hashMap.put("latitude", item.latitude + "");
-                ownerAvailableList.add(hashMap);
+            for (UserAvailable item : cardItemArrayList) {
+                if (item.isSelected == 1) {
+                    HashMap hashMap = new HashMap();
+
+                    hashMap.put("time", item.beginTime + "--" + item.endTime);
+                    hashMap.put("longitude", item.longitude + "");
+                    hashMap.put("latitude", item.latitude + "");
+                    hashMap.put("location", item.address);
+                    ownerAvailableList.add(hashMap);
+
+                    View availableItem = getLayoutInflater().inflate(R.layout.publishware_available_item, null);
+                    TextView addrTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_addr_tv);
+                    TextView timeTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_time_tv);
+                    addrTv.setText(item.address);
+                    timeTv.setText(item.beginTime + "--" + item.endTime);
+                    availableLayout.addView(availableItem);
+                }
 
             }
 
-            uploadDataClient.publishCard();
-            this.finish();
-
-            // 释放内存
-            dataList = null;
-            cardItemArrayList = null;
 
 
         } else if (resultCode == PARAMETER_SHOP_LOCATION_RESULT_CODE) {

@@ -60,4 +60,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+
+	<!--  custom id -->
+	<item name="available_click_count" type="id"></item>
+	<item name="available_object" type="id"></item>
+	<item name="available_position" type="id"></item>
 </resources>

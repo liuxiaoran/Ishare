@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/publishware_available_listview_item_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/publishware_available_listview_item_layout"
-    android:padding="10dp"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_weight="1"
-        android:paddingLeft="10dp">
+        android:orientation="horizontal"
+        android:id="@+id/publishware_available_select_layout"
+        android:padding="15dp">
 
         <TextView
-            android:id="@+id/publishware_available_listview_item_location_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/publishware_available_listview_item_time_tv"
+            android:id="@+id/publishware_check_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/huise"
-            android:textSize="12sp"
+            android:layout_gravity="center"
+            android:background="@drawable/publishware_item_selector"
             />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:id="@+id/publishware_available_listview_item_location_tv"
+                android:singleLine="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/publishware_available_listview_item_time_tv"
+                style="@style/secondary_textview" />
+        </LinearLayout>
     </LinearLayout>
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/edit"
-        android:layout_gravity="center_vertical"/>
+        android:id="@+id/publishware_edit_iv"
+        android:layout_marginRight="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/icon_edit" />
 
 
 </LinearLayout>

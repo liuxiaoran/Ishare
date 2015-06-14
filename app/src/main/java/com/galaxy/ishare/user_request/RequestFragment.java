@@ -182,7 +182,7 @@ public class RequestFragment extends Fragment {
             params.add(new BasicNameValuePair("user_latitude", latitude + ""));
             params.add(new BasicNameValuePair("page_num", currentPageNumber + ""));
             params.add(new BasicNameValuePair("page_size", pageSize + ""));
-            Log.v(TAG, "arrive  adsf");
+
             HttpTask.startAsyncDataPostRequest(URLConstant.REQUEST_CARD_GET, params, new HttpDataResponse() {
                         @Override
                         public void onRecvOK(HttpRequestBase request, String result) {

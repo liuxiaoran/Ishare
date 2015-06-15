@@ -55,7 +55,7 @@
                         android:layout_alignTop="@id/share_item_detail_shop_name_tv"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@id/share_item_detail_shop_name_tv"
-                        android:src="@drawable/share_item_location" />
+                        android:src="@drawable/icon_location" />
 
                     <TextView
                         android:id="@+id/share_item_detail_shop_distance_tv"

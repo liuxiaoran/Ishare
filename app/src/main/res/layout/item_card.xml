@@ -32,7 +32,7 @@
 			android:layout_height="wrap_content"
 			android:layout_toLeftOf="@id/shop_distance"
 			android:layout_centerVertical="true"
-			android:src="@drawable/share_item_location"/>
+			android:src="@drawable/icon_location" />
 	</RelativeLayout>
 
 	<ImageView

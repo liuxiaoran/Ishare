@@ -5,11 +5,13 @@
 
         <shape>
             <solid android:color="@color/card_type_select_btn" />
+            <corners android:radius="2dp"></corners>
         </shape>
     </item>
     <item>
         <shape>
             <solid android:color="@color/card_type_unselect_btn" />
+            <corners android:radius="2dp"></corners>
         </shape>
     </item>
 

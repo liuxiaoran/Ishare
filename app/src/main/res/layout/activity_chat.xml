@@ -64,7 +64,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/shop_distance"
                         android:layout_marginRight="8dp"
-                        android:src="@drawable/share_item_location"
+                        android:src="@drawable/icon_location"
                         android:visibility="gone"/>
                 </RelativeLayout>
 

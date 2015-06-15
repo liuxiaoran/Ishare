@@ -124,11 +124,15 @@ public class RequestFragment extends Fragment {
         requestListView = (ListView) pullToRefreshListView.getRefreshableView();
 //        requestListView.setDivider(null);// 设置不显示分割线
         requestListView.setAdapter(requestListAdapter);
+        requestListView.setSelector(R.color.window_background);// 设置listview 条目选中的背景
 
         requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                Intent intent = new Intent(getActivity(), RequestDetailActivity.class);
+                intent.putExtra(RequestDetailActivity.PARAMETER_REQUEST, dataList.get(position));
+                startActivity(intent);
             }
         });
 

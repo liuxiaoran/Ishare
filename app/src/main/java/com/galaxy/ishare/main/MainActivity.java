@@ -181,9 +181,9 @@ public class MainActivity extends ActionBarActivity {
             publishIV.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent intent = new Intent(MainActivity.this, PublishRequestActivity.class);
-//                    startActivity(intent);
-                    Toast.makeText(MainActivity.this, "正在开发", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(MainActivity.this, PublishRequestActivity.class);
+                    startActivity(intent);
+
                 }
             });
 

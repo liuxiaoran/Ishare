@@ -2,6 +2,7 @@ package com.galaxy.ishare.utils;
 
 import android.util.Log;
 
+import com.galaxy.ishare.constant.PicConstant;
 import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
 
@@ -157,7 +158,7 @@ public class JsonObjectUtil {
                     // 如果一张图没有，给个默认的图
                     if (imgArray.length() == 0) {
                         String[] tem = new String[1];
-                        tem[0] = "http://7xixyl.com1.z0.glb.clouddn.com/default_pic.png";
+                        tem[0] = PicConstant.defaultPic;
                         cardItem.setCardImgs(tem);
                     }
                 }

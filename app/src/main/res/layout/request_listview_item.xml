@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/middle_padding">
+    android:paddingBottom="@dimen/middle_padding"
+    android:descendantFocusability="blocksDescendants">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -121,7 +122,8 @@
                 android:layout_alignTop="@id/request_item_card_shopname_tv"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/request_item_card_shopname_tv"
-                android:src="@drawable/share_item_location" />
+                android:src="@drawable/icon_location"
+                android:focusable="false" />
 
             <TextView
                 android:id="@+id/request_item_shop_distance_tv"

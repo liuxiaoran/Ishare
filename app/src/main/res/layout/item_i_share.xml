@@ -32,7 +32,7 @@
                 android:id="@+id/share_item_locate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/share_item_location" />
+                android:src="@drawable/icon_location" />
 
             <TextView
                 android:id="@+id/share_item_listview_item_shop_distance_tv"

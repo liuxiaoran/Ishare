@@ -292,6 +292,9 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         discountLayout.setOnClickListener(myClickListener);
 
 
+        writeAddrIntoLayout();
+
+
     }
 
     private void findViewsById() {
@@ -337,6 +340,26 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     private boolean checkInfo() {
         boolean ret = true;
+
+        if (chargeRb.isChecked()) {
+
+            ware_type = 0;
+        } else if (memberRb.isChecked()) {
+            ware_type = 1;
+        }
+        if (meirongRb.isChecked()) {
+            trade_type = 1;
+        } else if (meifaRb.isChecked()) {
+            trade_type = 2;
+        } else if (meijiaRb.isChecked()) {
+            trade_type = 3;
+        } else if (qinziRb.isChecked()) {
+            trade_type = 4;
+        } else if (otherRb.isChecked()) {
+            trade_type = 5;
+        }
+
+
         if (shopNameTv.getText().toString().equals("") || trade_type == -1 || ware_type == -1 || discountTv.getText().toString().equals("") ||
                 descriptionEt.getText().toString().equals("") || shopLocationEt.getText().toString().equals("") || ownerAvailableList.size() == 0) {
 
@@ -429,6 +452,34 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         }
     }
 
+    private void writeAddrIntoLayout() {
+        availableLayout.removeAllViews();
+        ownerAvailableList.clear();
+        // 得到有空的列表，构造ownerAvailableList， 上传服务器
+        ArrayList<UserAvailable> cardItemArrayList = UserAvailableDao.getInstance(this).query();
+
+        for (UserAvailable item : cardItemArrayList) {
+            if (item.isSelected == 1) {
+                HashMap hashMap = new HashMap();
+
+                hashMap.put("time", item.beginTime + "--" + item.endTime);
+                hashMap.put("longitude", item.longitude + "");
+                hashMap.put("latitude", item.latitude + "");
+                hashMap.put("location", item.address);
+                ownerAvailableList.add(hashMap);
+
+                View availableItem = getLayoutInflater().inflate(R.layout.publishware_available_item, null);
+                TextView addrTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_addr_tv);
+                TextView timeTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_time_tv);
+                addrTv.setText(item.address);
+                timeTv.setText(item.beginTime + "--" + item.endTime);
+                availableLayout.addView(availableItem);
+            }
+
+        }
+    }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -437,29 +488,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         if (resultCode == PARAMETER_AVAILABLE_RESULT_CODE) {
             Log.v(TAG, "arrive result");
 
-            availableLayout.removeAllViews();
-            // 得到有空的列表，构造ownerAvailableList， 上传服务器
-            ArrayList<UserAvailable> cardItemArrayList = UserAvailableDao.getInstance(this).query();
-
-            for (UserAvailable item : cardItemArrayList) {
-                if (item.isSelected == 1) {
-                    HashMap hashMap = new HashMap();
-
-                    hashMap.put("time", item.beginTime + "--" + item.endTime);
-                    hashMap.put("longitude", item.longitude + "");
-                    hashMap.put("latitude", item.latitude + "");
-                    hashMap.put("location", item.address);
-                    ownerAvailableList.add(hashMap);
-
-                    View availableItem = getLayoutInflater().inflate(R.layout.publishware_available_item, null);
-                    TextView addrTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_addr_tv);
-                    TextView timeTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_time_tv);
-                    addrTv.setText(item.address);
-                    timeTv.setText(item.beginTime + "--" + item.endTime);
-                    availableLayout.addView(availableItem);
-                }
-
-            }
+            writeAddrIntoLayout();
 
 
 

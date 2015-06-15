@@ -1,56 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/default_layout_padding">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/request_detail_requester_avatar_iv"
-            android:layout_width="60dp"
-            android:layout_height="60dp" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/request_detail_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="25dp" />
 
-
-        <TextView
-            android:id="@+id/request_detail_requester_name_tv"
-            style="@style/primary_textview"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/request_detail_requester_avatar_iv"
-            android:text="liu" />
+            android:layout_marginRight="10dp"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/request_detail_requester_gender_iv"
-            android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/request_detail_shop_name_tv"
+                    style="@style/primary_textview"
+                    android:maxWidth="200dp"
+                    android:text="永琪" />
+
+                <ImageView
+                    android:id="@+id/request_detail_location_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/request_detail_shop_name_tv"
+                    android:layout_alignTop="@id/request_detail_shop_name_tv"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/request_detail_shop_name_tv"
+                    android:src="@drawable/icon_location" />
+
+                <TextView
+                    android:id="@+id/request_detail_shop_distance_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@id/request_detail_location_iv"
+                    android:text="1.0"
+                    android:textColor="@color/dark_secondary_text"
+                    android:textSize="@dimen/hint_text" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@id/request_detail_shop_distance_tv"
+                    android:text="km"
+                    android:textColor="@color/dark_secondary_text"
+                    android:textSize="@dimen/hint_text" />
+
+                <TextView
+                    android:id="@+id/request_detail_card_type_tv"
+                    style="@style/secondary_textview"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:text="美发" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/request_detail_shop_addr_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/dark_secondary_text"
+                android:textSize="@dimen/primary_text" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/request_detail_requester_name_tv"
-            android:layout_alignTop="@id/request_detail_requester_name_tv"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/request_detail_requester_name_tv"
-            android:src="@drawable/icon_female" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:padding="@dimen/default_layout_padding">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/request_detail_requester_avatar_iv"
+                android:layout_width="60dp"
+                android:layout_height="60dp" />
 
 
-        <ImageView
-            android:id="@+id/request_detail_location"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/request_detail_requester_name_tv"
+                style="@style/primary_textview"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/request_detail_requester_avatar_iv"
+                android:text="liu" />
+
+            <ImageView
+                android:id="@+id/request_detail_requester_gender_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_alignLeft="@id/request_detail_requester_name_tv"
+                android:layout_below="@id/request_detail_requester_name_tv"
+                android:src="@drawable/icon_female" />
+
+
+            <TextView
+                android:id="@+id/request_detail_requester_distance_tv"
+                style="@style/secondary_textview"
+                android:layout_alignBottom="@id/request_detail_requester_gender_iv"
+                android:layout_below="@id/request_detail_requester_name_tv"
+                android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@id/request_detail_requester_gender_iv"
+                android:text="5" />
+
+            <TextView
+                style="@style/secondary_textview"
+                android:layout_alignBottom="@id/request_detail_requester_distance_tv"
+                android:layout_alignTop="@id/request_detail_requester_distance_tv"
+                android:layout_toRightOf="@id/request_detail_requester_distance_tv"
+                android:text="km" />
+
+            <info.hoang8f.widget.FButton
+                android:id="@+id/request_detail_contact_btn"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_alignBottom="@id/request_detail_requester_avatar_iv"
+                android:layout_alignParentRight="true"
+                android:text="联系他"
+                android:textColor="@color/white"
+                app:buttonColor="@color/color_primary"
+                app:cornerRadius="2dp"
+                app:shadowEnabled="false" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_people"
-            android:layout_below="@id/request_detail_requester_name_tv"
-            android:layout_alignLeft="@id/request_detail_requester_name_tv" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
+            android:padding="10dp">
+
+            <TextView
+
+                android:id="@+id/request_detail_description_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:singleLine="false"
+                android:text="adf" />
+
+            <TextView
+                android:id="@+id/request_detail_time_tv"
+                style="@style/hint_textview"
+                android:layout_alignParentRight="true"
+                android:text="adsfa" />
+        </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/request_detail_distance_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textSize="@dimen/secondary_text"
-            android:textColor="@color/dark_secondary_text" />
+    </LinearLayout>
 
-    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/share_item_listview_framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp">
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/request_detail_map_floating_btn"
+            fab:fab_colorNormal="@color/floating_btn_normal"
+            fab:fab_colorPressed="@color/floationg_btn_pressed"
+            fab:fab_colorRipple="@color/floating_btn_ripple"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/icon_map" />
 
 
-</LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>

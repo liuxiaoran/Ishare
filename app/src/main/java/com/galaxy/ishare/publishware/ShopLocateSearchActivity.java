@@ -48,7 +48,7 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
     private List<PoiInfo> dataList;
     public static final int pageCapacity = 20;
     public static final String TAG = "shoplocate";
-
+    OnGetPoiSearchResultListener poiListenr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,8 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
         resultListView.setAdapter(resultAdapter);
 
         mPoiSearch = PoiSearch.newInstance();
-        OnGetPoiSearchResultListener poiListenr = new OnGetPoiSearchResultListener() {
+
+        poiListenr = new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult result) {
                 if (result == null
@@ -168,11 +169,16 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
     }
 
     private void searchPoi(String keyword) {
-        mPoiSearch.searchInCity((new PoiCitySearchOption())
-                .city(IShareContext.getInstance().getUserLocation().getCity())
-                .keyword(keyword)
-                .pageNum(0)
-                .pageCapacity(pageCapacity));
+        if (mPoiSearch != null) {
+            mPoiSearch.searchInCity((new PoiCitySearchOption())
+                    .city(IShareContext.getInstance().getUserLocation().getCity())
+                    .keyword(keyword)
+                    .pageNum(0)
+                    .pageCapacity(pageCapacity));
+        } else {
+            mPoiSearch = PoiSearch.newInstance();
+            mPoiSearch.setOnGetPoiSearchResultListener(poiListenr);
+        }
     }
 
     @Override

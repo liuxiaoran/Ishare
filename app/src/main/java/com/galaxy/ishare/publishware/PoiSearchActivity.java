@@ -92,6 +92,7 @@ public class PoiSearchActivity extends ActionBarActivity {
 
     private Button zoomInBtn, zoomOutBtn;
     private MapView mapView;
+    OnGetPoiSearchResultListener poiListenr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +122,7 @@ public class PoiSearchActivity extends ActionBarActivity {
 
         // poiSearch
         mPoiSearch = PoiSearch.newInstance();
-        OnGetPoiSearchResultListener poiListenr = new OnGetPoiSearchResultListener() {
+        poiListenr = new OnGetPoiSearchResultListener() {
             @Override
             public void onGetPoiResult(PoiResult result) {
                 if (result == null
@@ -233,11 +234,16 @@ public class PoiSearchActivity extends ActionBarActivity {
     }
 
     private void searchPoi() {
-        mPoiSearch.searchInCity((new PoiCitySearchOption())
-                .city(IShareContext.getInstance().getUserLocation().getCity())
-                .keyword(shopName)
-                .pageNum(pageIndex)
-                .pageCapacity(pageCapacity));
+        if (mPoiSearch != null) {
+            mPoiSearch.searchInCity((new PoiCitySearchOption())
+                    .city(IShareContext.getInstance().getUserLocation().getCity())
+                    .keyword(shopName)
+                    .pageNum(pageIndex)
+                    .pageCapacity(pageCapacity));
+        } else {
+            mPoiSearch = PoiSearch.newInstance();
+            mPoiSearch.setOnGetPoiSearchResultListener(poiListenr);
+        }
 
     }
 

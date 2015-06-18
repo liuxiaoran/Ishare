@@ -4,6 +4,7 @@ package com.galaxy.ishare.publishware;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -159,9 +160,11 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        data.setClass(ShopLocateSearchActivity.this, PublishItemActivity.class);
-        setResult(PublishItemActivity.PARAMETER_SHOP_LOCATION_RESULT_CODE, data);
-        finish();
+        if (data != null) {
+            data.setClass(ShopLocateSearchActivity.this, PublishItemActivity.class);
+            setResult(PublishItemActivity.PARAMETER_SHOP_LOCATION_RESULT_CODE, data);
+            finish();
+        }
     }
 
     private void searchPoi(String keyword) {
@@ -170,6 +173,13 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
                 .keyword(keyword)
                 .pageNum(0)
                 .pageCapacity(pageCapacity));
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.v(TAG, "shop locate destory");
+        super.onDestroy();
+        mPoiSearch.destroy();
     }
 
     class ResultAdapter extends BaseAdapter {

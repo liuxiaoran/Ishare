@@ -2,6 +2,7 @@ package com.galaxy.ishare.publishware;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +28,7 @@ import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.galaxy.ishare.IShareContext;
@@ -149,6 +151,16 @@ public class PoiSearchActivity extends ActionBarActivity {
             @Override
             public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
 
+                if (poiDetailResult.error != SearchResult.ERRORNO.NO_ERROR) {
+                    Log.v(TAG, "no detail");
+                    Toast.makeText(PoiSearchActivity.this, "抱歉，未找到详细结果", Toast.LENGTH_SHORT)
+                            .show();
+                } else {
+                    Toast.makeText(PoiSearchActivity.this, poiDetailResult.getName() + ": " + poiDetailResult.getAddress(), Toast.LENGTH_SHORT)
+                            .show();
+                    Log.v(TAG, "poi detail:" + poiDetailResult.toString());
+                }
+
             }
         };
         mPoiSearch.setOnGetPoiSearchResultListener(poiListenr);
@@ -226,6 +238,7 @@ public class PoiSearchActivity extends ActionBarActivity {
                 .keyword(shopName)
                 .pageNum(pageIndex)
                 .pageCapacity(pageCapacity));
+
     }
 
 
@@ -245,10 +258,14 @@ public class PoiSearchActivity extends ActionBarActivity {
             //在地图上添加Marker，并显示
             Marker newMarker = (Marker) mBaiduMap.addOverlay(option);
 
-            Log.v(TAG, "info address" + info.address);
+            Log.v(TAG, "info address" + info.address + info.hasCaterDetails);
             newMarker.setTitle(info.address);
             markerAddrInfoMap.put(newMarker, info.address);
             markerNameInfoMap.put(newMarker, info.name);
+
+//            Log.v(TAG,"uid"+info.uid);
+//            mPoiSearch.searchPoiDetail((new PoiDetailSearchOption())
+//                    .poiUid(info.uid));
         }
 
     }
@@ -293,6 +310,7 @@ public class PoiSearchActivity extends ActionBarActivity {
     @Override
     protected void onDestroy() {
         // MapView的生命周期与Activity同步，当activity销毁时需调用MapView.destroy()
+        Log.v(TAG, "destroy poi search");
         super.onDestroy();
         mPoiSearch.destroy();
         // 回收 bitmap 资源
@@ -304,8 +322,9 @@ public class PoiSearchActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            Log.v(TAG, "adf");
+            NavUtils.navigateUpFromSameTask(this);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 }

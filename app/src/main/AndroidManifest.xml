@@ -188,8 +188,13 @@
         <activity
             android:name=".publishware.PoiSearchActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="poi test"
-            android:screenOrientation="portrait"></activity>
+            android:label="@string/app_name"
+            android:parentActivityName=".publishware.ShopLocateSearchActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".publishware.ShopLocateSearchActivity" />
+        </activity>
         <activity
             android:name=".publishware.CardOwnerAvailableShowActivity"
             android:label="@string/app_name"

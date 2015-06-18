@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:layout_width="160dp"
     android:layout_height="wrap_content"
-    android:background="@drawable/popup">
+    android:background="@drawable/map_result_backgroud"
+    android:padding="10dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/publishware_info_window_tv"/>
+        android:id="@+id/publishware_info_name_tv"
+        android:textColor="@color/light_primary_text"
+        android:textSize="@dimen/primary_text" />
+
+    <TextView
+        android:id="@+id/publishware_info_addr_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/light_secondary_text"
+        android:textSize="@dimen/secondary_text"
+        android:maxLines="3" />
 
 </LinearLayout>

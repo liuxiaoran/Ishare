@@ -2,12 +2,12 @@ package com.galaxy.ishare.publishware;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +15,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.InfoWindow;
-import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
@@ -31,6 +31,7 @@ import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.utils.BaiduMapZoomManager;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,12 +40,11 @@ import info.hoang8f.widget.FButton;
 
 /**
  * Created by liuxiaoran on 15/5/7.
- *
  */
 public class PoiSearchActivity extends ActionBarActivity {
 
     // 传入参数
-    public static final String PARAMETER_SHOP_NAEM = "shopName";
+    public static final String PARAMETER_SEARCH_SHOP_NAEM = "shopName";
 
     // request code
     public static final int PARAMETER_PULBISH_REQUEST_CODE = 1;
@@ -53,6 +53,7 @@ public class PoiSearchActivity extends ActionBarActivity {
     public static final String PARAMETER_SHOP_LONGITUDE = "PARAMETER_SHOP_LONGITUDE";
     public static final String PARAMETER_SHOP_LATITUDE = "PARAMETER_SHOP_LATITUDE";
     public static final String PARAMETER_SHOP_ADDR = "PARAMETER_SHOP_ADDR";
+    public static final String PARAMETER_SHOP_NAME = "PARAMETER_SHOP_NAME";
 
     public static final String TAG = "PoiSearchActivity";
 
@@ -82,7 +83,13 @@ public class PoiSearchActivity extends ActionBarActivity {
     private boolean isChooseShop = false;
 
     // HashMap 存储marker和对应的地址
-    private HashMap<Marker,String> markerAddrInfoMap ;
+    private HashMap<Marker, String> markerAddrInfoMap;
+    private HashMap<Marker, String> markerNameInfoMap;
+    int pageCapacity = 10;
+    private String retShopName;
+
+    private Button zoomInBtn, zoomOutBtn;
+    private MapView mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,18 +100,22 @@ public class PoiSearchActivity extends ActionBarActivity {
         IShareContext.getInstance().createDefaultHomeActionbar(this, "请选择店的位置");
 
         confirmBtn = (FButton) findViewById(R.id.poi_search_confirm);
-        markerAddrInfoMap= new HashMap();
+        zoomInBtn = (Button) findViewById(R.id.map_zoom_in_btn);
+        zoomOutBtn = (Button) findViewById(R.id.map_zoom_out_btn);
+
+        markerAddrInfoMap = new HashMap();
+        markerNameInfoMap = new HashMap();
 
         choosedPoiBitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.choosed_marker);
+                .fromResource(R.drawable.icon_gcoding);
         defaultPoiBitmap = BitmapDescriptorFactory
-                .fromResource(R.drawable.icon_marka);
+                .fromResource(R.drawable.icon_gcoding);
 
         Intent intent = getIntent();
-        shopName = intent.getStringExtra(PARAMETER_SHOP_NAEM);
-        mBaiduMap = ((SupportMapFragment) (getSupportFragmentManager()
-                .findFragmentById(R.id.poi_map))).getBaiduMap();
+        shopName = intent.getStringExtra(PARAMETER_SEARCH_SHOP_NAEM);
 
+        mapView = (MapView) findViewById(R.id.map_view);
+        mBaiduMap = mapView.getMap();
 
         // poiSearch
         mPoiSearch = PoiSearch.newInstance();
@@ -134,6 +145,7 @@ public class PoiSearchActivity extends ActionBarActivity {
 
                 }
             }
+
             @Override
             public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
 
@@ -143,8 +155,7 @@ public class PoiSearchActivity extends ActionBarActivity {
         searchPoi();
 
 
-        final LayoutInflater layoutInflater= (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-
+        final LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
 
         // baidumap marker click listen
@@ -162,12 +173,14 @@ public class PoiSearchActivity extends ActionBarActivity {
                     isChooseShop = true;
 
                     //  创建并显示infowindow
-                    View infoWindowView =  layoutInflater.inflate(R.layout.publishware_info_window_layout,null);
-                    TextView  addrTv = (TextView) infoWindowView.findViewById(R.id.publishware_info_window_tv);
+                    View infoWindowView = layoutInflater.inflate(R.layout.publishware_info_window_layout, null);
+                    TextView nameTv = (TextView) infoWindowView.findViewById(R.id.publishware_info_name_tv);
+                    TextView addrTv = (TextView) infoWindowView.findViewById(R.id.publishware_info_addr_tv);
                     addrTv.setText(markerAddrInfoMap.get(marker));
+                    nameTv.setText(markerNameInfoMap.get(marker));
 
 
-                    InfoWindow infoWindow = new InfoWindow(infoWindowView,choosedShopLatLng,-55);
+                    InfoWindow infoWindow = new InfoWindow(infoWindowView, choosedShopLatLng, -55);
                     mBaiduMap.showInfoWindow(infoWindow);
 
 
@@ -181,12 +194,12 @@ public class PoiSearchActivity extends ActionBarActivity {
                         isChooseShop = true;
 
                         // 创建并显示显示infowindow
-                        View infoWindowView =  layoutInflater.inflate(R.layout.publishware_info_window_layout,null);
-                        TextView  addrTv = (TextView) infoWindowView.findViewById(R.id.publishware_info_window_tv);
+                        View infoWindowView = layoutInflater.inflate(R.layout.publishware_info_window_layout, null);
+                        TextView addrTv = (TextView) infoWindowView.findViewById(R.id.publishware_info_name_tv);
                         addrTv.setText(markerAddrInfoMap.get(marker));
 
 
-                        InfoWindow infoWindow = new InfoWindow(infoWindowView,choosedShopLatLng,-47);
+                        InfoWindow infoWindow = new InfoWindow(infoWindowView, choosedShopLatLng, -47);
                         mBaiduMap.showInfoWindow(infoWindow);
                     }
 
@@ -195,27 +208,30 @@ public class PoiSearchActivity extends ActionBarActivity {
 
                 shopAddr = marker.getTitle();
                 lastChoosedMarker = marker;
-
+                retShopName = markerNameInfoMap.get(marker);
 
                 return true;
 
             }
         });
 
-
+        BaiduMapZoomManager manager = BaiduMapZoomManager.getInstance(mapView, zoomOutBtn, zoomInBtn);
+        manager.hideOriginalZoomBtn();
+        manager.setZoomListener();
     }
 
     private void searchPoi() {
         mPoiSearch.searchInCity((new PoiCitySearchOption())
                 .city(IShareContext.getInstance().getUserLocation().getCity())
                 .keyword(shopName)
-                .pageNum(pageIndex));
+                .pageNum(pageIndex)
+                .pageCapacity(pageCapacity));
     }
 
 
     private void addPoiIntoMap(PoiResult result) {
         List<PoiInfo> poiList = result.getAllPoi();
-        Log.v(TAG,poiList.size()+"poilist size");
+        Log.v(TAG, poiList.size() + "poilist size");
         for (PoiInfo info : poiList) {
             LatLng pointLatLng = info.location;
 
@@ -231,7 +247,8 @@ public class PoiSearchActivity extends ActionBarActivity {
 
             Log.v(TAG, "info address" + info.address);
             newMarker.setTitle(info.address);
-            markerAddrInfoMap.put(newMarker,info.address);
+            markerAddrInfoMap.put(newMarker, info.address);
+            markerNameInfoMap.put(newMarker, info.name);
         }
 
     }
@@ -250,10 +267,11 @@ public class PoiSearchActivity extends ActionBarActivity {
             longitude = choosedShopLatLng.longitude;
             latitude = choosedShopLatLng.latitude;
         }
-        Intent retIntent = new Intent(PoiSearchActivity.this, PublishItemActivity.class);
+        Intent retIntent = new Intent(PoiSearchActivity.this, ShopLocateSearchActivity.class);
         retIntent.putExtra(PARAMETER_SHOP_LATITUDE, latitude);
         retIntent.putExtra(PARAMETER_SHOP_LONGITUDE, longitude);
         retIntent.putExtra(PARAMETER_SHOP_ADDR, shopAddr);
+        retIntent.putExtra(PARAMETER_SHOP_NAME, retShopName);
         setResult(PublishItemActivity.PARAMETER_SHOP_LOCATION_RESULT_CODE, retIntent);
         finish();
 

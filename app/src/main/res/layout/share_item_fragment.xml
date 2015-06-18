@@ -42,8 +42,8 @@
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:text="折扣优先"
-                    android:textSize="14.0sp"
-                    android:textColor="@color/huise" />
+                    android:textColor="@color/huise"
+                    android:textSize="14.0sp" />
 
 
             </LinearLayout>
@@ -65,8 +65,8 @@
                     android:layout_height="40.0dp"
                     android:gravity="center"
                     android:text="距离优先"
-                    android:textSize="14.0sp"
-                    android:textColor="@color/huise" />
+                    android:textColor="@color/huise"
+                    android:textSize="14.0sp" />
 
 
             </LinearLayout>
@@ -94,8 +94,8 @@
                     android:layout_height="40dp"
                     android:gravity="center"
                     android:text="分类"
-                    android:textSize="14.0sp"
-                    android:textColor="@color/huise" />
+                    android:textColor="@color/huise"
+                    android:textSize="14.0sp" />
 
 
                 <ImageView
@@ -128,20 +128,20 @@
         <FrameLayout
             android:id="@+id/share_item_listview_framelayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp">
+            android:layout_height="match_parent">
 
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/map_style_floating_btn"
-                android:layout_width="56dp"
-                android:layout_height="56dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="bottom|right"
-                android:layout_margin="16dp"
+                android:layout_margin="32dp"
                 android:src="@drawable/icon_map"
                 fab:fab_colorNormal="@color/floating_btn_normal"
                 fab:fab_colorPressed="@color/floationg_btn_pressed"
-                fab:fab_colorRipple="@color/floating_btn_ripple" />
+                fab:fab_colorRipple="@color/floating_btn_ripple"
+                fab:fab_type="mini"
+                fab:fab_shadow="true" />
 
 
         </FrameLayout>

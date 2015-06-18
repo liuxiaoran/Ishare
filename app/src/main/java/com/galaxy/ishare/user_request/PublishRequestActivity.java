@@ -190,7 +190,7 @@ public class PublishRequestActivity extends ActionBarActivity {
                 } else {
 
                     Intent intent = new Intent(PublishRequestActivity.this, PoiSearchActivity.class);
-                    intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameEt.getText().toString());
+//                    intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameEt.getText().toString());
                     startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
                 }
 

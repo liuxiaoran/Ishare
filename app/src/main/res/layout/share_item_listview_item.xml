@@ -29,20 +29,20 @@
 
 
             <ImageView
-                android:layout_centerInParent="true"
                 android:id="@+id/share_item_locate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:src="@drawable/icon_location" />
 
             <TextView
                 android:id="@+id/share_item_listview_item_shop_distance_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/share_item_locate"
-                android:text="25"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="2dp"
+                android:layout_toRightOf="@id/share_item_locate"
+                android:text="25"
                 android:textColor="@color/dark_secondary_text"
                 android:textSize="@dimen/caption_text_size" />
 
@@ -50,9 +50,9 @@
                 android:id="@+id/share_item_km"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/share_item_listview_item_shop_distance_tv"
                 android:text="km"
-                android:layout_centerVertical="true"
                 android:textColor="@color/dark_secondary_text"
                 android:textSize="@dimen/caption_text_size" />
 
@@ -61,29 +61,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:text="km"
                 android:textColor="@color/dark_secondary_text"
-                android:textSize="@dimen/caption_text_size"
-                android:layout_centerVertical="true" />
+                android:textSize="@dimen/caption_text_size" />
 
             <TextView
                 android:id="@+id/share_item_listview_item_owner_distance_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toLeftOf="@id/share_item_km_tv"
                 android:singleLine="true"
                 android:text="57"
                 android:textColor="@color/dark_secondary_text"
-                android:textSize="@dimen/caption_text_size"
-                android:layout_centerVertical="true" />
+                android:textSize="@dimen/caption_text_size" />
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="10dp"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/share_item_listview_item_owner_distance_tv"
-                android:src="@drawable/icon_people"
-                android:layout_centerVertical="true" />
+                android:src="@drawable/icon_people_gray" />
 
 
         </RelativeLayout>
@@ -101,9 +101,9 @@
                 android:layout_width="80dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center_vertical"
-                android:scaleType="fitXY"
+                android:cropToPadding="true"
                 android:paddingTop="4dp"
-                android:cropToPadding="true" />
+                android:scaleType="fitXY" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,8 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="折"
-                        android:textColor="@color/red"
-                        android:textSize="12sp" />
+                        android:textColor="@color/red" />
 
                     <TextView
                         android:id="@+id/share_item_listview_item_cardtype_tv"
@@ -138,8 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:layout_weight="1"
-                        android:textColor="@color/dark_secondary_text"
-                        android:textSize="12sp" />
+                        android:textColor="@color/dark_secondary_text" />
 
 
                 </LinearLayout>
@@ -155,38 +153,33 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="出借 "
-                        android:textColor="@color/dark_secondary_text"
-                        android:textSize="12sp" />
+                        android:textColor="@color/dark_secondary_text" />
 
                     <TextView
                         android:id="@+id/share_item_listview_item_rent_count_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="10"
-                        android:textColor="@color/dark_secondary_text"
-                        android:textSize="12sp" />
+                        android:textColor="@color/dark_secondary_text" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="次    "
-                        android:textColor="@color/dark_secondary_text"
-                        android:textSize="12sp" />
+                        android:textColor="@color/dark_secondary_text" />
 
                     <TextView
                         android:id="@+id/share_item_listview_item_comment_count_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="8"
-                        android:textColor="@color/dark_secondary_text"
-                        android:textSize="12sp" />
+                        android:textColor="@color/dark_secondary_text" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="评"
-                        android:textColor="@color/dark_secondary_text"
-                        android:textSize="12sp" />
+                        android:textColor="@color/dark_secondary_text" />
 
 
                 </LinearLayout>
@@ -197,8 +190,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:gravity="left"
                     android:layout_marginTop="8dp"
+                    android:gravity="left"
                     android:orientation="horizontal" />
 
             </LinearLayout>
@@ -208,10 +201,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:paddingBottom="4dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingTop="4dp"
-                android:paddingBottom="4dp"
                 android:text="行业"
                 android:textSize="12sp" />
         </RelativeLayout>

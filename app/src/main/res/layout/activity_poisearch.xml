@@ -1,82 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <!--<LinearLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:layout_height="50dip"-->
-    <!--android:orientation="horizontal" >-->
 
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="在" >-->
-    <!--</TextView>-->
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/map_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
-    <!--<EditText-->
-    <!--android:id="@+id/city"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:text="北京" />-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:text="市内找" >-->
-    <!--</TextView>-->
-
-    <!--<AutoCompleteTextView-->
-    <!--android:id="@+id/searchkey"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_weight="0.88"-->
-    <!--android:text="餐厅" />-->
-    <!--</LinearLayout>-->
 
     <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="5dp">
+
 
         <TextView
+            android:id="@+id/target"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/target"
             android:layout_centerHorizontal="true" />
 
         <info.hoang8f.widget.FButton
-            fbutton:shadowEnabled="false"
             android:id="@+id/poi_search_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_toLeftOf="@id/target"
             android:onClick="confirmShopLocation"
             android:text="确认"
+            android:textColor="@color/white"
+            fbutton:buttonColor="@color/transport_color_primary"
             fbutton:cornerRadius="2dp"
-            android:layout_toLeftOf="@id/target"
-            android:textColor="@color/white" />
+            fbutton:shadowEnabled="false" />
 
 
         <info.hoang8f.widget.FButton
-            android:layout_marginLeft="10dp"
-            fbutton:shadowEnabled="false"
             android:id="@+id/map_next_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="goToNextPage"
-            android:text="下一组数据"
-            fbutton:cornerRadius="2dp"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/target"
-            android:textColor="@color/white" />
+            android:onClick="goToNextPage"
+            android:text="下10个"
+            android:textColor="@color/dark_primary_text"
+            fbutton:buttonColor="@color/transport_white"
+            fbutton:cornerRadius="2dp"
+            fbutton:shadowEnabled="false" />
     </RelativeLayout>
 
-    <fragment
-        android:id="@+id/poi_map"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="com.baidu.mapapi.map.SupportMapFragment" />
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|bottom"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="40dp">
 
-</LinearLayout>
+        <Button
+            android:id="@+id/map_zoom_in_btn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/icon_zoom_in" />
+
+        <Button
+            android:id="@+id/map_zoom_out_btn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_below="@id/map_zoom_in_btn"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/icon_zoom_out" />
+
+    </RelativeLayout>
+
+</FrameLayout>

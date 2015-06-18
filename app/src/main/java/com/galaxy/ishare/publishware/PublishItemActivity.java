@@ -6,13 +6,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -36,8 +31,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
-import com.baidu.mapapi.search.sug.SuggestionSearch;
-import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
@@ -48,8 +41,6 @@ import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.UserAvailable;
 import com.galaxy.ishare.utils.ImageParseUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
-import com.galaxy.ishare.utils.PhoneUtil;
-import com.galaxy.ishare.utils.PoiSearchUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
@@ -86,16 +77,16 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     private static final String TAG = "PublishItemActivity";
 
-    private AutoCompleteTextView shopNameTv;
+    private TextView shopNameTv;
 
-    private EditText shopLocationEt, descriptionEt;
+    private EditText descriptionEt;
     private MyClickListener myClickListener;
 
-    private TextView discountTv, changeAvailableTv;
+    private TextView discountTv, changeAvailableTv, shopLocationTv;
 
     private RadioButton chargeRb, memberRb, meirongRb, meifaRb, meijiaRb, qinziRb, otherRb;
 
-    private ImageView shopLocationIv, discountIv;
+    private ImageView discountIv;
 
     private LinearLayout availableLayout;
     private FButton publishBtn;
@@ -103,7 +94,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     private ArrayList<HashMap<String, String>> ownerAvailableList;
 
 
-    private SuggestionSearch mSuggestionSearch;
     private ArrayAdapter<String> sugAdapter;
 
     private double shopLongitude;
@@ -127,23 +117,23 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     private boolean isToMaxPicNumber = false;
     GridViewAdapter gridViewAdapter;
 
-    private ImageView shopLocateIv;
+    private LinearLayout shopNameLayout;
 
     private RelativeLayout discountLayout;
 
-    Handler poiSearchHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == PoiSearchUtil.POI_WHAT) {
-
-
-                int count = msg.arg1;
-
-                shopLocationEt.setHint("找到了" + count + "个店,可定位选择");
-            }
-        }
-    };
+//    Handler poiSearchHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            if (msg.what == PoiSearchUtil.POI_WHAT) {
+//
+//
+//                int count = msg.arg1;
+//
+//                shopLocationEt.setHint("找到了" + count + "个店,可定位选择");
+//            }
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,55 +147,52 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         myClickListener = new MyClickListener();
 
 
-        shopLocationIv.setOnClickListener(myClickListener);
-
-
         ownerAvailableList = new ArrayList<>();
 
 
         uploadDataClient = new UploadData();
 
 
-        mSuggestionSearch = SuggestionSearch.newInstance();
-        mSuggestionSearch.setOnGetSuggestionResultListener(this);
-        shopNameTv = (AutoCompleteTextView) findViewById(R.id.publish_shop_name_tv);
-        sugAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line);
-        shopNameTv.setAdapter(sugAdapter);
+//        mSuggestionSearch = SuggestionSearch.newInstance();
+//        mSuggestionSearch.setOnGetSuggestionResultListener(this);
+        shopNameTv = (TextView) findViewById(R.id.publish_shop_name_tv);
+//        sugAdapter = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_dropdown_item_1line);
+//        shopNameTv.setAdapter(sugAdapter);
 
-
-        /**
-         * 当输入关键字变化时，动态更新建议列表
-         */
-        shopNameTv.addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void afterTextChanged(Editable arg0) {
-                if (shopNameTv.getText().toString().length() <= 0) {
-                    return;
-                }
-                /**
-                 * 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
-                 */
-                if (shopNameTv.getText().toString() != null && !shopNameTv.getText().toString().equals("")) {
-                    mSuggestionSearch
-                            .requestSuggestion((new SuggestionSearchOption())
-                                    .keyword(shopNameTv.getText().toString()).city(IShareContext.getInstance().getUserLocationNotNull().getCity()));
-                }
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence arg0, int arg1,
-                                          int arg2, int arg3) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence cs, int arg1, int arg2,
-                                      int arg3) {
-
-            }
-        });
+//
+//        /**
+//         * 当输入关键字变化时，动态更新建议列表
+//         */
+//        shopNameTv.addTextChangedListener(new TextWatcher() {
+//
+//            @Override
+//            public void afterTextChanged(Editable arg0) {
+//                if (shopNameTv.getText().toString().length() <= 0) {
+//                    return;
+//                }
+//                /**
+//                 * 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
+//                 */
+//                if (shopNameTv.getText().toString() != null && !shopNameTv.getText().toString().equals("")) {
+//                    mSuggestionSearch
+//                            .requestSuggestion((new SuggestionSearchOption())
+//                                    .keyword(shopNameTv.getText().toString()).city(IShareContext.getInstance().getUserLocationNotNull().getCity()));
+//                }
+//            }
+//
+//            @Override
+//            public void beforeTextChanged(CharSequence arg0, int arg1,
+//                                          int arg2, int arg3) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence cs, int arg1, int arg2,
+//                                      int arg3) {
+//
+//            }
+//        });
 
 
         gridViewBitmapList = new ArrayList();
@@ -224,13 +211,13 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //                                @Override
 //                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
 //                                    if (which == 0) {
-                                        //选择本地图片
-                                        Intent intentFromGallery = new Intent();
-                                        intentFromGallery.setType("image/*"); // 设置文件类型
-                                        intentFromGallery
-                                                .setAction(Intent.ACTION_GET_CONTENT);
-                                        startActivityForResult(intentFromGallery,
-                                                IMAGE_REQUEST_CODE);
+                    //选择本地图片
+                    Intent intentFromGallery = new Intent();
+                    intentFromGallery.setType("image/*"); // 设置文件类型
+                    intentFromGallery
+                            .setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(intentFromGallery,
+                            IMAGE_REQUEST_CODE);
 //                                    } else if (which == 1) {
 //
 //                                        cameraPicCount++;
@@ -271,26 +258,25 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         photoGridView.setAdapter(gridViewAdapter);
 
 
-        // 监听店名输入框失去焦点，查询
-        shopNameTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus == false) {
-                    if (!shopNameTv.getText().toString().equals("")) {
-                        PoiSearchUtil.searchPoiInCity(shopNameTv.getText().toString(), poiSearchHandler, 0);
-                    }
-                }
-            }
-        });
+//        // 监听店名输入框失去焦点，查询
+//        shopNameTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus == false) {
+//                    if (!shopNameTv.getText().toString().equals("")) {
+//                        PoiSearchUtil.searchPoiInCity(shopNameTv.getText().toString(), poiSearchHandler, 0);
+//                    }
+//                }
+//            }
+//        });
 
 
-
-        shopLocationIv.setOnClickListener(myClickListener);
         changeAvailableTv.setOnClickListener(myClickListener);
         publishBtn.setOnClickListener(myClickListener);
         discountIv.setOnClickListener(myClickListener);
         discountLayout.setOnClickListener(myClickListener);
 
+        shopNameLayout.setOnClickListener(myClickListener);
 
         writeAddrIntoLayout();
 
@@ -299,9 +285,10 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     private void findViewsById() {
 
-        shopNameTv = (AutoCompleteTextView) findViewById(R.id.publish_shop_name_tv);
+        shopNameTv = (TextView) findViewById(R.id.publish_shop_name_tv);
 
-        shopLocationEt = (EditText) findViewById(R.id.publish_shop_location_et);
+        shopNameLayout = (LinearLayout) findViewById(R.id.publish_shop_name_layout);
+        shopLocationTv = (TextView) findViewById(R.id.publish_shop_location_tv);
         discountTv = (TextView) findViewById(R.id.publish_ware_discount_tv);
         discountIv = (ImageView) findViewById(R.id.publish_discount_arrow_iv);
 
@@ -314,8 +301,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         qinziRb = (RadioButton) findViewById(R.id.publish_qinzi_rb);
         otherRb = (RadioButton) findViewById(R.id.publish_other_rb);
 
-
-        shopLocationIv = (ImageView) findViewById(R.id.publish_shop_location_iv);
 
         descriptionEt = (EditText) findViewById(R.id.publish_card_description_et);
 
@@ -361,7 +346,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
 
         if (shopNameTv.getText().toString().equals("") || trade_type == -1 || ware_type == -1 || discountTv.getText().toString().equals("") ||
-                descriptionEt.getText().toString().equals("") || shopLocationEt.getText().toString().equals("") || ownerAvailableList.size() == 0) {
+                descriptionEt.getText().toString().equals("") || shopLocationTv.getText().toString().equals("") || ownerAvailableList.size() == 0) {
 
             ret = false;
             Toast.makeText(this, "请填写完整信息", Toast.LENGTH_SHORT).show();
@@ -385,24 +370,29 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     NumberPicker picker2 = null;
     NumberPicker picker1 = null;
     FButton confirmBtn = null;
+
     class MyClickListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.publish_shop_location_iv) {
-
-                if (shopNameTv.getText().toString().equals("")) {
-
-                    Toast.makeText(PublishItemActivity.this, "请填写店名", Toast.LENGTH_SHORT).show();
-
-                } else {
-
-
-                    Intent intent = new Intent(PublishItemActivity.this, PoiSearchActivity.class);
-                    intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameTv.getText().toString());
-                    startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
-                }
-
+//            if (v.getId() == R.id.publish_shop_location_iv) {
+//
+//                if (shopNameTv.getText().toString().equals("")) {
+//
+//                    Toast.makeText(PublishItemActivity.this, "请填写店名", Toast.LENGTH_SHORT).show();
+//
+//                } else {
+//
+//
+//                    Intent intent = new Intent(PublishItemActivity.this, PoiSearchActivity.class);
+//                    intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameTv.getText().toString());
+//                    startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
+//                }
+//
+//            }
+            if (v.getId() == R.id.publish_shop_name_layout) {
+                Intent intent = new Intent(PublishItemActivity.this, ShopLocateSearchActivity.class);
+                startActivityForResult(intent, 0);
             } else if (v.getId() == R.id.publish_ware_publish_btn) {
 
                 if (checkInfo()) {
@@ -480,23 +470,23 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.v(TAG, "resultcode: " + resultCode);
         if (resultCode == PARAMETER_AVAILABLE_RESULT_CODE) {
             Log.v(TAG, "arrive result");
 
             writeAddrIntoLayout();
 
 
-
         } else if (resultCode == PARAMETER_SHOP_LOCATION_RESULT_CODE) {
             shopLatitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LATITUDE, 0);
             shopLongitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LONGITUDE, 0);
 
-            shopLocationEt.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
+            shopLocationTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
+            shopNameTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_NAME));
+            Log.v(TAG, "shop addr" + data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
         } else if (resultCode == PARAMETER_PREVIEW_DELETE_RESULT_CODE) {
             int deletePosition = data.getIntExtra(PARETER_DELETE_POSITION, 0);
             gridViewBitmapList.remove(deletePosition);
@@ -554,7 +544,6 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSuggestionSearch.destroy();
         for (int i = 0; i < gridViewBitmapList.size(); i++) {
             if (!gridViewBitmapList.get(i).isRecycled()) {
                 gridViewBitmapList.get(i).recycle();
@@ -606,7 +595,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             params.add(new BasicNameValuePair("ware_type", ware_type + ""));
             params.add(new BasicNameValuePair("discount", discountTv.getText().toString()));
             params.add(new BasicNameValuePair("trade_type", trade_type + ""));
-            params.add(new BasicNameValuePair("shop_location", shopLocationEt.getText().toString()));
+            params.add(new BasicNameValuePair("shop_location", shopLocationTv.getText().toString()));
 
 //            for (int i = 0; i < ownerAvailableLocationEtList.size(); i++) {
 //                HashMap hashMap = new HashMap();

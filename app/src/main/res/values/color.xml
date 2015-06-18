@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="transport_color_primary">#CCEB0373</color>
     <color name="color_primary">#EB0373</color>
     <color name="color_primary_dark">#e1698c</color>
     <color name="color_accent">#EB0373</color>
+    <color name="transport_white">#CCFFFFFF</color>
 	<color name="white">#FFFFFF</color>
     <color name="divider">#ECEFF1</color>
 	<color name="blue">#ff2d99d4</color>
@@ -68,8 +70,8 @@
 
 
     <!-- floating button-->
-    <color name="floating_btn_normal">#e1698c</color>
-    <color name="floationg_btn_pressed">#67e1698c</color>
+    <color name="floating_btn_normal">#00e1698c</color>
+    <color name="floationg_btn_pressed">#00e1698c</color>
     <color name="floating_btn_ripple">#e1698c</color>
 
     <color name="chat_purple">#E1698C</color>

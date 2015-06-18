@@ -282,7 +282,7 @@ public class ItemListFragment extends Fragment {
                     popupWindow.setOutsideTouchable(true);
                     popupWindow.setBackgroundDrawable(new BitmapDrawable());
 
-                    popupWindow.showAsDropDown(v, 0, DisplayUtil.dip2px(getActivity(), 2));
+                    popupWindow.showAsDropDown(v, -DisplayUtil.dip2px(getActivity(), 9), DisplayUtil.dip2px(getActivity(), 2));
                     listViewInPopUpWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

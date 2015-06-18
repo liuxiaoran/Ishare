@@ -132,8 +132,8 @@
 
             <com.melnykov.fab.FloatingActionButton
                 android:id="@+id/map_style_floating_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_gravity="bottom|right"
                 android:layout_margin="32dp"
                 android:src="@drawable/icon_map"

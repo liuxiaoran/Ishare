@@ -1,8 +1,10 @@
 package com.galaxy.ishare.database;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.Chat;
 import com.galaxy.ishare.model.Friend;
 import com.galaxy.ishare.model.InviteFriend;
@@ -54,6 +56,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Chat.class);
             TableUtils.createTable(connectionSource, InviteFriend.class);
             TableUtils.createTable(connectionSource, UserAvailable.class);
+            TableUtils.createTable(connectionSource, CardItem.class);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,7 +71,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, InviteFriend.class,true);
             TableUtils.dropTable(connectionSource, Chat.class,true);
             TableUtils.dropTable(connectionSource, UserAvailable.class, true);
-
+            TableUtils.dropTable(connectionSource, CardItem.class, true);
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();

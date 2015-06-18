@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/middle_padding"
+    android:paddingBottom="10dp"
+    android:paddingTop="@dimen/default_layout_padding"
     android:descendantFocusability="blocksDescendants">
 
     <RelativeLayout
@@ -26,46 +27,32 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/request_item_requester_avatar_iv"
             android:text="liu"
-            android:textSize="16sp" />
+            android:textSize="@dimen/primary_text"
+            android:textColor="@color/dark_primary_text" />
+
 
         <ImageView
             android:id="@+id/request_item_requester_gender_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@id/request_item_requester_name_tv"
-            android:layout_alignTop="@id/request_item_requester_name_tv"
-            android:layout_marginLeft="5dp"
+
+            android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/request_item_requester_name_tv"
             android:src="@drawable/icon_female" />
-
-        <TextView
-            android:id="@+id/invisible_p"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/request_item_requester_gender_iv"
-            android:text="p"
-            android:visibility="invisible" />
-
-        <ImageView
-            android:id="@+id/request_item_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/invisible_p"
-            android:layout_alignTop="@id/invisible_p"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/invisible_p"
-            android:src="@drawable/icon_people" />
 
 
         <TextView
             android:id="@+id/request_item_distance_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/request_item_location"
+            android:layout_alignBottom="@id/request_item_requester_gender_iv"
             android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/request_item_location"
+            android:layout_toRightOf="@id/request_item_requester_gender_iv"
             android:text="12km"
-            android:textSize="12sp" />
+            android:textSize="@dimen/hint_text"
+            android:gravity="bottom"
+            android:textColor="@color/dark_secondary_text" />
 
 
         <TextView
@@ -75,7 +62,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="2dp"
             android:text="1min"
-            android:textSize="@dimen/caption_text_size"
+            android:textSize="@dimen/hint_text"
             android:textColor="@color/dark_secondary_text" />
 
         <TextView
@@ -84,8 +71,9 @@
             android:layout_alignLeft="@+id/request_item_requester_name_tv"
             android:layout_below="@id/request_item_requester_name_tv"
             android:text="发布了一条求卡的请求"
-            android:textSize="@dimen/caption_text_size"
-            android:textColor="@color/dark_secondary_text" />
+            android:textSize="@dimen/secondary_text"
+            android:textColor="@color/dark_secondary_text"
+            android:layout_marginTop="3dp" />
 
 
     </RelativeLayout>
@@ -94,11 +82,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
+        android:layout_marginLeft="50dp"
         android:layout_marginRight="10dp"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:paddingBottom="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="4dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -110,9 +101,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:text="fadf"
-                android:textStyle="bold"
-                android:textSize="@dimen/caption_text_size"
-                android:textColor="@color/dark_secondary_text" />
+                android:textSize="@dimen/primary_text"
+                android:textColor="@color/dark_primary_text" />
 
             <ImageView
                 android:id="@+id/request_location_iv"
@@ -129,32 +119,36 @@
                 android:id="@+id/request_item_shop_distance_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/request_location_iv"
+                android:layout_alignTop="@id/request_location_iv"
+                android:layout_alignBaseline="@id/request_item_card_shopname_tv"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/request_location_iv"
                 android:text="12"
-                android:textSize="@dimen/caption_text_size"
-                android:textColor="@color/dark_secondary_text" />
+                android:textSize="@dimen/hint_text"
+                android:textColor="@color/dark_secondary_text"
+                android:gravity="center" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/request_item_shop_distance_tv"
+                android:layout_alignTop="@id/request_location_iv"
+                android:layout_alignBaseline="@id/request_item_card_shopname_tv"
                 android:layout_marginLeft="2dp"
                 android:layout_toRightOf="@id/request_item_shop_distance_tv"
                 android:text="km"
-                android:textSize="@dimen/caption_text_size"
-                android:textColor="@color/dark_secondary_text" />
+                android:textSize="@dimen/hint_text"
+                android:textColor="@color/dark_secondary_text"
+                android:gravity="center" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/request_item_card_shop_location_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="5dp"
             android:inputType="textMultiLine"
-            android:textSize="@dimen/caption_text_size"
+            android:textSize="@dimen/secondary_text"
             android:textColor="@color/dark_secondary_text" />
     </LinearLayout>
 

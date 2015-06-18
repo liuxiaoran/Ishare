@@ -89,6 +89,7 @@ public class CardDetailActivity extends ActionBarActivity {
 
     public int currentLastCommentIndex;
     private TextView moreCommentTv;
+    private FButton collectBtn;
 
 
     @Override
@@ -236,6 +237,14 @@ public class CardDetailActivity extends ActionBarActivity {
             }
         });
 
+        collectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+            }
+        });
+
 
     }
 
@@ -266,6 +275,7 @@ public class CardDetailActivity extends ActionBarActivity {
         genderIv = (ImageView) findViewById(R.id.share_item_detail_owner_gender_iv);
 
         moreCommentTv = (TextView) findViewById(R.id.share_item_detail_more_comment_tv);
+        collectBtn = (FButton) findViewById(R.id.share_item_collect_btn);
 
     }
 

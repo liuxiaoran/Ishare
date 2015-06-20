@@ -56,7 +56,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Chat.class);
             TableUtils.createTable(connectionSource, InviteFriend.class);
             TableUtils.createTable(connectionSource, UserAvailable.class);
-            TableUtils.createTable(connectionSource, CardItem.class);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,7 +71,7 @@ public class DataBaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.dropTable(connectionSource, InviteFriend.class,true);
             TableUtils.dropTable(connectionSource, Chat.class,true);
             TableUtils.dropTable(connectionSource, UserAvailable.class, true);
-            TableUtils.dropTable(connectionSource, CardItem.class, true);
+
             onCreate(database, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();

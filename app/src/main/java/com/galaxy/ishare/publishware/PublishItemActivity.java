@@ -375,23 +375,10 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
         @Override
         public void onClick(View v) {
-//            if (v.getId() == R.id.publish_shop_location_iv) {
-//
-//                if (shopNameTv.getText().toString().equals("")) {
-//
-//                    Toast.makeText(PublishItemActivity.this, "请填写店名", Toast.LENGTH_SHORT).show();
-//
-//                } else {
-//
-//
-//                    Intent intent = new Intent(PublishItemActivity.this, PoiSearchActivity.class);
-//                    intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameTv.getText().toString());
-//                    startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
-//                }
-//
-//            }
+
             if (v.getId() == R.id.publish_shop_name_layout) {
                 Intent intent = new Intent(PublishItemActivity.this, ShopLocateSearchActivity.class);
+                intent.putExtra(ShopLocateSearchActivity.PARAMETER_WHO_COME, ShopLocateSearchActivity.PUBLISHCARD_TO_SEARCH);
                 startActivityForResult(intent, 0);
             } else if (v.getId() == R.id.publish_ware_publish_btn) {
 

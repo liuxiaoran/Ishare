@@ -4,7 +4,6 @@ package com.galaxy.ishare.publishware;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,6 +28,7 @@ import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.user_request.PublishRequestActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +40,10 @@ import info.hoang8f.widget.FButton;
  */
 public class ShopLocateSearchActivity extends ActionBarActivity {
 
+    public static final int PUBLISHCARD_TO_SEARCH = 0;
+    public static final int PUBLISHREQUEST_TO_SEARCH = 1;
+    public static final String PARAMETER_WHO_COME = "PARAMETER_WHO_COME";
+    int whoCome;
     private EditText contentEt;
     private FButton searchBtn;
     private TextView searchInMap;
@@ -56,6 +60,8 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
         setContentView(R.layout.publish_shop_locate_search_activity);
 
         android.support.v7.app.ActionBar actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_search_actionbar, true);
+
+        whoCome = getIntent().getIntExtra(PARAMETER_WHO_COME, 0);
 
         searchBtn = (FButton) actionBar.getCustomView().findViewById(R.id.search_btn);
         searchBtn.setVisibility(View.INVISIBLE);
@@ -146,7 +152,14 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
         resultListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent retIntent = new Intent(ShopLocateSearchActivity.this, PublishItemActivity.class);
+
+
+                Intent retIntent = null;
+                if (whoCome == PUBLISHCARD_TO_SEARCH)
+                    retIntent = new Intent(ShopLocateSearchActivity.this, PublishItemActivity.class);
+                else if (whoCome == PUBLISHREQUEST_TO_SEARCH)
+                    retIntent = new Intent(ShopLocateSearchActivity.this, PublishRequestActivity.class);
+
                 retIntent.putExtra(PoiSearchActivity.PARAMETER_SHOP_LATITUDE, dataList.get(position).location.latitude);
                 retIntent.putExtra(PoiSearchActivity.PARAMETER_SHOP_LONGITUDE, dataList.get(position).location.longitude);
                 retIntent.putExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR, dataList.get(position).address);
@@ -162,7 +175,10 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            data.setClass(ShopLocateSearchActivity.this, PublishItemActivity.class);
+            if (whoCome == PUBLISHCARD_TO_SEARCH)
+                data.setClass(ShopLocateSearchActivity.this, PublishItemActivity.class);
+            else if (whoCome == PUBLISHREQUEST_TO_SEARCH)
+                data.setClass(ShopLocateSearchActivity.this, PublishRequestActivity.class);
             setResult(PublishItemActivity.PARAMETER_SHOP_LOCATION_RESULT_CODE, data);
             finish();
         }

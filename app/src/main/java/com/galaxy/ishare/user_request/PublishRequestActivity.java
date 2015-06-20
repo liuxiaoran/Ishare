@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.galaxy.ishare.IShareContext;
@@ -19,6 +21,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.publishware.PoiSearchActivity;
 import com.galaxy.ishare.publishware.PublishItemActivity;
+import com.galaxy.ishare.publishware.ShopLocateSearchActivity;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
@@ -35,10 +38,12 @@ import info.hoang8f.widget.FButton;
  */
 public class PublishRequestActivity extends ActionBarActivity {
 
-    EditText shopAddrEt, shopNameEt, descriptionEt;
+    LinearLayout shopNameLayout;
+    EditText descriptionEt;
+    TextView shopNameTv, addrTv;
     FButton confirmBtn, meirongBtn, meifaBtn, meijiaBtn, qinziBtn, otherBtn;
     FButton[] cardTypeBtns;
-    ImageView locateIv;
+
     MClickListener mClickListener;
     HttpInteract httpInteract;
     int[] clickCount;
@@ -59,20 +64,27 @@ public class PublishRequestActivity extends ActionBarActivity {
         clickCount = new int[6];
 
         initViews();
-        locateIv.setOnClickListener(mClickListener);
+
         confirmBtn.setOnClickListener(mClickListener);
         httpInteract = new HttpInteract();
         for (int i = 0; i < cardTypeBtns.length; i++) {
             cardTypeBtns[i].setOnClickListener(mClickListener);
         }
 
+        shopNameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PublishRequestActivity.this, ShopLocateSearchActivity.class);
+                intent.putExtra(ShopLocateSearchActivity.PARAMETER_WHO_COME, ShopLocateSearchActivity.PUBLISHREQUEST_TO_SEARCH);
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
 
     private void initViews() {
 
-        shopNameEt = (EditText) findViewById(R.id.request_publish_shop_name_et);
-        shopAddrEt = (EditText) findViewById(R.id.request_publish_shop_addr_et);
+
         descriptionEt = (EditText) findViewById(R.id.request_publish_description_et);
 
         confirmBtn = (FButton) findViewById(R.id.request_publish_confirm_btn);
@@ -84,8 +96,10 @@ public class PublishRequestActivity extends ActionBarActivity {
 
         cardTypeBtns = new FButton[]{meirongBtn, meifaBtn, meijiaBtn, qinziBtn, otherBtn};
 
+        shopNameLayout = (LinearLayout) findViewById(R.id.request_shop_name_layout);
+        shopNameTv = (TextView) findViewById(R.id.request_shop_name_tv);
+        addrTv = (TextView) findViewById(R.id.request_shop_location_tv);
 
-        locateIv = (ImageView) findViewById(R.id.request_publish_shop_locate_iv);
 
 
     }
@@ -182,19 +196,20 @@ public class PublishRequestActivity extends ActionBarActivity {
                     httpInteract.publishRequest();
                 }
 
-            } else if (v.getId() == R.id.request_publish_shop_locate_iv) {
-                if (shopNameEt.getText().toString().equals("")) {
-
-                    Toast.makeText(PublishRequestActivity.this, "请填写店名", Toast.LENGTH_SHORT).show();
-
-                } else {
-
-                    Intent intent = new Intent(PublishRequestActivity.this, PoiSearchActivity.class);
-//                    intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameEt.getText().toString());
-                    startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
-                }
-
             }
+//            else if (v.getId() == R.id.request_publish_shop_locate_iv) {
+//                if (shopNameEt.getText().toString().equals("")) {
+//
+//                    Toast.makeText(PublishRequestActivity.this, "请填写店名", Toast.LENGTH_SHORT).show();
+//
+//                } else {
+//
+//                    Intent intent = new Intent(PublishRequestActivity.this, PoiSearchActivity.class);
+////                    intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameEt.getText().toString());
+//                    startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
+//                }
+//
+//            }
         }
     }
 
@@ -206,16 +221,17 @@ public class PublishRequestActivity extends ActionBarActivity {
             shopLatitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LATITUDE, 0);
             shopLongitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LONGITUDE, 0);
 
-            shopAddrEt.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
+            addrTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
+            shopNameTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_NAME));
         }
     }
 
     public boolean checkInfo() {
-        if (shopNameEt.getText().toString().equals("")) {
+        if (shopNameTv.getText().toString().equals("")) {
             Toast.makeText(this, "请填写店名", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (shopAddrEt.getText().toString().equals("")) {
+        if (addrTv.getText().toString().equals("")) {
             Toast.makeText(this, "请填写店的地址", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -234,8 +250,8 @@ public class PublishRequestActivity extends ActionBarActivity {
         public void publishRequest() {
 
             List<BasicNameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("shop_name", shopNameEt.getText().toString()));
-            params.add(new BasicNameValuePair("shop_location", shopAddrEt.getText().toString()));
+            params.add(new BasicNameValuePair("shop_name", shopNameTv.getText().toString()));
+            params.add(new BasicNameValuePair("shop_location", addrTv.getText().toString()));
             if (isHasShopLatLng) {
                 params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));
                 params.add(new BasicNameValuePair("shop_latitude", shopLatitude + ""));

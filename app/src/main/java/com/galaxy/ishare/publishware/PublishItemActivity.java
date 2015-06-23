@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -42,6 +40,7 @@ import com.galaxy.ishare.model.UserAvailable;
 import com.galaxy.ishare.utils.ImageParseUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.qiniu.android.http.ResponseInfo;
 import com.qiniu.android.storage.UpCompletionHandler;
 
@@ -49,8 +48,6 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,11 +107,12 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
     private GridView photoGridView;
     private int maxUploadPicCount = 3;
-    private ArrayList<Bitmap> gridViewBitmapList;
+    //    private ArrayList<Bitmap> gridViewBitmapList;
     private ArrayList<Uri> picUriList;
     private int cameraPicCount = 0;
     // 是否已经选择了maxUploadPicCount 个图片
     private boolean isToMaxPicNumber = false;
+
     GridViewAdapter gridViewAdapter;
 
     private LinearLayout shopNameLayout;
@@ -195,14 +193,14 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //        });
 
 
-        gridViewBitmapList = new ArrayList();
+//        gridViewBitmapList = new ArrayList();
         picUriList = new ArrayList<>();
-        gridViewBitmapList.add(ImageParseUtil.getBitmapFromResource(this, R.drawable.card_pic_add));
+//        gridViewBitmapList.add(ImageParseUtil.getBitmapFromResource(this, R.drawable.card_pic_add));
         photoGridView = (GridView) findViewById(R.id.publishware_cardpic_gridview);
         photoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == gridViewBitmapList.size() - 1 && !isToMaxPicNumber) {
+                if (position == picUriList.size() && !isToMaxPicNumber) {
                     // 点击的是选择添加图片
 //                    new MaterialDialog.Builder(PublishItemActivity.this)
 //                            .title("选择图片来源")
@@ -390,7 +388,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
             } else if (v.getId() == R.id.publish_ware_choose_available_tv) {
 
-                Intent intent = new Intent(PublishItemActivity.this, CardOwnerAvailableShowActivity.class);
+//                Intent intent = new Intent(PublishItemActivity.this, CardOwnerAvailableShowActivity.class);
+                Intent intent = new Intent(PublishItemActivity.this, CardOwnerAvailableAddActivity.class);
                 startActivityForResult(intent, 0);
 
             } else if (v.getId() == R.id.publishware_discount_layout) {
@@ -461,7 +460,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.v(TAG, "resultcode: " + resultCode);
-        if (resultCode == PARAMETER_AVAILABLE_RESULT_CODE) {
+        if (resultCode == PARAMETER_AVAILABLE_RESULT_CODE || resultCode == CardOwnerAvailableShowActivity.ADD_TO_SHOW_RESULT_CODE) {
             Log.v(TAG, "arrive result");
 
             writeAddrIntoLayout();
@@ -476,7 +475,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             Log.v(TAG, "shop addr" + data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
         } else if (resultCode == PARAMETER_PREVIEW_DELETE_RESULT_CODE) {
             int deletePosition = data.getIntExtra(PARETER_DELETE_POSITION, 0);
-            gridViewBitmapList.remove(deletePosition);
+            picUriList.remove(deletePosition);
             gridViewAdapter.notifyDataSetChanged();
         }
         // 处理选择图片的返回
@@ -486,42 +485,44 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                 case IMAGE_REQUEST_CODE:
                     Uri uri = data.getData();
                     Bitmap bitmap = null;
-                    bitmap = ImageParseUtil.getBitmapFromUri(uri, this);
-
-                    if (gridViewBitmapList.size() != maxUploadPicCount)
-                        gridViewBitmapList.add(gridViewBitmapList.size() - 1, bitmap);
-                    else {
-                        // 最后一张图片加载
-                        gridViewBitmapList.set(gridViewBitmapList.size() - 1, bitmap);
-                        isToMaxPicNumber = true;
-                    }
+//                    bitmap = ImageParseUtil.getBitmapFromUri(uri, this);
+                    Log.v(TAG, "uri is: " + uri.toString());
+//                    if (gridViewBitmapList.size() != maxUploadPicCount)
+//                        gridViewBitmapList.add(gridViewBitmapList.size() - 1, bitmap);
+//                    else {
+//                        // 最后一张图片加载
+//                        gridViewBitmapList.set(gridViewBitmapList.size() - 1, bitmap);
+//                        isToMaxPicNumber = true;
+//                    }
                     picUriList.add(uri);
-
-                    gridViewAdapter.notifyDataSetChanged();
-
-                    break;
-                case CAMERA_REQUEST_CODE:
-                    File cardPicFile = new File(PublishItemActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                            "cardimg" + cameraPicCount + ".jpg");
-
-                    Uri u = null;
-                    try {
-                        u = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
-                                cardPicFile.getAbsolutePath(), null, null));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                    if (gridViewBitmapList.size() != maxUploadPicCount)
-                        gridViewBitmapList.add(gridViewBitmapList.size() - 1, ImageParseUtil.getBitmapFromUri(u, this));
-                    else {
-                        // 最后一张图片展示
-                        gridViewBitmapList.set(gridViewBitmapList.size() - 1, ImageParseUtil.getBitmapFromUri(u, this));
+                    if (picUriList.size() == maxUploadPicCount) {
                         isToMaxPicNumber = true;
                     }
-                    picUriList.add(u);
                     gridViewAdapter.notifyDataSetChanged();
 
                     break;
+//                case CAMERA_REQUEST_CODE:
+//                    File cardPicFile = new File(PublishItemActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+//                            "cardimg" + cameraPicCount + ".jpg");
+//
+//                    Uri u = null;
+//                    try {
+//                        u = Uri.parse(MediaStore.Images.Media.insertImage(getContentResolver(),
+//                                cardPicFile.getAbsolutePath(), null, null));
+//                    } catch (FileNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                    if (gridViewBitmapList.size() != maxUploadPicCount)
+//                        gridViewBitmapList.add(gridViewBitmapList.size() - 1, ImageParseUtil.getBitmapFromUri(u, this));
+//                    else {
+//                        // 最后一张图片展示
+//                        gridViewBitmapList.set(gridViewBitmapList.size() - 1, ImageParseUtil.getBitmapFromUri(u, this));
+//                        isToMaxPicNumber = true;
+//                    }
+//                    picUriList.add(u);
+//                    gridViewAdapter.notifyDataSetChanged();
+//
+//                    break;
 
             }
         }
@@ -531,11 +532,11 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        for (int i = 0; i < gridViewBitmapList.size(); i++) {
-            if (!gridViewBitmapList.get(i).isRecycled()) {
-                gridViewBitmapList.get(i).recycle();
-            }
-        }
+//        for (int i = 0; i < gridViewBitmapList.size(); i++) {
+//            if (!gridViewBitmapList.get(i).isRecycled()) {
+//                gridViewBitmapList.get(i).recycle();
+//            }
+//        }
 //        PoiSearchUtil.destroyPoiSearch();
     }
 
@@ -647,7 +648,13 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
         @Override
         public int getCount() {
-            return gridViewBitmapList.size();
+            int ret = 0;
+            if (picUriList.size() < maxUploadPicCount) {
+                ret = picUriList.size() + 1;
+            } else {
+                ret = picUriList.size();
+            }
+            return ret;
         }
 
         @Override
@@ -661,14 +668,31 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            ImageView picIv = null;
 
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.publishware_cardpic_gridview_item, null);
+            Log.v(TAG, "convertview is null  " + position);
+            convertView = inflater.inflate(R.layout.publishware_cardpic_gridview_item, null);
+            picIv = (ImageView) convertView.findViewById(R.id.publishware_cardpic_gridview_iv);
+            convertView.setTag(picIv);
+
+
+            picIv.setTag(position);
+
+
+            if (picUriList.size() == maxUploadPicCount) {
+                ImageLoader.getInstance().displayImage(picUriList.get(position).toString(), picIv);
+            } else {
+                if (position <= picUriList.size() - 1) {
+
+                    ImageLoader.getInstance().displayImage(picUriList.get(position).toString(), picIv);
+                } else if (position == picUriList.size()) {
+                    Log.v(TAG, "postion: add " + position + " " + picIv.toString());
+                    picIv.setTag(position);
+                    if (position == (int) picIv.getTag())
+                        picIv.setImageResource(R.drawable.card_pic_add);
+                }
             }
-            ImageView picIv = (ImageView) convertView.findViewById(R.id.publishware_cardpic_gridview_iv);
-
-            picIv.setImageBitmap(gridViewBitmapList.get(position));
 
 
             return convertView;

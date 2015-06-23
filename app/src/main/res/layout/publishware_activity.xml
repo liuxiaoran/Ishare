@@ -50,7 +50,9 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:textColor="@color/dark_primary_text"
-                        android:textSize="@dimen/secondary_text" />
+                        android:textSize="@dimen/secondary_text"
+                        android:hint="点击搜索店铺"
+                        android:textColorHint="@color/dark_hint_text" />
 
                     <ImageView
 
@@ -93,7 +95,9 @@
                     android:background="@null"
                     android:maxLines="2"
                     android:textColor="@color/dark_secondary_text"
-                    android:textSize="@dimen/secondary_text" />
+                    android:textSize="@dimen/secondary_text"
+                    android:hint="选择店名之后就有店址了"
+                    android:textColorHint="@color/dark_hint_text" />
             </RelativeLayout>
 
             <View
@@ -129,7 +133,10 @@
                     android:id="@+id/publish_ware_discount_tv"
                     style="@style/secondary_textview"
                     android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/publish_discount_arrow_iv" />
+                    android:layout_toLeftOf="@id/publish_discount_arrow_iv"
+                    android:textSize="@dimen/secondary_text"
+                    android:hint="点击选择折扣"
+                    android:textColorHint="@color/dark_hint_text" />
 
 
             </RelativeLayout>
@@ -171,7 +178,8 @@
                         android:gravity="center"
                         android:text="充值卡"
                         android:textColor="@color/card_type_text_selector"
-                        android:textSize="@dimen/secondary_text" />
+                        android:textSize="@dimen/secondary_text"
+                        android:checked="true" />
 
                     <RadioButton
                         android:id="@+id/publish_type_member_rb"
@@ -195,7 +203,7 @@
                 android:id="@+id/publish_trade_radio_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="35dp"
+                android:layout_marginLeft="38dp"
                 android:layout_marginTop="@dimen/default_layout_marginTop"
                 android:layout_toRightOf="@id/publish_card_tv"
                 android:orientation="horizontal">
@@ -208,7 +216,7 @@
                     android:background="@drawable/card_type_radio_btn_selector"
                     android:button="@null"
                     android:gravity="center"
-
+                    android:checked="true"
                     android:text="美容"
                     android:textColor="@color/card_type_text_selector"
                     android:textSize="@dimen/secondary_text" />
@@ -293,7 +301,10 @@
                     android:background="@null"
                     android:inputType="textMultiLine"
                     android:textColor="@color/dark_primary_text"
-                    android:textSize="@dimen/secondary_text" />
+                    android:textSize="@dimen/secondary_text"
+
+                    android:hint="对于该卡的描述"
+                    android:textColorHint="@color/dark_hint_text" />
 
             </LinearLayout>
 
@@ -323,7 +334,7 @@
                     android:id="@+id/publish_ware_choose_available_tv"
                     style="@style/primary_textview"
                     android:layout_alignParentRight="true"
-                    android:text="选择"
+                    android:text="增加"
                     android:textColor="@color/color_primary" />
 
             </RelativeLayout>
@@ -387,8 +398,8 @@
 
         <info.hoang8f.widget.FButton
             android:id="@+id/publish_ware_publish_btn"
-            android:layout_width="120dp"
-            android:layout_height="30dp"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="发布这张卡"

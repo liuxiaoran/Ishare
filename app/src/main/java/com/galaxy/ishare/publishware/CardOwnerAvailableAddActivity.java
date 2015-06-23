@@ -144,7 +144,8 @@ public class CardOwnerAvailableAddActivity extends ActionBarActivity {
     }
 
     private void returnShowActivity() {
-        Intent intent = new Intent(this, CardOwnerAvailableShowActivity.class);
+//        Intent intent = new Intent(this, CardOwnerAvailableShowActivity.class);
+        Intent intent = new Intent(this, PublishItemActivity.class);
         setResult(CardOwnerAvailableShowActivity.ADD_TO_SHOW_RESULT_CODE, intent);
         finish();
 

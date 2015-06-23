@@ -4,111 +4,36 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.CardView
-        style="@style/UniversalCardViewStyle"
-        card_view:cardCornerRadius="@dimen/default_card_view_corner_radius"
-        card_view:cardElevation="0dp">
+    <!--<android.support.v7.widget.CardView-->
+    <!--style="@style/UniversalCardViewStyle"-->
+    <!--card_view:cardCornerRadius="@dimen/default_card_view_corner_radius"-->
+    <!--card_view:cardElevation="0dp">-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/white">
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="2dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="10dp"
-                android:paddingTop="2dp">
-
-                <TextView
-                    android:id="@+id/share_item_listview_item_shopname_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxWidth="150dp"
-                    android:singleLine="true"
-                    android:text="麻辣龙虾" />
-
-
-                <ImageView
-                    android:id="@+id/share_item_locate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/icon_location" />
-
-                <TextView
-                    android:id="@+id/share_item_listview_item_shop_distance_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="2dp"
-                    android:layout_toRightOf="@id/share_item_locate"
-                    android:text="25"
-                    android:textColor="@color/dark_secondary_text"
-                    android:textSize="@dimen/caption_text_size" />
-
-                <TextView
-                    android:id="@+id/share_item_km"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/share_item_listview_item_shop_distance_tv"
-                    android:text="km"
-                    android:textColor="@color/dark_secondary_text"
-                    android:textSize="@dimen/caption_text_size" />
-
-                <TextView
-                    android:id="@+id/share_item_km_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:text="km"
-                    android:textColor="@color/dark_secondary_text"
-                    android:textSize="@dimen/caption_text_size" />
-
-                <TextView
-                    android:id="@+id/share_item_listview_item_owner_distance_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toLeftOf="@id/share_item_km_tv"
-                    android:singleLine="true"
-                    android:text="57"
-                    android:textColor="@color/dark_secondary_text"
-                    android:textSize="@dimen/caption_text_size" />
-
-                <ImageView
-                    android:layout_width="10dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/share_item_listview_item_owner_distance_tv"
-                    android:src="@drawable/icon_people_gray" />
-
-
-            </RelativeLayout>
-
-            <View style="@style/horizontal_divider" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp">
+                android:padding="9dp">
 
                 <ImageView
 
                     android:id="@+id/share_item_listview_item_pic_iv"
-                    android:layout_width="80dp"
-                    android:layout_height="60dp"
+                    android:layout_width="92dp"
+                    android:layout_height="69dp"
                     android:layout_gravity="center_vertical"
                     android:cropToPadding="true"
-                    android:paddingTop="4dp"
+                    android:padding="3dp"
                     android:scaleType="fitXY" />
 
+
                 <LinearLayout
+                    android:id="@+id/share_item_content_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@id/share_item_listview_item_pic_iv"
@@ -116,31 +41,74 @@
                     android:layout_toRightOf="@id/share_item_listview_item_pic_iv"
                     android:orientation="vertical">
 
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/share_item_listview_item_shopname_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxWidth="150dp"
+                            android:singleLine="true"
+                            android:textColor="@color/dark_primary_text"
+                            android:textSize="@dimen/secondary_text"
+                            android:text="麻辣龙虾" />
+
+                        <ImageView
+                            android:id="@+id/share_item_locate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="3dp"
+                            android:src="@drawable/icon_location" />
+
+                        <TextView
+                            android:id="@+id/share_item_listview_item_shop_distance_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="2dp"
+                            android:layout_toRightOf="@id/share_item_locate"
+                            android:text="25"
+                            android:textColor="@color/dark_secondary_text"
+                            android:textSize="@dimen/hint_text" />
+
+                        <TextView
+                            android:id="@+id/share_item_km"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/share_item_listview_item_shop_distance_tv"
+                            android:text="km"
+                            android:textColor="@color/dark_secondary_text"
+                            android:textSize="@dimen/hint_text" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="1dp">
 
                         <TextView
                             android:id="@+id/share_item_listview_item_discount_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="85"
-                            android:textColor="@color/red" />
+                            style="@style/secondary_textview"
+                            android:text="85" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="折"
-                            android:textColor="@color/red" />
+                            style="@style/secondary_textview"
+                            android:text="折" />
 
                         <TextView
                             android:id="@+id/share_item_listview_item_cardtype_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            style="@style/secondary_textview"
                             android:layout_marginLeft="5dp"
-                            android:layout_weight="1"
-                            android:textColor="@color/dark_secondary_text" />
+                            android:layout_weight="1" />
 
 
                     </LinearLayout>
@@ -149,53 +117,48 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="1dp">
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="出借 "
-                            android:textColor="@color/dark_secondary_text" />
+                            style="@style/secondary_textview"
+                            android:text="出借 " />
 
                         <TextView
                             android:id="@+id/share_item_listview_item_rent_count_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="10"
-                            android:textColor="@color/dark_secondary_text" />
+                            style="@style/secondary_textview"
+                            android:text="10" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="次    "
-                            android:textColor="@color/dark_secondary_text" />
-
-                        <TextView
-                            android:id="@+id/share_item_listview_item_comment_count_tv"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="8"
-                            android:textColor="@color/dark_secondary_text" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="评"
-                            android:textColor="@color/dark_secondary_text" />
+                            style="@style/secondary_textview"
+                            android:text="次    " />
 
 
                     </LinearLayout>
 
-
                     <LinearLayout
-                        android:id="@+id/share_item_listview_item_rating_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:layout_marginTop="8dp"
-                        android:gravity="left"
-                        android:orientation="horizontal" />
+                        android:orientation="horizontal"
+                        android:layout_marginTop="1dp">
+
+                        <TextView
+                            android:id="@+id/share_item_listview_item_comment_count_tv"
+                            style="@style/secondary_textview"
+                            android:text="8" />
+
+                        <TextView
+                            style="@style/secondary_textview"
+                            android:text="评" />
+
+                        <LinearLayout
+                            android:id="@+id/share_item_listview_item_rating_layout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:gravity="left"
+                            android:orientation="horizontal" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -209,9 +172,30 @@
                     android:paddingRight="8dp"
                     android:paddingTop="4dp"
                     android:text="行业"
+                    android:textColor="@color/dark_secondary_text"
                     android:textSize="@dimen/hint_text" />
+
+                <TextView
+                    android:id="@+id/share_item_listview_item_owner_distance_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_alignParentRight="true"
+                    android:singleLine="true"
+                    android:text="57"
+                    android:textColor="@color/dark_secondary_text"
+                    android:textSize="@dimen/hint_text"
+                    android:layout_alignBottom="@id/share_item_content_layout" />
+
+                <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/share_item_listview_item_owner_distance_tv"
+                    android:src="@drawable/icon_people_gray"
+                    android:layout_alignBottom="@id/share_item_content_layout" />
             </RelativeLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    <!--</android.support.v7.widget.CardView>-->
 
 </LinearLayout>

@@ -2,7 +2,7 @@
 
 
     <style name="main_tab_bottom">
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
@@ -93,9 +93,6 @@
 
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/activity_horizontal_margin</item>
-        <item name="android:layout_marginRight">@dimen/activity_horizontal_margin</item>
-        <item name="android:layout_marginTop">@dimen/recycler_view_item_margin_top</item>
         <item name="cardCornerRadius">@dimen/default_card_view_corner_radius</item>
         <item name="cardElevation">@dimen/default_card_view_elevation</item>
         <item name="cardBackgroundColor">@color/white</item>

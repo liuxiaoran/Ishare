@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -95,6 +97,7 @@ public class ItemListFragment extends Fragment {
     private FloatingActionButton mapStyleBtn;
 
     private int receiveBroadcastCount;
+    private ImageView discountTabSelectedIv, distanceTabSelectedIv, catagoryTabSelectedIv, categoryTabArrowIv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -179,7 +182,8 @@ public class ItemListFragment extends Fragment {
         mPullListView.setPullLoadEnabled(false);
         mPullListView.setScrollLoadEnabled(true);
         cardListView = mPullListView.getRefreshableView();
-        cardListView.setDivider(null);// 设置不显示分割线
+        cardListView.setDivider(new ColorDrawable(getResources().getColor(R.color.listview_divider)));
+        cardListView.setDividerHeight(1);
         cardListView.setAdapter(cardListItemAdapter);
 
         // listview 条目点击
@@ -239,6 +243,12 @@ public class ItemListFragment extends Fragment {
 
         loadingLayout = (RelativeLayout) view.findViewById(R.id.share_item_loading_layout);
 
+        discountTabSelectedIv = (ImageView) view.findViewById(R.id.main_tab_discount_selected_iv);
+        distanceTabSelectedIv = (ImageView) view.findViewById(R.id.main_tab_distance_selected_iv);
+        catagoryTabSelectedIv = (ImageView) view.findViewById(R.id.main_tab_catagory_selected_iv);
+        categoryTabArrowIv = (ImageView) view.findViewById(R.id.main_catagory_tab_arrow_iv);
+
+
 
     }
 
@@ -252,9 +262,16 @@ public class ItemListFragment extends Fragment {
         public void onClick(View v) {
             if (v.getId() == R.id.share_item_category_layout) {
 
+
                 if (popupWindow != null && popupWindow.isShowing()) {
+                    categoryTabArrowIv.setSelected(false);
                     popupWindow.dismiss();
                 } else {
+
+                    catagoryTabSelectedIv.setVisibility(View.VISIBLE);
+                    distanceTabSelectedIv.setVisibility(View.INVISIBLE);
+                    discountTabSelectedIv.setVisibility(View.INVISIBLE);
+                    categoryTabArrowIv.setSelected(true);
 
                     final View popUpWindowView = LayoutInflater.from(getActivity()).inflate(R.layout.share_item_popup_window, null);
                     // popupwindow 中的listview
@@ -313,6 +330,11 @@ public class ItemListFragment extends Fragment {
 
             } else if (v.getId() == R.id.share_item_discount_layout) {
 
+                discountTabSelectedIv.setVisibility(View.VISIBLE);
+                distanceTabSelectedIv.setVisibility(View.INVISIBLE);
+                catagoryTabSelectedIv.setVisibility(View.INVISIBLE);
+                categoryTabArrowIv.setSelected(false);
+
                 if (urlType != DISCOUNT_LOAD_URL_TYPE) {
 
                     urlType = DISCOUNT_LOAD_URL_TYPE;
@@ -328,6 +350,11 @@ public class ItemListFragment extends Fragment {
                 discountTv.setTextColor(getResources().getColor(R.color.red));
 
             } else if (v.getId() == R.id.share_item_distance_layout) {
+
+                distanceTabSelectedIv.setVisibility(View.VISIBLE);
+                discountTabSelectedIv.setVisibility(View.INVISIBLE);
+                catagoryTabSelectedIv.setVisibility(View.INVISIBLE);
+                categoryTabArrowIv.setSelected(false);
 
                 if (urlType != DISTANCE_LOAD_URL_TYPE) {
                     urlType = DISTANCE_LOAD_URL_TYPE;

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.utils.ImageParseUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * Created by liuxiaoran on 15/5/24.
@@ -33,12 +34,13 @@ public class PreviewPictureActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publishware_preview_card_img);
 
-        Log.v(TAG,Uri.parse(getIntent().getStringExtra(PARAMENTER_PIC_URI_STRING))+"");
-        Bitmap bitmap = ImageParseUtil.getBitmapFromUri(Uri.parse(getIntent().getStringExtra(PARAMENTER_PIC_URI_STRING)), getApplicationContext());
+        Log.v(TAG, Uri.parse(getIntent().getStringExtra(PARAMENTER_PIC_URI_STRING)) + "");
+
         position = getIntent().getIntExtra(PARAMETER_POSITION,0);
 
         previewIv = (ImageView)findViewById(R.id.publishware_preview_card_iv);
-        previewIv.setImageBitmap(bitmap);
+
+        ImageLoader.getInstance().displayImage(getIntent().getStringExtra(PARAMENTER_PIC_URI_STRING), previewIv);
 
 
     }

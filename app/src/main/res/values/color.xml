@@ -6,7 +6,7 @@
     <color name="color_accent">#EB0373</color>
     <color name="transport_white">#CCFFFFFF</color>
 	<color name="white">#FFFFFF</color>
-    <color name="divider">#ECEFF1</color>
+    <color name="divider">#d3d4d5</color>
 	<color name="blue">#ff2d99d4</color>
 	<color name="gray">#B9B9B9</color>
 	<color name="huise">#7b747c</color>
@@ -14,6 +14,8 @@
 	<color name="color_emerald">#982ecc71</color>
     <color name="transparent_gray">#997b747c</color>
     <color name="window_background">#f5f5f5</color>
+
+    <color name="listview_divider">#d4d4d5</color>
 
     <color name="dark_primary_text">#DE000000</color>
     <color name="dark_secondary_text">#8A000000</color>

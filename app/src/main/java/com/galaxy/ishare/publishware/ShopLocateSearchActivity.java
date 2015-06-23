@@ -66,6 +66,8 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
         searchBtn = (FButton) actionBar.getCustomView().findViewById(R.id.search_btn);
         searchBtn.setVisibility(View.INVISIBLE);
         contentEt = (EditText) actionBar.getCustomView().findViewById(R.id.search_et);
+        contentEt.setHint("输入您的位置");
+        contentEt.setHintTextColor(getResources().getColor(R.color.dark_hint_text));
 
         searchInMap = (TextView) findViewById(R.id.publish_shop_search_map_tv);
         resultListView = (ListView) findViewById(R.id.publish_shop_location_search_result_listview);

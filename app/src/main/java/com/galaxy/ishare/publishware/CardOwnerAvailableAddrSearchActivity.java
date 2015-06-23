@@ -97,6 +97,8 @@ public class CardOwnerAvailableAddrSearchActivity extends ActionBarActivity {
         FButton searchBtn = (FButton) actionBar.getCustomView().findViewById(R.id.search_btn);
         searchBtn.setVisibility(View.INVISIBLE);
         final EditText contentEt = (EditText) actionBar.getCustomView().findViewById(R.id.search_et);
+        contentEt.setHint("输入您想找的地点");
+        contentEt.setHintTextColor(getResources().getColor(R.color.dark_hint_text));
 
         requestCode = getIntent().getIntExtra(PARAMETER_REQUEST_CODE, 0);
         targetAddr = getIntent().getStringExtra(PARAMETER_ADDR);

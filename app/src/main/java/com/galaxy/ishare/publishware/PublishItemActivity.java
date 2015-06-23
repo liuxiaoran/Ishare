@@ -433,25 +433,26 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         ownerAvailableList.clear();
         // 得到有空的列表，构造ownerAvailableList， 上传服务器
         ArrayList<UserAvailable> cardItemArrayList = UserAvailableDao.getInstance(this).query();
+        if (cardItemArrayList != null) {
+            for (UserAvailable item : cardItemArrayList) {
+                if (item.isSelected == 1) {
+                    HashMap hashMap = new HashMap();
 
-        for (UserAvailable item : cardItemArrayList) {
-            if (item.isSelected == 1) {
-                HashMap hashMap = new HashMap();
+                    hashMap.put("time", item.beginTime + "--" + item.endTime);
+                    hashMap.put("longitude", item.longitude + "");
+                    hashMap.put("latitude", item.latitude + "");
+                    hashMap.put("location", item.address);
+                    ownerAvailableList.add(hashMap);
 
-                hashMap.put("time", item.beginTime + "--" + item.endTime);
-                hashMap.put("longitude", item.longitude + "");
-                hashMap.put("latitude", item.latitude + "");
-                hashMap.put("location", item.address);
-                ownerAvailableList.add(hashMap);
+                    View availableItem = getLayoutInflater().inflate(R.layout.publishware_available_item, null);
+                    TextView addrTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_addr_tv);
+                    TextView timeTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_time_tv);
+                    addrTv.setText(item.address);
+                    timeTv.setText(item.beginTime + "--" + item.endTime);
+                    availableLayout.addView(availableItem);
+                }
 
-                View availableItem = getLayoutInflater().inflate(R.layout.publishware_available_item, null);
-                TextView addrTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_addr_tv);
-                TextView timeTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_time_tv);
-                addrTv.setText(item.address);
-                timeTv.setText(item.beginTime + "--" + item.endTime);
-                availableLayout.addView(availableItem);
             }
-
         }
     }
 

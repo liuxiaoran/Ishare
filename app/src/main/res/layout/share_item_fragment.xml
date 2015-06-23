@@ -124,7 +124,7 @@
                 <ImageView
                     android:id="@+id/main_tab_catagory_selected_iv"
                     android:layout_width="8dp"
-                    android:layout_height="4dp"
+                    android:layout_height="6dp"
                     android:layout_gravity="center"
                     android:src="@drawable/main_tab_selected_triangle"
                     android:visibility="invisible" />

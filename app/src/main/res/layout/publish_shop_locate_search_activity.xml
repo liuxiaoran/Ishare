@@ -35,8 +35,14 @@
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:listSelector="@color/white"
             android:id="@+id/publish_shop_location_search_result_listview"></ListView>
 
     </LinearLayout>
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/poisearch_mapview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
 </LinearLayout>

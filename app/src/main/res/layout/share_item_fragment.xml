@@ -13,7 +13,7 @@
         <LinearLayout
 
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="40dp"
             android:background="@color/white"
             android:orientation="horizontal">
 
@@ -31,7 +31,7 @@
                 <TextView
                     android:id="@+id/share_item_discount_tv"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:gravity="center"
                     android:text="折扣优先"
                     android:textColor="@color/dark_primary_text"
@@ -62,7 +62,7 @@
                 <TextView
                     android:id="@+id/share_item_distance_tv"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="35dp"
                     android:gravity="center"
                     android:text="距离优先"
                     android:textColor="@color/dark_primary_text"
@@ -105,7 +105,7 @@
                     <TextView
                         android:id="@+id/share_item_category_tv"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:gravity="center"
                         android:text="分类"
                         android:textColor="@color/dark_primary_text"
@@ -121,13 +121,6 @@
                         android:background="@drawable/selector_arrow_dropdown" />
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/main_tab_catagory_selected_iv"
-                    android:layout_width="8dp"
-                    android:layout_height="6dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/main_tab_selected_triangle"
-                    android:visibility="invisible" />
 
             </LinearLayout>
 

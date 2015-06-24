@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
         <NumberPicker
-        android:id="@+id/publish_card_numberpicker1_discount"
-        android:layout_width="wrap_content"
+            android:id="@+id/publish_card_numberpicker1_discount"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-    </NumberPicker>
+        </NumberPicker>
 
-    <TextView
-        android:layout_gravity="center_vertical"
-        style="@style/primary_textview"
-        android:padding="10dp"
-        android:text="." />
+        <TextView
+            style="@style/primary_textview"
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"
+            android:text="." />
 
-    <NumberPicker
-        android:id="@+id/publish_card_numberpicker2_discount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        <NumberPicker
+            android:id="@+id/publish_card_numberpicker2_discount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-    </NumberPicker>
+        </NumberPicker>
 
-    <TextView
+        <TextView
 
-        android:layout_gravity="center_vertical"
-        style="@style/primary_textview"
-        android:text="折" />
+            style="@style/primary_textview"
+            android:layout_gravity="center_vertical"
+            android:text="折" />
     </LinearLayout>
 
 

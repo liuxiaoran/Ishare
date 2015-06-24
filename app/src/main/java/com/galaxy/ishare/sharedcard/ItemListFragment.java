@@ -97,7 +97,7 @@ public class ItemListFragment extends Fragment {
     private FloatingActionButton mapStyleBtn;
 
     private int receiveBroadcastCount;
-    private ImageView discountTabSelectedIv, distanceTabSelectedIv, catagoryTabSelectedIv, categoryTabArrowIv;
+    private ImageView discountTabSelectedIv, distanceTabSelectedIv, categoryTabArrowIv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,6 +109,9 @@ public class ItemListFragment extends Fragment {
 
         // 现在默认是以折扣排序
         urlType = DISCOUNT_LOAD_URL_TYPE;
+
+        discountTabSelectedIv.setVisibility(View.VISIBLE);
+        discountTv.setTextColor(getResources().getColor(R.color.red));
 
 
         myClickListener = new MyClickListener();
@@ -245,7 +248,7 @@ public class ItemListFragment extends Fragment {
 
         discountTabSelectedIv = (ImageView) view.findViewById(R.id.main_tab_discount_selected_iv);
         distanceTabSelectedIv = (ImageView) view.findViewById(R.id.main_tab_distance_selected_iv);
-        catagoryTabSelectedIv = (ImageView) view.findViewById(R.id.main_tab_catagory_selected_iv);
+
         categoryTabArrowIv = (ImageView) view.findViewById(R.id.main_catagory_tab_arrow_iv);
 
 
@@ -268,10 +271,6 @@ public class ItemListFragment extends Fragment {
                     popupWindow.dismiss();
                 } else {
 
-                    catagoryTabSelectedIv.setVisibility(View.VISIBLE);
-                    distanceTabSelectedIv.setVisibility(View.INVISIBLE);
-                    discountTabSelectedIv.setVisibility(View.INVISIBLE);
-                    categoryTabArrowIv.setSelected(true);
 
                     final View popUpWindowView = LayoutInflater.from(getActivity()).inflate(R.layout.share_item_popup_window, null);
                     // popupwindow 中的listview
@@ -325,15 +324,12 @@ public class ItemListFragment extends Fragment {
                 }
 
 
-                distanceTv.setTextColor(getResources().getColor(R.color.huise));
-                discountTv.setTextColor(getResources().getColor(R.color.huise));
 
             } else if (v.getId() == R.id.share_item_discount_layout) {
 
                 discountTabSelectedIv.setVisibility(View.VISIBLE);
                 distanceTabSelectedIv.setVisibility(View.INVISIBLE);
-                catagoryTabSelectedIv.setVisibility(View.INVISIBLE);
-                categoryTabArrowIv.setSelected(false);
+
 
                 if (urlType != DISCOUNT_LOAD_URL_TYPE) {
 
@@ -345,16 +341,15 @@ public class ItemListFragment extends Fragment {
 //                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
 //                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
-                categoryTv.setTextColor(getResources().getColor(R.color.huise));
-                distanceTv.setTextColor(getResources().getColor(R.color.huise));
+
+                distanceTv.setTextColor(getResources().getColor(R.color.dark_secondary_text));
                 discountTv.setTextColor(getResources().getColor(R.color.red));
 
             } else if (v.getId() == R.id.share_item_distance_layout) {
 
                 distanceTabSelectedIv.setVisibility(View.VISIBLE);
                 discountTabSelectedIv.setVisibility(View.INVISIBLE);
-                catagoryTabSelectedIv.setVisibility(View.INVISIBLE);
-                categoryTabArrowIv.setSelected(false);
+
 
                 if (urlType != DISTANCE_LOAD_URL_TYPE) {
                     urlType = DISTANCE_LOAD_URL_TYPE;
@@ -367,9 +362,9 @@ public class ItemListFragment extends Fragment {
 //                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
 
-                categoryTv.setTextColor(getResources().getColor(R.color.huise));
+
                 distanceTv.setTextColor(getResources().getColor(R.color.red));
-                discountTv.setTextColor(getResources().getColor(R.color.huise));
+                discountTv.setTextColor(getResources().getColor(R.color.dark_secondary_text));
 
             }
         }

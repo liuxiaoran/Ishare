@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.search.core.CityInfo;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.core.SearchResult;
@@ -45,7 +46,7 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
     public static final String PARAMETER_WHO_COME = "PARAMETER_WHO_COME";
     int whoCome;
     private EditText contentEt;
-    private FButton searchBtn;
+    private TextView searchTv;
     private TextView searchInMap;
     private ListView resultListView;
     private PoiSearch mPoiSearch;
@@ -53,6 +54,7 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
     public static final int pageCapacity = 20;
     public static final String TAG = "shoplocate";
     OnGetPoiSearchResultListener poiListenr;
+    MapView temMapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +65,10 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
 
         whoCome = getIntent().getIntExtra(PARAMETER_WHO_COME, 0);
 
-        searchBtn = (FButton) actionBar.getCustomView().findViewById(R.id.search_btn);
-        searchBtn.setVisibility(View.INVISIBLE);
+        searchTv = (TextView) actionBar.getCustomView().findViewById(R.id.search_tv);
+
         contentEt = (EditText) actionBar.getCustomView().findViewById(R.id.search_et);
-        contentEt.setHint("输入您的位置");
+        contentEt.setHint("输入店名");
         contentEt.setHintTextColor(getResources().getColor(R.color.dark_hint_text));
 
         searchInMap = (TextView) findViewById(R.id.publish_shop_search_map_tv);
@@ -138,6 +140,7 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
                 if (s.toString().length() != 0 && !"".equals(s.toString())) {
                     Log.v(TAG, "content: " + s.toString());
                     searchPoi(s.toString());
+                    temMapView.setVisibility(View.INVISIBLE);
                 }
 
             }
@@ -170,6 +173,19 @@ public class ShopLocateSearchActivity extends ActionBarActivity {
                 finish();
             }
         });
+
+        searchTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (contentEt.getText().toString().length() > 0) {
+
+                    searchPoi(contentEt.getText().toString());
+                    temMapView.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
+        temMapView = (MapView) findViewById(R.id.poisearch_mapview);
 
     }
 

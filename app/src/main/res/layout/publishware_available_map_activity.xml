@@ -49,5 +49,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/publishware_addr_search_result_listview"
-        android:visibility="invisible"></ListView>
+        android:visibility="invisible"
+        android:listSelector="@color/white"></ListView>
 </FrameLayout>

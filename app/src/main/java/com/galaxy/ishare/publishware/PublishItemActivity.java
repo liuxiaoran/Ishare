@@ -7,12 +7,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -63,6 +64,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     public static final int PARAMETER_OWNER_LOCATION_RESULT_CODE = 1;
     public static final int PARAMETER_SHOP_LOCATION_RESULT_CODE = 2;
     public static final int PARAMETER_AVAILABLE_RESULT_CODE = 3;
+
+    public static final int ADDR_SEARCH_TO_PUBLISH = 4;
 
     public static final int PARAMETER_PREVIEW_DELETE_RESULT_CODE = 4;
     public static final String PARETER_DELETE_POSITION = "PARETER_DELETE_POSITION";
@@ -118,6 +121,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     private LinearLayout shopNameLayout;
 
     private RelativeLayout discountLayout;
+    private ImageView shopNameHintIv, shopAddrHintIv, discountHintIv, descriptionHintIv;
 
 //    Handler poiSearchHandler = new Handler() {
 //        @Override
@@ -197,25 +201,25 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         picUriList = new ArrayList<>();
 //        gridViewBitmapList.add(ImageParseUtil.getBitmapFromResource(this, R.drawable.card_pic_add));
         photoGridView = (GridView) findViewById(R.id.publishware_cardpic_gridview);
-        photoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == picUriList.size() && !isToMaxPicNumber) {
-                    // 点击的是选择添加图片
-//                    new MaterialDialog.Builder(PublishItemActivity.this)
-//                            .title("选择图片来源")
-//                            .items(R.array.pic_source_items)
-//                            .itemsCallback(new MaterialDialog.ListCallback() {
-//                                @Override
-//                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-//                                    if (which == 0) {
-                    //选择本地图片
-                    Intent intentFromGallery = new Intent();
-                    intentFromGallery.setType("image/*"); // 设置文件类型
-                    intentFromGallery
-                            .setAction(Intent.ACTION_GET_CONTENT);
-                    startActivityForResult(intentFromGallery,
-                            IMAGE_REQUEST_CODE);
+//        photoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (position == picUriList.size() && !isToMaxPicNumber) {
+//                    // 点击的是选择添加图片
+////                    new MaterialDialog.Builder(PublishItemActivity.this)
+////                            .title("选择图片来源")
+////                            .items(R.array.pic_source_items)
+////                            .itemsCallback(new MaterialDialog.ListCallback() {
+////                                @Override
+////                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+////                                    if (which == 0) {
+//                    //选择本地图片
+//                    Intent intentFromGallery = new Intent();
+//                    intentFromGallery.setType("image/*"); // 设置文件类型
+//                    intentFromGallery
+//                            .setAction(Intent.ACTION_GET_CONTENT);
+//                    startActivityForResult(intentFromGallery,
+//                            IMAGE_REQUEST_CODE);
 //                                    } else if (which == 1) {
 //
 //                                        cameraPicCount++;
@@ -241,16 +245,19 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 //                                }
 //                            })
 //                            .show();
-                } else {
-                    // 点击的是已经选择的图片，进行预览或删除
-                    Intent intent = new Intent(PublishItemActivity.this, PreviewPictureActivity.class);
+        // }
+        //else {
+        // 点击的是已经选择的图片，进行预览或删除
+//                    Intent intent = new Intent(PublishItemActivity.this, PreviewPictureActivity.class);
+//
+//                    intent.putExtra(PreviewPictureActivity.PARAMETER_POSITION, position);
+//                    intent.putExtra(PreviewPictureActivity.PARAMENTER_PIC_URI_STRING, picUriList.get(position).toString());
+//                    PublishItemActivity.this.startActivityForResult(intent, PreviewPictureActivity.PUBLISH_TO_PREVIEW_REQUEST_CODE);
 
-                    intent.putExtra(PreviewPictureActivity.PARAMETER_POSITION, position);
-                    intent.putExtra(PreviewPictureActivity.PARAMENTER_PIC_URI_STRING, picUriList.get(position).toString());
-                    PublishItemActivity.this.startActivityForResult(intent, PreviewPictureActivity.PUBLISH_TO_PREVIEW_REQUEST_CODE);
-                }
-            }
-        });
+
+        //}
+//            }
+//        });
 
         gridViewAdapter = new GridViewAdapter(this);
         photoGridView.setAdapter(gridViewAdapter);
@@ -277,6 +284,27 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
         shopNameLayout.setOnClickListener(myClickListener);
 
         writeAddrIntoLayout();
+
+        descriptionEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (descriptionEt.getText().toString().length() > 0 && !"\n".equals(descriptionEt.getText().toString())) {
+                    descriptionHintIv.setImageResource(R.drawable.icon_green_check);
+                } else {
+                    descriptionHintIv.setImageResource(R.drawable.icon_red_dot);
+                }
+            }
+        });
 
 
     }
@@ -309,6 +337,11 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
         publishBtn = (FButton) findViewById(R.id.publish_ware_publish_btn);
         discountLayout = (RelativeLayout) findViewById(R.id.publishware_discount_layout);
+
+        shopNameHintIv = (ImageView) findViewById(R.id.publishware_shopname_hint_iv);
+        shopAddrHintIv = (ImageView) findViewById(R.id.publish_shop_addr_hint_iv);
+        discountHintIv = (ImageView) findViewById(R.id.publish_discount_arrow_iv);
+        descriptionHintIv = (ImageView) findViewById(R.id.publish_description_hint_iv);
 
 
     }
@@ -344,10 +377,13 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
 
         if (shopNameTv.getText().toString().equals("") || trade_type == -1 || ware_type == -1 || discountTv.getText().toString().equals("") ||
-                descriptionEt.getText().toString().equals("") || shopLocationTv.getText().toString().equals("") || ownerAvailableList.size() == 0) {
+                descriptionEt.getText().toString().equals("") || shopLocationTv.getText().toString().equals("")) {
 
             ret = false;
             Toast.makeText(this, "请填写完整信息", Toast.LENGTH_SHORT).show();
+        } else if (ownerAvailableList.size() == 0) {
+            ret = false;
+            Toast.makeText(this, "请填写您的地址", Toast.LENGTH_LONG).show();
         }
         return ret;
     }
@@ -389,8 +425,10 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             } else if (v.getId() == R.id.publish_ware_choose_available_tv) {
 
 //                Intent intent = new Intent(PublishItemActivity.this, CardOwnerAvailableShowActivity.class);
-                Intent intent = new Intent(PublishItemActivity.this, CardOwnerAvailableAddActivity.class);
-                startActivityForResult(intent, 0);
+                Intent intent = new Intent(PublishItemActivity.this, CardOwnerAvailableAddrSearchActivity.class);
+                intent.putExtra(CardOwnerAvailableAddrSearchActivity.PARAMETER_REQUEST_CODE, CardOwnerAvailableAddrSearchActivity.PUBLISH_TO_MAP_REQUEST_CODE);
+                intent.putExtra(CardOwnerAvailableAddrSearchActivity.PARAMETER_ADDR, IShareContext.getInstance().getUserLocationNotNull().getLocationStr());
+                startActivityForResult(intent, CardOwnerAvailableAddrSearchActivity.PUBLISH_TO_MAP_REQUEST_CODE);
 
             } else if (v.getId() == R.id.publishware_discount_layout) {
 
@@ -403,6 +441,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                                 discountInteger = picker1.getValue();
                                 discountDecimal = picker2.getValue();
                                 discountTv.setText(Double.parseDouble(discountInteger + "." + discountDecimal) + "折");
+                                discountHintIv.setImageResource(R.drawable.icon_green_check);
                             }
                         })
                         .positiveText("确定")
@@ -419,6 +458,8 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                 picker1.setFocusableInTouchMode(true);
                 picker2.setFocusable(true);
                 picker2.setFocusableInTouchMode(true);
+                picker1.setValue(7);
+                picker2.setValue(0);
 
 
                 discountDialog.show();
@@ -446,9 +487,9 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
 
                     View availableItem = getLayoutInflater().inflate(R.layout.publishware_available_item, null);
                     TextView addrTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_addr_tv);
-                    TextView timeTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_time_tv);
+                    //TextView timeTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_time_tv);
                     addrTv.setText(item.address);
-                    timeTv.setText(item.beginTime + "--" + item.endTime);
+                    //timeTv.setText(item.beginTime + "--" + item.endTime);
                     availableLayout.addView(availableItem);
                 }
 
@@ -461,7 +502,7 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.v(TAG, "resultcode: " + resultCode);
-        if (resultCode == PARAMETER_AVAILABLE_RESULT_CODE || resultCode == CardOwnerAvailableShowActivity.ADD_TO_SHOW_RESULT_CODE) {
+        if (resultCode == PARAMETER_AVAILABLE_RESULT_CODE || resultCode == ADDR_SEARCH_TO_PUBLISH) {
             Log.v(TAG, "arrive result");
 
             writeAddrIntoLayout();
@@ -474,11 +515,16 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             shopLocationTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
             shopNameTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_NAME));
             Log.v(TAG, "shop addr" + data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
-        } else if (resultCode == PARAMETER_PREVIEW_DELETE_RESULT_CODE) {
-            int deletePosition = data.getIntExtra(PARETER_DELETE_POSITION, 0);
-            picUriList.remove(deletePosition);
-            gridViewAdapter.notifyDataSetChanged();
+
+            shopNameHintIv.setImageResource(R.drawable.icon_green_check);
+            shopAddrHintIv.setImageResource(R.drawable.icon_green_check);
+
         }
+//        else if (resultCode == PARAMETER_PREVIEW_DELETE_RESULT_CODE) {
+//            int deletePosition = data.getIntExtra(PARETER_DELETE_POSITION, 0);
+//            picUriList.remove(deletePosition);
+//            gridViewAdapter.notifyDataSetChanged();
+//        }
         // 处理选择图片的返回
         else if (resultCode != RESULT_CANCELED) {
             switch (requestCode) {
@@ -675,10 +721,12 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
             Log.v(TAG, "convertview is null  " + position);
             convertView = inflater.inflate(R.layout.publishware_cardpic_gridview_item, null);
             picIv = (ImageView) convertView.findViewById(R.id.publishware_cardpic_gridview_iv);
+
+            final ImageView deleteIv = (ImageView) convertView.findViewById(R.id.publishware_cardpic_delete_iv);
             convertView.setTag(picIv);
 
 
-            picIv.setTag(position);
+            picIv.setTag(0);
 
 
             if (picUriList.size() == maxUploadPicCount) {
@@ -694,6 +742,42 @@ public class PublishItemActivity extends ActionBarActivity implements OnGetSugge
                         picIv.setImageResource(R.drawable.card_pic_add);
                 }
             }
+            deleteIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    picUriList.remove(position);
+                    gridViewAdapter.notifyDataSetChanged();
+                    isToMaxPicNumber = false;
+
+                }
+            });
+            final ImageView finalPicIv = picIv;
+            picIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (position == picUriList.size() && !isToMaxPicNumber) {
+                        //选择本地图片
+                        Intent intentFromGallery = new Intent();
+                        intentFromGallery.setType("image/*"); // 设置文件类型
+                        intentFromGallery
+                                .setAction(Intent.ACTION_GET_CONTENT);
+                        startActivityForResult(intentFromGallery,
+                                IMAGE_REQUEST_CODE);
+                    } else {
+                        int clickCount = (int) finalPicIv.getTag();
+                        clickCount++;
+                        if (clickCount % 2 == 1) {
+                            deleteIv.setVisibility(View.VISIBLE);
+                        } else {
+                            deleteIv.setVisibility(View.INVISIBLE);
+                        }
+                        finalPicIv.setTag(clickCount);
+
+                    }
+
+                }
+            });
 
 
             return convertView;

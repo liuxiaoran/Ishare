@@ -16,18 +16,22 @@
         android:layout_height="wrap_content"
         android:id="@+id/search_et"
         android:layout_weight="1"
-        android:layout_gravity="center"/>
-    <info.hoang8f.widget.FButton
-        android:id="@+id/search_btn"
+        android:layout_gravity="center"
+        android:background="@drawable/search_background"
+        android:textColor="@color/dark_primary_text"
+        android:textSize="@dimen/secondary_text"
+        android:paddingLeft="5dp" />
+
+    <TextView
+        android:id="@+id/search_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="搜索"
         android:textSize="16sp"
-        app:cornerRadius="2dp"
-        app:shadowEnabled="false"
-        app:buttonColor="#00FFFFFF"
         android:textColor="@color/white"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="2dp" />
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp" />
 
 </LinearLayout>

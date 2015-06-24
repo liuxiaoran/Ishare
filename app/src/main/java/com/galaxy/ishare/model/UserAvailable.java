@@ -42,4 +42,20 @@ public class UserAvailable {
         this.isSelected = isSelected;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public void setIsSelected(int isSelected) {
+        this.isSelected = isSelected;
+    }
+
 }

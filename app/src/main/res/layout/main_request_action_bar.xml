@@ -20,7 +20,7 @@
         android:id="@+id/main_publish_request_iv"
         android:layout_centerVertical="true"
         android:src="@drawable/icon_plus"
-        android:paddingLeft="5dp"
+        android:paddingLeft="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp" />
 

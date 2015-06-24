@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -24,7 +25,6 @@ import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.sharedcard.CardDetailActivity;
 import com.galaxy.ishare.sharedcard.CardListItemAdapter;
-import com.galaxy.ishare.sharedcard.PullToRefreshBase;
 import com.galaxy.ishare.sharedcard.PullToRefreshListView;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 
@@ -38,7 +38,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -58,7 +57,7 @@ public class SearchActivity extends ActionBarActivity {
     private static final int LOAD_MORE_GESTURE = 3;
     int pageNumber = 1;
 
-    private FButton searchBtn;
+    private TextView searchTv;
     private EditText contentEt;
     private LinearLayout adLayout;
 
@@ -108,8 +107,10 @@ public class SearchActivity extends ActionBarActivity {
 
         android.support.v7.app.ActionBar actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_search_actionbar, true);
 
-        searchBtn = (FButton) actionBar.getCustomView().findViewById(R.id.search_btn);
+        searchTv = (TextView) actionBar.getCustomView().findViewById(R.id.search_tv);
         contentEt = (EditText) actionBar.getCustomView().findViewById(R.id.search_et);
+        contentEt.setHint("搜索店铺等");
+        contentEt.setHintTextColor(getResources().getColor(R.color.dark_hint_text));
         adLayout = (LinearLayout) findViewById(R.id.main_search_ad_layout);
 
 
@@ -139,7 +140,7 @@ public class SearchActivity extends ActionBarActivity {
             }
         });
 
-        searchBtn.setOnClickListener(new View.OnClickListener() {
+        searchTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

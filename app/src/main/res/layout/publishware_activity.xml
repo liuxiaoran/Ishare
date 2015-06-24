@@ -55,11 +55,13 @@
                         android:textColorHint="@color/dark_hint_text" />
 
                     <ImageView
-
+                        android:id="@+id/publishware_shopname_hint_iv"
                         android:layout_width="25dp"
                         android:layout_height="30dp"
+                        android:padding="3dp"
                         android:layout_gravity="right|center_vertical"
-                        android:src="@drawable/right_arrow" />
+                        android:src="@drawable/right_arrow"
+                        android:scaleType="centerInside" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -73,7 +75,7 @@
                 android:id="@+id/publish_ware_location_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="5dp">
 
                 <TextView
                     android:id="@+id/publish_ware_shop_location_tv"
@@ -81,9 +83,20 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="店址"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/dark_primary_text"
                     android:textSize="@dimen/primary_text" />
 
+                <ImageView
+                    android:id="@+id/publish_shop_addr_hint_iv"
+                    android:layout_width="25dp"
+                    android:layout_height="30dp"
+                    android:padding="3dp"
+                    android:scaleType="centerInside"
+                    android:cropToPadding="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_red_dot" />
 
                 <TextView
 
@@ -96,8 +109,10 @@
                     android:maxLines="2"
                     android:textColor="@color/dark_secondary_text"
                     android:textSize="@dimen/secondary_text"
+                    android:layout_centerVertical="true"
                     android:hint="选择店名之后就有店址了"
                     android:textColorHint="@color/dark_hint_text" />
+
             </RelativeLayout>
 
             <View
@@ -127,7 +142,9 @@
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/right_arrow" />
+                    android:padding="3dp"
+                    android:src="@drawable/right_arrow"
+                    android:scaleType="centerInside" />
 
                 <TextView
                     android:id="@+id/publish_ware_discount_tv"
@@ -136,7 +153,8 @@
                     android:layout_toLeftOf="@id/publish_discount_arrow_iv"
                     android:textSize="@dimen/secondary_text"
                     android:hint="点击选择折扣"
-                    android:textColorHint="@color/dark_hint_text" />
+                    android:textColorHint="@color/dark_hint_text"
+                    android:gravity="right" />
 
 
             </RelativeLayout>
@@ -280,18 +298,31 @@
                 android:layout_marginTop="5dp" />
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_layout_marginTop"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/publishware_description_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="描述"
+                    android:layout_centerVertical="true"
                     android:textColor="@color/dark_primary_text"
                     android:textSize="@dimen/primary_text" />
+
+                <ImageView
+                    android:id="@+id/publish_description_hint_iv"
+                    android:layout_width="25dp"
+                    android:layout_height="30dp"
+                    android:padding="3dp"
+                    android:scaleType="centerInside"
+                    android:cropToPadding="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_red_dot" />
 
                 <EditText
                     android:id="@+id/publish_card_description_et"
@@ -302,11 +333,13 @@
                     android:inputType="textMultiLine"
                     android:textColor="@color/dark_primary_text"
                     android:textSize="@dimen/secondary_text"
-
+                    android:lines="2"
+                    android:maxLines="5"
                     android:hint="对于该卡的描述"
-                    android:textColorHint="@color/dark_hint_text" />
+                    android:textColorHint="@color/dark_hint_text"
+                    android:layout_toRightOf="@id/publishware_description_tv" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
         </LinearLayout>
@@ -393,20 +426,25 @@
                 android:horizontalSpacing="3dp"
                 android:numColumns="4"
                 android:scrollbars="none"
-                android:verticalSpacing="5dp"></GridView>
+                android:verticalSpacing="5dp"
+                android:listSelector="@color/white"></GridView>
         </LinearLayout>
 
         <info.hoang8f.widget.FButton
             android:id="@+id/publish_ware_publish_btn"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
+            android:padding="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:text="发布这张卡"
             android:textColor="@color/white"
-            android:textSize="@dimen/secondary_text"
+            android:textSize="@dimen/primary_text"
             app:buttonColor="@color/color_primary"
             app:cornerRadius="2dp"
-            app:shadowEnabled="false" />
+            app:shadowEnabled="false"
+            android:layout_marginBottom="20dp" />
     </LinearLayout>
 </ScrollView>

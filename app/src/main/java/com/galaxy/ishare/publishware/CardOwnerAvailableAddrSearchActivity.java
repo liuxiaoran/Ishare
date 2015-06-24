@@ -41,11 +41,11 @@ import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.database.UserAvailableDao;
+import com.galaxy.ishare.model.UserAvailable;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import info.hoang8f.widget.FButton;
 
 /**
  * Created by liuxiaoran on 15/5/20.
@@ -61,6 +61,7 @@ public class CardOwnerAvailableAddrSearchActivity extends ActionBarActivity {
 
     public static final int ADD_TO_MAP_REQUEST_CODE = 1;
     public static final int EDIT_TO_MAP_REQUEST_CODE = 2;
+    public static final int PUBLISH_TO_MAP_REQUEST_CODE = 3;
 
     public static final String LOCATION_ADDR = "LOCATION_ADDR";
     public static final String LOCATION_LONGITUDE = "LOCATION_LONGITUDE";
@@ -94,10 +95,10 @@ public class CardOwnerAvailableAddrSearchActivity extends ActionBarActivity {
         setContentView(R.layout.publishware_available_map_activity);
 
         android.support.v7.app.ActionBar actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_search_actionbar, true);
-        FButton searchBtn = (FButton) actionBar.getCustomView().findViewById(R.id.search_btn);
-        searchBtn.setVisibility(View.INVISIBLE);
+        TextView searchTv = (TextView) actionBar.getCustomView().findViewById(R.id.search_tv);
+
         final EditText contentEt = (EditText) actionBar.getCustomView().findViewById(R.id.search_et);
-        contentEt.setHint("输入您想找的地点");
+        contentEt.setHint("输入您的位置");
         contentEt.setHintTextColor(getResources().getColor(R.color.dark_hint_text));
 
         requestCode = getIntent().getIntExtra(PARAMETER_REQUEST_CODE, 0);
@@ -163,6 +164,22 @@ public class CardOwnerAvailableAddrSearchActivity extends ActionBarActivity {
 
                 }
 
+            }
+        });
+
+        searchTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (contentEt.getText().toString().length() == 0) {
+                    mapLayout.setVisibility(View.VISIBLE);
+                    addrResultListView.setVisibility(View.INVISIBLE);
+                } else {
+
+                    mapLayout.setVisibility(View.INVISIBLE);
+                    addrResultListView.setVisibility(View.VISIBLE);
+                    searchAddr(contentEt.getText().toString());
+
+                }
             }
         });
         // 开始显示当前地址附近的poi
@@ -259,9 +276,25 @@ public class CardOwnerAvailableAddrSearchActivity extends ActionBarActivity {
             ret = new Intent(this, CardOwnerAvailableEditActivity.class);
             resultCode = 0;
         }
-        ret.putExtra(LOCATION_ADDR, addr);
-        ret.putExtra(LOCATION_LONGITUDE, longitude);
-        ret.putExtra(LOCATION_LATITIDE, latitude);
+        if (ret != null) {
+            ret.putExtra(LOCATION_ADDR, addr);
+            ret.putExtra(LOCATION_LONGITUDE, longitude);
+            ret.putExtra(LOCATION_LATITIDE, latitude);
+        }
+
+        if (requestCode == PUBLISH_TO_MAP_REQUEST_CODE) {
+
+            resultCode = PublishItemActivity.ADDR_SEARCH_TO_PUBLISH;
+            // 将地址写入数据库
+            UserAvailable userAvailable = new UserAvailable();
+            userAvailable.setAddress(addr);
+            userAvailable.setIsSelected(1);
+            userAvailable.setLongitude(longitude);
+            userAvailable.setLatitude(latitude);
+            UserAvailableDao.getInstance(this).add(userAvailable);
+
+        }
+
         setResult(resultCode, ret);
         this.finish();
 

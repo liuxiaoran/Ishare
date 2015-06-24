@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,12 +48,13 @@ public class PublishRequestActivity extends ActionBarActivity {
 
     MClickListener mClickListener;
     HttpInteract httpInteract;
-    int[] clickCount;
+
     private boolean isHasShopLatLng = false;
     double shopLatitude;
     double shopLongitude;
-    int cardType = -1;
+    int cardType = 0;
     private static final String TAG = "publishRequestActivity";
+    private ImageView shopNameHintIv, shopAddrHintIv, descriptionHintIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +64,11 @@ public class PublishRequestActivity extends ActionBarActivity {
         ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "发布请求");
 
         mClickListener = new MClickListener();
-        clickCount = new int[6];
+
 
         initViews();
 
+        setButtonSelected(0);
         confirmBtn.setOnClickListener(mClickListener);
         httpInteract = new HttpInteract();
         for (int i = 0; i < cardTypeBtns.length; i++) {
@@ -79,6 +83,29 @@ public class PublishRequestActivity extends ActionBarActivity {
                 startActivityForResult(intent, 0);
             }
         });
+
+        descriptionEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (descriptionEt.getText().toString().length() > 0 && !"\n".equals(descriptionEt.getText().toString())) {
+                    descriptionHintIv.setImageResource(R.drawable.icon_green_check);
+                } else {
+                    descriptionHintIv.setImageResource(R.drawable.icon_red_dot);
+                }
+            }
+        });
+
+
     }
 
 
@@ -100,6 +127,9 @@ public class PublishRequestActivity extends ActionBarActivity {
         shopNameTv = (TextView) findViewById(R.id.request_shop_name_tv);
         addrTv = (TextView) findViewById(R.id.request_shop_location_tv);
 
+        shopNameHintIv = (ImageView) findViewById(R.id.request_shop_name_hint_iv);
+        shopAddrHintIv = (ImageView) findViewById(R.id.request_shop_addr_hint_iv);
+        descriptionHintIv = (ImageView) findViewById(R.id.request_description_hint_iv);
 
 
     }
@@ -136,57 +166,32 @@ public class PublishRequestActivity extends ActionBarActivity {
 
             if (v.getId() == R.id.request_publish_meirong_btn) {
 
-                clickCount[0]++;
-                if (clickCount[0] % 2 == 1) {
-                    cardType = 0;
-                    setButtonSelected(0);
 
-                } else {
-                    setButtonUnSelect(0);
-                    cardType = -1;
-                }
+                cardType = 0;
+                setButtonSelected(0);
+
 
             } else if (v.getId() == R.id.request_publish_meifa_btn) {
-                clickCount[1]++;
-                if (clickCount[1] % 2 == 1) {
-                    setButtonSelected(1);
-                    cardType = 1;
-                } else {
-                    setButtonUnSelect(1);
-                    cardType = -1;
-                }
+
+                setButtonSelected(1);
+
 
             } else if (v.getId() == R.id.request_publish_meijia_btn) {
-                clickCount[2]++;
-                if (clickCount[2] % 2 == 1) {
-                    setButtonSelected(2);
-                    cardType = 2;
-                } else {
-                    setButtonUnSelect(2);
-                    cardType = -1;
-                }
+
+                setButtonSelected(2);
+                cardType = 2;
 
 
             } else if (v.getId() == R.id.request_publish_qingzi_btn) {
-                clickCount[3]++;
-                if (clickCount[3] % 2 == 1) {
-                    setButtonSelected(3);
-                    cardType = 3;
-                } else {
-                    setButtonUnSelect(3);
-                    cardType = -1;
-                }
+
+                setButtonSelected(3);
+                cardType = 3;
 
 
             } else if (v.getId() == R.id.request_publish_other_btn) {
-                clickCount[4]++;
-                if (clickCount[4] % 2 == 1) {
-                    setButtonSelected(4);
-                    cardType = 4;
-                } else {
-                    setButtonUnSelect(4);
-                    cardType = -1;
-                }
+
+                setButtonSelected(4);
+                cardType = 4;
 
 
             } else if (v.getId() == R.id.request_publish_confirm_btn) {
@@ -223,6 +228,9 @@ public class PublishRequestActivity extends ActionBarActivity {
 
             addrTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
             shopNameTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_NAME));
+
+            shopAddrHintIv.setImageResource(R.drawable.icon_green_check);
+            shopNameHintIv.setImageResource(R.drawable.icon_green_check);
         }
     }
 
@@ -241,6 +249,7 @@ public class PublishRequestActivity extends ActionBarActivity {
         }
         if (descriptionEt.getText().toString().equals("")) {
             Toast.makeText(this, "请填写描述", Toast.LENGTH_LONG).show();
+            return false;
         }
         return true;
     }

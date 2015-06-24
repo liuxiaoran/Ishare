@@ -120,31 +120,7 @@ public class CardListItemAdapter extends BaseAdapter {
             final CardHolder finalCardHolder = cardHolder;
             finalCardHolder.cardIv.setTag(thumbnailUrl);
 
-            ImageLoader.getInstance().displayImage(thumbnailUrl, finalCardHolder.cardIv, new ImageLoadingListener() {
-                @Override
-                public void onLoadingStarted(String imageUri, View view) {
-
-                }
-
-                @Override
-                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                }
-
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
-                    if (((String) view.getTag()).equals(thumbnailUrl)) {
-                        ((ImageView) view).setImageBitmap(loadedImage);
-                    }
-
-                }
-
-                @Override
-                public void onLoadingCancelled(String imageUri, View view) {
-
-                }
-            });
+            ImageLoader.getInstance().displayImage(thumbnailUrl, finalCardHolder.cardIv);
 
         }
 

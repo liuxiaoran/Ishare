@@ -1,8 +1,8 @@
 package com.galaxy.ishare.order;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +18,7 @@ import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.chat.ChatActivity;
 import com.galaxy.ishare.constant.URLConstant;
+import com.galaxy.ishare.database.ChatDao;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
@@ -41,6 +42,7 @@ public class OrderFragment extends Fragment {
     private final String TAG = "StateFragmene";
 
     private User user;
+    private ChatDao chatDao;
 
     // 判断是下拉刷新还是加载更多的操作
     private int gestureType;
@@ -74,7 +76,7 @@ public class OrderFragment extends Fragment {
 
     private int borrowPageNum = 1;
     private boolean borrowHasMoreData = true;
-    private final int pageSize = 6;
+    private final int pageSize = 12;
 
     public static OrderFragment instance;
 
@@ -84,6 +86,7 @@ public class OrderFragment extends Fragment {
         LayoutInflater lf = LayoutInflater.from(getActivity());
         root = lf.inflate(R.layout.fragment_order, null);
         user = IShareContext.getInstance().getCurrentUser();
+        chatDao = ChatDao.getInstance(getActivity());
         httpInteract = new HttpInteract();
         instance = this;
         initWidget();
@@ -112,6 +115,8 @@ public class OrderFragment extends Fragment {
         mPullListView.setPullLoadEnabled(false);
         mPullListView.setScrollLoadEnabled(true);
         orderBorrowListView = mPullListView.getRefreshableView();
+//        orderBorrowListView.setDivider(new ColorDrawable(getResources().getColor(R.color.listview_divider)));
+//        orderBorrowListView.setDividerHeight(1);
         orderBorrowListView.setDivider(null);// 设置不显示分割线
         orderBorrowAdapter = new OrderAdapter(getActivity(), orderBorrowList);
         orderBorrowListView.setAdapter(orderBorrowAdapter);
@@ -120,12 +125,14 @@ public class OrderFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemClick");
-                Intent intent = new Intent(getActivity(), ChatActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("order", orderBorrowList.get(position));
-                intent.putExtras(bundle);
-                startActivity(intent);
-                Log.d(TAG, "startActivity");
+                if (position < orderBorrowList.size()) {
+                    Intent intent = new Intent(getActivity(), ChatActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("type", 0);
+                    bundle.putSerializable("order", orderBorrowList.get(position));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -133,18 +140,16 @@ public class OrderFragment extends Fragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 gestureType = REFRESH_GESTURE;
-                httpInteract.loadData(user.getUserId(), null, IShareContext.getInstance().getUserLocation().getLongitude(),
-                        IShareContext.getInstance().getUserLocation().getLatitude(), 0, 1, pageSize);
-
-
+                httpInteract.loadData(IShareContext.getInstance().getUserLocation().getLongitude(),
+                        IShareContext.getInstance().getUserLocation().getLatitude(), 1, pageSize);
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 gestureType = LOAD_MORE_GESTURE;
                 borrowPageNum++;
-                httpInteract.loadData(user.getUserId(), null, IShareContext.getInstance().getUserLocation().getLongitude(),
-                        IShareContext.getInstance().getUserLocation().getLatitude(), 0, borrowPageNum, pageSize);
+                httpInteract.loadData(IShareContext.getInstance().getUserLocation().getLongitude(),
+                        IShareContext.getInstance().getUserLocation().getLatitude(), borrowPageNum, pageSize);
 
             }
         });
@@ -187,13 +192,13 @@ public class OrderFragment extends Fragment {
 //        });
 //    }
 
-    public void getData() {
-        httpInteract.loadData(user.getUserId(), null, IShareContext.getInstance().getUserLocation().getLongitude(),
-                IShareContext.getInstance().getUserLocation().getLatitude(), 0, 1, pageSize);
-
-//        httpInteract.loadData(null, user.getUserId(), IShareContext.getInstance().getUserLocation().getLongitude(),
+//    public void getData() {
+//        httpInteract.loadData(user.getUserId(), null, IShareContext.getInstance().getUserLocation().getLongitude(),
 //                IShareContext.getInstance().getUserLocation().getLatitude(), 0, 1, pageSize);
-    }
+//
+////        httpInteract.loadData(null, user.getUserId(), IShareContext.getInstance().getUserLocation().getLongitude(),
+////                IShareContext.getInstance().getUserLocation().getLatitude(), 0, 1, pageSize);
+//    }
 
 //    public void setListView() {
 //        if (orderType == BORROW_ORDER) {
@@ -217,32 +222,24 @@ public class OrderFragment extends Fragment {
         return mDateFormat.format(new Date(time));
     }
 
+
     @Override
     public void onStop() {
         super.onStop();
     }
 
     class HttpInteract {
-        public void loadData(final String borrowId, final String lendId, double longitude, double latitude, int type, final int pageNumber, int pageSize) {
+        public void loadData(double longitude, double latitude, final int pageNumber, int pageSize) {
 
 //            if (pageNumber == 1)
 //                loadingLayout.setVisibility(View.VISIBLE);
 
             List<BasicNameValuePair> paramsList = new ArrayList<>();
-            if(borrowId != null) {
-                paramsList.add(new BasicNameValuePair("borrow_id", borrowId + ""));
-            }
-            if(lendId != null) {
-                paramsList.add(new BasicNameValuePair("lend_id", lendId + ""));
-            }
             paramsList.add(new BasicNameValuePair("longitude", longitude + ""));
             paramsList.add(new BasicNameValuePair("latitude", latitude + ""));
-            paramsList.add(new BasicNameValuePair("type", type + ""));
             paramsList.add(new BasicNameValuePair("page_num", pageNumber + ""));
             paramsList.add(new BasicNameValuePair("page_size", pageSize + ""));
             String url = URLConstant.GET_ORDER_LIST;
-
-            Log.v(TAG, borrowId + " " + pageNumber + " " + pageSize);
 
             HttpTask.startAsyncDataPostRequest(url, paramsList, new HttpDataResponse() {
                 @Override
@@ -258,41 +255,41 @@ public class OrderFragment extends Fragment {
                             JSONArray jsonArray = jsonObject.getJSONArray("data");
                             Log.v(TAG, "size" + jsonArray.length());
 
-                            if(borrowId != null) {
-                                int addNum = 0;
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    JSONObject tmpJson = jsonArray.getJSONObject(i);
-                                    Order order = OrderUtil.parserJSONObject2Order(tmpJson);
-
-                                    if (gestureType == REFRESH_GESTURE) {
-                                        addNum += add2List(orderBorrowList, order);
-                                    } else {
-                                        orderBorrowList.add(order);
-                                    }
-                                }
-
-                                Log.e(TAG, orderBorrowList.size() + "orderBorrowList");
-                                orderBorrowAdapter.notifyDataSetChanged();
-
-                                if(addNum == 0 && gestureType == REFRESH_GESTURE) {
-                                    Toast.makeText(getActivity(), "已经是最新数据", Toast.LENGTH_LONG).show();
-                                }
+//                            if(borrowId != null) {
+                            int addNum = 0;
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject tmpJson = jsonArray.getJSONObject(i);
+                                Order order = OrderUtil.parserJSONObject2Order(tmpJson);
+                                order = chatDao.getLastChat(order);
 
                                 if (gestureType == REFRESH_GESTURE) {
-                                    setLastUpdateTime(borrowPullToRefreshListView);
-                                    borrowPullToRefreshListView.onPullDownRefreshComplete();
+                                    addNum += add2List(orderBorrowList, order);
                                 } else {
-                                    Log.e(TAG, "onPullDownRefreshComplete");
-                                    borrowPullToRefreshListView.onPullUpRefreshComplete();
-
+                                    orderBorrowList.add(order);
                                 }
-
-                                if (jsonArray.length() == 0) {
-                                    borrowHasMoreData = false;
-                                    borrowPullToRefreshListView.setHasMoreData(borrowHasMoreData);
-                                }
-                                Log.e(TAG, "end");
                             }
+
+                            Log.e(TAG, orderBorrowList.size() + "orderBorrowList");
+                            orderBorrowAdapter.notifyDataSetChanged();
+
+                            if(addNum == 0 && gestureType == REFRESH_GESTURE) {
+                                Toast.makeText(getActivity(), "已经是最新数据", Toast.LENGTH_LONG).show();
+                            }
+
+                            if (gestureType == REFRESH_GESTURE) {
+                                setLastUpdateTime(borrowPullToRefreshListView);
+                                borrowPullToRefreshListView.onPullDownRefreshComplete();
+                            } else {
+                                Log.e(TAG, "onPullDownRefreshComplete");
+                                borrowPullToRefreshListView.onPullUpRefreshComplete();
+                            }
+
+                            if (jsonArray.length() == 0) {
+                                borrowHasMoreData = false;
+                                borrowPullToRefreshListView.setHasMoreData(borrowHasMoreData);
+                            }
+                            Log.e(TAG, "end");
+//                          }
 //                            else {
 //                                int addNum = 0;
 //                                for (int i = 0; i < jsonArray.length(); i++) {

@@ -15,6 +15,17 @@ public class Chat {
     @DatabaseField(columnName = "cardId")
     public int cardId;
 
+    @DatabaseField(columnName = "cardType")
+    public int cardType;
+
+    @DatabaseField(columnName = "borrowId")
+    public String borrowId;
+
+    public int orderState;
+
+    @DatabaseField(columnName = "lendId")
+    public String lendId;
+
     @DatabaseField(columnName = "fromUser")
     public String fromUser;
 

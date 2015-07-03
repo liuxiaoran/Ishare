@@ -1,58 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="borrow_state_items">
-        <item></item>
-        <item></item>
-        <item>已借出</item>
+        <item>聊天中</item>
+        <item>未归还</item>
         <item>未付款</item>
         <item>已付款</item>
         <item>交易结束</item>
     </string-array>
 
-    <string-array name="borrow_last_state_begin">
-        <item></item>
-        <item></item>
-        <item>您已拿到</item>
-        <item></item>
-        <item>您已支付</item>
-        <item></item>
-    </string-array>
-
-    <string-array name="borrow_last_state_end">
-        <item></item>
-        <item></item>
-        <item>的卡</item>
-        <item>确认您已还卡，请付款</item>
-        <item>的用卡金额</item>
-        <item>已确认收款，交易结束</item>
+    <string-array name="borrow_state_change">
+        <item>付款</item>
     </string-array>
 
     <string-array name="lend_state_items">
-        <item></item>
-        <item></item>
+        <item>聊天中</item>
         <item>已借出</item>
         <item>已归还</item>
         <item>已付款</item>
         <item>交易结束</item>
     </string-array>
 
-    <string-array name="lend_last_state_begin">
+    <string-array name="lend_state_change">
+        <item>借出</item>
+        <item>确认归还</item>
         <item></item>
-        <item></item>
-        <item>您已将卡借给</item>
-        <item>您已确认</item>
-        <item></item>
-        <item>您确认了</item>
+        <item>确认付款</item>
     </string-array>
 
-    <string-array name="lend_last_state_end">
-        <item></item>
-        <item></item>
-        <item></item>
-        <item>归还用卡，等待支付用卡金额</item>
-        <item>已支付用卡金额，请确认</item>
-        <item>的支付金额，交易结束</item>
-    </string-array>
 
     <string-array name="borrow_state_begin">
         <item>从</item>

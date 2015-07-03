@@ -9,7 +9,7 @@
 
 	<string name="menu_refresh">刷新</string>
 	<string name="menu_settings">设置</string>
-	<string name="menu_publish">发布</string>
+	<string name="menu_collect">收藏</string>
 	<string name="menu_save">保存</string>
 
 	<string name="login_register"><u>快速注册</u></string>
@@ -60,9 +60,24 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+	<string name="borrow_label">借入</string>
+	<string name="lend_label">借出</string>
+	<string name="state_label">状态：</string>
+
+	<string name="nickname">昵称</string>
+	<string name="gender">性别</string>
+
+	<string name="phone_num">手机</string>
+	<string name="personal_credit">个人信用</string>
+	<string name="my_address">我的地址</string>
+
+	<string name="card_i_share">我分享的卡</string>
+	<string name="card_i_request">我请求的卡</string>
+	<string name="card_i_collect">我的收藏</string>
 
 	<!--  custom id -->
 	<item name="available_click_count" type="id"></item>
 	<item name="available_object" type="id"></item>
 	<item name="available_position" type="id"></item>
+    <string name="title_activity_card_request">CardRequestActivity</string>
 </resources>

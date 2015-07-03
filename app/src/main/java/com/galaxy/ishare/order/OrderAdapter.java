@@ -1,7 +1,6 @@
 package com.galaxy.ishare.order;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.Order;
@@ -19,8 +17,8 @@ import com.galaxy.ishare.utils.DateUtil;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -32,31 +30,16 @@ public class OrderAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private Context mContext;
     private User user;
-    private String[] cardItems;
-    private String[] tradeItems;
     private String[] borrowStateItems;
-    private String[] borrowLastStateBegin;
-    private String[] borrowLastStateEnd;
     private String[] lendStateItems;
-    private String[] lendLastStateBegin;
-    private String[] lendLastStateEnd;
-    private int[] colors = {R.color.main_blue, R.color.main_green, R.color.main_orange, R.color.main_purple, R.color.main_yellow, R.color.main_red};
-    private int[] backgroundRes = {R.drawable.main_trade_tv_blue, R.drawable.main_trade_tv_green, R.drawable.main_trade_tv_orange,
-            R.drawable.main_trade_tv_purple, R.drawable.main_trade_tv_yellow, R.drawable.main_trade_tv_red};
 
     public OrderAdapter(Context context, List<Order> dataList) {
         this.mContext = context;
         this.dataList = dataList;
         user = IShareContext.getInstance().getCurrentUser();
         this.layoutInflater = LayoutInflater.from(context);
-        cardItems = mContext.getResources().getStringArray(R.array.card_items);
-        tradeItems = mContext.getResources().getStringArray(R.array.trade_items);
         borrowStateItems = mContext.getResources().getStringArray(R.array.borrow_state_items);
-        borrowLastStateBegin = mContext.getResources().getStringArray(R.array.borrow_last_state_begin);
-        borrowLastStateEnd = mContext.getResources().getStringArray(R.array.borrow_last_state_end);
         lendStateItems = mContext.getResources().getStringArray(R.array.lend_state_items);
-        lendLastStateBegin = mContext.getResources().getStringArray(R.array.lend_last_state_begin);
-        lendLastStateEnd = mContext.getResources().getStringArray(R.array.lend_last_state_end);
     }
 
     /**
@@ -65,15 +48,18 @@ public class OrderAdapter extends BaseAdapter {
      * @author Administrator
      */
     public class ViewHolder {
-        public TextView shopName;
-        public ImageView shopImage;
-        public TextView cardDiscount;
-        public TextView cardType;
-//        public TextView cardTag;
-        public TextView orderState;
-        public ImageView isRead;
-        public TextView orderLastState;
-        public TextView orderLastTime;
+        public ImageView orderAvatarIv;
+        public TextView orderNameTv;
+        public ImageView orderGenderIv;
+        public TextView orderDistanceTv;
+        public TextView lastChatTimeTv;
+        public TextView orderTypeTv;
+        public ImageView isReadIv;
+        public TextView lastChatTv;
+        public ImageView shopImageIv;
+        public TextView shopNameTv;
+        public TextView shopLocationTv;
+        public TextView orderStateTv;
     }
 
     @Override
@@ -104,46 +90,63 @@ public class OrderAdapter extends BaseAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             //获得组件，实例化组件
-            convertView = layoutInflater.inflate(R.layout.item_order, null);
-            viewHolder.shopName = (TextView) convertView.findViewById(R.id.shop_name);
-            viewHolder.shopImage = (ImageView) convertView.findViewById(R.id.shop_image);
-            viewHolder.cardDiscount = (TextView) convertView.findViewById(R.id.card_discount);
-            viewHolder.cardType = (TextView) convertView.findViewById(R.id.card_type);
-//            viewHolder.cardTag = (TextView) convertView.findViewById(R.id.card_tag);
-            viewHolder.orderState = (TextView) convertView.findViewById(R.id.order_state);
-            viewHolder.isRead = (ImageView) convertView.findViewById(R.id.is_read);
-            viewHolder.orderLastState = (TextView) convertView.findViewById(R.id.order_last_state);
-            viewHolder.orderLastTime = (TextView) convertView.findViewById(R.id.order_last_time);
+            convertView = layoutInflater.inflate(R.layout.item_new_order, null);
+            viewHolder.orderAvatarIv = (ImageView) convertView.findViewById(R.id.order_avatar_iv);
+            viewHolder.orderNameTv = (TextView) convertView.findViewById(R.id.order_name_tv);
+            viewHolder.orderGenderIv = (ImageView) convertView.findViewById(R.id.order_gender_iv);
+            viewHolder.orderDistanceTv = (TextView) convertView.findViewById(R.id.order_distance_tv);
+            viewHolder.lastChatTimeTv = (TextView) convertView.findViewById(R.id.last_chat_time_tv);
+            viewHolder.orderTypeTv = (TextView) convertView.findViewById(R.id.order_type_tv);
+            viewHolder.lastChatTv = (TextView) convertView.findViewById(R.id.last_chat_tv);
+            viewHolder.shopImageIv = (ImageView) convertView.findViewById(R.id.shop_image_iv);
+            viewHolder.shopNameTv = (TextView) convertView.findViewById(R.id.shop_name_tv);
+            viewHolder.shopLocationTv = (TextView) convertView.findViewById(R.id.shop_location_tv);
+            viewHolder.orderStateTv = (TextView) convertView.findViewById(R.id.order_state_tv);
+
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.shopName.setText(order.shopName + "");
+        if (user.getUserId().equals(order.borrowId)) {
+            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(order.lendAvatar, DisplayUtil.dip2px(mContext, 50), DisplayUtil.dip2px(mContext, 50));
+            ImageLoader.getInstance().displayImage(thumbnailUrl, viewHolder.orderAvatarIv);
+            viewHolder.orderNameTv.setText(order.lendName + "");
+            if("男".equals(order.lendGender)) {
+                viewHolder.orderGenderIv.setImageResource(R.drawable.icon_male);
+            } else {
+                viewHolder.orderGenderIv.setImageResource(R.drawable.icon_female);
+            }
+            viewHolder.orderStateTv.setText(borrowStateItems[order.orderState]);
+            viewHolder.orderTypeTv.setBackgroundResource(R.drawable.borrow_bkg);
+            viewHolder.orderTypeTv.setText(mContext.getResources().getString(R.string.borrow_label));
+        } else {
+            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(order.borrowAvatar, DisplayUtil.dip2px(mContext, 50), DisplayUtil.dip2px(mContext, 50));
+            ImageLoader.getInstance().displayImage(thumbnailUrl, viewHolder.orderAvatarIv);
+            viewHolder.orderNameTv.setText(order.borrowName + "");
+            if("男".equals(order.borrowGender)) {
+                viewHolder.orderGenderIv.setImageResource(R.drawable.icon_male);
+            } else {
+                viewHolder.orderGenderIv.setImageResource(R.drawable.icon_female);
+            }
+            viewHolder.orderStateTv.setText(lendStateItems[order.orderState]);
+            viewHolder.orderTypeTv.setBackgroundResource(R.drawable.lend_bkg);
+            viewHolder.orderTypeTv.setText(mContext.getResources().getString(R.string.lend_label));
+        }
+
+        viewHolder.orderDistanceTv.setText(order.lendDistance + "km");
+        viewHolder.lastChatTv.setText(order.lastChatContent + "");
+        viewHolder.lastChatTimeTv.setText(getShowTimeFormat(order.lastChatTime));
 
         if (order.shopImage != null && order.shopImage.length > 0) {
-            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(order.shopImage[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 100));
-
-            ImageLoader.getInstance().displayImage(thumbnailUrl, viewHolder.shopImage);
-        }
-
-        viewHolder.cardDiscount.setText(getStringDiscount(order.cardDiscount) + "折");
-        viewHolder.cardType.setText(cardItems[order.cardType]);
-//        viewHolder.cardTag.setText(tradeItems[order.tradeType]);
-//        viewHolder.cardTag.setTextColor(mContext.getResources().getColor(colors[order.tradeType]));
-//        viewHolder.cardTag.setBackgroundResource(backgroundRes[order.tradeType]);
-
-        Log.d(TAG, (order == null) + "");
-        Log.d(TAG, (order.borrowId == null) + "");
-        Log.d(TAG, (user == null) + "");
-        if(user.getUserId().equals(order.borrowId)) {
-            viewHolder.orderState.setText(borrowStateItems[order.orderState]);
-            viewHolder.orderLastState.setText(borrowLastStateBegin[order.orderState] + order.lendName + borrowLastStateEnd[order.orderState]);
+            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(order.shopImage[0], DisplayUtil.dip2px(mContext, 60), DisplayUtil.dip2px(mContext, 100));
+            ImageLoader.getInstance().displayImage(thumbnailUrl, viewHolder.shopImageIv);
         } else {
-            viewHolder.orderState.setText(lendStateItems[order.orderState]);
-            viewHolder.orderLastState.setText(lendLastStateBegin[order.orderState] + order.borrowName + lendLastStateEnd[order.orderState]);
+            viewHolder.shopImageIv.setImageResource(R.drawable.load_empty);
         }
-        viewHolder.orderLastTime.setText(getShowTimeFormat(getShowTime(order)));
+        viewHolder.shopNameTv.setText(order.shopName);
+        viewHolder.shopLocationTv.setText(order.shopLocation);
+
 
         return convertView;
     }

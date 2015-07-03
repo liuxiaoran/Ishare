@@ -12,6 +12,7 @@ import android.util.Log;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.database.ChatDao;
 import com.galaxy.ishare.model.Chat;
+import com.galaxy.ishare.model.Order;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -24,13 +25,16 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class MyReceiver extends BroadcastReceiver {
 	private static final String TAG = "JPush";
+	private int type;
 	private ChatDao chatDao = ChatDao.getInstance(IShareContext.mContext);
+	private Chat chat;
+	private Order order;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-//		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
-		Chat chat = getChatMsg(bundle);
+		chat = getChatMsg(bundle);
+		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction() + ", extras: " + printBundle(bundle));
 
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
@@ -44,14 +48,24 @@ public class MyReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知");
             int notifactionId = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
-			ChatManager.getInstance().notifyData(chat);
+			chatDao.add(chat);
+			if(chat.type == 1) {
+				ChatManager.getInstance().updateChatList(chat);
+			} else {
+				ChatManager.getInstance().updateOrderState(chat);
+			}
+
             Log.d(TAG, "[MyReceiver] 接收到推送下来的通知的ID: " + notifactionId);
         	
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-            Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
-            
+			Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
         	//打开自定义的Activity
-			ChatManager.getInstance().startActivityFromNotification(chat);
+			if(chat.type == 1) {
+				ChatManager.getInstance().startFromNotifycation(chat);
+			} else {
+				ChatManager.getInstance().startOrderIdActivity(chat);
+			}
+
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
             Log.d(TAG, "[MyReceiver] 用户收到到RICH PUSH CALLBACK: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
             //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
@@ -89,6 +103,7 @@ public class MyReceiver extends BroadcastReceiver {
 			} else if(key.equals(JPushInterface.EXTRA_EXTRA)) {
 				try {
 					String extra = bundle.getString(key);
+					Log.e(TAG, "extra; " + extra);
 					JSONObject jsonObject = new JSONObject(extra);
 					if(jsonObject.has("from_user")) {
 						chatMsg.fromUser = jsonObject.getString("from_user");
@@ -99,15 +114,20 @@ public class MyReceiver extends BroadcastReceiver {
 					if(jsonObject.has("from_avatar")) {
 						chatMsg.fromAvatar = jsonObject.getString("from_avatar");
 					}
-					if(jsonObject.has("order_id")) {
-						chatMsg.orderId = jsonObject.getInt("order_id");
-						Log.d(TAG, "order_id: " + chatMsg.orderId);
-					}
 					if(jsonObject.has("type")) {
 						chatMsg.type = jsonObject.getInt("type");
 					}
 					if(jsonObject.has("time")) {
 						chatMsg.time = jsonObject.getString("time");
+					}
+					if(jsonObject.has("order_id")) {
+						chatMsg.orderId = jsonObject.getInt("order_id");
+					}
+					if(jsonObject.has("card_id")) {
+						chatMsg.cardId = jsonObject.getInt("card_id");
+					}
+					if(jsonObject.has("card_type")) {
+						chatMsg.cardType = jsonObject.getInt("card_type");
 					}
 				} catch (JSONException e) {
 					Log.v(TAG,e.toString());
@@ -121,16 +141,11 @@ public class MyReceiver extends BroadcastReceiver {
 			chatMsg.toName = IShareContext.getInstance().getCurrentUser().getUserName();
 			chatMsg.toGender = IShareContext.getInstance().getCurrentUser().getGender();
 			chatMsg.isRead = 0;
-			chatDao.add(chatMsg);
 		}
 
 		return chatMsg;
 	}
 
-	public void notifyData() {
-
-	}
-	
 	//send msg to MainActivity
 //	private void processCustomMessage(Context context, Bundle bundle) {
 //		if (MainActivity.isForeground) {

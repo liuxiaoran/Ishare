@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardpublished_shopname_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="丽锦美容美发(双安店)"
+                        android:textStyle="bold"
+                        android:textColor="#404040"/>
+
+                    <ImageView
+                        android:id="@+id/activity_myself_cardpublished_locate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/activity_myself_cardpublished_shopname_tv"
+                        android:layout_alignTop="@+id/activity_myself_cardpublished_shopname_tv"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/activity_myself_cardpublished_shopname_tv"
+                        android:src="@drawable/locate_icon"/>
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardpublished_distance_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/activity_myself_cardpublished_locate"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/activity_myself_cardpublished_locate"
+                        android:text="1.0"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/activity_myself_cardpublished_distance_tv"
+                        android:layout_alignTop="@id/activity_myself_cardpublished_distance_tv"
+                        android:layout_toRightOf="@id/activity_myself_cardpublished_distance_tv"
+                        android:text="km"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/large_margin"
+                android:layout_marginRight="@dimen/large_margin"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:padding="@dimen/middle_padding">
+
+                <ImageView
+                    android:id="@+id/activity_myself_cardpublished_shopimgs_iv"
+                    android:layout_width="88dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/default_avatar" />
+
+                <LinearLayout
+                    android:id="@+id/activity_myself_cardpublished_ifo_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/activity_myself_cardpublished_shopimgs_iv">
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardpublished_discount_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="2"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="折"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardpublished_card_type_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="充值卡"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardpublished_shop_type_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="140dp"
+                        android:textColor="#404040"
+                        android:text="美发"/>
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:layout_toRightOf="@+id/activity_myself_cardpublished_shopimgs_iv"
+                    android:layout_below="@+id/activity_myself_cardpublished_ifo_layout">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="出借 "
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardpublished_lend_count_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="22"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=" 次"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardpublished_appraise_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="8"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@id/activity_myself_cardpublished_lend_count_tv"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/activity_myself_cardpublished_appraise_tv"
+                        android:layout_marginLeft="2dp"
+                        android:text="评"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <ImageView
+                        android:id="@+id/activity_myself_cardpublished_star_iv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/activity_myself_cardpublished_appraise_tv"
+                        android:layout_marginLeft="8dp"
+                        android:src="@drawable/star_full"/>
+
+                    <ImageView
+                        android:id="@+id/activity_myself_cardpublished_star_iv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/activity_myself_cardpublished_appraise_tv"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/star_full"/>
+
+                    <ImageView
+                        android:id="@+id/activity_myself_cardpublished_star_iv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/activity_myself_cardpublished_appraise_tv"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/star_full"/>
+
+                    <ImageView
+                        android:id="@+id/activity_myself_cardpublished_star_iv4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/activity_myself_cardpublished_appraise_tv"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/star_full"/>
+
+                    <ImageView
+                        android:id="@+id/activity_myself_cardpublished_star_iv5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@id/activity_myself_cardpublished_appraise_tv"
+                        android:layout_marginLeft="2dp"
+                        android:src="@drawable/star_full"/>
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

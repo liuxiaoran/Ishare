@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="#ECFFF1">
+    android:layout_height="fill_parent">
 
     <LinearLayout
         android:id="@+id/activity_myself_credit_layout1"
@@ -31,7 +30,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="0dp"
                     android:text="真实姓名"
-                    android:textSize="18dp"/>
+                    android:textSize="14sp"/>
 
                 <EditText
                     android:id="@+id/activity_myself_credit_realname_et"
@@ -40,7 +39,7 @@
                     android:layout_toRightOf="@+id/activity_myself_credit_realname"
                     android:layout_marginLeft="18dp"
                     android:text="请输入您的真实姓名"
-                    android:textSize="18dp"
+                    android:textSize="14sp"
                     android:textColor="@color/gray"
                     android:layout_centerVertical="true"
                     android:background="@null" />
@@ -71,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="个人照片"
-                    android:textSize="18dp"
+                    android:textSize="14sp"
                     android:layout_centerVertical="true"/>
 
                 <ImageView
@@ -79,7 +78,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_toRightOf="@+id/activity_myself_credit_presonalpic"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="14sp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"/>
 
@@ -88,10 +87,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="请上传您的个人照片"
-                    android:textSize="18dp"
+                    android:textSize="14sp"
                     android:textColor="@color/gray"
                     android:layout_toRightOf="@+id/activity_myself_credit_presonalpic_iv"
-                    android:layout_marginLeft="18dp"/>
+                    android:layout_marginLeft="14sp"/>
             </RelativeLayout>
 
         </LinearLayout>
@@ -119,7 +118,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="身份证"
-                    android:textSize="18dp"
+                    android:textSize="14sp"
                     android:layout_centerVertical="true"/>
 
                 <ImageView
@@ -127,7 +126,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_toRightOf="@+id/activity_myself_credit_idcard"
-                    android:layout_marginLeft="36dp"
+                    android:layout_marginLeft="28sp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"/>
 
@@ -136,10 +135,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="请上传您的身份证照片"
-                    android:textSize="18dp"
+                    android:textSize="14sp"
                     android:textColor="@color/gray"
                     android:layout_toRightOf="@+id/activity_myself_credit_idcard_iv"
-                    android:layout_marginLeft="18dp"/>
+                    android:layout_marginLeft="14sp"/>
             </RelativeLayout>
 
         </LinearLayout>
@@ -173,7 +172,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="0dp"
                     android:text="工作单位"
-                    android:textSize="18dp"/>
+                    android:textSize="14sp"/>
 
                 <EditText
                     android:id="@+id/activity_myself_credit_work_et"
@@ -182,7 +181,7 @@
                     android:layout_toRightOf="@+id/activity_myself_credit_work"
                     android:layout_marginLeft="18dp"
                     android:text="请填写您的工作单位"
-                    android:textSize="18dp"
+                    android:textSize="14sp"
                     android:textColor="@color/gray"
                     android:layout_centerVertical="true"
                     android:background="@null" />
@@ -213,7 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="工牌"
-                    android:textSize="18dp"
+                    android:textSize="14sp"
                     android:layout_centerVertical="true"/>
 
                 <ImageView
@@ -221,7 +220,7 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:layout_toRightOf="@+id/activity_myself_credit_jobcard"
-                    android:layout_marginLeft="54dp"
+                    android:layout_marginLeft="42sp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"/>
 
@@ -230,10 +229,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="请上传您的工牌照片"
-                    android:textSize="18dp"
+                    android:textSize="14sp"
                     android:textColor="@color/gray"
                     android:layout_toRightOf="@+id/activity_myself_credit_jobcard_iv"
-                    android:layout_marginLeft="18dp"/>
+                    android:layout_marginLeft="14sp"/>
             </RelativeLayout>
 
         </LinearLayout>

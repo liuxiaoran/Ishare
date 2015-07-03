@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ECFFF1">
+
+    <LinearLayout
+        android:id="@+id/activity_myself_credit_layout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:background="#ffffff">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/activity_myself_credit_realname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="0dp"
+                    android:text="真实姓名"
+                    android:textSize="18dp"/>
+
+                <EditText
+                    android:id="@+id/activity_myself_credit_realname_et"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/activity_myself_credit_realname"
+                    android:layout_marginLeft="18dp"
+                    android:text="请输入您的真实姓名"
+                    android:textSize="18dp"
+                    android:textColor="@color/gray"
+                    android:layout_centerVertical="true"
+                    android:background="@null" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="13dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:src="@color/gray"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/activity_myself_credit_presonalpic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="个人照片"
+                    android:textSize="18dp"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:id="@+id/activity_myself_credit_presonalpic_iv"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_toRightOf="@+id/activity_myself_credit_presonalpic"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="请上传您的个人照片"
+                    android:textSize="18dp"
+                    android:textColor="@color/gray"
+                    android:layout_toRightOf="@+id/activity_myself_credit_presonalpic_iv"
+                    android:layout_marginLeft="18dp"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="13dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:src="@color/gray"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/activity_myself_credit_idcard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="身份证"
+                    android:textSize="18dp"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:id="@+id/activity_myself_credit_idcard_iv"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_toRightOf="@+id/activity_myself_credit_idcard"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="请上传您的身份证照片"
+                    android:textSize="18dp"
+                    android:textColor="@color/gray"
+                    android:layout_toRightOf="@+id/activity_myself_credit_idcard_iv"
+                    android:layout_marginLeft="18dp"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/activity_myself_credit_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:layout_below="@+id/activity_myself_credit_layout1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/activity_myself_credit_work"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="0dp"
+                    android:text="工作单位"
+                    android:textSize="18dp"/>
+
+                <EditText
+                    android:id="@+id/activity_myself_credit_work_et"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/activity_myself_credit_work"
+                    android:layout_marginLeft="18dp"
+                    android:text="请填写您的工作单位"
+                    android:textSize="18dp"
+                    android:textColor="@color/gray"
+                    android:layout_centerVertical="true"
+                    android:background="@null" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="13dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="5dp"
+                android:src="@color/gray"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/activity_myself_credit_jobcard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="工牌"
+                    android:textSize="18dp"
+                    android:layout_centerVertical="true"/>
+
+                <ImageView
+                    android:id="@+id/activity_myself_credit_jobcard_iv"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_toRightOf="@+id/activity_myself_credit_jobcard"
+                    android:layout_marginLeft="54dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="请上传您的工牌照片"
+                    android:textSize="18dp"
+                    android:textColor="@color/gray"
+                    android:layout_toRightOf="@+id/activity_myself_credit_jobcard_iv"
+                    android:layout_marginLeft="18dp"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

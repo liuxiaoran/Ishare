@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/chat_view"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:background="#ECEFF1" >
 
     <LinearLayout
-        android:id="@+id/order_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingTop="20dp"
+        android:id="@+id/chat_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:orientation="vertical"
-        android:background="#ffffff" >
+        android:background="#ECEFF1" >
+
         <RelativeLayout
-            android:id="@+id/shop_info"
+            android:id="@+id/order_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:background="#ffffff"
             >
             <ImageView
                 android:id="@+id/shop_image"
@@ -27,7 +30,8 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                android:src="@drawable/load_empty"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,306 +102,188 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="状态：申请中"/>
-                    <ImageView
+                        android:text="状态：聊天中"/>
+
+                    <TextView
                         android:id="@+id/change_state"
-                        android:layout_width="50dp"
-                        android:layout_height="20dp"
+                        style="@style/order_state_un_confirm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"/>
+                        android:gravity="center"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:background="@drawable/order_state_tv_un_confirm"
+                        android:text="借给他"
+                        android:textColor="@color/chat_transparent"/>
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/first_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/first_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:src="@color/gray"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <TextView
-                    android:id="@+id/first_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:text="收到刘笑然的借卡请求"
-                    android:layout_centerVertical="true"
-                    android:textSize="14dp"/>
-
-                <TextView
-                    android:id="@+id/first_confirm"
-                    style="@style/order_state_confirm"
-                    android:layout_width="55dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="25dp"
-                    android:padding="3dp"
-                    android:gravity="center"
-                    android:background="@drawable/order_state_tv_confirm"
-                    android:text="已同意" />
-
-                <TextView
-                    android:id="@+id/first_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/first_confirm"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:text="2015-07-14"
-                    android:textSize="14dp" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/second_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/second_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:src="@color/gray"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-                <TextView
-                    android:id="@+id/second_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="0dp"
-                    android:layout_centerVertical="true"
-                    android:text="取回卡了吗？"
-                    android:textSize="14dp" />
-
-                <TextView
-                    android:id="@+id/second_confirm"
-                    style="@style/order_state_confirm"
-                    android:layout_width="55dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:padding="3dp"
-                    android:layout_marginRight="25dp"
-                    android:gravity="center"
-                    android:background="@drawable/order_state_tv_confirm"
-                    android:text="已确认"
-                     />
-
-                <TextView
-                    android:id="@+id/second_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/second_confirm"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
-                    android:text="2015-07-14"
-                    android:textSize="14dp" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/third_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
-                android:id="@+id/third_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:src="@color/gray"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-                <TextView
-                    android:id="@+id/third_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="0dp"
-                    android:text="收到刘笑然的借卡请求"
-                    android:textSize="14dp"/>
-
-                <TextView
-                    android:id="@+id/third_confirm"
-                    style="@style/order_state_un_confirm"
-                    android:layout_width="55dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
-                    android:gravity="center"
-                    android:padding="3dp"
-                    android:background="@drawable/order_state_tv_un_confirm"
-                    android:text="确认"/>
-
-                <TextView
-                    android:id="@+id/third_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/third_confirm"
-                    android:layout_marginRight="15dp"
-                    android:text="2015-07-14"
-                    android:textSize="14dp" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/forth_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ImageView
-                android:id="@+id/forth_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:src="@color/gray"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp">
-                <TextView
-                    android:id="@+id/forth_content"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="0dp"
-                    android:text="收到刘笑然的借卡请求"
-                    android:textSize="14dp"/>
-
-                <TextView
-                    android:id="@+id/forth_confirm"
-                    style="@style/order_state_un_confirm"
-                    android:layout_width="55dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="25dp"
-                    android:gravity="center"
-                    android:padding="3dp"
-                    android:background="@drawable/order_state_tv_un_confirm"
-                    android:text="确认"/>
-
-                <TextView
-                    android:id="@+id/forth_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toLeftOf="@id/forth_confirm"
-                    android:layout_marginRight="15dp"
-                    android:text="2015-07-14"
-                    android:textSize="14dp" />
-            </RelativeLayout>
-        </LinearLayout>
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:src="@color/gray"/>
-
-
-    <TextView
-        android:id="@+id/card_distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_below="@id/order_info"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/shape"
-        android:padding="5dp"
-        android:text="当前与卡主相距1.2km"
-        android:visibility="gone"/>
-
-    <ListView
-        android:id="@+id/chat_listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stackFromBottom="true"
-        android:layout_marginTop="15dp"
-        android:scrollingCache="false"
-        android:layout_weight="1"
-        android:fadingEdge="none"
-        android:cacheColorHint="#00000000"
-        android:fastScrollEnabled="true"
-        android:transcriptMode="normal"
-        android:scrollbarStyle="insideInset"
-        android:layout_gravity="bottom"
-        android:divider="@null"
-        android:dividerHeight="5dp"
-        android:scrollbars="vertical" />
-    <!-- 就是listview加了滚动条，所以输入法才会在最底层的布局下面，而不是在editview下面。 -->
-
-    <RelativeLayout
-        android:id="@+id/chat_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="0dip"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="@drawable/chat_msg_send_bk" >
-
-        <TextView
-            android:id="@+id/chat_btn_send"
-            android:layout_width="45dp"
-            android:layout_height="30dp"
-            android:gravity="center"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"
-            android:padding="5dip"
-            android:text="@string/send"
-            android:textColor="#78909C"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/chat_et_msg"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/chat_btn_send"
-            android:padding="4dip"
-            android:singleLine="false"
-            android:textSize="16sp"
-            android:textColor="#78909C"
-            android:background="@null"/>
-
         <ImageView
-            android:id="@+id/sep_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="1dp"
-            android:layout_below="@+id/chat_et_msg"
-            android:layout_alignLeft="@+id/chat_et_msg"
-            android:layout_alignRight="@+id/chat_et_msg"
-            android:background="@color/chat_purple"/>
-    </RelativeLayout>
+            android:src="@color/gray"/>
 
 
+        <TextView
+            android:id="@+id/card_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_below="@id/order_info"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/shape"
+            android:padding="5dp"
+            android:text="当前与卡主相距1.2km"
+            android:visibility="gone"/>
 
-</LinearLayout>
+        <ListView
+            android:id="@+id/chat_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:scrollingCache="false"
+            android:layout_weight="1"
+            android:fadingEdge="none"
+            android:cacheColorHint="#00000000"
+            android:fastScrollEnabled="true"
+            android:transcriptMode="normal"
+            android:scrollbarStyle="insideInset"
+            android:gravity="top"
+            android:layout_gravity="bottom"
+            android:divider="@null"
+            android:dividerHeight="5dp"
+            android:scrollbars="vertical" />
+        <!-- 就是listview加了滚动条，所以输入法才会在最底层的布局下面，而不是在editview下面。 -->
+
+        <RelativeLayout
+            android:id="@+id/chat_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="0dip"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:background="@drawable/chat_msg_send_bk" >
+
+            <TextView
+                android:id="@+id/chat_btn_send"
+                android:layout_width="45dp"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="5dp"
+                android:padding="5dip"
+                android:text="@string/send"
+                android:textColor="#78909C"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/chat_et_msg"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/chat_btn_send"
+                android:padding="4dip"
+                android:singleLine="false"
+                android:textSize="16sp"
+                android:textColor="#78909C"
+                android:background="@null"/>
+
+            <ImageView
+                android:id="@+id/sep_line"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_below="@+id/chat_et_msg"
+                android:layout_alignLeft="@+id/chat_et_msg"
+                android:layout_alignRight="@+id/chat_et_msg"
+                android:background="@color/chat_purple"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_comment"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:paddingLeft="10dp"
+        android:orientation="vertical"
+        android:background="#ffffff"
+        android:visibility="gone">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="评星："
+                android:textSize="16sp"/>
+
+            <RatingBar
+                android:id="@+id/rating_bar"
+                style="@style/roomRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:numStars="5"
+                android:rating="3"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="内容："
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/et_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:minLines="4"
+                android:maxLines="4"
+                android:background="@android:drawable/edit_text"
+                android:hint="请填写评价内容"
+                android:minHeight="120dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp">
+            <Button
+                android:id="@+id/btn_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评价"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="取消"
+                android:textSize="16dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

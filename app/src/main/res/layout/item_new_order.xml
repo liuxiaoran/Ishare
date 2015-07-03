@@ -1,0 +1,146 @@
+<android.support.v7.widget.CardView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto"
+	style="@style/UniversalCardViewStyle"
+	android:padding="5dp"
+	card_view:cardCornerRadius="@dimen/default_card_view_corner_radius"
+	card_view:cardElevation="0dp">
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:paddingLeft="10dp">
+		<RelativeLayout
+			android:id="@+id/user_info_layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="6dp">
+			<de.hdodenhof.circleimageview.CircleImageView
+				android:id="@+id/order_avatar_iv"
+				android:layout_width="50dp"
+				android:layout_height="50dp" />
+
+			<RelativeLayout
+				android:id="@+id/basic_info_layout"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@id/order_avatar_iv"
+				android:layout_marginLeft="15dp"
+				android:layout_marginTop="8dp">
+				<TextView
+					android:id="@+id/order_name_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:text="刘笑然"
+					android:textColor="@color/primary_dark_material_dark"/>
+
+				<ImageView
+					android:id="@+id/order_gender_iv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_toRightOf="@id/order_name_tv"
+					android:layout_centerVertical="true"
+					android:layout_marginLeft="8dp"
+					android:src="@drawable/icon_male"/>
+
+				<TextView
+					android:id="@+id/order_distance_tv"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_centerVertical="true"
+					android:layout_toRightOf="@id/order_gender_iv"
+					android:layout_marginLeft="8dp"
+					android:text="1.2km"
+					/>
+			</RelativeLayout>
+
+			<TextView
+				android:id="@+id/last_chat_time_tv"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_toRightOf="@+id/order_avatar_iv"
+				android:layout_below="@id/basic_info_layout"
+				android:layout_marginLeft="15dp"
+				android:layout_marginTop="5dp"
+				android:text="1分钟前"/>
+
+			<TextView
+				android:id="@+id/order_type_tv"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:layout_marginRight="15dp"
+				android:gravity="center_vertical"
+				android:paddingLeft="8dp"
+				android:background="@drawable/lend_bkg"
+				android:text="借出"/>
+		</RelativeLayout>
+
+		<LinearLayout
+			android:id="@+id/last_chat_layout"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@+id/user_info_layout"
+			android:layout_marginTop="6dp"
+			android:orientation="horizontal">
+			<ImageView
+				android:id="@+id/is_read_iv"
+				android:layout_width="8dp"
+				android:layout_height="8dp"
+				android:layout_gravity="center_vertical"
+				android:src="@drawable/red_dot" />
+
+			<TextView
+				android:id="@+id/last_chat_tv"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="5dp"
+				android:text="那我们在大厦前面的花园见面把，哒时候..."/>
+		</LinearLayout>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_below="@id/last_chat_layout"
+			android:layout_marginTop="6dp"
+			android:padding="6dp"
+			android:background="#F7F7F7">
+			<ImageView
+				android:id="@+id/shop_image_iv"
+				android:layout_width="100dp"
+				android:layout_height="60dp"
+				android:scaleType="fitXY" />
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="50dp"
+				android:layout_toRightOf="@+id/shop_image_iv"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="6dp"
+				android:orientation="vertical">
+				<TextView
+					android:id="@+id/shop_name_tv"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="美琪美容美发（知春路店）"
+					android:singleLine="true"/>
+				<TextView
+					android:id="@+id/shop_location_tv"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="海淀区北蜂窝中路甲8号及1-2楼地上一层"
+					android:singleLine="true"/>
+				<TextView
+					android:id="@+id/order_state_tv"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:text="状态：已借出"/>
+			</LinearLayout>
+		</RelativeLayout>
+	</RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -156,9 +156,7 @@ public class CardDetailActivity extends ActionBarActivity {
             public void onClick(View v) {
                 // 跳到聊天
                 User currentUser = IShareContext.getInstance().getCurrentUser();
-                ChatManager.getInstance().startActivityFromActivity(cardItem.getId(), currentUser.getUserId(), currentUser.getUserName(),
-                        currentUser.getGender(), currentUser.getAvatar(), cardItem.ownerId, cardItem.ownerName, cardItem.ownerGender,
-                        cardItem.ownerAvatar, cardItem);
+                ChatManager.getInstance().startActivityFromShare(cardItem.getId(), cardItem.ownerId, cardItem.getOwnerAvatar(), currentUser.getUserId());
 
             }
         });
@@ -225,7 +223,9 @@ public class CardDetailActivity extends ActionBarActivity {
 
         commentCountTv.setText(cardItem.getCommentCount() + "");
 
-        if (cardItem.ownerGender.equals("男")) {
+        Log.e(TAG, (cardItem == null) + "");
+        Log.e(TAG, (cardItem.ownerGender == null) + "");
+        if ("男".equals(cardItem.ownerGender)) {
             genderIv.setImageResource(R.drawable.icon_male);
         }
 

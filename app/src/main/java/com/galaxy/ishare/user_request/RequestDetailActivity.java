@@ -69,9 +69,8 @@ public class RequestDetailActivity extends ActionBarActivity {
             public void onClick(View v) {
                 // 跳到聊天
                 User currentUser = IShareContext.getInstance().getCurrentUser();
-                ChatManager.getInstance().startActivityFromActivity(cardItem.getId(), currentUser.getUserId(), currentUser.getUserName(),
-                        currentUser.getGender(), currentUser.getAvatar(), cardItem.ownerId, cardItem.ownerName, cardItem.ownerGender,
-                        cardItem.ownerAvatar, cardItem);
+                ChatManager.getInstance().startActivityFromRequest(cardItem.getId(), cardItem.getOwnerId(), cardItem.getOwnerAvatar(),
+                        currentUser.getUserId());
             }
         });
 

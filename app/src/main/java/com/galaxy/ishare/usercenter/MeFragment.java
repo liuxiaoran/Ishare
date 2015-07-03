@@ -16,7 +16,9 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.me.CardICollectActivity;
 import com.galaxy.ishare.me.CardIshareActivity;
+import com.galaxy.ishare.me.CardRequestActivity;
 import com.galaxy.ishare.utils.PhoneUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.soundcloud.android.crop.Crop;
@@ -31,7 +33,9 @@ public class MeFragment extends Fragment {
     private TextView nameTv;
     private CircleImageView avatarIV;
 
-    private RelativeLayout cardIshareLayout;
+    private RelativeLayout cardIShareLayout;
+    private RelativeLayout cardRequestLayout;
+    private RelativeLayout cardICollectLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,14 +62,32 @@ public class MeFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        nameTv = (TextView) view.findViewById(R.id.usercenter_info_nickname_tv);
+        nameTv = (TextView) view.findViewById(R.id.usercenter_nickname_tv);
         avatarIV = (CircleImageView) view.findViewById(R.id.usercenter_avatar_iv);
-        cardIshareLayout = (RelativeLayout) view.findViewById(R.id.usercenter_info_publishcard_layout);
+        cardICollectLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_collect_layout);
+        cardIShareLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_share_layout);
+        cardRequestLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_request_layout);
 
-        cardIshareLayout.setOnClickListener(new View.OnClickListener() {
+        cardICollectLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CardICollectActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        cardIShareLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CardIshareActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        cardRequestLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CardRequestActivity.class);
                 startActivity(intent);
             }
         });

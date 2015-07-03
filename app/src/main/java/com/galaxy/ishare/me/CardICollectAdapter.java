@@ -1,8 +1,6 @@
 package com.galaxy.ishare.me;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,29 +9,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.galaxy.ishare.utils.WidgetController;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import java.util.List;
 
 /**
  * Created by liuxiaoran on 15/5/16.
  */
-public class CardAdapter extends BaseAdapter {
+public class CardICollectAdapter extends BaseAdapter {
 
-    private static final String TAG = "CardAdapter";
+    private static final String TAG = "CardIShareAdapter";
     private List<CardItem> dataList;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
 
-    public CardAdapter(List<CardItem> data, Context context) {
+    public CardICollectAdapter(List<CardItem> data, Context context) {
         this.dataList = data;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -73,8 +68,6 @@ public class CardAdapter extends BaseAdapter {
             cardHolder.commentCountTv = (TextView) convertView.findViewById(R.id.share_item_listview_item_comment_count_tv);
 
             convertView.setTag(cardHolder);
-
-
         } else {
             cardHolder = (CardHolder) convertView.getTag();
         }
@@ -103,21 +96,13 @@ public class CardAdapter extends BaseAdapter {
 
         WidgetController.getInstance().setRatingLayout(cardItem.ratingCount, mContext, cardHolder.ratingLayout);
 
-        Log.d(TAG, cardItem.cardImgs[0]);
+//        Log.d(TAG, cardItem.cardImgs[0]);
 
-        if (cardItem.cardImgs != null && cardItem.cardImgs.length > 0) {
-            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
-            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
-            final CardHolder finalCardHolder = cardHolder;
-            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
-                    finalCardHolder.cardIv.setImageBitmap(loadedImage);
-                }
-            });
-//            ImageLoader.getInstance().displayImage(thumbnailUrl, finalCardHolder.cardIv);
-
+        if(cardItem.cardImgs != null && !"".equals(cardItem.cardImgs[0].trim())) {
+            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
+            ImageLoader.getInstance().displayImage(thumbnailUrl, cardHolder.cardIv);
+        } else {
+            cardHolder.cardIv.setImageResource(R.drawable.load_empty);
         }
 
         return convertView;

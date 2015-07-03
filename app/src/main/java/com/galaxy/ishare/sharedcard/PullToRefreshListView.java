@@ -85,9 +85,7 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
             }
 
         }
-
     }
-
 
     /**
      * 设置滑动的监听器

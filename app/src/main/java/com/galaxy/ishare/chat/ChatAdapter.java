@@ -2,6 +2,7 @@ package com.galaxy.ishare.chat;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,16 +86,30 @@ public class ChatAdapter extends BaseAdapter {
             viewHolder.leftLayout.setVisibility(View.GONE);
             viewHolder.rightLayout.setVisibility(View.VISIBLE);
 
-            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(rightAvatar, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
-            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
-            final ViewHolder finalCardHolder = viewHolder;
-            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
-                    new SimpleImageLoadingListener() {
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            finalCardHolder.ivRightAvatar.setImageBitmap(loadedImage);
-                        }
-                    });
+            Log.e(TAG, "rightAvatar: " + "rightAvatar" + rightAvatar + "rightAvatar");
+
+//            if(rightAvatar == null || "".equals(rightAvatar.trim())) {
+//                String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(rightAvatar, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
+//                ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
+//                final ViewHolder finalCardHolder = viewHolder;
+//                ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
+//                        new SimpleImageLoadingListener() {
+//                            @Override
+//                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//                                finalCardHolder.ivRightAvatar.setImageBitmap(loadedImage);
+//                            }
+//                        });
+//            } else {
+//
+//            }
+
+            if(rightAvatar == null || !"".equals(rightAvatar.trim())) {
+                Log.e(TAG, "rightAvatar");
+                String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(rightAvatar, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
+                ImageLoader.getInstance().displayImage(thumbnailUrl, viewHolder.ivRightAvatar);
+            } else {
+//                viewHolder.ivRightAvatar.setImageResource(R.drawable);
+            }
 
             if(isShowTime(position)) {
                 viewHolder.tvSendTime.setText(getTime(position));
@@ -107,16 +122,24 @@ public class ChatAdapter extends BaseAdapter {
             viewHolder.leftLayout.setVisibility(View.VISIBLE);
             viewHolder.rightLayout.setVisibility(View.GONE);
 
-            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(leftAvatar, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
-            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
-            final ViewHolder finalCardHolder = viewHolder;
-            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
-                    new SimpleImageLoadingListener() {
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                            finalCardHolder.ivLeftAvatar.setImageBitmap(loadedImage);
-                        }
-                    });
+            Log.e(TAG, "leftAvatar: " + leftAvatar);
+
+            if(leftAvatar != null && !"".equals(leftAvatar.trim())) {
+                String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(leftAvatar, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
+                ImageLoader.getInstance().displayImage(thumbnailUrl, viewHolder.ivLeftAvatar);
+            } else {
+//                viewHolder.ivLeftAvatar.setImageResource(R.drawable);
+            }
+
+//            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
+//            final ViewHolder finalCardHolder = viewHolder;
+//            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
+//                    new SimpleImageLoadingListener() {
+//                        @Override
+//                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//                            finalCardHolder.ivLeftAvatar.setImageBitmap(loadedImage);
+//                        }
+//                    });
 
             if(isShowTime(position)) {
                 viewHolder.tvSendTime.setText(getTime(position));
@@ -154,6 +177,8 @@ public class ChatAdapter extends BaseAdapter {
         String curDate = DateUtil.getDate(0);
         String nextDate = DateUtil.getDate(1);
         Chat chat = chatList.get(position);
+
+        Log.e(TAG, "chat.time :" + chat.time);
 
         if(curDate.compareTo(chat.time) > 0
                 && nextDate.compareTo(chat.time) < 0) {

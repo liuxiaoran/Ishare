@@ -61,22 +61,24 @@ public class URLConstant {
     public static final String BORROW_CARD = SERVER_IP + "/record/Record_C/add";
 
     //Order
-    public static final String GET_ORDER_LIST = SERVER_IP + "/record/Record_C/get";
+    public static final String GET_ORDER_LIST = SERVER_IP + "/record/Get_Record_C";
 
     public static final String GET_ORDER = SERVER_IP + "/record/Record_C/get_by_id";
 
     public static final String ADD_ORDER = SERVER_IP + "/record/Record_C/add";
 
-    public static final String IS_EXIST = SERVER_IP + "/record/Record_C/is_exist";
+    public static final String CARD_RECORD_IS_EXIST = SERVER_IP + "/record/Record_With_Card_C";
+
+    public static final String REQUEST_RECORD_IS_EXIST = SERVER_IP + "/record/Record_With_Request_C";
 
     // 用户获取附近的借卡
     public static final String REQUEST_CARD_GET = SERVER_IP + "/card/Request_Card_C/get";
 
     // 用户评论相关
     // 得到用户评论
+    public static final String ADD_CARD_COMMENT = SERVER_IP + "/comment/Add_Comment_C";
     public static final String GET_CARD_COMMENTS = SERVER_IP + "/user/Comment_C/get";
     public static final String UPDATE_ORDER_STATE = SERVER_IP + "/record/Record_C/update";
-
 
     // 用户发布请求
     public static final String PUBLISH_CARD_REQUEST = SERVER_IP + "/card/Request_Card_C";
@@ -84,5 +86,7 @@ public class URLConstant {
     //card
     //我分享的卡
     public static final String GET_I_SHARE_CARD = SERVER_IP + "/card/Query_Card_I_Share";
+    //我收藏的卡
+    public static final String GET_I_COLLECT_CARD = SERVER_IP + "/collection/Get_Collection_C";
 
 }

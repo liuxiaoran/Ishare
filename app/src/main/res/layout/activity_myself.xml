@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent"
 	android:scrollbars="vertical">
@@ -11,106 +12,113 @@
 		android:id="@+id/myself_info_layout"
 		android:layout_marginTop="20dp"
 		android:layout_width="match_parent"
-		android:layout_height="150dp"
+		android:layout_height="120dp"
 		>
 
 		<de.hdodenhof.circleimageview.CircleImageView
 			android:id="@+id/usercenter_avatar_iv"
-			android:layout_width="120dp"
-			android:layout_height="120dp"
+			android:layout_width="100dp"
+			android:layout_height="100dp"
 			app:border_width="2dp"
 			app:border_color="#FFFFFF"
 			android:layout_centerVertical="true"
 			android:layout_centerHorizontal="true"/>
-
 	</RelativeLayout>
 	<RelativeLayout
 		android:id="@+id/myself_info1"
 		android:layout_width="fill_parent"
-		android:layout_height="100dp"
+		android:layout_height="80dp"
 		android:layout_below="@+id/myself_info_layout"
 		android:layout_marginTop="10dp">
 		<RelativeLayout
-			android:id="@+id/usercenter_info_nickname_layout"
+			android:id="@+id/usercenter_nickname_layout"
 			android:layout_width="fill_parent"
-			android:layout_height="50dp"
+			android:layout_height="40dp"
 			android:layout_marginTop="2dp"
-			android:background="@color/white">
+			android:background="@color/white"
+			>
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
-				android:layout_marginLeft="10dp"
+				android:layout_marginLeft="18dp"
 				android:text="昵称"
-				android:textSize="16dp" />
+				android:textSize="14dp" />
 
 			<TextView
-				android:id="@+id/usercenter_info_nickname_tv"
+				android:id="@+id/usercenter_nickname_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
 				android:textColor="#404040"
 				android:text="liuxiaoran"
-				android:textSize="16dp"
+				android:textSize="14dp"
 				android:layout_centerHorizontal="true"/>
 		</RelativeLayout>
 
+		<RelativeLayout
+			android:id="@+id/sep_line_1"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_below="@id/usercenter_nickname_layout"
+			android:background="@color/white">
+			<ImageView
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_marginLeft="18dp"
+				android:background="@color/red"/>
+		</RelativeLayout>
 
 		<RelativeLayout
-			android:id="@+id/usercenter_info_gender_layout"
+			android:id="@+id/usercenter_gender_layout"
 			android:layout_width="fill_parent"
-			android:layout_height="50dp"
-			android:layout_marginTop="2dp"
-			android:layout_below="@+id/usercenter_info_nickname_layout"
+			android:layout_height="40dp"
+			android:layout_below="@+id/sep_line_1"
 			android:background="@color/white">
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
-				android:layout_marginLeft="10dp"
+				android:layout_marginLeft="18dp"
 				android:text="性别"
-				android:textSize="16dp" />
+				android:textSize="14dp" />
 
 			<TextView
-				android:id="@+id/usercenter_info_gender_tv"
+				android:id="@+id/gender_gender_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:layout_marginRight="10dp"
 				android:textColor="@color/huise" />
-
-
 		</RelativeLayout>
-
 	</RelativeLayout>
 
 	<RelativeLayout
 		android:layout_width="fill_parent"
-		android:layout_height="150dp"
+		android:layout_height="120dp"
 		android:id="@+id/myself_info2"
 		android:layout_below="@+id/myself_info1"
 		android:layout_marginTop="10dp">
 
 		<RelativeLayout
-			android:id="@+id/usercenter_info_friend_layout"
+			android:id="@+id/usercenter_phone_layout"
 			android:layout_width="fill_parent"
-			android:layout_height="50dp"
-			android:layout_marginTop="2dp"
+			android:layout_height="40dp"
 			android:background="@color/white">
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="好友"
-				android:textSize="16dp"
+				android:text="@string/phone_num"
+				android:textSize="14dp"
 				android:layout_centerVertical="true"
-				android:layout_marginLeft="10dp"/>
+				android:layout_marginLeft="18dp"/>
 
 			<TextView
-				android:id="@+id/usercenter_info_friend_tv"
+				android:id="@+id/phone_num_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
@@ -118,11 +126,12 @@
 				android:layout_marginRight="50dp"
 				android:textColor="@color/huise"
 				android:text="13"
-				android:textSize="18dp"/>
+				android:textSize="14dp"
+				android:visibility="gone"/>
 
 			<ImageView
-				android:layout_width="20dp"
-				android:layout_height="20dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:layout_marginRight="20dp"
@@ -131,23 +140,35 @@
 		</RelativeLayout>
 
 		<RelativeLayout
-			android:id="@+id/usercenter_info_chats_layout"
+			android:id="@+id/sep_line_2"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_below="@id/usercenter_phone_layout"
+			android:background="@color/white">
+			<ImageView
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_marginLeft="18dp"
+				android:background="@color/red"/>
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:id="@+id/usercenter_credit_layout"
 			android:layout_width="fill_parent"
-			android:layout_height="50dp"
-			android:layout_marginTop="2dp"
-			android:layout_below="@+id/usercenter_info_friend_layout"
+			android:layout_height="40dp"
+			android:layout_below="@+id/sep_line_2"
 			android:background="@color/white">
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:text="聊天记录"
-				android:textSize="16dp"
+				android:text="@string/personal_credit"
+				android:textSize="14dp"
 				android:layout_centerVertical="true"
-				android:layout_marginLeft="10dp"/>
+				android:layout_marginLeft="18dp"/>
 
 			<TextView
-				android:id="@+id/usercenter_info_chats_tv"
+				android:id="@+id/personal_credit_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
@@ -155,11 +176,12 @@
 				android:layout_marginRight="50dp"
 				android:textColor="@color/huise"
 				android:text="13"
-				android:textSize="18dp"/>
+				android:textSize="14dp"
+				android:visibility="gone"/>
 
 			<ImageView
-				android:layout_width="20dp"
-				android:layout_height="20dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:layout_marginRight="20dp"
@@ -168,23 +190,34 @@
 		</RelativeLayout>
 
 		<RelativeLayout
-			android:id="@+id/usercenter_info_colltection_layout"
+			android:id="@+id/sep_line_3"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_below="@id/usercenter_credit_layout"
+			android:background="@color/white">
+			<ImageView
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_marginLeft="18dp"
+				android:background="@color/red"/>
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:id="@+id/usercenter_address_layout"
 			android:layout_width="fill_parent"
-			android:layout_height="50dp"
-			android:layout_marginTop="2dp"
-			android:layout_below="@+id/usercenter_info_chats_layout"
+			android:layout_height="40dp"
+			android:layout_below="@+id/sep_line_3"
 			android:background="@color/white">
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
-				android:layout_marginLeft="10dp"
-				android:text="我的收藏"
-				android:textSize="16dp" />
+				android:layout_marginLeft="18dp"
+				android:text="@string/my_address"
+				android:textSize="14dp" />
 
 			<TextView
-				android:id="@+id/usercenter_info_colltection_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
@@ -192,32 +225,31 @@
 				android:layout_marginRight="50dp"
 				android:textColor="@color/huise"
 				android:text="13"
-				android:textSize="18dp"/>
+				android:textSize="14dp"
+				android:visibility="gone"/>
 
 			<ImageView
-				android:layout_width="20dp"
-				android:layout_height="20dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:layout_marginRight="20dp"
 				android:src="@drawable/myself_more"/>
-
-
 		</RelativeLayout>
 
 	</RelativeLayout>
 
 	<RelativeLayout
 		android:layout_width="fill_parent"
-		android:layout_height="150dp"
+		android:layout_height="120dp"
 		android:id="@+id/myself_info3"
 		android:layout_below="@+id/myself_info2"
 		android:layout_marginTop="10dp">
 
 		<RelativeLayout
-			android:id="@+id/usercenter_info_publishcard_layout"
+			android:id="@+id/usercenter_i_share_layout"
 			android:layout_width="fill_parent"
-			android:layout_height="50dp"
+			android:layout_height="40dp"
 			android:layout_marginTop="2dp"
 			android:background="@color/white">
 
@@ -225,9 +257,9 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
-				android:layout_marginLeft="10dp"
-				android:text="我发布的卡"
-				android:textSize="16dp" />
+				android:layout_marginLeft="18dp"
+				android:text="@string/card_i_share"
+				android:textSize="14dp" />
 
 			<TextView
 				android:id="@+id/usercenter_info_publishcard_tv"
@@ -238,11 +270,12 @@
 				android:layout_marginRight="50dp"
 				android:textColor="@color/huise"
 				android:text="13"
-				android:textSize="18dp"/>
+				android:textSize="14dp"
+				android:visibility="gone"/>
 
 			<ImageView
-				android:layout_width="20dp"
-				android:layout_height="20dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:layout_marginRight="20dp"
@@ -251,23 +284,34 @@
 		</RelativeLayout>
 
 		<RelativeLayout
-			android:id="@+id/usercenter_info_searchcard_layout"
+			android:id="@+id/sep_line_4"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_below="@id/usercenter_i_share_layout"
+			android:background="@color/white">
+			<ImageView
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_marginLeft="18dp"
+				android:background="@color/red"/>
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:id="@+id/usercenter_i_request_layout"
 			android:layout_width="fill_parent"
-			android:layout_height="50dp"
-			android:layout_marginTop="2dp"
-			android:layout_below="@+id/usercenter_info_publishcard_layout"
+			android:layout_height="40dp"
+			android:layout_below="@+id/sep_line_4"
 			android:background="@color/white">
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
-				android:layout_marginLeft="10dp"
-				android:text="我在找的卡"
-				android:textSize="16dp" />
+				android:layout_marginLeft="18dp"
+				android:text="@string/card_i_request"
+				android:textSize="14dp" />
 
 			<TextView
-				android:id="@+id/usercenter_info_searchcard_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
@@ -275,11 +319,12 @@
 				android:layout_marginRight="50dp"
 				android:textColor="@color/huise"
 				android:text="13"
-				android:textSize="18dp"/>
+				android:textSize="14dp"
+				android:visibility="gone" />
 
 			<ImageView
-				android:layout_width="20dp"
-				android:layout_height="20dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:layout_marginRight="20dp"
@@ -288,23 +333,34 @@
 		</RelativeLayout>
 
 		<RelativeLayout
-			android:id="@+id/usercenter_info_address_layout"
+			android:id="@+id/sep_line_5"
+			android:layout_width="match_parent"
+			android:layout_height="1dp"
+			android:layout_below="@id/usercenter_i_request_layout"
+			android:background="@color/white">
+			<ImageView
+				android:layout_width="match_parent"
+				android:layout_height="1dp"
+				android:layout_marginLeft="18dp"
+				android:background="@color/red"/>
+		</RelativeLayout>
+
+		<RelativeLayout
+			android:id="@+id/usercenter_i_collect_layout"
 			android:layout_width="fill_parent"
-			android:layout_height="50dp"
-			android:layout_marginTop="2dp"
-			android:layout_below="@+id/usercenter_info_searchcard_layout"
+			android:layout_height="40dp"
+			android:layout_below="@+id/sep_line_5"
 			android:background="@color/white">
 
 			<TextView
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
-				android:layout_marginLeft="10dp"
-				android:text="我的地址"
-				android:textSize="16dp" />
+				android:layout_marginLeft="18dp"
+				android:text="@string/card_i_collect"
+				android:textSize="14dp" />
 
 			<TextView
-				android:id="@+id/usercenter_info_address_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
@@ -312,19 +368,18 @@
 				android:layout_marginRight="50dp"
 				android:textColor="@color/huise"
 				android:text="13"
-				android:textSize="18dp"/>
+				android:textSize="14dp"
+				android:visibility="gone"/>
 
 			<ImageView
-				android:layout_width="20dp"
-				android:layout_height="20dp"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:layout_marginRight="20dp"
 				android:src="@drawable/myself_more"/>
-
-
 		</RelativeLayout>
 
 	</RelativeLayout>
 	</RelativeLayout>
-	</ScrollView>
+</ScrollView>

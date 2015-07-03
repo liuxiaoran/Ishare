@@ -2,9 +2,9 @@ package com.galaxy.ishare.me;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CardIshareActivity extends ActionBarActivity {
+public class CardICollectActivity extends ActionBarActivity {
     public static final String INTENT_ITEM_TO_DETAIL = "INTENT_ITEM_TO_DETAIL";
 
     private ActionBar actionBar;
@@ -44,7 +44,7 @@ public class CardIshareActivity extends ActionBarActivity {
     private FrameLayout containerLayout;
     private PullToRefreshListView refreshListView;
     private ListView cardListView;
-    private CardIShareAdapter cardAdapter;
+    private CardICollectAdapter cardAdapter;
     private List<CardItem> cardList = new ArrayList<>();
 
     private int gestureType;
@@ -63,7 +63,6 @@ public class CardIshareActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_ishare);
-
         mContext = this;
         httpInteract = new HttpInteract();
         setActionBar();
@@ -81,14 +80,14 @@ public class CardIshareActivity extends ActionBarActivity {
     }
 
     public void setActionBar() {
-        actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.i_share_action_bar, true);
+        actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.i_collect_action_bar, true);
         addCardIv = (ImageView) actionBar.getCustomView().findViewById(R.id.add_card_iv);
     }
 
     public void initWidget() {
         containerLayout = (FrameLayout) findViewById(R.id.card_container_layout);
         refreshListView = new PullToRefreshListView(this);
-        cardAdapter = new CardIShareAdapter(cardList, this);
+        cardAdapter = new CardICollectAdapter (cardList, this);
         initPullRefreshListView(refreshListView);
         containerLayout.addView(refreshListView);
     }
@@ -155,7 +154,7 @@ public class CardIshareActivity extends ActionBarActivity {
             List<BasicNameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("page_num", pageNum + ""));
             params.add(new BasicNameValuePair("page_size", pageSize + ""));
-            HttpTask.startAsyncDataPostRequest(URLConstant.GET_I_SHARE_CARD, params, new HttpDataResponse() {
+            HttpTask.startAsyncDataPostRequest(URLConstant.GET_I_COLLECT_CARD, params, new HttpDataResponse() {
                         @Override
                         public void onRecvOK(HttpRequestBase request, String result) {
                             boolean hasMoreData = true;

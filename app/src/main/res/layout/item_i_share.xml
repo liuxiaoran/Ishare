@@ -20,73 +20,43 @@
             android:paddingTop="2dp">
 
             <TextView
-                android:id="@+id/share_item_listview_item_shopname_tv"
+                android:id="@+id/share_item_km"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxWidth="200dp"
-                android:text="麻辣龙虾" />
-
-
-            <ImageView
-                android:layout_centerInParent="true"
-                android:id="@+id/share_item_locate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_location" />
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:text="km"
+                android:layout_centerVertical="true"
+                android:textColor="@color/dark_secondary_text"
+                android:textSize="@dimen/caption_text_size" />
 
             <TextView
                 android:id="@+id/share_item_listview_item_shop_distance_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/share_item_locate"
+                android:layout_toLeftOf="@id/share_item_km"
                 android:text="25"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="2dp"
                 android:textColor="@color/dark_secondary_text"
                 android:textSize="@dimen/caption_text_size" />
 
-            <TextView
-                android:id="@+id/share_item_km"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/share_item_listview_item_shop_distance_tv"
-                android:text="km"
-                android:layout_centerVertical="true"
-                android:textColor="@color/dark_secondary_text"
-                android:textSize="@dimen/caption_text_size" />
-
-            <TextView
-                android:id="@+id/share_item_km_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="km"
-                android:textColor="@color/dark_secondary_text"
-                android:textSize="@dimen/caption_text_size"
-                android:layout_centerVertical="true"
-                android:visibility="gone"/>
-
-            <TextView
-                android:id="@+id/share_item_listview_item_owner_distance_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_toLeftOf="@id/share_item_km_tv"
-                android:singleLine="true"
-                android:text="57"
-                android:textColor="@color/dark_secondary_text"
-                android:textSize="@dimen/caption_text_size"
-                android:layout_centerVertical="true"
-                android:visibility="gone"/>
-
             <ImageView
+                android:id="@+id/share_item_locate"
+                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/share_item_listview_item_owner_distance_tv"
-                android:src="@drawable/icon_people"
-                android:layout_centerVertical="true"
-                android:visibility="gone"/>
+                android:layout_toLeftOf="@id/share_item_listview_item_shop_distance_tv"
+                 />
+            <!--android:src="@drawable/share_item_location" -->
 
+            <TextView
+                android:id="@+id/share_item_listview_item_shopname_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@+id/share_item_locate"
+                android:text="麻辣龙虾" />
 
         </RelativeLayout>
 

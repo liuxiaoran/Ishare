@@ -440,7 +440,7 @@ public class CardOwnerAvailableAddrSearchActivity extends ActionBarActivity {
 //                .city(IShareContext.getInstance().getUserLocation().getCity())
 //                .keyword(addr)
 //                .pageNum(0));
-        mapPoiSearch.searchNearby((new PoiNearbySearchOption())
+         mapPoiSearch.searchNearby((new PoiNearbySearchOption())
                 .keyword(addr)
                 .pageNum(0)
                 .location(location)

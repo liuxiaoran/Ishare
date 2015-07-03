@@ -65,13 +65,21 @@
             android:layout_marginTop="2dp"
             android:background="@color/white">
             <TextView
+                android:id="@+id/activity_myself_address_newads_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_alignParentTop="true"
+                android:layout_height="30dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
-                android:text=""
+                android:text="ssssssssssssss"
                 android:textSize="20dp"/>
+
+            <ImageView
+                android:id="@+id/activity_myself_address_redline"
+                android:layout_width="280dp"
+                android:layout_height="1dp"
+                android:layout_marginLeft="20dp"
+                android:layout_below="@+id/activity_myself_address_newads_tv"
+                android:src="@color/red"/>
             
             <ImageView
                 android:layout_width="20dp"
@@ -96,7 +104,7 @@
                 android:textSize="@dimen/secondary_text"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="10dp"/>
 
         </RelativeLayout>
 

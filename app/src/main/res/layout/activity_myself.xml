@@ -73,15 +73,19 @@
 				android:text="性别"
 				android:textSize="16dp" />
 
-			<TextView
-				android:id="@+id/usercenter_info_gender_tv"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
+			<ImageView
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:src="@drawable/male_icon"
 				android:layout_centerVertical="true"
-				android:layout_marginRight="10dp"
-				android:textColor="@color/huise" />
+				android:layout_marginLeft="130dp"/>
 
+			<ImageView
+				android:layout_width="20dp"
+				android:layout_height="20dp"
+				android:src="@drawable/famale_icon"
+				android:layout_centerVertical="true"
+				android:layout_marginLeft="200dp"/>
 
 		</RelativeLayout>
 

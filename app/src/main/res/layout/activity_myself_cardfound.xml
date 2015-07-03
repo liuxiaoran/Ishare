@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/large_margin"
+                android:layout_marginRight="@dimen/large_margin"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:padding="@dimen/middle_padding">
+
+                <ImageView
+                    android:id="@+id/activity_myself_cardfound_shopimgs_iv"
+                    android:layout_width="88dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/default_avatar" />
+
+                <LinearLayout
+                    android:id="@+id/activity_myself_cardfound_ifo_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/activity_myself_cardfound_shopimgs_iv">
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardfound_shopname_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="美琪美容美发(知春路店)"
+                        android:textColor="#404040"
+                        android:textSize="@dimen/caption_text_size" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/activity_myself_cardfound_card_type_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:layout_toRightOf="@+id/activity_myself_cardfound_shopimgs_iv"
+                    android:layout_below="@+id/activity_myself_cardfound_ifo_layout">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="类型 :"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardfound_card_type_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="充值卡"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activity_myself_cardfound_card_type_layout"
+                    android:layout_toRightOf="@+id/activity_myself_cardfound_shopimgs_iv"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="回复 "
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="状态："
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="进行中"
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/activity_myself_cardfound_red_dot_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:src="@drawable/red_dot"/>
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardfound_reply"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/activity_myself_cardfound_red_dot_iv"
+                        android:layout_alignTop="@+id/activity_myself_cardfound_red_dot_iv"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/activity_myself_cardfound_red_dot_iv"
+                        android:text="最新回复"
+                        android:textStyle="bold"
+                        android:textColor="#404040"/>
+
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardfound_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/activity_myself_cardfound_reply"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@id/activity_myself_cardfound_reply"
+                        android:text=""
+                        android:textColor="@color/huise"
+                        android:textSize="@dimen/caption_text_size"/>
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardfound_colon_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/activity_myself_cardfound_reply"
+                        android:layout_alignTop="@id/activity_myself_cardfound_reply"
+                        android:layout_toRightOf="@id/activity_myself_cardfound_reply"
+                        android:text=" ："
+                        android:textColor="#404040"
+                        android:textSize="@dimen/caption_text_size" />
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardfound_reply_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/activity_myself_cardfound_colon_tv"
+                        android:layout_alignTop="@id/activity_myself_cardfound_colon_tv"
+                        android:layout_toRightOf="@id/activity_myself_cardfound_colon_tv"
+                        android:text="dongxxihenhao"
+                        android:textColor="#404040"
+                        />
+
+                    <TextView
+                        android:id="@+id/activity_myself_cardfound_replytime_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/activity_myself_cardfound_reply_tv"
+                        android:layout_alignTop="@id/activity_myself_cardfound_reply_tv"
+                        android:layout_toRightOf="@id/activity_myself_cardfound_reply_tv"
+                        android:layout_marginLeft="85dp"
+                        android:text="1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/activity_myself_cardfound_replytime_tv"
+                        android:layout_alignTop="@id/activity_myself_cardfound_replytime_tv"
+                        android:layout_toRightOf="@id/activity_myself_cardfound_replytime_tv"
+                        android:text="分钟前"/>
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

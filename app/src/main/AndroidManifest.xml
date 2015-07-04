@@ -137,7 +137,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
@@ -145,13 +145,12 @@
         <activity
             android:name=".bindphone.BindPhoneActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -168,7 +167,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
@@ -181,7 +180,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
@@ -200,14 +199,13 @@
             android:name=".publishware.CardOwnerAvailableShowActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".publishware.CardOwnerAvailableAddActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".publishware.CardOwnerAvailableShowActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".publishware.CardOwnerAvailableShowActivity" />
@@ -217,7 +215,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".publishware.CardOwnerAvailableAddActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".publishware.CardOwnerAvailableAddActivity" />
@@ -227,7 +225,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".publishware.CardOwnerAvailableShowActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".publishware.CardOwnerAvailableShowActivity" />
@@ -237,7 +235,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".publishware.PublishItemActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".publishware.PublishItemActivity" />
@@ -284,7 +282,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
@@ -293,7 +291,7 @@
             android:name=".sharedcard.CardDetailMapActivity"
             android:label="@string/app_name"
             android:parentActivityName=".sharedcard.CardDetailActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".sharedcard.CardDetailActivity" />
@@ -308,8 +306,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <!-- end chat -->
 
 
@@ -321,8 +318,7 @@
             android:name=".OverlayDemo"
             android:configChanges="orientation|keyboardHidden"
             android:label="Ovedlay Demo"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".mapLBS.CardActivity"
             android:screenOrientation="portrait" />
@@ -346,18 +342,27 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
 
         <activity
             android:name=".usercenter.UserInfoActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".usercenter.UserCreditActivity"
+            android:parentActivityName=".main.MainActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".sharedcard.CardDetailActivity" />
+        </activity>
+
         <!-- Required SDK 核心功能 -->
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -427,17 +432,14 @@
         <activity
             android:name=".me.CardIshareActivity"
             android:label="@string/title_activity_card_ishare"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".me.CardICollectActivity"
             android:label="@string/title_activity_card_ishare"
-            android:screenOrientation="portrait" >
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".me.CardRequestActivity"
-            android:label="@string/title_activity_card_request" >
-        </activity>
+            android:label="@string/title_activity_card_request"></activity>
     </application>
 
 </manifest>

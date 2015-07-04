@@ -119,7 +119,6 @@ public class ItemListFragment extends Fragment {
         discountLayout.setOnClickListener(myClickListener);
         distanceLayout.setOnClickListener(myClickListener);
 
-
         httpInteract = new HttpInteract();
         dataList = new Vector<>();
 

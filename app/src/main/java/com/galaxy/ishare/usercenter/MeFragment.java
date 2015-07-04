@@ -6,7 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -36,6 +38,7 @@ public class MeFragment extends Fragment {
     private RelativeLayout cardIShareLayout;
     private RelativeLayout cardRequestLayout;
     private RelativeLayout cardICollectLayout;
+    private RelativeLayout creditLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,6 +70,7 @@ public class MeFragment extends Fragment {
         cardICollectLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_collect_layout);
         cardIShareLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_share_layout);
         cardRequestLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_request_layout);
+        creditLayout = (RelativeLayout) view.findViewById(R.id.usercenter_credit_layout);
 
         cardICollectLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +92,13 @@ public class MeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CardRequestActivity.class);
+                startActivity(intent);
+            }
+        });
+        creditLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UserCreditActivity.class);
                 startActivity(intent);
             }
         });

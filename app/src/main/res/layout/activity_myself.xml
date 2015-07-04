@@ -1,483 +1,493 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:scrollbars="vertical">
-	<RelativeLayout
-	android:layout_width="match_parent"
-	android:layout_height="match_parent">
-	<RelativeLayout
-		android:id="@+id/myself_info_layout"
-		android:layout_marginTop="20dp"
-		android:layout_width="match_parent"
-		android:layout_height="120dp"
-		>
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical">
 
-		<de.hdodenhof.circleimageview.CircleImageView
-			android:id="@+id/usercenter_avatar_iv"
-			android:layout_width="100dp"
-			android:layout_height="100dp"
-			app:border_width="2dp"
-			app:border_color="#FFFFFF"
-			android:layout_centerVertical="true"
-			android:layout_centerHorizontal="true"/>
-	</RelativeLayout>
-	<RelativeLayout
-		android:id="@+id/myself_info1"
-		android:layout_width="fill_parent"
-		android:layout_height="80dp"
-		android:layout_below="@+id/myself_info_layout"
-		android:layout_marginTop="10dp">
-		<RelativeLayout
-			android:id="@+id/usercenter_nickname_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="40dp"
-			android:layout_marginTop="2dp"
-			android:background="@color/white"
-			>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerVertical="true"
-				android:layout_marginLeft="18dp"
-				android:text="昵称"
-				android:textSize="14dp" />
+        <RelativeLayout
+            android:id="@+id/myself_info_layout"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp">
 
-			<TextView
-				android:id="@+id/usercenter_nickname_tv"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerVertical="true"
-				android:textColor="#404040"
-				android:text="liuxiaoran"
-				android:textSize="14dp"
-				android:layout_centerHorizontal="true"/>
-		</RelativeLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/usercenter_avatar_iv"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                app:border_color="#FFFFFF"
+                app:border_width="2dp" />
+        </RelativeLayout>
 
-		<RelativeLayout
-			android:id="@+id/sep_line_1"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:layout_below="@id/usercenter_nickname_layout"
-			android:background="@color/white">
-			<ImageView
-				android:layout_width="match_parent"
-				android:layout_height="1dp"
-				android:layout_marginLeft="18dp"
-				android:background="@color/gray"/>
-		</RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/myself_info1"
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/myself_info_layout"
+            android:layout_marginTop="10dp">
 
+            <RelativeLayout
+                android:id="@+id/usercenter_nickname_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/white">
 
-		<RelativeLayout
-			android:id="@+id/usercenter_gender_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="40dp"
-			android:layout_below="@+id/sep_line_1"
-			android:background="@color/white">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:text="昵称"
+                    android:textSize="14dp" />
 
-			<TextView
-				android:id="@+id/usercenter_gender"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerVertical="true"
-				android:layout_marginLeft="18dp"
-				android:text="性别"
-				android:textSize="14dp" />
+                <TextView
+                    android:id="@+id/usercenter_nickname_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="liuxiaoran"
+                    android:textColor="#404040"
+                    android:textSize="14dp" />
+            </RelativeLayout>
 
-			<RelativeLayout
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerHorizontal="true"
-				android:layout_centerVertical="true">
-				<ImageView
-					android:id="@+id/usercenter_gender_male"
-					android:layout_width="23dp"
-					android:layout_height="23dp"
-					android:src="@drawable/sex_male_selected"
-					android:layout_centerVertical="true"/>
-				<ImageView
-					android:id="@+id/usercenter_gender_maleselect"
-					android:layout_width="20dp"
-					android:layout_height="20dp"
-					android:src="@drawable/selected_icon"
-					android:layout_toRightOf="@+id/usercenter_gender_male"
-					android:layout_marginLeft="20dp"
-					android:layout_centerVertical="true"/>
-				<ImageView
-					android:id="@+id/usercenter_gender_female"
-					android:layout_width="23dp"
-					android:layout_height="23dp"
-					android:src="@drawable/sex_female_unselected"
-					android:layout_toRightOf="@+id/usercenter_gender_maleselect"
-					android:layout_marginLeft="40dp"
-					android:layout_centerVertical="true"/>
-				<ImageView
-					android:id="@+id/usercenter_gender_femaleselect"
-					android:layout_width="20dp"
-					android:layout_height="20dp"
-					android:src="@drawable/unselected_icon"
-					android:layout_toRightOf="@+id/usercenter_gender_female"
-					android:layout_marginLeft="20dp"
-					android:layout_centerVertical="true"/>
-			</RelativeLayout>
-		</RelativeLayout>
-	</RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/sep_line_1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/usercenter_nickname_layout"
+                android:background="@color/white">
 
-	<RelativeLayout
-		android:layout_width="fill_parent"
-		android:layout_height="120dp"
-		android:id="@+id/myself_info2"
-		android:layout_below="@+id/myself_info1"
-		android:layout_marginTop="10dp">
-
-		<RelativeLayout
-			android:id="@+id/usercenter_phone_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="40dp"
-			android:background="@color/white">
-
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/phone_num"
-				android:textSize="14dp"
-				android:layout_centerVertical="true"
-				android:layout_marginLeft="18dp"/>
-
-			<TextView
-				android:id="@+id/phone_num_tv"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerHorizontal="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="50dp"
-				android:textColor="@color/gray"
-				android:text="请输出您的手机号"
-				android:textSize="14dp" />
-
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="20dp"
-				android:src="@drawable/myself_more"/>
-
-		</RelativeLayout>
-
-		<RelativeLayout
-			android:id="@+id/sep_line_2"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:layout_below="@id/usercenter_phone_layout"
-			android:background="@color/white">
-			<ImageView
-				android:layout_width="match_parent"
-				android:layout_height="1dp"
-				android:layout_marginLeft="18dp"
-				android:background="@color/gray"/>
-		</RelativeLayout>
-
-		<RelativeLayout
-			android:id="@+id/usercenter_credit_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="40dp"
-			android:layout_below="@+id/sep_line_2"
-			android:background="@color/white">
-
-			<TextView
-				android:id="@+id/usercenter_credit"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/personal_credit"
-				android:textSize="14dp"
-				android:layout_centerVertical="true"
-				android:layout_marginLeft="18dp"/>
-
-			<RelativeLayout
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_toRightOf="@+id/usercenter_credit"
-				android:layout_marginLeft="34dp"
-				android:layout_centerVertical="true">
-
-				<TextView
-					android:id="@+id/usercenter_credit_realname"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="真名"
-					android:textSize="13dp"
-					android:textColor="@color/red"/>
-
-				<TextView
-					android:id="@+id/usercenter_credit_idcard"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="身份"
-					android:textSize="13dp"
-					android:layout_toRightOf="@+id/usercenter_credit_realname"
-					android:layout_marginLeft="14dp"
-					android:textColor="@color/gray"/>
-
-				<TextView
-					android:id="@+id/usercenter_credit_photo"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="照片"
-					android:textSize="13dp"
-					android:layout_toRightOf="@+id/usercenter_credit_idcard"
-					android:layout_marginLeft="14dp"
-					android:textColor="@color/red"/>
-
-				<TextView
-					android:id="@+id/usercenter_credit_job"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="工作"
-					android:textSize="13dp"
-					android:layout_toRightOf="@+id/usercenter_credit_photo"
-					android:layout_marginLeft="14dp"
-					android:textColor="@color/gray"/>
-
-				<TextView
-					android:id="@+id/usercenter_credit_wordcard"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="工牌"
-					android:textSize="13dp"
-					android:layout_toRightOf="@+id/usercenter_credit_job"
-					android:layout_marginLeft="14dp"
-					android:textColor="@color/gray"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="18dp"
+                    android:background="@color/gray" />
+            </RelativeLayout>
 
 
+            <RelativeLayout
+                android:id="@+id/usercenter_gender_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/sep_line_1"
+                android:background="@color/white">
 
-			</RelativeLayout>
+                <TextView
+                    android:id="@+id/usercenter_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:text="性别"
+                    android:textSize="14dp" />
 
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="20dp"
-				android:src="@drawable/myself_more"/>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true">
 
-		</RelativeLayout>
+                    <ImageView
+                        android:id="@+id/usercenter_gender_male"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/sex_male_selected" />
 
-		<RelativeLayout
-			android:id="@+id/sep_line_3"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:layout_below="@id/usercenter_credit_layout"
-			android:background="@color/white">
-			<ImageView
-				android:layout_width="match_parent"
-				android:layout_height="1dp"
-				android:layout_marginLeft="18dp"
-				android:background="@color/gray"/>
-		</RelativeLayout>
+                    <ImageView
+                        android:id="@+id/usercenter_gender_maleselect"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/usercenter_gender_male"
+                        android:src="@drawable/selected_icon" />
 
-		<RelativeLayout
-			android:id="@+id/usercenter_address_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="40dp"
-			android:layout_below="@+id/sep_line_3"
-			android:background="@color/white">
+                    <ImageView
+                        android:id="@+id/usercenter_gender_female"
+                        android:layout_width="23dp"
+                        android:layout_height="23dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="40dp"
+                        android:layout_toRightOf="@+id/usercenter_gender_maleselect"
+                        android:src="@drawable/sex_female_unselected" />
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerVertical="true"
-				android:layout_marginLeft="18dp"
-				android:text="@string/my_address"
-				android:textSize="14dp" />
+                    <ImageView
+                        android:id="@+id/usercenter_gender_femaleselect"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_toRightOf="@+id/usercenter_gender_female"
+                        android:src="@drawable/unselected_icon" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="50dp"
-				android:textColor="@color/huise"
-				android:text="13"
-				android:textSize="14dp"
-				android:visibility="gone"/>
+        <RelativeLayout
+            android:id="@+id/myself_info2"
+            android:layout_width="fill_parent"
+            android:layout_height="120dp"
+            android:layout_below="@+id/myself_info1"
+            android:layout_marginTop="10dp">
 
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="20dp"
-				android:src="@drawable/myself_more"/>
-		</RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/usercenter_phone_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="@color/white">
 
-	</RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:text="@string/phone_num"
+                    android:textSize="14dp" />
 
-	<RelativeLayout
-		android:layout_width="fill_parent"
-		android:layout_height="120dp"
-		android:id="@+id/myself_info3"
-		android:layout_below="@+id/myself_info2"
-		android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/phone_num_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="50dp"
+                    android:text="请输出您的手机号"
+                    android:textColor="@color/gray"
+                    android:textSize="14dp" />
 
-		<RelativeLayout
-			android:id="@+id/usercenter_i_share_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="40dp"
-			android:layout_marginTop="2dp"
-			android:background="@color/white">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/myself_more" />
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerVertical="true"
-				android:layout_marginLeft="18dp"
-				android:text="@string/card_i_share"
-				android:textSize="14dp" />
+            </RelativeLayout>
 
-			<TextView
-				android:id="@+id/usercenter_info_publishcard_tv"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="50dp"
-				android:textColor="@color/huise"
-				android:text="13"
-				android:textSize="14dp"
-				android:visibility="gone"/>
+            <RelativeLayout
+                android:id="@+id/sep_line_2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/usercenter_phone_layout"
+                android:background="@color/white">
 
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="20dp"
-				android:src="@drawable/myself_more"/>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="18dp"
+                    android:background="@color/gray" />
+            </RelativeLayout>
 
-		</RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/usercenter_credit_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/sep_line_2"
+                android:background="@color/white">
 
-		<RelativeLayout
-			android:id="@+id/sep_line_4"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:layout_below="@id/usercenter_i_share_layout"
-			android:background="@color/white">
-			<ImageView
-				android:layout_width="match_parent"
-				android:layout_height="1dp"
-				android:layout_marginLeft="18dp"
-				android:background="@color/gray"/>
-		</RelativeLayout>
+                <TextView
+                    android:id="@+id/usercenter_credit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:text="@string/personal_credit"
+                    android:textSize="14dp" />
 
-		<RelativeLayout
-		android:id="@+id/usercenter_i_request_layout"
-		android:layout_width="fill_parent"
-		android:layout_height="40dp"
-		android:layout_below="@+id/sep_line_4"
-		android:background="@color/white">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="34dp"
+                    android:layout_toRightOf="@+id/usercenter_credit">
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_centerVertical="true"
-			android:layout_marginLeft="18dp"
-			android:text="@string/card_i_request"
-			android:textSize="14dp" />
+                    <TextView
+                        android:id="@+id/usercenter_credit_realname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="真名"
+                        android:textColor="@color/red"
+                        android:textSize="13dp" />
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			android:layout_marginRight="50dp"
-			android:textColor="@color/huise"
-			android:text="13"
-			android:textSize="14dp"
-			android:visibility="gone" />
+                    <TextView
+                        android:id="@+id/usercenter_credit_idcard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_toRightOf="@+id/usercenter_credit_realname"
+                        android:text="身份"
+                        android:textColor="@color/gray"
+                        android:textSize="13dp" />
 
-		<ImageView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
-			android:layout_centerVertical="true"
-			android:layout_marginRight="20dp"
-			android:src="@drawable/myself_more"/>
+                    <TextView
+                        android:id="@+id/usercenter_credit_photo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_toRightOf="@+id/usercenter_credit_idcard"
+                        android:text="照片"
+                        android:textColor="@color/red"
+                        android:textSize="13dp" />
 
-	</RelativeLayout>
+                    <TextView
+                        android:id="@+id/usercenter_credit_job"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_toRightOf="@+id/usercenter_credit_photo"
+                        android:text="工作"
+                        android:textColor="@color/gray"
+                        android:textSize="13dp" />
 
-		<RelativeLayout
-			android:id="@+id/sep_line_5"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:layout_below="@id/usercenter_i_request_layout"
-			android:background="@color/white">
-			<ImageView
-				android:layout_width="match_parent"
-				android:layout_height="1dp"
-				android:layout_marginLeft="18dp"
-				android:background="@color/gray"/>
-		</RelativeLayout>
+                    <TextView
+                        android:id="@+id/usercenter_credit_wordcard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="14dp"
+                        android:layout_toRightOf="@+id/usercenter_credit_job"
+                        android:text="工牌"
+                        android:textColor="@color/gray"
+                        android:textSize="13dp" />
 
-		<RelativeLayout
-			android:id="@+id/usercenter_i_collect_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="40dp"
-			android:layout_below="@+id/sep_line_5"
-			android:background="@color/white">
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerVertical="true"
-				android:layout_marginLeft="18dp"
-				android:text="@string/card_i_collect"
-				android:textSize="14dp" />
+                </RelativeLayout>
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="50dp"
-				android:textColor="@color/huise"
-				android:text="13"
-				android:textSize="14dp"
-				android:visibility="gone"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/myself_more" />
 
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="20dp"
-				android:src="@drawable/myself_more"/>
-		</RelativeLayout>
+            </RelativeLayout>
 
-	</RelativeLayout>
-		
-		<RelativeLayout
-			android:layout_width="fill_parent"
-			android:layout_height="40dp"
-			android:id="@+id/usercenter_logout"
-			android:layout_below="@+id/myself_info3"
-			android:layout_marginTop="10dp">
+            <RelativeLayout
+                android:id="@+id/sep_line_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/usercenter_credit_layout"
+                android:background="@color/white">
 
-			<RelativeLayout
-				android:layout_width="fill_parent"
-				android:layout_height="40dp"
-				android:background="@color/white">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="18dp"
+                    android:background="@color/gray" />
+            </RelativeLayout>
 
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:text="退出当前账号"
-					android:textSize="14dp"
-					android:layout_centerVertical="true"
-					android:layout_centerHorizontal="true"/>
-			</RelativeLayout>
-		</RelativeLayout>
-	</RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/usercenter_address_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/sep_line_3"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:text="@string/my_address"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="50dp"
+                    android:text="13"
+                    android:textColor="@color/huise"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/myself_more" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/myself_info3"
+            android:layout_width="fill_parent"
+            android:layout_height="120dp"
+            android:layout_below="@+id/myself_info2"
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:id="@+id/usercenter_i_share_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:text="@string/card_i_share"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:id="@+id/usercenter_info_publishcard_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="50dp"
+                    android:text="13"
+                    android:textColor="@color/huise"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/myself_more" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/sep_line_4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/usercenter_i_share_layout"
+                android:background="@color/white">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="18dp"
+                    android:background="@color/gray" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/usercenter_i_request_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/sep_line_4"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:text="@string/card_i_request"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="50dp"
+                    android:text="13"
+                    android:textColor="@color/huise"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/myself_more" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/sep_line_5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/usercenter_i_request_layout"
+                android:background="@color/white">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="18dp"
+                    android:background="@color/gray" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/usercenter_i_collect_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/sep_line_5"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="18dp"
+                    android:text="@string/card_i_collect"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="50dp"
+                    android:text="13"
+                    android:textColor="@color/huise"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/myself_more" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/usercenter_logout"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/myself_info3"
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="退出当前账号"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 </ScrollView>

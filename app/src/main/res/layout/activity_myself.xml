@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:card_view="http://schemas.android.com/apk/res-auto"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
 	android:scrollbars="vertical">
 	<RelativeLayout
 	android:layout_width="match_parent"
@@ -67,8 +66,9 @@
 				android:layout_width="match_parent"
 				android:layout_height="1dp"
 				android:layout_marginLeft="18dp"
-				android:background="@color/red"/>
+				android:background="@color/gray"/>
 		</RelativeLayout>
+
 
 		<RelativeLayout
 			android:id="@+id/usercenter_gender_layout"
@@ -78,6 +78,7 @@
 			android:background="@color/white">
 
 			<TextView
+				android:id="@+id/usercenter_gender"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_centerVertical="true"
@@ -85,14 +86,42 @@
 				android:text="性别"
 				android:textSize="14dp" />
 
-			<TextView
-				android:id="@+id/gender_gender_tv"
+			<RelativeLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="10dp"
-				android:textColor="@color/huise" />
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true">
+				<ImageView
+					android:id="@+id/usercenter_gender_male"
+					android:layout_width="23dp"
+					android:layout_height="23dp"
+					android:src="@drawable/sex_male_selected"
+					android:layout_centerVertical="true"/>
+				<ImageView
+					android:id="@+id/usercenter_gender_maleselect"
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:src="@drawable/selected_icon"
+					android:layout_toRightOf="@+id/usercenter_gender_male"
+					android:layout_marginLeft="20dp"
+					android:layout_centerVertical="true"/>
+				<ImageView
+					android:id="@+id/usercenter_gender_female"
+					android:layout_width="23dp"
+					android:layout_height="23dp"
+					android:src="@drawable/sex_female_unselected"
+					android:layout_toRightOf="@+id/usercenter_gender_maleselect"
+					android:layout_marginLeft="40dp"
+					android:layout_centerVertical="true"/>
+				<ImageView
+					android:id="@+id/usercenter_gender_femaleselect"
+					android:layout_width="20dp"
+					android:layout_height="20dp"
+					android:src="@drawable/unselected_icon"
+					android:layout_toRightOf="@+id/usercenter_gender_female"
+					android:layout_marginLeft="20dp"
+					android:layout_centerVertical="true"/>
+			</RelativeLayout>
 		</RelativeLayout>
 	</RelativeLayout>
 
@@ -121,13 +150,12 @@
 				android:id="@+id/phone_num_tv"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
+				android:layout_centerHorizontal="true"
 				android:layout_centerVertical="true"
 				android:layout_marginRight="50dp"
-				android:textColor="@color/huise"
-				android:text="13"
-				android:textSize="14dp"
-				android:visibility="gone"/>
+				android:textColor="@color/gray"
+				android:text="请输出您的手机号"
+				android:textSize="14dp" />
 
 			<ImageView
 				android:layout_width="wrap_content"
@@ -149,7 +177,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="1dp"
 				android:layout_marginLeft="18dp"
-				android:background="@color/red"/>
+				android:background="@color/gray"/>
 		</RelativeLayout>
 
 		<RelativeLayout
@@ -160,6 +188,7 @@
 			android:background="@color/white">
 
 			<TextView
+				android:id="@+id/usercenter_credit"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/personal_credit"
@@ -167,17 +196,64 @@
 				android:layout_centerVertical="true"
 				android:layout_marginLeft="18dp"/>
 
-			<TextView
-				android:id="@+id/personal_credit_tv"
+			<RelativeLayout
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="50dp"
-				android:textColor="@color/huise"
-				android:text="13"
-				android:textSize="14dp"
-				android:visibility="gone"/>
+				android:layout_toRightOf="@+id/usercenter_credit"
+				android:layout_marginLeft="34dp"
+				android:layout_centerVertical="true">
+
+				<TextView
+					android:id="@+id/usercenter_credit_realname"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="真名"
+					android:textSize="13dp"
+					android:textColor="@color/red"/>
+
+				<TextView
+					android:id="@+id/usercenter_credit_idcard"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="身份"
+					android:textSize="13dp"
+					android:layout_toRightOf="@+id/usercenter_credit_realname"
+					android:layout_marginLeft="14dp"
+					android:textColor="@color/gray"/>
+
+				<TextView
+					android:id="@+id/usercenter_credit_photo"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="照片"
+					android:textSize="13dp"
+					android:layout_toRightOf="@+id/usercenter_credit_idcard"
+					android:layout_marginLeft="14dp"
+					android:textColor="@color/red"/>
+
+				<TextView
+					android:id="@+id/usercenter_credit_job"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="工作"
+					android:textSize="13dp"
+					android:layout_toRightOf="@+id/usercenter_credit_photo"
+					android:layout_marginLeft="14dp"
+					android:textColor="@color/gray"/>
+
+				<TextView
+					android:id="@+id/usercenter_credit_wordcard"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="工牌"
+					android:textSize="13dp"
+					android:layout_toRightOf="@+id/usercenter_credit_job"
+					android:layout_marginLeft="14dp"
+					android:textColor="@color/gray"/>
+
+
+
+			</RelativeLayout>
 
 			<ImageView
 				android:layout_width="wrap_content"
@@ -199,7 +275,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="1dp"
 				android:layout_marginLeft="18dp"
-				android:background="@color/red"/>
+				android:background="@color/gray"/>
 		</RelativeLayout>
 
 		<RelativeLayout
@@ -293,44 +369,44 @@
 				android:layout_width="match_parent"
 				android:layout_height="1dp"
 				android:layout_marginLeft="18dp"
-				android:background="@color/red"/>
+				android:background="@color/gray"/>
 		</RelativeLayout>
 
 		<RelativeLayout
-			android:id="@+id/usercenter_i_request_layout"
-			android:layout_width="fill_parent"
-			android:layout_height="40dp"
-			android:layout_below="@+id/sep_line_4"
-			android:background="@color/white">
+		android:id="@+id/usercenter_i_request_layout"
+		android:layout_width="fill_parent"
+		android:layout_height="40dp"
+		android:layout_below="@+id/sep_line_4"
+		android:background="@color/white">
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_centerVertical="true"
-				android:layout_marginLeft="18dp"
-				android:text="@string/card_i_request"
-				android:textSize="14dp" />
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerVertical="true"
+			android:layout_marginLeft="18dp"
+			android:text="@string/card_i_request"
+			android:textSize="14dp" />
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="50dp"
-				android:textColor="@color/huise"
-				android:text="13"
-				android:textSize="14dp"
-				android:visibility="gone" />
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:layout_marginRight="50dp"
+			android:textColor="@color/huise"
+			android:text="13"
+			android:textSize="14dp"
+			android:visibility="gone" />
 
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_marginRight="20dp"
-				android:src="@drawable/myself_more"/>
+		<ImageView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:layout_centerVertical="true"
+			android:layout_marginRight="20dp"
+			android:src="@drawable/myself_more"/>
 
-		</RelativeLayout>
+	</RelativeLayout>
 
 		<RelativeLayout
 			android:id="@+id/sep_line_5"
@@ -342,7 +418,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="1dp"
 				android:layout_marginLeft="18dp"
-				android:background="@color/red"/>
+				android:background="@color/gray"/>
 		</RelativeLayout>
 
 		<RelativeLayout
@@ -381,5 +457,27 @@
 		</RelativeLayout>
 
 	</RelativeLayout>
+		
+		<RelativeLayout
+			android:layout_width="fill_parent"
+			android:layout_height="40dp"
+			android:id="@+id/usercenter_logout"
+			android:layout_below="@+id/myself_info3"
+			android:layout_marginTop="10dp">
+
+			<RelativeLayout
+				android:layout_width="fill_parent"
+				android:layout_height="40dp"
+				android:background="@color/white">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="退出当前账号"
+					android:textSize="14dp"
+					android:layout_centerVertical="true"
+					android:layout_centerHorizontal="true"/>
+			</RelativeLayout>
+		</RelativeLayout>
 	</RelativeLayout>
 </ScrollView>

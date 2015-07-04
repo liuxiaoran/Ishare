@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_layout_pressed"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:orientation="vertical">
 
 
@@ -37,14 +37,6 @@
                     android:textColor="@color/dark_primary_text"
                     android:textSize="12sp" />
 
-                <ImageView
-                    android:id="@+id/main_tab_discount_selected_iv"
-                    android:layout_width="8dp"
-                    android:layout_height="4dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/main_tab_selected_triangle"
-                    android:visibility="invisible" />
-
 
             </LinearLayout>
 
@@ -55,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_layout_pressed"
-                android:gravity="center_horizontal"
+                android:gravity="center"
                 android:orientation="vertical">
 
 
@@ -68,67 +60,43 @@
                     android:textColor="@color/dark_primary_text"
                     android:textSize="12sp" />
 
-                <ImageView
-                    android:id="@+id/main_tab_distance_selected_iv"
-                    android:layout_width="8dp"
-                    android:layout_height="4dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/main_tab_selected_triangle"
-                    android:visibility="invisible" />
-
 
             </LinearLayout>
 
             <LinearLayout
-
+                android:id="@+id/share_item_category_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/selector_layout_pressed"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:gravity="center"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/share_item_category_layout"
+
+                <TextView
+                    android:id="@+id/share_item_category_tv"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_vertical|left"-->
-                    <!--android:gravity="left"-->
-                    <!--android:layout_marginLeft="5dp"-->
-                    <!--android:background="@drawable/ic_category_movie"/>-->
-
-                    <TextView
-                        android:id="@+id/share_item_category_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="35dp"
-                        android:gravity="center"
-                        android:text="分类"
-                        android:textColor="@color/dark_primary_text"
-                        android:textSize="12sp" />
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="分类"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="12sp" />
 
 
-                    <ImageView
-                        android:id="@+id/main_catagory_tab_arrow_iv"
-                        android:layout_width="10dp"
-                        android:layout_height="6dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="5dp"
-                        android:background="@drawable/selector_arrow_dropdown" />
-                </LinearLayout>
+                <ImageView
+                    android:id="@+id/main_catagory_tab_arrow_iv"
+                    android:layout_width="10dp"
+                    android:layout_height="6dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/selector_arrow_dropdown" />
 
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <View
-            style="@style/horizontal_divider"
-            android:layout_height="1dp" />
 
         <LinearLayout
             android:id="@+id/share_item_is_locating_layout"

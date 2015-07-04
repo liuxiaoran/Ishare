@@ -97,7 +97,7 @@ public class ItemListFragment extends Fragment {
     private FloatingActionButton mapStyleBtn;
 
     private int receiveBroadcastCount;
-    private ImageView discountTabSelectedIv, distanceTabSelectedIv, categoryTabArrowIv;
+    private ImageView categoryTabArrowIv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,9 +110,9 @@ public class ItemListFragment extends Fragment {
         // 现在默认是以折扣排序
         urlType = DISCOUNT_LOAD_URL_TYPE;
 
-        discountTabSelectedIv.setVisibility(View.VISIBLE);
-        discountTv.setTextColor(getResources().getColor(R.color.red));
 
+        discountTv.setTextColor(getResources().getColor(R.color.red));
+        discountLayout.setSelected(true);
 
         myClickListener = new MyClickListener();
         categoryLayout.setOnClickListener(myClickListener);
@@ -246,8 +246,6 @@ public class ItemListFragment extends Fragment {
 
         loadingLayout = (RelativeLayout) view.findViewById(R.id.share_item_loading_layout);
 
-        discountTabSelectedIv = (ImageView) view.findViewById(R.id.main_tab_discount_selected_iv);
-        distanceTabSelectedIv = (ImageView) view.findViewById(R.id.main_tab_distance_selected_iv);
 
         categoryTabArrowIv = (ImageView) view.findViewById(R.id.main_catagory_tab_arrow_iv);
 
@@ -327,9 +325,8 @@ public class ItemListFragment extends Fragment {
 
             } else if (v.getId() == R.id.share_item_discount_layout) {
 
-                discountTabSelectedIv.setVisibility(View.VISIBLE);
-                distanceTabSelectedIv.setVisibility(View.INVISIBLE);
-
+                discountLayout.setSelected(true);
+                distanceLayout.setSelected(false);
 
                 if (urlType != DISCOUNT_LOAD_URL_TYPE) {
 
@@ -347,9 +344,8 @@ public class ItemListFragment extends Fragment {
 
             } else if (v.getId() == R.id.share_item_distance_layout) {
 
-                distanceTabSelectedIv.setVisibility(View.VISIBLE);
-                discountTabSelectedIv.setVisibility(View.INVISIBLE);
-
+                distanceLayout.setSelected(true);
+                discountLayout.setSelected(false);
 
                 if (urlType != DISTANCE_LOAD_URL_TYPE) {
                     urlType = DISTANCE_LOAD_URL_TYPE;

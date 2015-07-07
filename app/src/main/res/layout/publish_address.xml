@@ -40,7 +40,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="新增地址"
-                android:textSize="14dp"
+                android:textSize="15dp"
                 android:textColor="@color/red"/>
         </RelativeLayout>
     </RelativeLayout>

@@ -215,7 +215,7 @@
                         android:id="@+id/usercenter_credit_realname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="真名"
+                        android:text="身份证"
                         android:textColor="@color/red"
                         android:textSize="13dp" />
 
@@ -225,7 +225,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="14dp"
                         android:layout_toRightOf="@+id/usercenter_credit_realname"
-                        android:text="身份"
+                        android:text="真名"
                         android:textColor="@color/gray"
                         android:textSize="13dp" />
 
@@ -235,7 +235,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="14dp"
                         android:layout_toRightOf="@+id/usercenter_credit_idcard"
-                        android:text="照片"
+                        android:text="工作"
                         android:textColor="@color/red"
                         android:textSize="13dp" />
 
@@ -245,7 +245,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="14dp"
                         android:layout_toRightOf="@+id/usercenter_credit_photo"
-                        android:text="工作"
+                        android:text="工牌"
                         android:textColor="@color/gray"
                         android:textSize="13dp" />
 
@@ -255,7 +255,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="14dp"
                         android:layout_toRightOf="@+id/usercenter_credit_job"
-                        android:text="工牌"
+                        android:text="个人照"
                         android:textColor="@color/gray"
                         android:textSize="13dp" />
 

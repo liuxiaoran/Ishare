@@ -23,7 +23,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.galaxy.ishare.Global;
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
+import com.galaxy.ishare.IShareFragment;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.constant.URLConstant;
@@ -51,7 +53,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
-public class ItemListFragment extends Fragment {
+public class ItemListFragment extends IShareFragment {
 
     public static final String INTENT_ITEM_TO_DETAIL = "INTENT_ITEM_TO_DETAIL";
 
@@ -103,6 +105,7 @@ public class ItemListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        init("ItemListFragment");
         LayoutInflater lf = LayoutInflater.from(getActivity());
         mRoot = lf.inflate(R.layout.share_item_fragment, container, false);
         initViews(mRoot);

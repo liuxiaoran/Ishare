@@ -81,4 +81,7 @@ dependencies {
 
     // photo picker and crop
     compile 'com.soundcloud.android:android-crop:0.9.10@aar'
+
+    // unmeng统计
+    compile files('libs/umeng-analytics-v5.5.3.jar');
 }

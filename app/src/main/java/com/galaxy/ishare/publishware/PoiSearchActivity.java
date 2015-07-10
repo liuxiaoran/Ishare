@@ -31,6 +31,7 @@ import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.utils.BaiduMapZoomManager;
@@ -43,7 +44,7 @@ import info.hoang8f.widget.FButton;
 /**
  * Created by liuxiaoran on 15/5/7.
  */
-public class PoiSearchActivity extends ActionBarActivity {
+public class PoiSearchActivity extends IShareActivity {
 
     // 传入参数
     public static final String PARAMETER_SEARCH_SHOP_NAEM = "shopName";

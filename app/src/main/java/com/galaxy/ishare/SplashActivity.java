@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.galaxy.ishare.login.LoginActivity;
 import com.galaxy.ishare.main.MainActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
@@ -95,6 +96,10 @@ public class SplashActivity extends LoginActivity {
             startActivity(intent2);
             SplashActivity.this.finish();
         }
+
+
+        // umeng 发送统计数据到友盟后台
+        MobclickAgent.updateOnlineConfig(this);
     }
 
     private Button.OnClickListener clickListener = new Button.OnClickListener() {

@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -54,7 +55,7 @@ import info.hoang8f.widget.FButton;
 /**
  * Created by liuxiaoran on 15/5/21.
  */
-public class CardDetailActivity extends ActionBarActivity {
+public class CardDetailActivity extends IShareActivity {
 
     public static final String PARAMETER_CARD_ITEM = "PARAMETER_CARD_ITEM";
     public static final String PARAMETER_WHO_SEND = "PARAMETER_WHO_SEND";

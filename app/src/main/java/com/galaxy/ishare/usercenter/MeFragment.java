@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.IShareContext;
+import com.galaxy.ishare.IShareFragment;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.me.CardICollectActivity;
 import com.galaxy.ishare.me.CardIshareActivity;
@@ -29,7 +30,7 @@ import java.io.File;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MeFragment extends Fragment {
+public class MeFragment extends IShareFragment {
 
     private View myself;
     private TextView nameTv;
@@ -44,7 +45,7 @@ public class MeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
+        init("MeFragment");
         LayoutInflater lf = LayoutInflater.from(getActivity());
         myself = lf.inflate(R.layout.activity_myself, container, false);
 

@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.utils.ImageParseUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -19,7 +20,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 /**
  * Created by liuxiaoran on 15/5/24.
  */
-public class PreviewPictureActivity extends ActionBarActivity {
+public class PreviewPictureActivity extends IShareActivity {
 
     public static final int PUBLISH_TO_PREVIEW_REQUEST_CODE=1;
 

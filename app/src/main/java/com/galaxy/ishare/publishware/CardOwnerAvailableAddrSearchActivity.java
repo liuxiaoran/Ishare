@@ -39,6 +39,7 @@ import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.database.UserAvailableDao;
@@ -54,7 +55,7 @@ import java.util.List;
  * 地图的推荐策略是 searchNearbyPoi,之后是通过reverseGeo 得到nearPoi
  * 地址的推荐策略是 searchInCity
  */
-public class CardOwnerAvailableAddrSearchActivity extends ActionBarActivity {
+public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
 
     public static final String PARAMETER_ADDR = "PARAMETER_ADDR";
     public static final String PARAMETER_REQUEST_CODE = "PARAMETER_REQUEST_CODE";

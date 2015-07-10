@@ -113,6 +113,11 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+
     <application
         android:name=".IShareApplication"
         android:allowBackup="true"
@@ -127,6 +132,15 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="WHCcaGCrXEVRX3LGcOqEKslN" />
+
+        <meta-data
+            android:value="555308aee0f55a3707003fe7"
+            android:name="UMENG_APPKEY"></meta-data>
+        <!-- channel id:Channel ID 替换为您应用的推广渠道名称，channel id自定义 -->
+        <meta-data
+            android:value="Channel ID"
+            android:name="UMENG_CHANNEL" />
+
 
         <activity
             android:name=".main.MainActivity"

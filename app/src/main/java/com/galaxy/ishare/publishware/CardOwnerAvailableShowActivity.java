@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.database.UserAvailableDao;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 /**
  * Created by liuxiaoran on 15/5/19.
  */
-public class CardOwnerAvailableShowActivity extends ActionBarActivity {
+public class CardOwnerAvailableShowActivity extends IShareActivity {
 
     public static final String PARAMETER_RETURN_AVAILABLE_LIST = "RETURN_AVAILABLE_LIST";
 

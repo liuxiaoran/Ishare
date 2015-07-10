@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
@@ -38,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-public class CardRequestActivity extends ActionBarActivity {
+public class CardRequestActivity extends IShareActivity {
     private static String TAG = "CardRequestActivity";
 
     private FrameLayout containerLayout;

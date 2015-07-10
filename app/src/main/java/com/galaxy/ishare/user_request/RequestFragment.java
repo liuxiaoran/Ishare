@@ -17,6 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import com.galaxy.ishare.IShareContext;
+import com.galaxy.ishare.IShareFragment;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.constant.URLConstant;
@@ -42,7 +43,7 @@ import java.util.Vector;
 /**
  * Created by liuxiaoran on 15/6/2.
  */
-public class RequestFragment extends Fragment {
+public class RequestFragment extends IShareFragment {
 
     private PullToRefreshListView refreshRefreshView;
     private ListView requestListView;

@@ -15,7 +15,9 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
+import com.galaxy.ishare.IShareFragment;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.database.UserAvailableDao;
 import com.galaxy.ishare.model.UserAvailable;
@@ -25,7 +27,7 @@ import info.hoang8f.widget.FButton;
 /**
  * Created by liuxiaoran on 15/5/19.
  */
-public class CardOwnerAvailableAddActivity extends ActionBarActivity {
+public class CardOwnerAvailableAddActivity extends IShareActivity {
 
     public static final String TAG = "CardOwnerAvailableAdd";
     public static final int MAP_TO_ADD_RESULT_CODE = 1;

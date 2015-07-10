@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.R;
@@ -38,7 +39,7 @@ import java.util.List;
 /**
  * Created by liuxiaoran on 15/4/27.
  */
-public class BindPhoneActivity extends ActionBarActivity {
+public class BindPhoneActivity extends IShareActivity {
 
     private EditText phoneEt, confirmCodeEt;
     private Button getConfirmBtn, bingBtn;

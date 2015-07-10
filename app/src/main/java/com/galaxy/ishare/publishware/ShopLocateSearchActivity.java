@@ -27,6 +27,7 @@ import com.baidu.mapapi.search.poi.PoiCitySearchOption;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.user_request.PublishRequestActivity;
@@ -39,7 +40,7 @@ import info.hoang8f.widget.FButton;
 /**
  * Created by liuxiaoran on 15/6/17.
  */
-public class ShopLocateSearchActivity extends ActionBarActivity {
+public class ShopLocateSearchActivity extends IShareActivity {
 
     public static final int PUBLISHCARD_TO_SEARCH = 0;
     public static final int PUBLISHREQUEST_TO_SEARCH = 1;

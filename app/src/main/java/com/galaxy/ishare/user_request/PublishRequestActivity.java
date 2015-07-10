@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
@@ -38,7 +39,7 @@ import info.hoang8f.widget.FButton;
 /**
  * Created by liuxiaoran on 15/6/9.
  */
-public class PublishRequestActivity extends ActionBarActivity {
+public class PublishRequestActivity extends IShareActivity {
 
     LinearLayout shopNameLayout;
     EditText descriptionEt;

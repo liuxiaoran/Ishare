@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#f3f3f3">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/activity_myself_credit_layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical"
-        android:background="#ffffff">
+        android:paddingTop="10dp"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,20 +31,20 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="0dp"
                     android:text="真实姓名"
-                    android:textSize="@dimen/primary_text"
-                    android:textColor="@color/dark_primary_text" />
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="@dimen/primary_text" />
 
                 <EditText
                     android:id="@+id/activity_myself_credit_realname_et"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/activity_myself_credit_realname"
-                    android:layout_marginLeft="18dp"
-                    android:hint="请输入您的真实姓名"
-                    android:textSize="@dimen/secondary_text"
-                    android:textColorHint="@color/dark_hint_text"
                     android:layout_centerVertical="true"
-                    android:background="@null" />
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@+id/activity_myself_credit_realname"
+                    android:background="@null"
+                    android:hint="请输入您的真实姓名"
+                    android:textColorHint="@color/dark_hint_text"
+                    android:textSize="@dimen/secondary_text" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -52,14 +52,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="13dp">
+            android:layout_marginLeft="13dp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="5dp"
-                android:src="@color/gray"/>
+            <View style="@style/horizontal_divider" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -71,30 +67,30 @@
                     android:id="@+id/activity_myself_credit_presonalpic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="个人照片"
                     android:layout_centerVertical="true"
-                    android:textSize="@dimen/primary_text"
-                    android:textColor="@color/dark_primary_text" />
+                    android:text="个人照片"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="@dimen/primary_text" />
 
                 <ImageView
                     android:id="@+id/activity_myself_credit_personalpic_iv"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:layout_toRightOf="@+id/activity_myself_credit_presonalpic"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginLeft="14sp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_toRightOf="@+id/activity_myself_credit_presonalpic"
                     android:src="@drawable/card_pic_add" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="请上传您的个人照片"
-                    android:textSize="@dimen/secondary_text"
-                    android:textColor="@color/dark_hint_text"
+                    android:layout_marginLeft="14sp"
                     android:layout_toRightOf="@+id/activity_myself_credit_personalpic_iv"
-                    android:layout_marginLeft="14sp"/>
+                    android:text="请上传您的个人照片"
+                    android:textColor="@color/dark_hint_text"
+                    android:textSize="@dimen/secondary_text" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -102,14 +98,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="13dp">
+            android:layout_marginLeft="13dp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="5dp"
-                android:src="@color/gray"/>
+            <View style="@style/horizontal_divider" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -121,30 +113,30 @@
                     android:id="@+id/activity_myself_credit_idcard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="身份证"
                     android:layout_centerVertical="true"
-                    android:textSize="@dimen/primary_text"
-                    android:textColor="@color/dark_primary_text" />
+                    android:text="身份证"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="@dimen/primary_text" />
 
                 <ImageView
                     android:id="@+id/activity_myself_credit_idcard_iv"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:layout_toRightOf="@+id/activity_myself_credit_idcard"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginLeft="28sp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_toRightOf="@+id/activity_myself_credit_idcard"
                     android:src="@drawable/card_pic_add" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="请上传您的身份证照片"
-                    android:textSize="@dimen/secondary_text"
-                    android:textColor="@color/dark_hint_text"
+                    android:layout_marginLeft="14sp"
                     android:layout_toRightOf="@+id/activity_myself_credit_idcard_iv"
-                    android:layout_marginLeft="14sp"/>
+                    android:text="请上传您的身份证照片"
+                    android:textColor="@color/dark_hint_text"
+                    android:textSize="@dimen/secondary_text" />
             </RelativeLayout>
 
         </LinearLayout>
@@ -155,11 +147,11 @@
         android:id="@+id/activity_myself_credit_layout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/activity_myself_credit_layout1"
+        android:paddingTop="10dp"
         android:layout_marginTop="10dp"
         android:background="#ffffff"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical"
-        android:layout_below="@+id/activity_myself_credit_layout1">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -178,35 +170,33 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="0dp"
                     android:text="工作单位"
-                    android:textSize="@dimen/primary_text"
-                    android:textColor="@color/dark_primary_text" />
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="@dimen/primary_text" />
 
                 <EditText
                     android:id="@+id/activity_myself_credit_work_et"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/activity_myself_credit_work"
-                    android:layout_marginLeft="18dp"
-                    android:hint="请填写您的工作单位"
-                    android:textSize="14sp"
-                    android:textColor="@color/gray"
                     android:layout_centerVertical="true"
-                    android:background="@null" />
+                    android:layout_marginLeft="18dp"
+                    android:layout_toRightOf="@+id/activity_myself_credit_work"
+                    android:background="@null"
+                    android:hint="请填写您的工作单位"
+                    android:textColor="@color/dark_secondary_text"
+                    android:textSize="@dimen/primary_text"
+                    android:textColorHint="@color/dark_hint_text" />
 
             </RelativeLayout>
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="13dp">
+            android:layout_marginLeft="13dp"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="5dp"
-                android:src="@color/gray"/>
+            <View style="@style/horizontal_divider" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -218,36 +208,35 @@
                     android:id="@+id/activity_myself_credit_jobcard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:text="工牌"
-                    android:textSize="@dimen/primary_text"
                     android:textColor="@color/dark_primary_text"
-                    android:layout_centerVertical="true"/>
+                    android:textSize="@dimen/primary_text" />
 
                 <ImageView
                     android:id="@+id/activity_myself_credit_jobcard_iv"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:layout_toRightOf="@+id/activity_myself_credit_jobcard"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginLeft="42sp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
+                    android:layout_toRightOf="@+id/activity_myself_credit_jobcard"
                     android:background="@drawable/card_pic_add" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="请上传您的工牌照片"
-                    android:textSize="@dimen/secondary_text"
-                    android:textColor="@color/dark_hint_text"
+                    android:layout_marginLeft="14sp"
                     android:layout_toRightOf="@+id/activity_myself_credit_jobcard_iv"
-                    android:layout_marginLeft="14sp"/>
+                    android:text="请上传您的工牌照片"
+                    android:textColor="@color/dark_hint_text"
+                    android:textSize="@dimen/secondary_text" />
             </RelativeLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

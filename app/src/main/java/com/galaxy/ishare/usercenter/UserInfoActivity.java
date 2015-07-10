@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.BroadcastActionConstant;
@@ -46,7 +47,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by YangJunLin on 2015/5/23.
  */
-public class UserInfoActivity extends ActionBarActivity {
+public class UserInfoActivity extends IShareActivity {
 
     private static final String TAG = "MyselfInfoActivity";
 

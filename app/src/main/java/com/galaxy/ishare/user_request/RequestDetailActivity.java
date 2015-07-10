@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -31,7 +32,7 @@ import info.hoang8f.widget.FButton;
 /**
  * Created by liuxiaoran on 15/6/12.
  */
-public class RequestDetailActivity extends ActionBarActivity {
+public class RequestDetailActivity extends IShareActivity {
 
     public static final String PARAMETER_REQUEST = "PARAMETER_REQUEST";
     CardItem cardItem;

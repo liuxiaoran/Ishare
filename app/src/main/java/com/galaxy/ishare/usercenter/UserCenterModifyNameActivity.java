@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.User;
@@ -17,7 +19,7 @@ import com.galaxy.ishare.utils.UserUtils;
 /**
  * Created by YangJunLin on 2015/5/23.
  */
-public class UserCenterModifyNameActivity extends ActionBarActivity {
+public class UserCenterModifyNameActivity extends IShareActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

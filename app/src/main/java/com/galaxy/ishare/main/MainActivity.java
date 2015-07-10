@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -53,7 +54,7 @@ import java.util.ArrayList;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends IShareActivity {
 
     private User user;
     private Context mContext;
@@ -89,6 +90,9 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        forbidActivityStatistics();
 
         setContentView(R.layout.activity_main);
 
@@ -375,13 +379,15 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onResume() {
-        JPushInterface.onResume(mContext);
         super.onResume();
+        JPushInterface.onResume(mContext);
+
     }
 
     protected void onPause() {
-        JPushInterface.onPause(mContext);
         super.onPause();
+        JPushInterface.onPause(mContext);
+
     }
 
     @Override

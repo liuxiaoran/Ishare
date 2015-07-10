@@ -22,6 +22,22 @@ public class User implements Serializable {
 
     private  UserLocation userLocation;
 
+    // 个人信用的真实姓名
+    private String realTime;
+
+    // 个人信用的工作单位
+    private String jobLocation;
+
+
+    // 个人信用的个人照片链接
+    private String personPicUrl;
+
+    // 个人信用中的身份证链接
+    private String idCardPicUrl;
+
+    // 个人信用中的工牌链接
+    private String jobCardUrl;
+
     public void setUserLocation(UserLocation  location){
         this.userLocation = location;
     }
@@ -79,6 +95,46 @@ public class User implements Serializable {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    public String getRealTime() {
+        return realTime;
+    }
+
+    public void setRealTime(String realTime) {
+        this.realTime = realTime;
+    }
+
+    public String getJobLocation() {
+        return jobLocation;
+    }
+
+    public void setJobLocation(String jobLocation) {
+        this.jobLocation = jobLocation;
+    }
+
+    public String getPersonPicUrl() {
+        return personPicUrl;
+    }
+
+    public void setPersonPicUrl(String personPicUrl) {
+        this.personPicUrl = personPicUrl;
+    }
+
+    public String getIdCardPicUrl() {
+        return idCardPicUrl;
+    }
+
+    public void setIdCardPicUrl(String idCardPicUrl) {
+        this.idCardPicUrl = idCardPicUrl;
+    }
+
+    public String getJobCardUrl() {
+        return jobCardUrl;
+    }
+
+    public void setJobCardUrl(String jobCardUrl) {
+        this.jobCardUrl = jobCardUrl;
     }
 
 

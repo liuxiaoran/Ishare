@@ -14,6 +14,7 @@ import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.R;
 
 import info.hoang8f.widget.FButton;
@@ -22,7 +23,7 @@ import info.hoang8f.widget.FButton;
  * Created by liuxiaoran on 15/5/11.
  * 暂时不用
  */
-public class CardOwnerLocationMapActivity extends ActionBarActivity implements
+public class CardOwnerLocationMapActivity extends IShareActivity implements
         OnGetGeoCoderResultListener {
 
 

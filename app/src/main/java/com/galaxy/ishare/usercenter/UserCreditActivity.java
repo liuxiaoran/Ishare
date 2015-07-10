@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.galaxy.ishare.IShareActivity;
+import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.ImageParseUtil;
@@ -31,7 +33,7 @@ import java.io.FileNotFoundException;
 /**
  * Created by liuxiaoran on 15/7/4.
  */
-public class UserCreditActivity extends ActionBarActivity {
+public class UserCreditActivity extends IShareActivity {
 
     //选择图片使用的request
     public static final int IMAGE_REQUEST_CODE = 0;
@@ -51,6 +53,8 @@ public class UserCreditActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_myself_credit);
+
+        IShareContext.getInstance().createActionbar(this, true, "个人信用");
 
         picUpLoadUrl = new String[3];
 

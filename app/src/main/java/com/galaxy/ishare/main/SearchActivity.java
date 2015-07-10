@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
@@ -46,7 +47,7 @@ import info.hoang8f.widget.FButton;
 /**
  * Created by liuxiaoran on 15/5/14.
  */
-public class SearchActivity extends ActionBarActivity {
+public class SearchActivity extends IShareActivity {
 
     public static final String INTET_SEARCH_TO_DETAIL = "INTET_SEARCH_TO_DETAIL";
 

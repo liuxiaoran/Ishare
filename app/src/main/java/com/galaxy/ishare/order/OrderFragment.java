@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.galaxy.ishare.IShareContext;
+import com.galaxy.ishare.IShareFragment;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.chat.ChatActivity;
 import com.galaxy.ishare.constant.URLConstant;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class OrderFragment extends Fragment {
+public class OrderFragment extends IShareFragment {
 
     private final String TAG = "StateFragmene";
 
@@ -83,6 +84,7 @@ public class OrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        init("OrderFragment");
         LayoutInflater lf = LayoutInflater.from(getActivity());
         root = lf.inflate(R.layout.fragment_order, null);
         user = IShareContext.getInstance().getCurrentUser();

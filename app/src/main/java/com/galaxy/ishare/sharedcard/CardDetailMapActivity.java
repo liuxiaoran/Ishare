@@ -19,13 +19,14 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.SupportMapFragment;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.model.LatLngBounds;
+import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 
 /**
  * Created by liuxiaoran on 15/5/22.
  */
-public class CardDetailMapActivity extends ActionBarActivity {
+public class CardDetailMapActivity extends IShareActivity {
 
     public static final String PARAMETER_SHOP_LATITUDE = "PARAMETER_SHOP_LATITUDE";
     public static final String PARAMETER_SHOP_LONGITUDE = "PARAMENTE_SHOP_LONGITUDE";

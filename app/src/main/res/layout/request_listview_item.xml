@@ -2,17 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:orientation="vertical"
     android:paddingBottom="10dp"
-    android:paddingTop="@dimen/default_layout_padding"
-    android:descendantFocusability="blocksDescendants">
+    android:paddingTop="@dimen/default_layout_padding">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/default_layout_padding"
         android:paddingRight="@dimen/default_layout_padding"
-        android:paddingTop="@dimen/middle_padding">
+        android:paddingTop="5dp">
+
+        <TextView
+            android:id="@+id/request_item_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="2dp"
+            android:text="1min"
+            android:textColor="@color/dark_secondary_text"
+            android:textSize="@dimen/hint_text" />
+
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/request_item_requester_avatar_iv"
@@ -26,8 +37,8 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/request_item_requester_avatar_iv"
             android:text="liu"
-            android:textSize="@dimen/primary_text"
-            android:textColor="@color/dark_primary_text" />
+            android:textColor="@color/dark_primary_text"
+            android:textSize="@dimen/primary_text" />
 
 
         <ImageView
@@ -48,31 +59,21 @@
             android:layout_alignBottom="@id/request_item_requester_gender_iv"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@id/request_item_requester_gender_iv"
-            android:text="12km"
-            android:textSize="@dimen/hint_text"
             android:gravity="bottom"
-            android:textColor="@color/dark_secondary_text" />
+            android:text="12km"
+            android:textColor="@color/dark_secondary_text"
+            android:textSize="@dimen/hint_text" />
 
-
-        <TextView
-            android:id="@+id/request_item_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="2dp"
-            android:text="1min"
-            android:textSize="@dimen/hint_text"
-            android:textColor="@color/dark_secondary_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/request_item_requester_name_tv"
             android:layout_below="@id/request_item_requester_name_tv"
+            android:layout_marginTop="3dp"
             android:text="发布了一条求卡的请求"
-            android:textSize="@dimen/secondary_text"
             android:textColor="@color/dark_secondary_text"
-            android:layout_marginTop="3dp" />
+            android:textSize="@dimen/secondary_text" />
 
 
     </RelativeLayout>
@@ -100,8 +101,8 @@
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:text="fadf"
-                android:textSize="@dimen/primary_text"
-                android:textColor="@color/dark_primary_text" />
+                android:textColor="@color/dark_primary_text"
+                android:textSize="@dimen/primary_text" />
 
             <ImageView
                 android:id="@+id/request_location_iv"
@@ -111,34 +112,34 @@
                 android:layout_alignTop="@id/request_item_card_shopname_tv"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/request_item_card_shopname_tv"
-                android:src="@drawable/icon_location"
-                android:focusable="false" />
+                android:focusable="false"
+                android:src="@drawable/icon_location" />
 
             <TextView
                 android:id="@+id/request_item_shop_distance_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/request_location_iv"
                 android:layout_alignBaseline="@id/request_item_card_shopname_tv"
+                android:layout_alignTop="@id/request_location_iv"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/request_location_iv"
+                android:gravity="center"
                 android:text="12"
-                android:textSize="@dimen/hint_text"
                 android:textColor="@color/dark_secondary_text"
-                android:gravity="center" />
+                android:textSize="@dimen/hint_text" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@id/request_location_iv"
                 android:layout_alignBaseline="@id/request_item_card_shopname_tv"
+                android:layout_alignTop="@id/request_location_iv"
                 android:layout_marginLeft="2dp"
                 android:layout_toRightOf="@id/request_item_shop_distance_tv"
+                android:gravity="center"
                 android:text="km"
-                android:textSize="@dimen/hint_text"
                 android:textColor="@color/dark_secondary_text"
-                android:gravity="center" />
+                android:textSize="@dimen/hint_text" />
         </RelativeLayout>
 
         <TextView
@@ -147,8 +148,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:inputType="textMultiLine"
-            android:textSize="@dimen/secondary_text"
-            android:textColor="@color/dark_secondary_text" />
+            android:textColor="@color/dark_secondary_text"
+            android:textSize="@dimen/secondary_text" />
     </LinearLayout>
 
 

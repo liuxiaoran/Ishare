@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,10 +37,11 @@ public class MeFragment extends IShareFragment {
     private TextView nameTv;
     private CircleImageView avatarIV;
 
+
     private RelativeLayout cardIShareLayout;
     private RelativeLayout cardRequestLayout;
     private RelativeLayout cardICollectLayout;
-    private RelativeLayout creditLayout;
+    private LinearLayout creditLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,14 +55,14 @@ public class MeFragment extends IShareFragment {
         writeValueToWidget();
 
         final RelativeLayout myselfInfo = (RelativeLayout) myself.findViewById(R.id.myself_info_layout);
-        View.OnClickListener myselfInfoListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                startActivity(intent);
-            }
-        };
-        myselfInfo.setOnClickListener(myselfInfoListener);
+//        View.OnClickListener myselfInfoListener = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+//                startActivity(intent);
+//            }
+//        };
+//        myselfInfo.setOnClickListener(myselfInfoListener);
 
         return myself;
     }
@@ -71,7 +73,7 @@ public class MeFragment extends IShareFragment {
         cardICollectLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_collect_layout);
         cardIShareLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_share_layout);
         cardRequestLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_request_layout);
-        creditLayout = (RelativeLayout) view.findViewById(R.id.usercenter_credit_layout);
+        creditLayout = (LinearLayout) view.findViewById(R.id.usercenter_credit_layout);
 
         cardICollectLayout.setOnClickListener(new View.OnClickListener() {
             @Override

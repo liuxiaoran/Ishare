@@ -118,6 +118,7 @@
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
 
+
     <application
         android:name=".IShareApplication"
         android:allowBackup="true"
@@ -358,9 +359,6 @@
             android:enabled="true"
             android:exported="false"></service>
 
-        <activity
-            android:name=".usercenter.UserInfoActivity"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name=".usercenter.UserCreditActivity"

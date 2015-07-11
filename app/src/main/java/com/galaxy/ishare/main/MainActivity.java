@@ -319,7 +319,7 @@ public class MainActivity extends IShareActivity {
                     transaction.show(mShareItemFragment);
 
                 } else if (checkedId == activityButton.getId()) {
-                    recoverActionBar("活动");
+                    recoverActionBar("动态");
                     if (activityFragment == null) {
                         activityFragment = new OrderFragment();
                         transaction.add(R.id.fragment_container, activityFragment);

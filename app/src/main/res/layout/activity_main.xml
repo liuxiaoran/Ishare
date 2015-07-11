@@ -67,6 +67,7 @@
     </RadioGroup>
 
     <View
+        android:id="@+id/main_bottom_group_divider"
         style="@style/horizontal_divider"
         android:layout_above="@id/tab_group" />
 
@@ -74,7 +75,7 @@
         android:id="@+id/fragment_container"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/tab_group"
+        android:layout_above="@id/main_bottom_group_divider"
         android:layout_below="@id/title" />
 
 </RelativeLayout>

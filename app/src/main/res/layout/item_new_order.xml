@@ -2,14 +2,15 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:card_view="http://schemas.android.com/apk/res-auto"
 	style="@style/UniversalCardViewStyle"
-	android:padding="5dp"
 	card_view:cardCornerRadius="@dimen/default_card_view_corner_radius"
-	card_view:cardElevation="0dp">
+	card_view:cardElevation="2dp">
 
 	<RelativeLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:paddingLeft="10dp">
+		android:paddingLeft="10dp"
+		android:paddingBottom="5dp"
+		android:paddingRight="10dp">
 		<RelativeLayout
 			android:id="@+id/user_info_layout"
 			android:layout_width="match_parent"
@@ -71,7 +72,7 @@
 				android:layout_height="wrap_content"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
-				android:layout_marginRight="15dp"
+
 				android:gravity="center_vertical"
 				android:paddingLeft="8dp"
 				android:background="@drawable/lend_bkg"

@@ -16,6 +16,7 @@ import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
+import com.galaxy.ishare.utils.TimeUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
@@ -102,12 +103,11 @@ public class RequestListAdapter extends BaseAdapter {
         holder.requesterDistanceTv.setText(cardItem.ownerDistance + " km");
 
 
-        setCurrentTime();
         // 显示过去了多长时间
         Log.v(TAG, cardItem.getShopName() + "   " + cardItem.getPublishTime());
 
         if (cardItem.getPublishTime() != null)
-        holder.timeTv.setText(getPresentPassTime(cardItem.getPublishTime()));
+            holder.timeTv.setText(TimeUtils.getPresentPassTime(cardItem.getPublishTime()));
         else {
             Toast.makeText(mContext, "TMD server publish time is empty again", Toast.LENGTH_LONG).show();
         }
@@ -131,57 +131,8 @@ public class RequestListAdapter extends BaseAdapter {
 
     }
 
-    private void setCurrentTime() {
-
-        Calendar nowCalendar = Calendar.getInstance();
-        currentMonth = nowCalendar.get(Calendar.MONTH) + 1;
-        currentDay = nowCalendar.get(Calendar.DAY_OF_MONTH);
-        currentHour = nowCalendar.get(Calendar.HOUR_OF_DAY);
-        currentMinute = nowCalendar.get(Calendar.MINUTE);
 
 
-    }
-
-    private String getPresentPassTime(String publishTime) {
-
-        String ret = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//小写的mm表示的是分钟
-
-        Log.d(TAG, "publishTime: " + publishTime);
-
-        Date publishDate = null;
-        try {
-            publishDate = sdf.parse(publishTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        int publishMonth = publishDate.getMonth() + 1;
-        int publishDay = publishDate.getDate();
-        int publishHour = publishDate.getHours();
-        int publishMinute = publishDate.getMinutes();
-        Log.v(TAG, "publishMonth: " + publishMonth + "  publishDay:  " + publishDay + "  publishHour: " + publishHour + "  publishMinute:  " + publishMinute);
-        if (publishMonth < currentMonth) {
-            ret = (currentMonth - publishMonth) + "月前";
-        } else if (publishMonth == currentMonth) {
-            if (publishDay < currentDay) {
-                ret = (currentDay - publishDay) + "天前";
-            } else if (publishDay == currentDay) {
-                if (publishHour < currentHour) {
-                    ret = (currentHour - publishHour) + "小时前";
-                } else if (publishHour == currentHour) {
-                    if (publishMinute == currentMinute) {
-                        ret = "刚刚";
-                    } else {
-                        ret = (currentMinute - publishMinute) + "分钟前";
-                    }
-                }
-            }
-
-        }
-
-        return ret;
-    }
 
 
 }

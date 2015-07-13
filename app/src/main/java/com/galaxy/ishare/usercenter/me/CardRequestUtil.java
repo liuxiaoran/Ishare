@@ -1,4 +1,4 @@
-package com.galaxy.ishare.me;
+package com.galaxy.ishare.usercenter.me;
 
 import com.galaxy.ishare.model.CardRequest;
 

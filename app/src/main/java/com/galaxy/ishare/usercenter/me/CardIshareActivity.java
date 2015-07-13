@@ -1,9 +1,8 @@
-package com.galaxy.ishare.me;
+package com.galaxy.ishare.usercenter.me;
 
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;

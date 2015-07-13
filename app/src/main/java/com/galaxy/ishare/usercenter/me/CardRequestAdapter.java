@@ -1,4 +1,4 @@
-package com.galaxy.ishare.me;
+package com.galaxy.ishare.usercenter.me;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,8 +17,6 @@ import com.galaxy.ishare.utils.QiniuUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

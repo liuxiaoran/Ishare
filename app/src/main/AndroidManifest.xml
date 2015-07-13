@@ -442,15 +442,15 @@
             android:name=".usercenter.UserCenterModifyNameActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".me.CardIshareActivity"
+            android:name=".usercenter.me.CardIshareActivity"
             android:label="@string/title_activity_card_ishare"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".me.CardICollectActivity"
+            android:name=".usercenter.me.CardICollectActivity"
             android:label="@string/title_activity_card_ishare"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".me.CardRequestActivity"
+            android:name=".usercenter.me.CardRequestActivity"
             android:label="@string/title_activity_card_request"></activity>
     </application>
 

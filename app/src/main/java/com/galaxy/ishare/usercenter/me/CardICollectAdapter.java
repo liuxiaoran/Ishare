@@ -1,4 +1,4 @@
-package com.galaxy.ishare.me;
+package com.galaxy.ishare.usercenter.me;
 
 import android.content.Context;
 import android.view.LayoutInflater;

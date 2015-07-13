@@ -7,9 +7,10 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +22,6 @@ import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -38,11 +38,14 @@ import com.galaxy.ishare.user_request.PublishRequestActivity;
 import com.galaxy.ishare.user_request.RequestFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
 import com.galaxy.ishare.utils.AppAsyncHttpClient;
+import com.galaxy.ishare.utils.ChangePictureActivity;
 import com.galaxy.ishare.utils.JPushUtil;
 import com.galaxy.ishare.utils.PhoneContactManager;
+import com.galaxy.ishare.utils.PhoneUtil;
 import com.galaxy.ishare.utils.SPUtil;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.soundcloud.android.crop.Crop;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -54,7 +57,7 @@ import java.util.ArrayList;
 
 import cn.jpush.android.api.JPushInterface;
 
-public class MainActivity extends IShareActivity {
+public class MainActivity extends ChangePictureActivity {
 
     private User user;
     private Context mContext;
@@ -68,7 +71,6 @@ public class MainActivity extends IShareActivity {
     private Fragment mMeFragment;
     private Fragment activityFragment;
     private Fragment requestFragment;
-//    private TextView mTitle;
 
     private int[] mRadioId = new int[]{R.id.shareBtn, R.id.MeButton};
 
@@ -86,6 +88,13 @@ public class MainActivity extends IShareActivity {
 
     private ActionBar actionBar;
     private TextView titleTv;
+
+    // 头像更换
+    public static final int CAMERA_REQUEST_CODE = 1;
+    public static final String IMAGE_FILE_NAME = "faceImage.jpg";
+    public static File picSaveFile;
+    private int cachePicIndex = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,7 +218,6 @@ public class MainActivity extends IShareActivity {
         option.setIsNeedAddress(true);
         mLocationClient.setLocOption(option);
     }
-
 
 
     private void uploadContactData() {
@@ -396,7 +404,8 @@ public class MainActivity extends IShareActivity {
             mLocationClient.stop();
         super.onStop();
     }
-//    //    // dialog询问读取联系人，开启线程读取联系人
+
+    //    //    // dialog询问读取联系人，开启线程读取联系人
 //    private void giveReadContactPermission() {
 //        new MaterialDialog.Builder(this)
 //                .title("获取联系人")
@@ -428,5 +437,48 @@ public class MainActivity extends IShareActivity {
 //                    }
 //                }).show();
 //
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        //结果码不等于取消时候
+        if (resultCode != RESULT_CANCELED) {
+            if (requestCode == Crop.REQUEST_PICK && resultCode == RESULT_OK) {
+                beginCrop(result.getData());
+            } else if (requestCode == Crop.REQUEST_CROP) {
+                handleCrop(requestCode, resultCode, result);
+            } else if (requestCode == CAMERA_REQUEST_CODE) {
+                if (PhoneUtil.hasSdcard()) {
 
+                    File tempFile = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                            IMAGE_FILE_NAME);
+                    beginCrop(Uri.fromFile(tempFile));
+                } else {
+                    Toast.makeText(this, "未找到存储卡，无法存储照片！",
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+
+        }
+
+
+    }
+
+    private void beginCrop(Uri source) {
+        // 可能是crop 库的问题， 后面的文件名必须不同，否则多次改变之后还是第一次的图片
+        picSaveFile = new File(getCacheDir(), "cropped" + cachePicIndex);
+        cachePicIndex++;
+        Uri outputUri = Uri.fromFile(picSaveFile);
+        new Crop(source).output(outputUri).asSquare().start(this);
+    }
+
+    private void handleCrop(int requestCode, int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            Log.v(TAG, "uri :" + Crop.getOutput(result));
+            if (mMeFragment != null) {
+                mMeFragment.onActivityResult(requestCode, resultCode, result);
+            }
+
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 }

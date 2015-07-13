@@ -25,6 +25,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.publishware.CardOwnerAvailableShowActivity;
 import com.galaxy.ishare.usercenter.me.CardICollectActivity;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
 import com.galaxy.ishare.usercenter.me.CardRequestActivity;
@@ -61,6 +62,7 @@ public class MeFragment extends IShareFragment {
     private RelativeLayout cardRequestLayout;
     private RelativeLayout cardICollectLayout;
     private RelativeLayout contactKeFuLayout;
+    private RelativeLayout userAddressLayout;
     private LinearLayout creditLayout;
     private HttpInteract httpInteract;
     private String TAG = "meFragment";
@@ -140,6 +142,7 @@ public class MeFragment extends IShareFragment {
         cardRequestLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_request_layout);
         contactKeFuLayout = (RelativeLayout) view.findViewById(R.id.usercenter_contactkefu_layout);
         creditLayout = (LinearLayout) view.findViewById(R.id.usercenter_credit_layout);
+        userAddressLayout= (RelativeLayout) view.findViewById(R.id.usercenter_address_layout);
 
         manGenderIv = (ImageView) view.findViewById(R.id.usercenter_man_gender_iv);
         womanGenderIv = (ImageView) view.findViewById(R.id.usercenter_woman_gender_iv);
@@ -177,6 +180,13 @@ public class MeFragment extends IShareFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserCreditActivity.class);
+                startActivity(intent);
+            }
+        });
+        userAddressLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(),CardOwnerAvailableShowActivity.class);
                 startActivity(intent);
             }
         });

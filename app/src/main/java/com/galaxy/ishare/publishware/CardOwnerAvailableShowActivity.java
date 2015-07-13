@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.galaxy.ishare.IShareActivity;
@@ -44,6 +45,7 @@ public class CardOwnerAvailableShowActivity extends IShareActivity {
     ListViewAdapter listViewAdapter;
     ArrayList<UserAvailable> dataList;
     int[] clickCount;
+    RelativeLayout newaddrLayout;
 
     private static final String TAG = "CardOwnerShowActivity";
     @Override
@@ -57,7 +59,8 @@ public class CardOwnerAvailableShowActivity extends IShareActivity {
                 | ActionBar.DISPLAY_SHOW_HOME);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        availableListView = (ListView) findViewById(R.id.publishware_owner_available_location_listview);
+        availableListView = (ListView) findViewById(R.id.publishware_available_listview);
+        newaddrLayout= (RelativeLayout) findViewById(R.id.publishware_available_newaddress_layout);
 
         dataList = UserAvailableDao.getInstance(this).query();
         if (dataList == null) {
@@ -68,14 +71,23 @@ public class CardOwnerAvailableShowActivity extends IShareActivity {
         listViewAdapter = new ListViewAdapter(this);
         availableListView.setAdapter(listViewAdapter);
 
+        newaddrLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(CardOwnerAvailableShowActivity.this,CardOwnerAvailableAddActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
+
+
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.card_owner_location_setting, menu);
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -84,7 +96,7 @@ public class CardOwnerAvailableShowActivity extends IShareActivity {
         if (item.getItemId() == R.id.menu_add) {
 
             Intent intent = new Intent(this, CardOwnerAvailableAddActivity.class);
-            startActivityForResult(intent, SHOW_TO_ADD_REQUEST_CODE);
+            startActivity(intent);
 
 
         } else if (item.getItemId() == android.R.id.home) {

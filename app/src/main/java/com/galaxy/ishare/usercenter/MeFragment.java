@@ -5,11 +5,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,7 +19,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.IShareFragment;
 import com.galaxy.ishare.R;
-import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
@@ -40,9 +39,9 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +78,57 @@ public class MeFragment extends IShareFragment {
         httpInteract = new HttpInteract();
         writeValueToWidget();
 
+        ClickListener clickListener = new ClickListener();
+        manGenderIv.setOnClickListener(clickListener);
+        womanGenderIv.setOnClickListener(clickListener);
+        nameTv.setOnClickListener(clickListener);
         return myself;
+    }
+
+    private EditText nameEt;
+
+    class ClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == R.id.usercenter_man_gender_iv) {
+                if (!manGenderIv.isSelected()) {
+                    manGenderIv.setSelected(true);
+                    womanGenderIv.setSelected(false);
+                    httpInteract.updateGender("男");
+                    updateLocalGender("男");
+                }
+
+            } else if (v.getId() == R.id.usercenter_woman_gender_iv) {
+                if (!womanGenderIv.isSelected()) {
+                    womanGenderIv.setSelected(true);
+                    manGenderIv.setSelected(false);
+                    httpInteract.updateGender("女");
+                    updateLocalGender("女");
+                }
+            } else if (v.getId() == R.id.usercenter_nickname_tv) {
+                MaterialDialog changeNameDialog = new MaterialDialog.Builder(getActivity())
+                        .title("更改名字")
+                        .customView(R.layout.dialog_change_name, true)
+                        .positiveText("确定")
+                        .negativeText("取消")
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+
+                                String newName = nameEt.getText().toString();
+                                if (newName != null && !newName.equals("null") && !newName.equals(" ")) {
+                                    nameTv.setText(newName);
+                                    updateLocalName(newName);
+                                    httpInteract.updateName(newName);
+                                }
+                            }
+
+                        }).build();
+                nameEt = (EditText) changeNameDialog.getCustomView().findViewById(R.id.dialog_change_name_et);
+                changeNameDialog.show();
+            }
+        }
     }
 
     private void initViews(View view) {
@@ -173,6 +222,7 @@ public class MeFragment extends IShareFragment {
                 .show();
 
     }
+
     private void writeValueToWidget() {
         nameTv.setText(IShareContext.getInstance().getCurrentUser().getUserName());
         ImageLoader.getInstance().displayImage(IShareContext.getInstance().getCurrentUser().getAvatar(), avatarIV, null, null);
@@ -203,6 +253,7 @@ public class MeFragment extends IShareFragment {
 
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -247,6 +298,18 @@ public class MeFragment extends IShareFragment {
 
     }
 
+    public void updateLocalGender(String gender) {
+        User user = IShareContext.getInstance().getCurrentUser();
+        user.setGender(gender);
+        IShareContext.getInstance().saveCurrentUser(user);
+    }
+
+    public void updateLocalName(String name) {
+        User user = IShareContext.getInstance().getCurrentUser();
+        user.setUserName(name);
+        IShareContext.getInstance().saveCurrentUser(user);
+    }
+
     class HttpInteract {
         public void updateAvatar(String avatarUrl) {
 
@@ -264,6 +327,58 @@ public class MeFragment extends IShareFragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
+        }
+
+        public void updateGender(String gender) {
+            List<BasicNameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("gender", gender));
+            HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_USER_INFO, params, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
+        }
+
+        public void updateName(String name) {
+            List<BasicNameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("nickname", name));
+            HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_USER_INFO, params, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+
                 }
 
                 @Override

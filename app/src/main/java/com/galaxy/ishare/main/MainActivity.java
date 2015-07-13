@@ -37,6 +37,7 @@ import com.galaxy.ishare.sharedcard.ItemListFragment;
 import com.galaxy.ishare.user_request.PublishRequestActivity;
 import com.galaxy.ishare.user_request.RequestFragment;
 import com.galaxy.ishare.usercenter.MeFragment;
+import com.galaxy.ishare.usercenter.me.SettingActivity;
 import com.galaxy.ishare.utils.AppAsyncHttpClient;
 import com.galaxy.ishare.utils.ChangePictureActivity;
 import com.galaxy.ishare.utils.JPushUtil;
@@ -200,6 +201,18 @@ public class MainActivity extends ChangePictureActivity {
                 }
             });
 
+        } else if (title.equals("我")) {
+            actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.main_me_action_bar, false);
+            titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.action_bar_title_tv);
+            titleTv.setText(title);
+            ImageView settingIv = (ImageView) actionBar.getCustomView().findViewById(R.id.main_me_setting_iv);
+            settingIv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivity(intent);
+                }
+            });
         } else {
             actionBar = IShareContext.getInstance().createActionbar(this, false, title);
             titleTv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);

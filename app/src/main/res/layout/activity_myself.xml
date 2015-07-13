@@ -97,12 +97,12 @@
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/usercenter_gender_male"
                         android:background="@drawable/radiobutton_selector" />
 
                     <ImageView
-                        android:id="@+id/usercenter_woman_gender_iv"
+                        android:id="@+id/usercenter_woman_iv"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_centerVertical="true"
@@ -111,12 +111,12 @@
                         android:src="@drawable/sex_female_unselected" />
 
                     <ImageView
-                        android:id="@+id/usercenter_gender_femaleselect"
+                        android:id="@+id/usercenter_woman_gender_iv"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_toRightOf="@+id/usercenter_woman_gender_iv"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/usercenter_woman_iv"
                         android:background="@drawable/radiobutton_selector" />
                 </RelativeLayout>
             </LinearLayout>

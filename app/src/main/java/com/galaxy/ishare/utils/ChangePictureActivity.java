@@ -115,8 +115,9 @@ public class ChangePictureActivity extends IShareActivity {
             } else if (requestCode == CAMERA_REQUEST_CODE) {
                 if (PhoneUtil.hasSdcard()) {
                     File tempFile = new File(
-                            Environment.getExternalStorageDirectory()
-                            , IMAGE_FILE_NAME);
+                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                            IMAGE_FILE_NAME);
+
                     beginCrop(Uri.fromFile(tempFile));
                 } else {
                     Toast.makeText(this, "未找到存储卡，无法存储照片！",

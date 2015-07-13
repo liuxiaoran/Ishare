@@ -324,7 +324,17 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
         <!-- end chat -->
 
+        <!-- usercenter -->
 
+        <activity
+            android:name=".usercenter.me.SettingActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <!-- end usercenter -->
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

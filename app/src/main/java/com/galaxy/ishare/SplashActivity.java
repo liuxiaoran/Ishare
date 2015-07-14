@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.galaxy.ishare.login.LoginActivity;
 import com.galaxy.ishare.main.MainActivity;
+import com.galaxy.ishare.model.Settings;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -90,6 +91,9 @@ public class SplashActivity extends LoginActivity {
             ShareSDK.initSDK(getApplicationContext());
 
             httpInteract = new HttpInteract();
+
+            // 第一次进入系统，初始化Settings
+            IShareContext.getInstance().saveSettings(new Settings());
 
         } else {
             Intent intent2 = new Intent(SplashActivity.this, MainActivity.class);

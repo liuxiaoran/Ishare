@@ -23,7 +23,7 @@ public class User implements Serializable {
     private  UserLocation userLocation;
 
     // 个人信用的真实姓名
-    private String realTime;
+    private String realName;
 
     // 个人信用的工作单位
     private String jobLocation;
@@ -107,12 +107,12 @@ public class User implements Serializable {
         this.key = key;
     }
 
-    public String getRealTime() {
-        return realTime;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setRealTime(String realTime) {
-        this.realTime = realTime;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public String getJobLocation() {

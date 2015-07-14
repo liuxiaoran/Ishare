@@ -162,7 +162,7 @@ public class ChangePictureActivity extends IShareActivity {
         changeImageView[currentImageViewIndex].setImageURI(uri);
 
         // 产生key 并且上传七牛
-        String key = QiniuUtil.getInstance().generateKey("avatar");
+        String key = QiniuUtil.getInstance().generateKey("credit");
         QiniuUtil.getInstance().uploadFileDefault(picSaveFile.getAbsolutePath(), key, new UpCompletionHandler() {
             @Override
             public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {

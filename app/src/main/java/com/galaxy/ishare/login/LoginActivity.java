@@ -209,18 +209,36 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
                         int status = jsonObject.getInt("status");
 
                         if (status == 0) {
-
+                            User user = new User();
                             JSONObject data = jsonObject.getJSONObject("data");
                             String key = data.getString("key");
                             String phone = data.getString("phone");
                             String name = data.getString("nickname");
                             String avatar = data.getString("avatar");
                             String gender = data.getString("gender");
+                            if (data.has("real_name")) {
+                                user.setRealName(data.getString("real_name"));
+                            }
+                            if (data.has("per_photo")) {
+                                user.setPersonPicUrl(data.getString("per_photo"));
+                            }
+                            if (data.has("idCard1")) {
+                                user.setIdCardPic1Url(data.getString("idCard1"));
+                            }
+                            if (data.has("idCard2")) {
+                                user.setIdCardPic2Url(data.getString("idCard2"));
+                            }
+                            if (data.has("work_unit")) {
+                                user.setJobLocation(data.getString("work_unit"));
+                            }
+                            if (data.has("work_card")) {
+                                user.setJobCardUrl(data.getString("work_card"));
+                            }
 
                             Global.key = key;
                             Global.userId = wechatId;
 
-                            User user = new User();
+
                             user.setKey(key);
                             user.setUserId(wechatId);
 

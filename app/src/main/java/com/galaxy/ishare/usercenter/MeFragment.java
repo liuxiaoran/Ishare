@@ -154,7 +154,7 @@ public class MeFragment extends IShareFragment {
         nameCreditTv = (TextView) view.findViewById(R.id.usercenter_credit_realname_tv);
         workCreditTv = (TextView) view.findViewById(R.id.usercenter_credit_job_tv);
         workCardCreditTv = (TextView) view.findViewById(R.id.usercenter_credit_job_card_tv);
-        personPicCreditTv = (TextView) view.findViewById(R.id.usercenter_credit_person_avatar_tv);
+        personPicCreditTv = (TextView) view.findViewById(R.id.usercenter_credit_person_pic_tv);
 
 
         cardICollectLayout.setOnClickListener(new View.OnClickListener() {
@@ -250,21 +250,21 @@ public class MeFragment extends IShareFragment {
         if (user.getUserPhone() != null && !user.getUserPhone().equals("")) {
             phoneTv.setText(user.getUserPhone());
         }
-        if (user.getRealTime() != null) {
-            nameCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
-        }
-        if (user.getIdCardPic1Url() != null) {
-            idCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
-        }
-        if (user.getJobCardUrl() != null) {
-            workCardCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
-        }
-        if (user.getJobLocation() != null) {
-            workCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
-        }
-        if (user.getPersonPicUrl() != null) {
-            personPicCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
-        }
+//        if (user.getRealName() != null) {
+//            nameCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
+//        }
+//        if (user.getIdCardPic1Url() != null && user.getIdCardPic2Url()!=null ) {
+//            idCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
+//        }
+//        if (user.getJobCardUrl() != null) {
+//            workCardCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
+//        }
+//        if (user.getJobLocation() != null) {
+//            workCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
+//        }
+//        if (user.getPersonPicUrl() != null) {
+//            personPicCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
+//        }
 
 
     }

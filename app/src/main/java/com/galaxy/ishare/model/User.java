@@ -33,7 +33,10 @@ public class User implements Serializable {
     private String personPicUrl;
 
     // 个人信用中的身份证链接
-    private String idCardPicUrl;
+    private String idCardPic1Url;
+
+
+    private String idCardPic2Url;
 
     // 个人信用中的工牌链接
     private String jobCardUrl;
@@ -50,6 +53,13 @@ public class User implements Serializable {
 
     }
 
+    public String getIdCardPic2Url() {
+        return idCardPic2Url;
+    }
+
+    public void setIdCardPic2Url(String idCardPic2Url) {
+        this.idCardPic2Url = idCardPic2Url;
+    }
     public String getGender (){
         return gender;
     }
@@ -121,12 +131,12 @@ public class User implements Serializable {
         this.personPicUrl = personPicUrl;
     }
 
-    public String getIdCardPicUrl() {
-        return idCardPicUrl;
+    public String getIdCardPic1Url() {
+        return idCardPic1Url;
     }
 
-    public void setIdCardPicUrl(String idCardPicUrl) {
-        this.idCardPicUrl = idCardPicUrl;
+    public void setIdCardPic1Url(String idCardPic1Url) {
+        this.idCardPic1Url = idCardPic1Url;
     }
 
     public String getJobCardUrl() {

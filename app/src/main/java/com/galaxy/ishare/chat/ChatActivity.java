@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -47,6 +48,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import info.hoang8f.widget.FButton;
 
 public class ChatActivity extends IShareActivity {
     public static ChatActivity instance;
@@ -88,7 +91,7 @@ public class ChatActivity extends IShareActivity {
     private String[] lendStateChange;
 
     private LinearLayout llcomment;
-    private TextView tvComment;
+    //    private TextView tvComment;
     private RatingBar ratingBar;
     private EditText etComment;
     private Button btnComment;
@@ -116,9 +119,21 @@ public class ChatActivity extends IShareActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_comment, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){
             this.finish();
+        } else if (item.getItemId() == R.id.menu_comment) {
+            if (llcomment.getVisibility() == View.VISIBLE) {
+                llcomment.setVisibility(View.GONE);
+            } else {
+                llcomment.setVisibility(View.VISIBLE);
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -127,18 +142,8 @@ public class ChatActivity extends IShareActivity {
         actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.chat_action_bar, true);
         title = (TextView) actionBar.getCustomView().findViewById(R.id.title);
         gender = (ImageView) actionBar.getCustomView().findViewById(R.id.gender);
-        tvComment = (TextView) actionBar.getCustomView().findViewById(R.id.tv_comment);
 
-        tvComment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(llcomment.getVisibility() == View.VISIBLE) {
-                    llcomment.setVisibility(View.GONE);
-                }  else {
-                    llcomment.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+
     }
 
     public void initWidget() {

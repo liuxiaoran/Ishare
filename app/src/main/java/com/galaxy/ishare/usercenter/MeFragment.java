@@ -19,13 +19,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.IShareFragment;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.bindphone.BindPhoneActivity;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.User;
-import com.galaxy.ishare.publishware.CardOwnerAvailableShowActivity;
 import com.galaxy.ishare.usercenter.me.CardICollectActivity;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
 import com.galaxy.ishare.usercenter.me.CardRequestActivity;
@@ -42,7 +42,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,14 +55,15 @@ public class MeFragment extends IShareFragment {
     private ImageView manGenderIv, womanGenderIv;
     private TextView phoneTv;
     private TextView idCreditTv, nameCreditTv, workCreditTv, workCardCreditTv, personPicCreditTv;
-
+    public static final String ME_TO_BIND_PHONE = "ME_TO_BIND_PHONE";
 
     private RelativeLayout cardIShareLayout;
     private RelativeLayout cardRequestLayout;
     private RelativeLayout cardICollectLayout;
     private RelativeLayout contactKeFuLayout;
-    private RelativeLayout userAddressLayout;
+    private RelativeLayout phoneLayout;
     private LinearLayout creditLayout;
+    private LinearLayout manLayout, womanLayout;
     private HttpInteract httpInteract;
     private String TAG = "meFragment";
 
@@ -81,9 +81,10 @@ public class MeFragment extends IShareFragment {
         writeValueToWidget();
 
         ClickListener clickListener = new ClickListener();
-        manGenderIv.setOnClickListener(clickListener);
-        womanGenderIv.setOnClickListener(clickListener);
+        manLayout.setOnClickListener(clickListener);
+        womanLayout.setOnClickListener(clickListener);
         nameTv.setOnClickListener(clickListener);
+
         return myself;
     }
 
@@ -93,7 +94,7 @@ public class MeFragment extends IShareFragment {
 
         @Override
         public void onClick(View v) {
-            if (v.getId() == R.id.usercenter_man_gender_iv) {
+            if (v.getId() == R.id.usercenter_gender_man_layout) {
                 if (!manGenderIv.isSelected()) {
                     manGenderIv.setSelected(true);
                     womanGenderIv.setSelected(false);
@@ -101,7 +102,7 @@ public class MeFragment extends IShareFragment {
                     updateLocalGender("男");
                 }
 
-            } else if (v.getId() == R.id.usercenter_woman_gender_iv) {
+            } else if (v.getId() == R.id.usercenter_gender_woman_layout) {
                 if (!womanGenderIv.isSelected()) {
                     womanGenderIv.setSelected(true);
                     manGenderIv.setSelected(false);
@@ -141,8 +142,11 @@ public class MeFragment extends IShareFragment {
         cardIShareLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_share_layout);
         cardRequestLayout = (RelativeLayout) view.findViewById(R.id.usercenter_i_request_layout);
         contactKeFuLayout = (RelativeLayout) view.findViewById(R.id.usercenter_contactkefu_layout);
+        phoneLayout = (RelativeLayout) view.findViewById(R.id.usercenter_phone_layout);
         creditLayout = (LinearLayout) view.findViewById(R.id.usercenter_credit_layout);
-        userAddressLayout= (RelativeLayout) view.findViewById(R.id.usercenter_address_layout);
+        manLayout = (LinearLayout) view.findViewById(R.id.usercenter_gender_man_layout);
+        womanLayout = (LinearLayout) view.findViewById(R.id.usercenter_gender_woman_layout);
+
 
         manGenderIv = (ImageView) view.findViewById(R.id.usercenter_man_gender_iv);
         womanGenderIv = (ImageView) view.findViewById(R.id.usercenter_woman_gender_iv);
@@ -183,17 +187,18 @@ public class MeFragment extends IShareFragment {
                 startActivity(intent);
             }
         });
-        userAddressLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(getActivity(),CardOwnerAvailableShowActivity.class);
-                startActivity(intent);
-            }
-        });
         avatarIV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog();
+            }
+        });
+        phoneLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BindPhoneActivity.class);
+                intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, MeFragment.ME_TO_BIND_PHONE);
+                startActivity(intent);
             }
         });
 
@@ -248,7 +253,7 @@ public class MeFragment extends IShareFragment {
         if (user.getRealTime() != null) {
             nameCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
         }
-        if (user.getIdCardPicUrl() != null) {
+        if (user.getIdCardPic1Url() != null) {
             idCreditTv.setTextColor(getResources().getColor(R.color.color_primary));
         }
         if (user.getJobCardUrl() != null) {

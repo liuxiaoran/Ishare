@@ -20,6 +20,7 @@ import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.publishware.PublishItemActivity;
+import com.galaxy.ishare.usercenter.MeFragment;
 import com.galaxy.ishare.utils.ConfirmCodeController;
 import com.galaxy.ishare.utils.WidgetController;
 import com.galaxy.ishare.http.HttpCode;
@@ -58,14 +59,17 @@ public class BindPhoneActivity extends IShareActivity {
 
         ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "绑定手机号");
         TextView tv = (TextView) actionBar.getCustomView().findViewById(R.id.actionbar_title_tv);
-        tv.setText("绑定手机号");
 
-        if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.PUBLISH_TO_BING_PHONE)) {
+
+        if (MainActivity.PUBLISH_TO_BING_PHONE.equals(getIntent().getStringExtra(PARAMETER_WHO_COME))) {
+            tv.setText("绑定手机号");
             new MaterialDialog.Builder(this)
                     .title("绑定手机号")
                     .content("发卡之前请绑定手机号")
                     .show();
 
+        } else if (MeFragment.ME_TO_BIND_PHONE.equals(getIntent().getStringExtra(PARAMETER_WHO_COME))) {
+            tv.setText("更换手机号");
         }
 
         initWidgets();
@@ -126,6 +130,8 @@ public class BindPhoneActivity extends IShareActivity {
                                     if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.PUBLISH_TO_BING_PHONE)) {
                                         Intent intent = new Intent(BindPhoneActivity.this, PublishItemActivity.class);
                                         startActivity(intent);
+                                    } else if (MeFragment.ME_TO_BIND_PHONE.equals(getIntent().getStringExtra(PARAMETER_WHO_COME))) {
+                                        BindPhoneActivity.this.finish();
                                     }
                                     finish();
                                 } else {

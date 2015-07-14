@@ -11,9 +11,9 @@ import com.umeng.analytics.MobclickAgent;
  * 集成友盟统计（session的统计）
  */
 public class IShareActivity extends ActionBarActivity {
-    public IShareActivity() {
-        IShareUnCaughtExceptionHandler.getInstance().init(this);
-    }
+//    public IShareActivity() {
+//        IShareUnCaughtExceptionHandler.getInstance().init(this);
+//    }
 
     protected void onResume() {
         super.onResume();

@@ -73,7 +73,7 @@ public class IShareUnCaughtExceptionHandler implements Thread.UncaughtExceptionH
         } else {
             // Sleep一会后结束程序
             try {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 Log.e(TAG, "Error : ", e);
             }

@@ -53,22 +53,32 @@ public class ChangePictureActivity extends IShareActivity {
 
     private File picSaveFile;
 
-    private static final String IMAGE_FILE_NAME = "faceImage.jpg";
+    public String[] IMAGE_FILE_NAMES;
 
+    // 需要换的图片个数
+    public int imageViewCount;
+    public ImageView[] changeImageView;
+    // 目前换的图片的index
+    public int currentImageViewIndex;
+    public ChangePictureCallback[] callbacks;
 
-    private ImageView imageView;
-
-    private HttpInteract httpInteract;
-
-    /**
-     * 子类要调用
-     *
-     * @param imageView
-     */
-    public void initChangePicture(ImageView imageView) {
-        this.imageView = imageView;
-        httpInteract = new HttpInteract();
+    // 子类调用最开始调用一次即可
+    public void init(int imageViewCount) {
+        this.imageViewCount = imageViewCount;
+        changeImageView = new ImageView[imageViewCount];
+        callbacks = new ChangePictureCallback[imageViewCount];
+        IMAGE_FILE_NAMES = new String[imageViewCount];
+        for (int i = 0; i < imageViewCount; i++) {
+            IMAGE_FILE_NAMES[i] = "creditImage" + i + ".jpg";
+        }
     }
+
+    // 在showDialog 之前要调用这个函数
+    public void setCurrentImageViewIndex(int currentIndex) {
+        this.currentImageViewIndex = currentIndex;
+    }
+
+
 
     public void showDialog() {
 
@@ -90,7 +100,7 @@ public class ChangePictureActivity extends IShareActivity {
                             if (PhoneUtil.hasSdcard()) {
 
                                 File file = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                                        IMAGE_FILE_NAME);
+                                        IMAGE_FILE_NAMES[currentImageViewIndex]);
                                 intentFromCapture.putExtra(
                                         MediaStore.EXTRA_OUTPUT,
                                         Uri.fromFile(file));
@@ -116,7 +126,7 @@ public class ChangePictureActivity extends IShareActivity {
                 if (PhoneUtil.hasSdcard()) {
                     File tempFile = new File(
                             getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-                            IMAGE_FILE_NAME);
+                            IMAGE_FILE_NAMES[currentImageViewIndex]);
 
                     beginCrop(Uri.fromFile(tempFile));
                 } else {
@@ -132,7 +142,7 @@ public class ChangePictureActivity extends IShareActivity {
 
     private void beginCrop(Uri source) {
         // 可能是crop 库的问题， 后面的文件名必须不同，否则多次改变之后还是第一次的图片
-        picSaveFile = new File(getCacheDir(), "cropped" + cachePicIndex);
+        picSaveFile = new File(getCacheDir(), "credit_cropped" + cachePicIndex);
         cachePicIndex++;
         Uri outputUri = Uri.fromFile(picSaveFile);
         new Crop(source).output(outputUri).asSquare().start(this);
@@ -149,7 +159,7 @@ public class ChangePictureActivity extends IShareActivity {
 
     private void getImageToViewAndUploadToQiniu(Uri uri) {
 
-        imageView.setImageURI(uri);
+        changeImageView[currentImageViewIndex].setImageURI(uri);
 
         // 产生key 并且上传七牛
         String key = QiniuUtil.getInstance().generateKey("avatar");
@@ -163,62 +173,15 @@ public class ChangePictureActivity extends IShareActivity {
             }
         });
 
-        String avatarUrl = QiniuUtil.getInstance().getFileUrl(key);
+        String pictureUrl = QiniuUtil.getInstance().getFileUrl(key);
 
-        // 更新本地头像存储
-        User user = IShareContext.getInstance().getCurrentUser();
-        user.setAvatar(avatarUrl);
-        IShareContext.getInstance().saveCurrentUser(user);
-
-
-        // 发出广播通过头像改变
-        Intent intent = new Intent();
-        intent.setAction(BroadcastActionConstant.UPDATE_USER_AVATAR);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
-
-        // 通知服务器头像改变
-        httpInteract.updateAvatar(avatarUrl);
+        //callback 调用
+        callbacks[currentImageViewIndex].afterChangePicture(pictureUrl);
 
 
     }
 
-    class HttpInteract {
-        public void updateAvatar(String avatarUrl) {
 
-            List<BasicNameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("avatar", avatarUrl));
-            HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_USER_INFO, params, new HttpDataResponse() {
-                @Override
-                public void onRecvOK(HttpRequestBase request, String result) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(result);
-                        int status = jsonObject.getInt("status");
-                        if (status == 0) {
-                            Log.v(TAG, "update avatar   success");
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-
-                }
-
-                @Override
-                public void onRecvCancelled(HttpRequestBase request) {
-
-                }
-
-                @Override
-                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
-
-                }
-            });
-        }
-    }
 
 
 }

@@ -89,4 +89,7 @@ public class URLConstant {
     //我收藏的卡
     public static final String GET_I_COLLECT_CARD = SERVER_IP + "/collection/Get_Collection_C";
 
+    // 个人认证
+    public static final String UPDATE_CREDIT = SERVER_IP + "/user/Update_Credit_C";
+
 }

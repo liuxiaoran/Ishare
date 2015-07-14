@@ -5,6 +5,7 @@ import android.view.MenuItem;
 
 import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
+import com.galaxy.ishare.R;
 
 /**
  * Created by liuxiaoran on 15/7/13.
@@ -14,6 +15,7 @@ public class SettingActivity extends IShareActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         IShareContext.getInstance().createActionbar(this, true, "设置");
+        setContentView(R.layout.activity_setting);
     }
 
     @Override

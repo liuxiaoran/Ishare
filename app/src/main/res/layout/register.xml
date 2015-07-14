@@ -57,7 +57,7 @@
                     android:text="获取验证码"
                     android:textSize="14sp"
                     android:layout_alignParentRight="true"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/dark_secondary_text"
                     android:enabled="true"
                     android:id="@+id/register_get_confirm_btn"
                     android:background="@drawable/button_selector" />
@@ -83,22 +83,9 @@
         android:textSize="@dimen/body_text_size"
         android:textColor="@color/white"
         android:id="@+id/register_btn"
-        fbutton:cornerRadius="2dp"/>
+        fbutton:cornerRadius="2dp"
+        fbutton:buttonColor="@color/color_primary" />
 
-    <!--<RadioButton-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="显示密码"-->
-        <!--android:id="@+id/radioButton"-->
-        <!--android:layout_gravity="center_horizontal" />-->
-
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="显示密码"
-        android:id="@+id/checkBox"
-        android:layout_gravity="center_horizontal"
-         />
 
 </LinearLayout>
 

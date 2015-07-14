@@ -449,9 +449,6 @@
             android:value="745a8e1fdefd28e07578b984" />
         <!-- </>值来自开发者平台取得的AppKey -->
         <activity
-            android:name=".usercenter.UserCenterModifyNameActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".usercenter.me.CardIshareActivity"
             android:label="@string/title_activity_card_ishare"
             android:screenOrientation="portrait"></activity>

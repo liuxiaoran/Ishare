@@ -262,7 +262,7 @@ public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
                 .city(IShareContext.getInstance().getUserLocation().getCity())
                 .keyword(target)
                 .pageNum(0)
-                .pageCapacity(25));
+                .pageCapacity(50));
     }
 
     private void returnResult(String addr, double longitude, double latitude) {

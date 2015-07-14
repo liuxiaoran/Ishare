@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.galaxy.ishare.model.Settings;
 import com.galaxy.ishare.model.User;
 import org.apache.http.util.EncodingUtils;
 
@@ -51,6 +52,7 @@ public class IShareContext {
 
     private SharedPreferences mSharedPreferences;
     private  static User currentUser;
+    private static Settings currentSettings;
 
     public IShareContext() {
     }
@@ -72,6 +74,48 @@ public class IShareContext {
         }
         return mSharedPreferences;
     }
+
+    public void saveSettings(Settings settings) {
+        currentSettings = settings;
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        try {
+            ObjectOutputStream oos = new ObjectOutputStream(bao);
+            oos.writeObject(settings);
+
+            String base64 = new String(Base64.encode(bao.toByteArray(), Base64.DEFAULT));
+
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
+            editor.putString("settings", base64);
+            editor.commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public Settings getCurrentSettings() {
+        if (currentSettings == null) {
+            String settingsString = getSharedPreferences().getString("settings", null);
+
+            if (settingsString == null) {
+                return null;
+            }
+
+            byte[] settingsByte = Base64.decode(settingsString, Base64.DEFAULT);
+            ByteArrayInputStream bas = new ByteArrayInputStream(settingsByte);
+            try {
+                ObjectInputStream ois = new ObjectInputStream(bas);
+                currentSettings = (Settings) ois.readObject();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        return currentSettings;
+    }
+
 
     public void saveCurrentUser(User user) {
 

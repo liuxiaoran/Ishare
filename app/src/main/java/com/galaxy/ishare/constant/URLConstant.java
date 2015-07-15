@@ -77,7 +77,8 @@ public class URLConstant {
     // 用户评论相关
     // 得到用户评论
     public static final String ADD_CARD_COMMENT = SERVER_IP + "/comment/Add_Comment_C";
-    public static final String GET_CARD_COMMENTS = SERVER_IP + "/user/Comment_C/get";
+    public static final String GET_CARD_COMMENTS = SERVER_IP + "/comment/Get_Comment_C";
+
     public static final String UPDATE_ORDER_STATE = SERVER_IP + "/record/Record_C/update";
 
     // 用户发布请求
@@ -86,8 +87,12 @@ public class URLConstant {
     //card
     //我分享的卡
     public static final String GET_I_SHARE_CARD = SERVER_IP + "/card/Query_Card_I_Share";
-    //我收藏的卡
+
+    /*收藏
+     */
     public static final String GET_I_COLLECT_CARD = SERVER_IP + "/collection/Get_Collection_C";
+    public static final String ADD_COLLECTION = SERVER_IP + "/Add_Collection_C";
+    public static final String REMOVE_COLLOECTION = SERVER_IP + "/Delete_Colletion_C";
 
     // 个人认证
     public static final String UPDATE_CREDIT = SERVER_IP + "/user/Update_Credit_C";

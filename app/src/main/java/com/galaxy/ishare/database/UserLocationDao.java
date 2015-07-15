@@ -3,6 +3,7 @@ package com.galaxy.ishare.database;
 import android.content.Context;
 import android.util.Log;
 
+import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.model.UserLocation;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
@@ -69,8 +70,8 @@ public class UserLocationDao {
         return 0;
     }
 
-    public UserLocation find(int id) {
-        ArrayList<UserLocation> all = query();
+    public UserLocation find(int id, String userId) {
+        ArrayList<UserLocation> all = query(userId);
         for (UserLocation item : all) {
             if (item.id == id) {
                 return item;
@@ -79,11 +80,17 @@ public class UserLocationDao {
         return null;
     }
 
-    public ArrayList<UserLocation> query() {
+    public ArrayList<UserLocation> query(String userId) {
         try {
 
             ArrayList<UserLocation> items = (ArrayList) userAvailableDao.queryForAll();
-            return items;
+            ArrayList<UserLocation> retItems = new ArrayList<>();
+            for (UserLocation userLocation : items) {
+                if (userLocation.userId.equals(userId)) {
+                    retItems.add(userLocation);
+                }
+            }
+            return retItems;
         } catch (SQLException e) {
             e.printStackTrace();
         }

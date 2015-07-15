@@ -45,6 +45,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -208,7 +209,7 @@ public class CardDetailActivity extends IShareActivity {
         String[] trades = getResources().getStringArray(R.array.trade_items);
         shopAddrTv.setText(cardItem.shopLocation);
         shopDistanceTv.setText(cardItem.shopDistance + "");
-        String[] cardTypes = getResources().getStringArray(R.array.card_items);
+        final String[] cardTypes = getResources().getStringArray(R.array.card_items);
         cardTypeTv.setText(cardTypes[cardItem.wareType]);
         ownerDistanceTv.setText(cardItem.ownerDistance + "");
         descriptionTv.setText(cardItem.description);
@@ -230,7 +231,7 @@ public class CardDetailActivity extends IShareActivity {
             genderIv.setImageResource(R.drawable.icon_male);
         }
 
-        if (CollectionDao.getInstance(this).find(cardItem.id) != null) {
+        if (CollectionDao.getInstance(this).find(cardItem.id, IShareContext.getInstance().getCurrentUser().getUserId()) != null) {
             collectBtn.setText("取消收藏");
             collectBtn.setButtonColor(getResources().getColor(R.color.gray));
         } else {
@@ -243,13 +244,16 @@ public class CardDetailActivity extends IShareActivity {
             @Override
             public void onClick(View v) {
                 if (((FButton) v).getText().toString().equals("收藏")) {
+                    cardItem.setUserId(IShareContext.getInstance().getCurrentUser().getUserId());
                     CollectionDao.getInstance(CardDetailActivity.this).add(cardItem);
                     collectBtn.setText("取消收藏");
                     collectBtn.setButtonColor(getResources().getColor(R.color.gray));
+                    httpInteract.collectCard(cardItem.id + "");
                 } else {
                     CollectionDao.getInstance(CardDetailActivity.this).delete(cardItem);
                     collectBtn.setText("收藏");
                     collectBtn.setButtonColor(getResources().getColor(R.color.color_primary));
+                    httpInteract.unCollectCard(cardItem.id + "");
                 }
 
             }
@@ -395,6 +399,61 @@ public class CardDetailActivity extends IShareActivity {
             });
 
         }
+
+
+        public void collectCard(String cardId) {
+            List<BasicNameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("card_id", cardId));
+            HttpTask.startAsyncDataPostRequest(URLConstant.ADD_COLLECTION, params, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+                    Log.v(TAG, "collect success");
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+                    Log.v(TAG, "collect is error");
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
+
+        }
+
+        public void unCollectCard(String cardId) {
+            List<BasicNameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("card_id", JsonObjectUtil.parseArrayToJsonString(new String[]{cardId})));
+            HttpTask.startAsyncDataPostRequest(URLConstant.REMOVE_COLLOECTION, params, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+                    Log.v(TAG, "uncollect success");
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+                    Log.v(TAG, "collect is error");
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
+        }
+
     }
 
     private void putCommentIntoLayout(int beginIndex, int size) {
@@ -441,7 +500,6 @@ public class CardDetailActivity extends IShareActivity {
 
 
     }
-
     public void getComments(int cardId) {
 
         List<BasicNameValuePair> params = new ArrayList<>();
@@ -496,6 +554,5 @@ public class CardDetailActivity extends IShareActivity {
             }
         });
     }
-
 
 }

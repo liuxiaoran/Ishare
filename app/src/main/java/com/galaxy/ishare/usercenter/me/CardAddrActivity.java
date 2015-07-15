@@ -50,7 +50,7 @@ public class CardAddrActivity extends IShareActivity {
         availableListView = (ListView) findViewById(R.id.publishware_available_listview);
         newaddrLayout= (RelativeLayout) findViewById(R.id.publishware_available_newaddress_layout);
 
-        dataList = UserLocationDao.getInstance(this).query();
+        dataList = UserLocationDao.getInstance(this).query(IShareContext.getInstance().getCurrentUser().getUserId());
         if (dataList == null) {
             dataList = new ArrayList<>();
         }
@@ -86,7 +86,7 @@ public class CardAddrActivity extends IShareActivity {
     }
 
     public void setDataList() {
-        dataList = UserLocationDao.getInstance(this).query();
+        dataList = UserLocationDao.getInstance(this).query(IShareContext.getInstance().getCurrentUser().getUserId());
     }
 
     class ListViewAdapter extends BaseAdapter {

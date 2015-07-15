@@ -473,7 +473,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
         availableLayout.removeAllViews();
         ownerAvailableList.clear();
         // 得到有空的列表，构造ownerAvailableList， 上传服务器
-        ArrayList<UserLocation> cardItemArrayList = UserLocationDao.getInstance(this).query();
+        ArrayList<UserLocation> cardItemArrayList = UserLocationDao.getInstance(this).query(IShareContext.getInstance().getCurrentUser().getUserId());
         if (cardItemArrayList != null) {
             for (UserLocation item : cardItemArrayList) {
 

@@ -52,7 +52,7 @@ public class CardICollectActivity extends IShareActivity {
         setContentView(R.layout.activity_card_ishare);
 
         IShareContext.getInstance().createActionbar(this, true, "我的收藏");
-        dataList = CollectionDao.getInstance(this).query();
+        dataList = CollectionDao.getInstance(this).query(IShareContext.getInstance().getCurrentUser().getUserId());
         if (dataList == null) {
             dataList = new ArrayList<>();
         }

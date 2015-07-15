@@ -69,8 +69,8 @@ public class CollectionDao {
         return 0;
     }
 
-    public CardItem find(int id) {
-        ArrayList<CardItem> all = query();
+    public CardItem find(int id, String userId) {
+        ArrayList<CardItem> all = query(userId);
         for (CardItem item : all) {
             if (item.id == id) {
                 return item;
@@ -79,11 +79,17 @@ public class CollectionDao {
         return null;
     }
 
-    public ArrayList<CardItem> query() {
+    public ArrayList<CardItem> query(String userId) {
         try {
 
             ArrayList<CardItem> items = (ArrayList) collectionDao.queryForAll();
-            return items;
+            ArrayList<CardItem> retItems = new ArrayList<>();
+            for (CardItem cardItem : items) {
+                if (cardItem.userId.equals(userId)) {
+                    retItems.add(cardItem);
+                }
+            }
+            return retItems;
         } catch (SQLException e) {
             e.printStackTrace();
         }

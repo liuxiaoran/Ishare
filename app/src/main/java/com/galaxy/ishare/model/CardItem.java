@@ -11,6 +11,10 @@ import com.j256.ormlite.field.DatabaseField;
  */
 public class CardItem implements Parcelable {
 
+    // 为了支持多用户，存储本次登录用户
+    @DatabaseField
+    public String userId;
+
     @DatabaseField
     public int id;
     @DatabaseField
@@ -72,7 +76,7 @@ public class CardItem implements Parcelable {
     
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(userId);
         dest.writeInt(id);
         dest.writeString(ownerId);
         dest.writeString(ownerName);
@@ -112,7 +116,7 @@ public class CardItem implements Parcelable {
 
     }
     public CardItem(Parcel  in){
-
+        this.userId = in.readString();
         this.id = in.readInt();
         this.ownerId= in.readString();
         this.ownerName = in.readString();
@@ -214,6 +218,11 @@ public class CardItem implements Parcelable {
         }
         return Double.toString(discount);
     }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
 
     public void setRequesterLocation(String location) {
         this.requesterLocation = location;

@@ -279,6 +279,7 @@ public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
         }
         // 将地址写入数据库
         UserLocation userLocation = new UserLocation();
+        userLocation.setUserId(IShareContext.getInstance().getCurrentUser().getUserId());
         userLocation.setAddress(addr);
         userLocation.setLongitude(longitude);
         userLocation.setLatitude(latitude);

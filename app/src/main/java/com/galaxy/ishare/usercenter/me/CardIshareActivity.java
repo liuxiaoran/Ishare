@@ -47,6 +47,8 @@ public class CardIshareActivity extends IShareActivity {
     private Vector<CardItem> dataList;
     private CardListItemAdapter cardListItemAdapter;
 
+    public static final String CARDISHARE_TO_DETAIL = "CARDISHARE_TO_DETAIL";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,16 @@ public class CardIshareActivity extends IShareActivity {
 
         cardListItemAdapter = new CardListItemAdapter(dataList, this, false);
         shareCardsListView.setAdapter(cardListItemAdapter);
+
+        shareCardsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CardIshareActivity.this, CardDetailActivity.class);
+                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
+                intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, CARDISHARE_TO_DETAIL);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

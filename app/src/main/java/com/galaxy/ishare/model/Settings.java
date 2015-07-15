@@ -1,9 +1,11 @@
 package com.galaxy.ishare.model;
 
+import java.io.Serializable;
+
 /**
  * Created by liuxiaoran on 15/7/14.
  */
-public class Settings {
+public class Settings implements Serializable {
 
     public boolean receiveNewMessage;
     public boolean openVoice;

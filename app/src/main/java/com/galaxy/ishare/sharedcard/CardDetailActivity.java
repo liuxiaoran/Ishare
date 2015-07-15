@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -30,6 +29,7 @@ import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.usercenter.me.CardIshareActivity;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
@@ -45,10 +45,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -93,7 +90,8 @@ public class CardDetailActivity extends IShareActivity {
     public int currentLastCommentIndex;
     private TextView moreCommentTv;
     private FButton collectBtn;
-
+    private LinearLayout editLayout;
+    private FButton editBtn, deleteBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +139,7 @@ public class CardDetailActivity extends IShareActivity {
 //            }
 //        });
 
+
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,6 +172,25 @@ public class CardDetailActivity extends IShareActivity {
         WidgetController.getInstance().setRatingLayout(cardItem.ratingCount, this, ratingLayout);
 
         getComments(cardItem.id);
+
+        editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+//                params.add(new BasicNameValuePair("card_ids",));
+            }
+        });
+        // 从我-》我的分享中进来的，需要隐藏一些视图
+        if (getIntent().getStringExtra(PARAMETER_WHO_SEND).equals(CardIshareActivity.CARDISHARE_TO_DETAIL)) {
+
+        }
 
     }
 
@@ -290,6 +308,10 @@ public class CardDetailActivity extends IShareActivity {
 
         moreCommentTv = (TextView) findViewById(R.id.share_item_detail_more_comment_tv);
         collectBtn = (FButton) findViewById(R.id.share_item_collect_btn);
+        editLayout = (LinearLayout) findViewById(R.id.share_item_detail_edit_layout);
+        editBtn = (FButton) findViewById(R.id.share_item_detail_edit_btn);
+        deleteBtn = (FButton) findViewById(R.id.share_item_detail_delete_btn);
+
 
     }
 
@@ -500,6 +522,7 @@ public class CardDetailActivity extends IShareActivity {
 
 
     }
+
     public void getComments(int cardId) {
 
         List<BasicNameValuePair> params = new ArrayList<>();

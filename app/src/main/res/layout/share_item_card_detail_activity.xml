@@ -321,6 +321,41 @@
 
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:id="@+id/share_item_detail_edit_layout"
+                android:visibility="invisible">
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/share_item_detail_edit_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:text="编辑"
+                    android:layout_marginRight="8dp"
+                    app:shadowEnabled="false"
+                    app:cornerRadius="0dp"
+                    app:buttonColor="@color/color_primary"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/primary_text" />
+
+                <info.hoang8f.widget.FButton
+                    android:id="@+id/share_item_detail_delete_btn"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="1"
+                    android:text="删除"
+                    app:shadowEnabled="false"
+                    app:cornerRadius="0dp"
+                    app:buttonColor="@color/color_primary"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/primary_text" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
@@ -343,7 +378,7 @@
             fab:fab_colorRipple="@color/floating_btn_ripple"
             fab:fab_shadow="true"
             fab:fab_type="mini" />
-        />
+
     </FrameLayout>
 </FrameLayout>
 

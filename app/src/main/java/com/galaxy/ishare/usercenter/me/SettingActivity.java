@@ -11,6 +11,7 @@ import com.galaxy.ishare.R;
  * Created by liuxiaoran on 15/7/13.
  */
 public class SettingActivity extends IShareActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

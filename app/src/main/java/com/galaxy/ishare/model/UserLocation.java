@@ -5,7 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 /**
  * Created by liuxiaoran on 15/6/13.
  */
-public class UserAvailable {
+public class UserLocation {
 
     @DatabaseField(generatedId = true)
     public int id;
@@ -13,11 +13,6 @@ public class UserAvailable {
     @DatabaseField(columnName = "addr")
     public String address;
 
-    @DatabaseField(columnName = "begintime")
-    public String beginTime;
-
-    @DatabaseField(columnName = "endtime")
-    public String endTime;
 
     @DatabaseField(columnName = "longitude")
     public double longitude;
@@ -25,21 +20,17 @@ public class UserAvailable {
     @DatabaseField(columnName = "latitude")
     public double latitude;
 
-    @DatabaseField(columnName = "selected")
-    public int isSelected;
 
-    public UserAvailable() {
+    public UserLocation() {
 
     }
 
-    public UserAvailable(String address, String beginTime, String endTime, double longitide, double latitude, int isSelected) {
+    public UserLocation(String address, String beginTime, String endTime, double longitide, double latitude) {
 
         this.address = address;
-        this.beginTime = beginTime;
-        this.endTime = endTime;
         this.longitude = longitide;
         this.latitude = latitude;
-        this.isSelected = isSelected;
+
     }
 
     public void setAddress(String address) {
@@ -54,8 +45,5 @@ public class UserAvailable {
         this.latitude = latitude;
     }
 
-    public void setIsSelected(int isSelected) {
-        this.isSelected = isSelected;
-    }
 
 }

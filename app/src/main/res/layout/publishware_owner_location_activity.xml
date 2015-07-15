@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pubishware_available_linearlayout"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp">
@@ -10,15 +8,12 @@
     <RelativeLayout
         android:id="@+id/publishware_available_listview_relativelayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
         <ListView
             android:id="@+id/publishware_available_listview"
             android:layout_width="match_parent"
-            android:layout_height="480dp"
-            android:layout_marginTop="15dp"
-            android:background="@color/white"/>
+            android:layout_height="wrap_content" />
 
         <RelativeLayout
             android:id="@+id/publishware_available_newaddress_layout"
@@ -32,10 +27,10 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/red_plus_icon"
-                android:layout_toLeftOf="@+id/publishware_available_newaddress"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="5dp"/>
+                android:layout_marginRight="5dp"
+                android:layout_toLeftOf="@+id/publishware_available_newaddress"
+                android:src="@drawable/red_plus_icon" />
 
             <TextView
                 android:id="@+id/publishware_available_newaddress"
@@ -44,8 +39,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="新增地址"
-                android:textSize="15dp"
-                android:textColor="@color/red"/>
+                android:textColor="@color/color_primary"
+                android:textSize="15sp" />
         </RelativeLayout>
     </RelativeLayout>
 

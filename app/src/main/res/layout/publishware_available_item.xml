@@ -10,12 +10,7 @@
         android:id="@+id/publishware_available_item_addr_tv"
         android:singleLine="true" />
 
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:textSize="@dimen/hint_text"-->
-    <!--android:textColor="@color/dark_secondary_text"-->
-    <!--android:id="@+id/publishware_available_item_time_tv" />-->
+
     <View style="@style/horizontal_divider" />
 
 </LinearLayout>

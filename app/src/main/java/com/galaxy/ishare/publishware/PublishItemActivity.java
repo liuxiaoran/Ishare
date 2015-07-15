@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -34,11 +33,11 @@ import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
-import com.galaxy.ishare.database.UserAvailableDao;
+import com.galaxy.ishare.database.UserLocationDao;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
-import com.galaxy.ishare.model.UserAvailable;
+import com.galaxy.ishare.model.UserLocation;
 import com.galaxy.ishare.utils.ImageParseUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
@@ -474,13 +473,11 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
         availableLayout.removeAllViews();
         ownerAvailableList.clear();
         // 得到有空的列表，构造ownerAvailableList， 上传服务器
-        ArrayList<UserAvailable> cardItemArrayList = UserAvailableDao.getInstance(this).query();
+        ArrayList<UserLocation> cardItemArrayList = UserLocationDao.getInstance(this).query();
         if (cardItemArrayList != null) {
-            for (UserAvailable item : cardItemArrayList) {
-                if (item.isSelected == 1) {
-                    HashMap hashMap = new HashMap();
+            for (UserLocation item : cardItemArrayList) {
 
-                    hashMap.put("time", item.beginTime + "--" + item.endTime);
+                HashMap hashMap = new HashMap();
                     hashMap.put("longitude", item.longitude + "");
                     hashMap.put("latitude", item.latitude + "");
                     hashMap.put("location", item.address);
@@ -488,11 +485,9 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
                     View availableItem = getLayoutInflater().inflate(R.layout.publishware_available_item, null);
                     TextView addrTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_addr_tv);
-                    //TextView timeTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_time_tv);
                     addrTv.setText(item.address);
-                    //timeTv.setText(item.beginTime + "--" + item.endTime);
                     availableLayout.addView(availableItem);
-                }
+
 
             }
         }

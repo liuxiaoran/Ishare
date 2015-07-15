@@ -3,7 +3,6 @@ package com.galaxy.ishare.publishware;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -42,8 +41,9 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
-import com.galaxy.ishare.database.UserAvailableDao;
-import com.galaxy.ishare.model.UserAvailable;
+import com.galaxy.ishare.database.UserLocationDao;
+import com.galaxy.ishare.model.UserLocation;
+import com.galaxy.ishare.usercenter.me.CardAddrActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,9 +60,9 @@ public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
     public static final String PARAMETER_ADDR = "PARAMETER_ADDR";
     public static final String PARAMETER_REQUEST_CODE = "PARAMETER_REQUEST_CODE";
 
-    public static final int ADD_TO_MAP_REQUEST_CODE = 1;
-    public static final int EDIT_TO_MAP_REQUEST_CODE = 2;
+
     public static final int PUBLISH_TO_MAP_REQUEST_CODE = 3;
+    public static final int CARDADDR_TO_ADDRSEARCH = 2;
 
     public static final String LOCATION_ADDR = "LOCATION_ADDR";
     public static final String LOCATION_LONGITUDE = "LOCATION_LONGITUDE";
@@ -104,6 +104,9 @@ public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
 
         requestCode = getIntent().getIntExtra(PARAMETER_REQUEST_CODE, 0);
         targetAddr = getIntent().getStringExtra(PARAMETER_ADDR);
+        if (targetAddr == null) {
+            targetAddr = IShareContext.getInstance().getCurrentUser().getUserLocation().getLocationStr();
+        }
 
         initViews();
         // 将用户现在的位置设置默认的位置
@@ -268,34 +271,26 @@ public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
     private void returnResult(String addr, double longitude, double latitude) {
         Intent ret = null;
         int resultCode = 0;
-        if (requestCode == ADD_TO_MAP_REQUEST_CODE) {
 
-            ret = new Intent(this, CardOwnerAvailableAddActivity.class);
-            resultCode = CardOwnerAvailableAddActivity.MAP_TO_ADD_RESULT_CODE;
-
-        } else if (requestCode == EDIT_TO_MAP_REQUEST_CODE) {
-            ret = new Intent(this, CardOwnerAvailableEditActivity.class);
-            resultCode = 0;
-        }
         if (ret != null) {
             ret.putExtra(LOCATION_ADDR, addr);
             ret.putExtra(LOCATION_LONGITUDE, longitude);
             ret.putExtra(LOCATION_LATITIDE, latitude);
         }
-
+        // 将地址写入数据库
+        UserLocation userLocation = new UserLocation();
+        userLocation.setAddress(addr);
+        userLocation.setLongitude(longitude);
+        userLocation.setLatitude(latitude);
+        UserLocationDao.getInstance(this).add(userLocation);
         if (requestCode == PUBLISH_TO_MAP_REQUEST_CODE) {
 
             resultCode = PublishItemActivity.ADDR_SEARCH_TO_PUBLISH;
-            // 将地址写入数据库
-            UserAvailable userAvailable = new UserAvailable();
-            userAvailable.setAddress(addr);
-            userAvailable.setIsSelected(1);
-            userAvailable.setLongitude(longitude);
-            userAvailable.setLatitude(latitude);
-            UserAvailableDao.getInstance(this).add(userAvailable);
 
+
+        } else if (requestCode == CARDADDR_TO_ADDRSEARCH) {
+            resultCode = CardAddrActivity.ADDR_SEARCH_TO_CARD_ADD_RESULT_CODE;
         }
-
         setResult(resultCode, ret);
         this.finish();
 

@@ -26,6 +26,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.usercenter.me.CardAddrActivity;
 import com.galaxy.ishare.usercenter.me.CardICollectActivity;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
 import com.galaxy.ishare.usercenter.me.CardRequestActivity;
@@ -62,6 +63,7 @@ public class MeFragment extends IShareFragment {
     private RelativeLayout cardICollectLayout;
     private RelativeLayout contactKeFuLayout;
     private RelativeLayout phoneLayout;
+    private RelativeLayout addrLayout;
     private LinearLayout creditLayout;
     private LinearLayout manLayout, womanLayout;
     private HttpInteract httpInteract;
@@ -146,7 +148,7 @@ public class MeFragment extends IShareFragment {
         creditLayout = (LinearLayout) view.findViewById(R.id.usercenter_credit_layout);
         manLayout = (LinearLayout) view.findViewById(R.id.usercenter_gender_man_layout);
         womanLayout = (LinearLayout) view.findViewById(R.id.usercenter_gender_woman_layout);
-
+        addrLayout = (RelativeLayout) view.findViewById(R.id.usercenter_address_layout);
 
         manGenderIv = (ImageView) view.findViewById(R.id.usercenter_man_gender_iv);
         womanGenderIv = (ImageView) view.findViewById(R.id.usercenter_woman_gender_iv);
@@ -198,6 +200,13 @@ public class MeFragment extends IShareFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), BindPhoneActivity.class);
                 intent.putExtra(BindPhoneActivity.PARAMETER_WHO_COME, MeFragment.ME_TO_BIND_PHONE);
+                startActivity(intent);
+            }
+        });
+        addrLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CardAddrActivity.class);
                 startActivity(intent);
             }
         });

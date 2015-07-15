@@ -3,9 +3,7 @@ package com.galaxy.ishare.database;
 import android.content.Context;
 import android.util.Log;
 
-import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
-import com.galaxy.ishare.model.UserAvailable;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 

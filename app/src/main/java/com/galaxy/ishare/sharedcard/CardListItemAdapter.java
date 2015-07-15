@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.utils.DisplayUtil;
@@ -19,11 +18,9 @@ import com.galaxy.ishare.utils.QiniuUtil;
 import com.galaxy.ishare.utils.WidgetController;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.util.LinkedList;
+import java.nio.InvalidMarkException;
 import java.util.Vector;
 
 /**
@@ -35,6 +32,7 @@ public class CardListItemAdapter extends BaseAdapter {
     private Vector<CardItem> dataList;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
+    private boolean showDistance = true;
 
     public CardListItemAdapter(Vector<CardItem> data, Context context) {
         this.dataList = data;
@@ -43,7 +41,12 @@ public class CardListItemAdapter extends BaseAdapter {
 
     }
 
-
+    public CardListItemAdapter(Vector<CardItem> data, Context context, boolean showDistance) {
+        this.dataList = data;
+        mContext = context;
+        mLayoutInflater = LayoutInflater.from(context);
+        this.showDistance = showDistance;
+    }
     @Override
     public int getCount() {
         return dataList.size();
@@ -76,7 +79,8 @@ public class CardListItemAdapter extends BaseAdapter {
             cardHolder.ratingLayout = (LinearLayout) convertView.findViewById(R.id.share_item_listview_item_rating_layout);
             cardHolder.rentCountTv = (TextView) convertView.findViewById(R.id.share_item_listview_item_rent_count_tv);
             cardHolder.commentCountTv = (TextView) convertView.findViewById(R.id.share_item_listview_item_comment_count_tv);
-
+            cardHolder.peopleIconIv = (ImageView) convertView.findViewById(R.id.share_item_listview_item_people_iv);
+            cardHolder.locateIconIv = (ImageView) convertView.findViewById(R.id.share_item_listview_locate_iv);
             convertView.setTag(cardHolder);
 
 
@@ -92,7 +96,7 @@ public class CardListItemAdapter extends BaseAdapter {
         String[] cardItems = mContext.getResources().getStringArray(R.array.card_items);
         cardHolder.cardTypeTv.setText(cardItems[cardItem.wareType]);
         cardHolder.discountTv.setText(cardItem.getStringDiscount());
-        cardHolder.shopDistanceTv.setText(cardItem.shopDistance + "");
+        cardHolder.shopDistanceTv.setText(cardItem.shopDistance + "km");
         cardHolder.ownerDistanceTv.setText(cardItem.ownerDistance + "km");
         cardHolder.rentCountTv.setText(cardItem.rentCount + "");
         cardHolder.commentCountTv.setText(cardItem.commentCount + "");
@@ -112,7 +116,6 @@ public class CardListItemAdapter extends BaseAdapter {
         WidgetController.getInstance().setRatingLayout(cardItem.ratingCount, mContext, cardHolder.ratingLayout);
 
 
-
         if (cardItem.cardImgs != null && cardItem.cardImgs.length > 0) {
 
             final String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
@@ -121,7 +124,39 @@ public class CardListItemAdapter extends BaseAdapter {
             finalCardHolder.cardIv.setTag(thumbnailUrl);
 
             ImageLoader.getInstance().displayImage(thumbnailUrl, finalCardHolder.cardIv);
+            Log.v(TAG, thumbnailUrl + "---thumbnail");
+//          ImageLoader.getInstance().displayImage(thumbnailUrl, finalCardHolder.cardIv, new ImageLoadingListener() {
+//                @Override
+//                public void onLoadingStarted(String imageUri, View view) {
+//
+//                }
+//
+//                @Override
+//                public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+//
+//                }
+//
+//                @Override
+//                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//
+//                    if (((String) view.getTag()).equals(thumbnailUrl)) {
+//                        ((ImageView) view).setImageBitmap(loadedImage);
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onLoadingCancelled(String imageUri, View view) {
+//                }
+//            });
 
+        }
+
+        if (!showDistance) {
+            cardHolder.ownerDistanceTv.setVisibility(View.INVISIBLE);
+            cardHolder.shopDistanceTv.setVisibility(View.INVISIBLE);
+            cardHolder.peopleIconIv.setVisibility(View.INVISIBLE);
+            cardHolder.locateIconIv.setVisibility(View.INVISIBLE);
         }
 
         return convertView;
@@ -138,5 +173,7 @@ public class CardListItemAdapter extends BaseAdapter {
         public LinearLayout ratingLayout;
         public TextView rentCountTv;
         public TextView commentCountTv;
+        public ImageView peopleIconIv;
+        public ImageView locateIconIv;
     }
 }

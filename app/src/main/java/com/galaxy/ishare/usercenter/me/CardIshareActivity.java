@@ -21,6 +21,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.sharedcard.CardDetailActivity;
+import com.galaxy.ishare.sharedcard.CardListItemAdapter;
 import com.galaxy.ishare.sharedcard.PullToRefreshBase;
 import com.galaxy.ishare.sharedcard.PullToRefreshListView;
 import com.galaxy.ishare.utils.JsonObjectUtil;
@@ -34,27 +35,32 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 
 public class CardIshareActivity extends IShareActivity {
     public static final String INTENT_ITEM_TO_DETAIL = "INTENT_ITEM_TO_DETAIL";
 
-
-
     private HttpInteract httpInteract;
 
+    public ListView shareCardsListView;
 
-    private Context mContext;
+    private Vector<CardItem> dataList;
+    private CardListItemAdapter cardListItemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_ishare);
 
-        mContext = this;
+        shareCardsListView = (ListView) findViewById(R.id.usenter_ishare_listview);
         httpInteract = new HttpInteract();
+        dataList = new Vector<>();
         IShareContext.getInstance().createActionbar(this, true, "我分享的卡");
 
+        httpInteract.loadData();
 
+        cardListItemAdapter = new CardListItemAdapter(dataList, this, false);
+        shareCardsListView.setAdapter(cardListItemAdapter);
     }
 
     @Override
@@ -66,22 +72,18 @@ public class CardIshareActivity extends IShareActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
     class HttpInteract {
 
-
-
-        public void loadData(int pageNum) {
+        public void loadData() {
 
 
             List<BasicNameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("page_num", pageNum + ""));
+            params.add(new BasicNameValuePair("page_num", 1 + ""));
+            params.add(new BasicNameValuePair("page_size", 100000 + ""));
             HttpTask.startAsyncDataPostRequest(URLConstant.GET_I_SHARE_CARD, params, new HttpDataResponse() {
                         @Override
                         public void onRecvOK(HttpRequestBase request, String result) {
-                            boolean hasMoreData = true;
+
                             JSONObject jsonObject = null;
                             try {
                                 jsonObject = new JSONObject(result);
@@ -92,16 +94,12 @@ public class CardIshareActivity extends IShareActivity {
                                     for (int i = 0; i < jsonArray.length(); i++) {
 
                                         JSONObject card = jsonArray.getJSONObject(i);
-
                                         CardItem cardItem = JsonObjectUtil.parseJsonObjectToCardItem(card);
-
+                                        dataList.add(cardItem);
                                     }
-                                    if (jsonArray.length() == 0) {
-                                        hasMoreData = false;
-                                    }
-
 
                                 }
+                                cardListItemAdapter.notifyDataSetChanged();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

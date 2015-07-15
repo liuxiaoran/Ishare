@@ -135,12 +135,12 @@
             android:value="WHCcaGCrXEVRX3LGcOqEKslN" />
 
         <meta-data
-            android:value="555308aee0f55a3707003fe7"
-            android:name="UMENG_APPKEY"></meta-data>
+            android:name="UMENG_APPKEY"
+            android:value="555308aee0f55a3707003fe7"></meta-data>
         <!-- channel id:Channel ID 替换为您应用的推广渠道名称，channel id自定义 -->
         <meta-data
-            android:value="Channel ID"
-            android:name="UMENG_CHANNEL" />
+            android:name="UMENG_CHANNEL"
+            android:value="Channel ID" />
 
 
         <activity
@@ -211,39 +211,15 @@
                 android:value=".publishware.ShopLocateSearchActivity" />
         </activity>
         <activity
-            android:name=".publishware.CardOwnerAvailableShowActivity"
+            android:name=".usercenter.me.CardAddrActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".publishware.CardOwnerAvailableAddActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:parentActivityName=".publishware.CardOwnerAvailableShowActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".publishware.CardOwnerAvailableShowActivity" />
-        </activity>
-        <activity
             android:name=".publishware.CardOwnerAvailableAddrSearchActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:parentActivityName=".publishware.CardOwnerAvailableAddActivity"
             android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".publishware.CardOwnerAvailableAddActivity" />
-        </activity>
-        <activity
-            android:name=".publishware.CardOwnerAvailableEditActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:parentActivityName=".publishware.CardOwnerAvailableShowActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".publishware.CardOwnerAvailableShowActivity" />
         </activity>
         <activity
             android:name=".publishware.PreviewPictureActivity"
@@ -372,9 +348,9 @@
 
         <activity
             android:name=".usercenter.UserCreditActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop">
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".sharedcard.CardDetailActivity" />

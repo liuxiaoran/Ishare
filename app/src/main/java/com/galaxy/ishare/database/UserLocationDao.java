@@ -3,9 +3,7 @@ package com.galaxy.ishare.database;
 import android.content.Context;
 import android.util.Log;
 
-import com.galaxy.ishare.model.Friend;
-import com.galaxy.ishare.model.User;
-import com.galaxy.ishare.model.UserAvailable;
+import com.galaxy.ishare.model.UserLocation;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 
@@ -15,27 +13,27 @@ import java.util.ArrayList;
 /**
  * Created by liuxiaoran on 15/6/13.
  */
-public class UserAvailableDao {
+public class UserLocationDao {
 
-    public static UserAvailableDao instance;
+    public static UserLocationDao instance;
     private Context context;
-    private Dao<UserAvailable, Integer> userAvailableDao;
+    private Dao<UserLocation, Integer> userAvailableDao;
     private DataBaseHelper helper;
     public static final String TAG = "UserAvailableDao";
 
-    private UserAvailableDao(Context context) {
+    private UserLocationDao(Context context) {
         this.context = context;
         try {
             helper = DataBaseHelper.getHelper(context);
-            userAvailableDao = helper.getDao(UserAvailable.class);
+            userAvailableDao = helper.getDao(UserLocation.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static UserAvailableDao getInstance(Context context) {
+    public static UserLocationDao getInstance(Context context) {
         if (instance == null) {
-            instance = new UserAvailableDao(context);
+            instance = new UserLocationDao(context);
         }
         return instance;
     }
@@ -45,7 +43,7 @@ public class UserAvailableDao {
      *
      * @param
      */
-    public int add(UserAvailable availableItem) {
+    public int add(UserLocation availableItem) {
         int id = 0;
         try {
             id = userAvailableDao.create(availableItem);
@@ -60,7 +58,7 @@ public class UserAvailableDao {
     public int deleteAvailableById(int id) {
         try {
             // 删除指定的信息，类似delete User where 'id' = id ;
-            DeleteBuilder<UserAvailable, Integer> deleteBuilder = userAvailableDao.deleteBuilder();
+            DeleteBuilder<UserLocation, Integer> deleteBuilder = userAvailableDao.deleteBuilder();
             deleteBuilder.where().eq("id", id);
 
             return deleteBuilder.delete();
@@ -71,9 +69,9 @@ public class UserAvailableDao {
         return 0;
     }
 
-    public UserAvailable find(int id) {
-        ArrayList<UserAvailable> all = query();
-        for (UserAvailable item : all) {
+    public UserLocation find(int id) {
+        ArrayList<UserLocation> all = query();
+        for (UserLocation item : all) {
             if (item.id == id) {
                 return item;
             }
@@ -81,10 +79,10 @@ public class UserAvailableDao {
         return null;
     }
 
-    public ArrayList<UserAvailable> query() {
+    public ArrayList<UserLocation> query() {
         try {
 
-            ArrayList<UserAvailable> items = (ArrayList) userAvailableDao.queryForAll();
+            ArrayList<UserLocation> items = (ArrayList) userAvailableDao.queryForAll();
             return items;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,7 +90,7 @@ public class UserAvailableDao {
         return null;
     }
 
-    public void update(UserAvailable item) {
+    public void update(UserLocation item) {
         try {
             userAvailableDao.update(item);
         } catch (SQLException e) {
@@ -100,7 +98,7 @@ public class UserAvailableDao {
         }
     }
 
-    public void delete(UserAvailable item) {
+    public void delete(UserLocation item) {
         try {
             userAvailableDao.delete(item);
 

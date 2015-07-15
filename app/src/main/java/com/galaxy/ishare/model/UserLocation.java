@@ -10,6 +10,9 @@ public class UserLocation {
     @DatabaseField(generatedId = true)
     public int id;
 
+    @DatabaseField(columnName = "userid")
+    public String userId;
+
     @DatabaseField(columnName = "addr")
     public String address;
 
@@ -45,5 +48,8 @@ public class UserLocation {
         this.latitude = latitude;
     }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
 }

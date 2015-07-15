@@ -23,6 +23,7 @@ import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.chat.ChatManager;
 import com.galaxy.ishare.constant.URLConstant;
+import com.galaxy.ishare.database.CollectionDao;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
@@ -224,24 +225,32 @@ public class CardDetailActivity extends IShareActivity {
 
         commentCountTv.setText(cardItem.getCommentCount() + "");
 
-        Log.e(TAG, (cardItem == null) + "");
-        Log.e(TAG, (cardItem.ownerGender == null) + "");
+
         if ("男".equals(cardItem.ownerGender)) {
             genderIv.setImageResource(R.drawable.icon_male);
         }
 
+        if (CollectionDao.getInstance(this).find(cardItem.id) != null) {
+            collectBtn.setText("取消收藏");
+            collectBtn.setButtonColor(getResources().getColor(R.color.gray));
+        } else {
+            collectBtn.setText("收藏");
+            collectBtn.setButtonColor(getResources().getColor(R.color.color_primary));
+        }
 
-        moreCommentTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         collectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (((FButton) v).getText().toString().equals("收藏")) {
+                    CollectionDao.getInstance(CardDetailActivity.this).add(cardItem);
+                    collectBtn.setText("取消收藏");
+                    collectBtn.setButtonColor(getResources().getColor(R.color.gray));
+                } else {
+                    CollectionDao.getInstance(CardDetailActivity.this).delete(cardItem);
+                    collectBtn.setText("收藏");
+                    collectBtn.setButtonColor(getResources().getColor(R.color.color_primary));
+                }
 
             }
         });
@@ -302,7 +311,7 @@ public class CardDetailActivity extends IShareActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if (getIntent().getStringExtra(PARAMETER_WHO_SEND).equals(ItemListFragment.INTENT_ITEM_TO_DETAIL)) {
+            if (ItemListFragment.INTENT_ITEM_TO_DETAIL.equals(getIntent().getStringExtra(PARAMETER_WHO_SEND))) {
                 NavUtils.navigateUpFromSameTask(this);
             } else {
                 this.finish();
@@ -466,13 +475,14 @@ public class CardDetailActivity extends IShareActivity {
                         currentLastCommentIndex += jsonArray.length();
                     }
                 } catch (JSONException e) {
+                    Log.v(TAG, e.toString());
                     e.printStackTrace();
                 }
             }
 
             @Override
             public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-
+                Log.v(TAG, "get detail is error");
             }
 
             @Override

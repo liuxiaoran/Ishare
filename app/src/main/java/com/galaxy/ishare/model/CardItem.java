@@ -3,45 +3,68 @@ package com.galaxy.ishare.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+
 /**
  * Created by liuxiaoran on 15/5/16.
  */
 public class CardItem implements Parcelable {
 
+    @DatabaseField
     public int id;
+    @DatabaseField
     public String ownerId;
+
+    @DatabaseField
     public String ownerName;
+    @DatabaseField
     public String shopName;
+    @DatabaseField
     public int wareType;
 
-
+    @DatabaseField
     public double discount;
+    @DatabaseField
     public int tradeType;
+    @DatabaseField
     public String shopLocation;
+    @DatabaseField
     public double shopLongitude;
+    @DatabaseField
     public double shopLatitude;
+    @DatabaseField
     public double shopDistance;
+    @DatabaseField
     public String description;
 
     public String availableTime;  // 卡主最近的空闲地点对应的卡主的时间
+    @DatabaseField
     public double ownerLongitude;
+    @DatabaseField
     public double ownerLatitude;
+    @DatabaseField
     public String ownerLocation;  // 卡主最近的空闲的地点
+    @DatabaseField
     public double ownerDistance;
 
-
+    @DatabaseField
     public String ownerAvatar;
+    @DatabaseField
     public String cardStatus;
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
     public String []cardImgs;
-
+    @DatabaseField
     public String publishTime;
-
+    @DatabaseField
     public int rentCount;
+    @DatabaseField
     public int commentCount;
+    @DatabaseField
     public double ratingCount;
-
+    @DatabaseField
     public String ownerGender;
-
+    @DatabaseField
     public String requesterLocation; // 请求界面中请求者的地址
 
 

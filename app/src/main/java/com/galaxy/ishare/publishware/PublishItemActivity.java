@@ -82,7 +82,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
     private EditText descriptionEt;
     private MyClickListener myClickListener;
 
-    private TextView discountTv, changeAvailableTv, shopLocationTv;
+    private TextView discountTv, changeAvailableTv, shopLocationTv, commissionTv;
 
     private RadioButton chargeRb, memberRb, meirongRb, meifaRb, meijiaRb, qinziRb, otherRb;
 
@@ -106,6 +106,8 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
     public int discountInteger;
     public int discountDecimal;
+    public int commissionInteger;
+    public int commissionDecimal;
 
 
     private GridView photoGridView;
@@ -120,8 +122,9 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
     private LinearLayout shopNameLayout;
 
-    private RelativeLayout discountLayout;
-    private ImageView shopNameHintIv, shopAddrHintIv, discountHintIv, descriptionHintIv;
+    private RelativeLayout discountLayout, commissionLayout;
+    private ImageView shopNameHintIv, shopAddrHintIv, discountHintIv, descriptionHintIv, commissionHintIv;
+
 
 //    Handler poiSearchHandler = new Handler() {
 //        @Override
@@ -306,7 +309,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
             }
         });
 
-
+        commissionLayout.setOnClickListener(myClickListener);
     }
 
     private void findViewsById() {
@@ -342,6 +345,10 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
         shopAddrHintIv = (ImageView) findViewById(R.id.publish_shop_addr_hint_iv);
         discountHintIv = (ImageView) findViewById(R.id.publish_discount_arrow_iv);
         descriptionHintIv = (ImageView) findViewById(R.id.publish_description_hint_iv);
+
+        commissionHintIv = (ImageView) findViewById(R.id.publish_ware_commission_arrow_iv);
+        commissionLayout = (RelativeLayout) findViewById(R.id.publishware_commission_layout);
+        commissionTv = (TextView) findViewById(R.id.publish_ware_commission_tv);
 
 
     }
@@ -464,6 +471,39 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
                 discountDialog.show();
 
+
+            } else if (v.getId() == R.id.publishware_commission_layout) {
+                MaterialDialog commissionDialog = new MaterialDialog.Builder(PublishItemActivity.this).title("填写服务费")
+                        .customView(R.layout.publish_card_commission_dialog, true)
+                        .callback(new MaterialDialog.ButtonCallback() {
+                            @Override
+                            public void onPositive(MaterialDialog dialog) {
+                                super.onPositive(dialog);
+                                commissionInteger = picker1.getValue();
+                                commissionDecimal = picker2.getValue();
+                                commissionTv.setText(Double.parseDouble(commissionInteger + "." + commissionDecimal) + "%");
+                                commissionHintIv.setImageResource(R.drawable.icon_green_check);
+                            }
+                        })
+                        .positiveText("确定")
+                        .build();
+                View view = commissionDialog.getCustomView();
+                final View positiveAction = commissionDialog.getActionButton(DialogAction.POSITIVE);
+                picker1 = (NumberPicker) view.findViewById(R.id.publish_card_numberpicker1_commission);
+                picker2 = (NumberPicker) view.findViewById(R.id.publish_card_numberpicker2_commission);
+                picker1.setMaxValue(9);
+                picker1.setMinValue(0);
+                picker2.setMaxValue(9);
+                picker2.setMinValue(0);
+                picker1.setFocusable(true);
+                picker1.setFocusableInTouchMode(true);
+                picker2.setFocusable(true);
+                picker2.setFocusableInTouchMode(true);
+                picker1.setValue(2);
+                picker2.setValue(0);
+
+
+                commissionDialog.show();
 
             }
         }
@@ -657,13 +697,14 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
                     Log.v(TAG, result);
                     Toast.makeText(PublishItemActivity.this, "发卡成功", Toast.LENGTH_LONG).show();
-
+                    PublishItemActivity.this.finish();
                 }
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
 
                     Log.v(TAG, "error:" + retCode);
+                    Toast.makeText(PublishItemActivity.this, "发卡失败，请重试", Toast.LENGTH_LONG).show();
                 }
 
                 @Override

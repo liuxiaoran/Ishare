@@ -150,7 +150,8 @@
         fab:fab_colorPressed="@color/floationg_btn_pressed"
         fab:fab_colorRipple="@color/floating_btn_ripple"
         fab:fab_shadow="true"
-        fab:fab_type="mini" />
+        fab:fab_type="mini"
+        android:visibility="invisible" />
 
 </FrameLayout>
 

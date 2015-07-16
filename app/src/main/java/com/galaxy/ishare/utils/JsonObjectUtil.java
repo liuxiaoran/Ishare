@@ -97,6 +97,9 @@ public class JsonObjectUtil {
 
         CardItem cardItem = new CardItem();
         try {
+            if (jsonObject.has("id") && jsonObject.get("id") != JSONObject.NULL) {
+                cardItem.setId(jsonObject.getInt("id"));
+            }
             if (jsonObject.has("card_id") && jsonObject.get("card_id") != JSONObject.NULL) {
                 cardItem.setId(jsonObject.getInt("card_id"));
             }
@@ -141,7 +144,7 @@ public class JsonObjectUtil {
             if (jsonObject.has("description")) {
                 String description = jsonObject.getString("description");
                 if (description.equals("null")) {
-                    description = "暂无评价";
+                    description = "暂无描述";
                 }
                 cardItem.setDescription(description);
             }

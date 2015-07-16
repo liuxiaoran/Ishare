@@ -164,6 +164,49 @@
                 style="@style/horizontal_divider"
                 android:layout_marginTop="2dp" />
 
+            <RelativeLayout
+                android:id="@+id/publishware_commission_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_layout_marginTop">
+
+                <TextView
+                    android:id="@+id/publish_commission_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="服务费"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="@dimen/primary_text" />
+
+
+                <ImageView
+                    android:id="@+id/publish_ware_commission_arrow_iv"
+                    android:layout_width="25dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="3dp"
+                    android:src="@drawable/right_arrow"
+                    android:scaleType="centerInside" />
+
+                <TextView
+                    android:id="@+id/publish_ware_commission_tv"
+                    style="@style/secondary_textview"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@id/publish_ware_commission_arrow_iv"
+                    android:textSize="@dimen/secondary_text"
+                    android:hint="借卡人实际消费基础上额外支付的比例"
+                    android:textColorHint="@color/dark_hint_text"
+                    android:gravity="right" />
+
+
+            </RelativeLayout>
+
+            <View
+                style="@style/horizontal_divider"
+                android:layout_marginTop="2dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

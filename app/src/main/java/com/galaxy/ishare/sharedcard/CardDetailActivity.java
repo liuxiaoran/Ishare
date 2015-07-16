@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.usercenter.me.CardIShareAdapter;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
@@ -58,6 +60,9 @@ public class CardDetailActivity extends IShareActivity {
 
     public static final String PARAMETER_CARD_ITEM = "PARAMETER_CARD_ITEM";
     public static final String PARAMETER_WHO_SEND = "PARAMETER_WHO_SEND";
+
+    public static final int CARDISHARE_TO_CARD_DETAIL_REQUEST_CODE = 1;
+
 
     private static final String TAG = "carddetail";
 
@@ -92,13 +97,14 @@ public class CardDetailActivity extends IShareActivity {
     private FButton collectBtn;
     private LinearLayout editLayout;
     private FButton editBtn, deleteBtn;
+    private RelativeLayout ownerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.share_item_card_detail_activity);
 
-        ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "卡详情");
+        IShareContext.getInstance().createDefaultHomeActionbar(this, "卡详情");
 
         cardItem = getIntent().getParcelableExtra(PARAMETER_CARD_ITEM);
         if (cardItem.cardImgs != null) {
@@ -184,12 +190,43 @@ public class CardDetailActivity extends IShareActivity {
             @Override
             public void onClick(View v) {
                 List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-//                params.add(new BasicNameValuePair("card_ids",));
+                params.add(new BasicNameValuePair("card_ids", JsonObjectUtil.parseArrayToJsonString(new String[]{cardItem.id + ""})));
+                HttpTask.startAsyncDataPostRequest(URLConstant.DELETE_SHARE_CARD, params, new HttpDataResponse() {
+                    @Override
+                    public void onRecvOK(HttpRequestBase request, String result) {
+                        Log.v(TAG, result);
+                        Toast.makeText(CardDetailActivity.this, "删除成功", Toast.LENGTH_LONG).show();
+                        setResult(0, new Intent(CardDetailActivity.this, CardIshareActivity.class));
+                        CardDetailActivity.this.finish();
+                    }
+
+                    @Override
+                    public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+                        Toast.makeText(CardDetailActivity.this, "删除失败，请重试", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onRecvCancelled(HttpRequestBase request) {
+
+                    }
+
+                    @Override
+                    public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                    }
+                });
             }
         });
-        // 从我-》我的分享中进来的，需要隐藏一些视图
+        // 从我-》我的分享中进来的，需要隐藏一些视图,显示一些视图
         if (getIntent().getStringExtra(PARAMETER_WHO_SEND).equals(CardIshareActivity.CARDISHARE_TO_DETAIL)) {
+            editLayout.setVisibility(View.VISIBLE);
+            mapBtn.setVisibility(View.INVISIBLE);
+            ownerLayout.setVisibility(View.GONE);
+            collectBtn.setVisibility(View.INVISIBLE);
+        }
 
+        if (IShareContext.getInstance().getCurrentUser().getUserId().equals(cardItem.getOwnerId())) {
+            contactBtn.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -311,7 +348,7 @@ public class CardDetailActivity extends IShareActivity {
         editLayout = (LinearLayout) findViewById(R.id.share_item_detail_edit_layout);
         editBtn = (FButton) findViewById(R.id.share_item_detail_edit_btn);
         deleteBtn = (FButton) findViewById(R.id.share_item_detail_delete_btn);
-
+        ownerLayout = (RelativeLayout) findViewById(R.id.share_item_detail_owner_layout);
 
     }
 

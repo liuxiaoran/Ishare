@@ -70,9 +70,16 @@ public class CardIshareActivity extends IShareActivity {
                 Intent intent = new Intent(CardIshareActivity.this, CardDetailActivity.class);
                 intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
                 intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, CARDISHARE_TO_DETAIL);
-                startActivity(intent);
+                startActivityForResult(intent, CardDetailActivity.CARDISHARE_TO_CARD_DETAIL_REQUEST_CODE);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        dataList.clear();
+        httpInteract.loadData();
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

@@ -1,5 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical"
-	android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/activity_myself_setting_nofitication_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                style="@style/primary_textview"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="新消息通知" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/myself_more" />
+        </RelativeLayout>
+
+        <View
+            style="@style/horizontal_divider"
+            android:layout_marginLeft="18dp" />
+
+        <RelativeLayout
+            android:id="@+id/activity_myself_setting_aboutishare_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                style="@style/primary_textview"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="关于Ishare" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:src="@drawable/myself_more" />
+        </RelativeLayout>
+
+        <View
+            style="@style/horizontal_divider"
+            android:background="#acacac" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/activity_myself_setting_exit_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="@color/white">
+
+            <TextView
+                style="@style/secondary_textview"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="退出"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <View
+            style="@style/horizontal_divider"
+            android:background="#acacac" />
+    </LinearLayout>
 
 </LinearLayout>

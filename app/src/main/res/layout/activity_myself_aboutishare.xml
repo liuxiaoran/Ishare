@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="20dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/launch_icon"
+                app:border_color="#FFFFFF"
+                app:border_width="2dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="@color/white">
+
+                <TextView
+                    style="@style/primary_textview"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"
+                    android:text="功能介绍"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/myself_more"/>
+            </RelativeLayout>
+
+            <View
+                style="@style/horizontal_divider"
+                android:layout_marginLeft="18dp"/>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:background="@color/white">
+
+                <TextView
+                    style="@style/primary_textview"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"
+                    android:text="检查新版本"/>
+
+                <TextView
+                    style="@style/secondary_textview"
+                    android:text="当前版本"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/activity_myself_aboutishare_version"/>
+
+                <TextView
+                    android:id="@+id/activity_myself_aboutishare_version"
+                    style="@style/secondary_textview"
+                    android:text="1.0.1"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/activity_myself_aboutishare_more2"
+                    android:layout_marginRight="10dp"/>
+
+                <ImageView
+                    android:id="@+id/activity_myself_aboutishare_more2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:src="@drawable/myself_more"/>
+            </RelativeLayout>
+
+            <View
+                style="@style/horizontal_divider"
+                android:background="#acacac"/>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                style="@style/hint_textview"
+                android:text="使用条款和隐私政策"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="40dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

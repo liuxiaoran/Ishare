@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:background="@color/white">-->
+
+            <!--<TextView-->
+                <!--style="@style/primary_textview"-->
+                <!--android:text="接收新消息通知"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginLeft="20dp"/>-->
+
+            <!--<android.support.v7.widget.SwitchCompat-->
+                <!--android:id="@+id/activity_myself_setting_receivenewMessage_switch"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:switchMinWidth="61dp"-->
+                <!--app:track="@drawable/switch_bar_track"-->
+                <!--android:thumb="@drawable/switch_button" />-->
+        <!--</RelativeLayout>-->
+
+        <!--<View-->
+            <!--style="@style/horizontal_divider"-->
+            <!--android:background="#acacac"/>-->
+    <!--</LinearLayout>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="@color/white">
+
+            <TextView
+                style="@style/primary_textview"
+                android:text="声音"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/activity_myself_setting_openvoice_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                android:switchMinWidth="61dp"
+                app:track="@drawable/switch_bar_track"
+                android:thumb="@drawable/switch_button"/>
+        </RelativeLayout>
+
+        <View
+            style="@style/horizontal_divider"
+            android:layout_marginLeft="18dp"/>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:background="@color/white">
+
+            <TextView
+                style="@style/primary_textview"
+                android:text="振动"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/activity_myself_setting_openshock_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_centerVertical="true"
+                android:switchMinWidth="61dp"
+                app:track="@drawable/switch_bar_track"
+                android:thumb="@drawable/switch_button"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        style="@style/horizontal_divider"
+        android:background="#acacac"/>
+
+</LinearLayout>

@@ -45,7 +45,7 @@
 
                 <TextView
                     style="@style/primary_textview"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="20dp"
                     android:text="昵称" />
 
                 <TextView
@@ -60,7 +60,7 @@
 
             <View
                 style="@style/horizontal_divider"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="18dp" />
 
 
             <LinearLayout
@@ -74,7 +74,7 @@
                 <TextView
                     android:id="@+id/usercenter_gender"
                     style="@style/primary_textview"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="20dp"
                     android:text="性别" />
 
                 <RelativeLayout
@@ -139,6 +139,9 @@
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
+        <View
+            style="@style/horizontal_divider"
+            android:background="#acacac"/>
 
         <LinearLayout
             android:id="@+id/myself_info2"
@@ -157,7 +160,7 @@
                 <TextView
                     style="@style/primary_textview"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="20dp"
                     android:text="@string/phone_num" />
 
                 <RelativeLayout
@@ -189,7 +192,7 @@
 
             <View
                 style="@style/horizontal_divider"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="18dp" />
 
             <LinearLayout
                 android:id="@+id/usercenter_credit_layout"
@@ -203,7 +206,7 @@
                     android:id="@+id/usercenter_credit"
                     style="@style/primary_textview"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="20dp"
                     android:text="@string/personal_credit" />
 
                 <LinearLayout
@@ -246,7 +249,7 @@
                     <TextView
                         android:id="@+id/usercenter_credit_job_card_tv"
                         style="@style/secondary_textview"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
@@ -277,7 +280,7 @@
 
             <View
                 style="@style/horizontal_divider"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="18dp" />
 
             <RelativeLayout
                 android:id="@+id/usercenter_address_layout"
@@ -289,7 +292,7 @@
                 <TextView
                     style="@style/primary_textview"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="20dp"
                     android:text="@string/my_address" />
 
 
@@ -303,6 +306,9 @@
             </RelativeLayout>
 
         </LinearLayout>
+        <View
+            style="@style/horizontal_divider"
+            android:background="#acacac"/>
 
         <LinearLayout
             android:id="@+id/myself_info3"
@@ -322,7 +328,7 @@
                 <TextView
                     style="@style/primary_textview"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="20dp"
                     android:text="@string/card_i_share" />
 
 
@@ -338,7 +344,7 @@
 
             <View
                 style="@style/horizontal_divider"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="18dp" />
 
             <RelativeLayout
                 android:id="@+id/usercenter_i_request_layout"
@@ -350,7 +356,7 @@
                 <TextView
                     style="@style/primary_textview"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="20dp"
                     android:text="@string/card_i_request" />
 
 
@@ -366,7 +372,7 @@
 
             <View
                 style="@style/horizontal_divider"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="18dp" />
 
             <RelativeLayout
                 android:id="@+id/usercenter_i_collect_layout"
@@ -378,7 +384,7 @@
                 <TextView
                     style="@style/primary_textview"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="20dp"
                     android:text="@string/card_i_collect" />
 
 
@@ -392,6 +398,9 @@
             </RelativeLayout>
 
         </LinearLayout>
+        <View
+            style="@style/horizontal_divider"
+            android:background="#acacac"/>
 
         <RelativeLayout
             android:id="@+id/usercenter_contactkefu_layout"
@@ -409,5 +418,8 @@
                     android:text="联系客服" />
 
         </RelativeLayout>
+        <View
+            style="@style/horizontal_divider"
+            android:background="#acacac"/>
     </LinearLayout>
 </ScrollView>

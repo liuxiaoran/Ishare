@@ -7,9 +7,9 @@ import java.io.Serializable;
  */
 public class Settings implements Serializable {
 
-    public boolean receiveNewMessage;
-    public boolean openVoice;
-    public boolean openShock;
+    public boolean receiveNewMessage = true;
+    public boolean openVoice = true;
+    public boolean openShock = true;
 
     public boolean isReceiveNewMessage() {
         return receiveNewMessage;

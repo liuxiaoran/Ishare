@@ -38,5 +38,14 @@
             android:text="%" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="15dp"
+        style="@style/hint_textview"
+        android:textColor="@color/dark_secondary_text"
+        android:text="服务费是借卡人需要额外支付的费用。例如服务费是2%,实际消费了100元，则需要支付给卡主100+100*2%（服务费）=102元" />
+
 
 </LinearLayout>

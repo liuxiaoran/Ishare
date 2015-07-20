@@ -384,7 +384,8 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
 
         if (shopNameTv.getText().toString().equals("") || trade_type == -1 || ware_type == -1 || discountTv.getText().toString().equals("") ||
-                descriptionEt.getText().toString().equals("") || shopLocationTv.getText().toString().equals("")) {
+                descriptionEt.getText().toString().equals("") || shopLocationTv.getText().toString().equals("") ||
+                commissionTv.getText().toString().equals("")) {
 
             ret = false;
             Toast.makeText(this, "请填写完整信息", Toast.LENGTH_SHORT).show();
@@ -392,6 +393,8 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
             ret = false;
             Toast.makeText(this, "请填写您的地址", Toast.LENGTH_LONG).show();
         }
+
+
         return ret;
     }
 

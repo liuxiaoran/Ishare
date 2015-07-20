@@ -126,19 +126,6 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
     private ImageView shopNameHintIv, shopAddrHintIv, discountHintIv, descriptionHintIv, commissionHintIv;
 
 
-//    Handler poiSearchHandler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            if (msg.what == PoiSearchUtil.POI_WHAT) {
-//
-//
-//                int count = msg.arg1;
-//
-//                shopLocationEt.setHint("找到了" + count + "个店,可定位选择");
-//            }
-//        }
-//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,125 +145,14 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
         uploadDataClient = new UploadData();
 
 
-//        mSuggestionSearch = SuggestionSearch.newInstance();
-//        mSuggestionSearch.setOnGetSuggestionResultListener(this);
         shopNameTv = (TextView) findViewById(R.id.publish_shop_name_tv);
-//        sugAdapter = new ArrayAdapter<String>(this,
-//                android.R.layout.simple_dropdown_item_1line);
-//        shopNameTv.setAdapter(sugAdapter);
-
-//
-//        /**
-//         * 当输入关键字变化时，动态更新建议列表
-//         */
-//        shopNameTv.addTextChangedListener(new TextWatcher() {
-//
-//            @Override
-//            public void afterTextChanged(Editable arg0) {
-//                if (shopNameTv.getText().toString().length() <= 0) {
-//                    return;
-//                }
-//                /**
-//                 * 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
-//                 */
-//                if (shopNameTv.getText().toString() != null && !shopNameTv.getText().toString().equals("")) {
-//                    mSuggestionSearch
-//                            .requestSuggestion((new SuggestionSearchOption())
-//                                    .keyword(shopNameTv.getText().toString()).city(IShareContext.getInstance().getUserLocationNotNull().getCity()));
-//                }
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence arg0, int arg1,
-//                                          int arg2, int arg3) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence cs, int arg1, int arg2,
-//                                      int arg3) {
-//
-//            }
-//        });
-
-
-//        gridViewBitmapList = new ArrayList();
         picUriList = new ArrayList<>();
-//        gridViewBitmapList.add(ImageParseUtil.getBitmapFromResource(this, R.drawable.card_pic_add));
         photoGridView = (GridView) findViewById(R.id.publishware_cardpic_gridview);
-//        photoGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (position == picUriList.size() && !isToMaxPicNumber) {
-//                    // 点击的是选择添加图片
-////                    new MaterialDialog.Builder(PublishItemActivity.this)
-////                            .title("选择图片来源")
-////                            .items(R.array.pic_source_items)
-////                            .itemsCallback(new MaterialDialog.ListCallback() {
-////                                @Override
-////                                public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-////                                    if (which == 0) {
-//                    //选择本地图片
-//                    Intent intentFromGallery = new Intent();
-//                    intentFromGallery.setType("image/*"); // 设置文件类型
-//                    intentFromGallery
-//                            .setAction(Intent.ACTION_GET_CONTENT);
-//                    startActivityForResult(intentFromGallery,
-//                            IMAGE_REQUEST_CODE);
-//                                    } else if (which == 1) {
-//
-//                                        cameraPicCount++;
-//                                        //拍照
-//                                        Intent intentFromCapture = new Intent(
-//                                                MediaStore.ACTION_IMAGE_CAPTURE);
-//                                        // 判断存储卡是否可以用，可用进行存储
-//                                        if (PhoneUtil.hasSdcard()) {
-//
-//                                            File cardPicFile = new File(PublishItemActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
-//                                                    "cardimg" + cameraPicCount + ".jpg");
-//                                            intentFromCapture.putExtra(
-//                                                    MediaStore.EXTRA_OUTPUT,
-//                                                    Uri.fromFile(cardPicFile));
-//                                            startActivityForResult(intentFromCapture,
-//                                                    CAMERA_REQUEST_CODE);
-//                                        } else {
-//                                            Toast.makeText(getApplicationContext(), "请确认已经插入SD卡", Toast.LENGTH_LONG).show();
-//                                        }
-
-//
-//                                    }
-//                                }
-//                            })
-//                            .show();
-        // }
-        //else {
-        // 点击的是已经选择的图片，进行预览或删除
-//                    Intent intent = new Intent(PublishItemActivity.this, PreviewPictureActivity.class);
-//
-//                    intent.putExtra(PreviewPictureActivity.PARAMETER_POSITION, position);
-//                    intent.putExtra(PreviewPictureActivity.PARAMENTER_PIC_URI_STRING, picUriList.get(position).toString());
-//                    PublishItemActivity.this.startActivityForResult(intent, PreviewPictureActivity.PUBLISH_TO_PREVIEW_REQUEST_CODE);
-
-
-        //}
-//            }
-//        });
 
         gridViewAdapter = new GridViewAdapter(this);
         photoGridView.setAdapter(gridViewAdapter);
 
 
-//        // 监听店名输入框失去焦点，查询
-//        shopNameTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus == false) {
-//                    if (!shopNameTv.getText().toString().equals("")) {
-//                        PoiSearchUtil.searchPoiInCity(shopNameTv.getText().toString(), poiSearchHandler, 0);
-//                    }
-//                }
-//            }
-//        });
 
 
         changeAvailableTv.setOnClickListener(myClickListener);
@@ -303,8 +179,6 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
             public void afterTextChanged(Editable s) {
                 if (descriptionEt.getText().toString().length() > 0 && !"\n".equals(descriptionEt.getText().toString())) {
                     descriptionHintIv.setImageResource(R.drawable.icon_green_check);
-                } else {
-                    descriptionHintIv.setImageResource(R.drawable.icon_red_dot);
                 }
             }
         });
@@ -384,7 +258,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
 
         if (shopNameTv.getText().toString().equals("") || trade_type == -1 || ware_type == -1 || discountTv.getText().toString().equals("") ||
-                descriptionEt.getText().toString().equals("") || shopLocationTv.getText().toString().equals("") ||
+                shopLocationTv.getText().toString().equals("") ||
                 commissionTv.getText().toString().equals("")) {
 
             ret = false;
@@ -669,6 +543,8 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
             params.add(new BasicNameValuePair("discount", discountTv.getText().toString()));
             params.add(new BasicNameValuePair("trade_type", trade_type + ""));
             params.add(new BasicNameValuePair("shop_location", shopLocationTv.getText().toString()));
+            params.add(new BasicNameValuePair("service_charge", commissionInteger + "." + commissionDecimal));
+
 
 //            for (int i = 0; i < ownerAvailableLocationEtList.size(); i++) {
 //                HashMap hashMap = new HashMap();

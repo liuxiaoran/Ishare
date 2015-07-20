@@ -10,15 +10,20 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingTop="@dimen/default_layout_padding"
+        android:paddingBottom="5dp"
         android:paddingLeft="@dimen/default_layout_padding"
         android:paddingRight="@dimen/default_layout_padding"
-        android:paddingBottom="5dp">
+        android:paddingTop="@dimen/default_layout_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+
+            <TextView
+                style="@style/primary_textview"
+                android:text="*"
+                android:textColor="@color/hint_star" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,18 +47,18 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:background="@null"
-                    android:textColor="@color/dark_primary_text"
-                    android:textSize="@dimen/secondary_text"
                     android:hint="点击搜索店铺"
-                    android:textColorHint="@color/dark_hint_text" />
+                    android:textColor="@color/dark_primary_text"
+                    android:textColorHint="@color/dark_hint_text"
+                    android:textSize="@dimen/secondary_text" />
 
                 <ImageView
                     android:id="@+id/request_shop_name_hint_iv"
                     android:layout_width="25dp"
                     android:layout_height="30dp"
+                    android:layout_gravity="right|center_vertical"
                     android:padding="3dp"
                     android:scaleType="centerInside"
-                    android:layout_gravity="right|center_vertical"
                     android:src="@drawable/right_arrow" />
             </LinearLayout>
         </LinearLayout>
@@ -68,40 +73,45 @@
             android:layout_marginTop="10dp">
 
             <TextView
+                style="@style/primary_textview"
+                android:text="*"
+                android:textColor="@color/hint_star" />
+
+            <TextView
                 android:id="@+id/publish_ware_shop_location_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
                 android:text="店址"
                 android:textColor="@color/dark_primary_text"
-                android:textSize="@dimen/primary_text"
-                android:layout_centerVertical="true" />
+                android:textSize="@dimen/primary_text" />
 
             <ImageView
                 android:id="@+id/request_shop_addr_hint_iv"
                 android:layout_width="25dp"
                 android:layout_height="30dp"
-                android:padding="3dp"
-                android:scaleType="centerInside"
-                android:cropToPadding="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/icon_red_dot" />
+                android:cropToPadding="true"
+                android:padding="3dp"
+                android:scaleType="centerInside" />
 
             <TextView
 
                 android:id="@+id/request_shop_location_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/publish_ware_shop_location_tv"
                 android:background="@null"
+                android:hint="选择店名之后就有店址了"
                 android:maxLines="2"
                 android:textColor="@color/dark_secondary_text"
-                android:textSize="@dimen/secondary_text"
-                android:hint="选择店名之后就有店址了"
                 android:textColorHint="@color/dark_hint_text"
-                android:layout_centerVertical="true" />
+                android:textSize="@dimen/secondary_text" />
 
         </RelativeLayout>
 
@@ -115,6 +125,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
+
+            <TextView
+                style="@style/primary_textview"
+                android:text="*"
+                android:textColor="@color/hint_star" />
 
             <TextView
                 style="@style/primary_textview"
@@ -207,35 +222,35 @@
             android:orientation="horizontal">
 
             <TextView
+                android:layout_marginLeft="5dp"
                 android:id="@+id/request_description"
                 style="@style/primary_textview"
-                android:text="描述"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:text="描述" />
 
             <ImageView
                 android:id="@+id/request_description_hint_iv"
                 android:layout_width="25dp"
                 android:layout_height="30dp"
-                android:padding="3dp"
-                android:scaleType="centerInside"
-                android:cropToPadding="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/icon_red_dot" />
+                android:cropToPadding="true"
+                android:padding="3dp"
+                android:scaleType="centerInside" />
 
             <EditText
                 android:id="@+id/request_publish_description_et"
-                android:layout_toRightOf="@id/request_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/request_description"
                 android:layout_weight="1"
                 android:background="@null"
+                android:hint="对于该请求的描述"
                 android:lines="2"
                 android:maxLines="5"
-                android:textSize="@dimen/caption_text_size"
-                android:hint="对于该请求的描述"
-                android:textColorHint="@color/dark_hint_text" />
+                android:textColorHint="@color/dark_hint_text"
+                android:textSize="@dimen/caption_text_size" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -243,10 +258,10 @@
     <info.hoang8f.widget.FButton
         android:id="@+id/request_publish_confirm_btn"
         android:layout_width="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
         android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="20dp"
         android:text="确定找这种卡"
         android:textColor="@color/white"

@@ -248,10 +248,7 @@ public class PublishRequestActivity extends IShareActivity {
             Toast.makeText(this, "请选择卡的种类", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (descriptionEt.getText().toString().equals("")) {
-            Toast.makeText(this, "请填写描述", Toast.LENGTH_LONG).show();
-            return false;
-        }
+
         return true;
     }
 

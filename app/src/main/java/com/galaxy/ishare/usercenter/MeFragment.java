@@ -29,7 +29,7 @@ import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.usercenter.me.CardAddrActivity;
 import com.galaxy.ishare.usercenter.me.CardICollectActivity;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
-import com.galaxy.ishare.usercenter.me.CardRequestActivity;
+import com.galaxy.ishare.usercenter.me.CardRequestTestActivity;
 import com.galaxy.ishare.utils.PhoneUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -178,8 +178,8 @@ public class MeFragment extends IShareFragment {
         cardRequestLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(getActivity(), CardRequestActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(getActivity(), CardRequestTestActivity.class);
+                startActivity(intent);
             }
         });
         creditLayout.setOnClickListener(new View.OnClickListener() {

@@ -492,21 +492,21 @@ public class ChatActivity extends IShareActivity {
 
                 JSONObject jsonObject = null;
                 try {
-                    Log.v(TAG, result + "result");
-                    jsonObject = new JSONObject(result);
-                    int status = jsonObject.getInt("status");
-                    Log.e(TAG, jsonObject.toString());
-                    if (status == 0) {
-                        Toast.makeText(mContext, "操作成功", Toast.LENGTH_LONG).show();
-                        order.orderState = orderStatus;
-                        ChatManager.getInstance().updateOrderList(order);
-                        updateOrderInfo();
-                        handler.sendEmptyMessage(4);
-                    } else {
-                        Log.e(TAG, "updateOrderStatus: " + jsonObject.toString());
+                        Log.v(TAG, result + "result");
+                        jsonObject = new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        Log.e(TAG, jsonObject.toString());
+                        if (status == 0) {
+                            Toast.makeText(mContext, "操作成功", Toast.LENGTH_LONG).show();
+                            order.orderState = orderStatus;
+                            ChatManager.getInstance().updateOrderList(order);
+                            updateOrderInfo();
+                            handler.sendEmptyMessage(4);
+                        } else {
+                            Log.e(TAG, "updateOrderStatus: " + jsonObject.toString());
 
-                        Toast.makeText(mContext, "网络错误，请稍后重试", Toast.LENGTH_LONG).show();
-                    }
+                            Toast.makeText(mContext, "网络错误，请稍后重试", Toast.LENGTH_LONG).show();
+                        }
 
                 } catch (JSONException e) {
                     Log.v(TAG, e.toString());

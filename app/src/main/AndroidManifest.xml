@@ -219,8 +219,7 @@
             android:name=".publishware.CardOwnerAvailableAddrSearchActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".publishware.PreviewPictureActivity"
             android:label="@string/app_name"
@@ -310,19 +309,38 @@
 
         </activity>
 
-        <activity android:name=".usercenter.me.SettingNotificationActivity"
+        <activity
+            android:name=".usercenter.me.SettingNotificationActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".usercenter.me.SettingAboutIshareActivity"
+        <activity
+            android:name=".usercenter.me.SettingAboutIshareActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
 
         </activity>
+
+        <activity
+            android:name=".usercenter.me.CardRequestTestActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+
+        </activity>
+
+        <activity
+            android:name=".usercenter.me.CardRequestEditActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+
+        </activity>
+
         <!-- end usercenter -->
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -445,9 +463,6 @@
             android:name=".usercenter.me.CardICollectActivity"
             android:label="@string/title_activity_card_ishare"
             android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".usercenter.me.CardRequestActivity"
-            android:label="@string/title_activity_card_request"></activity>
     </application>
 
 </manifest>

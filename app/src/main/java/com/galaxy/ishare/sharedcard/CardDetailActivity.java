@@ -30,8 +30,10 @@ import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.usercenter.me.CardIShareAdapter;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
+import com.galaxy.ishare.usercenter.me.CardIshareEditActivity;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
@@ -49,6 +51,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import info.hoang8f.widget.FButton;
@@ -98,6 +101,7 @@ public class CardDetailActivity extends IShareActivity {
     private LinearLayout editLayout;
     private FButton editBtn, deleteBtn;
     private RelativeLayout ownerLayout;
+    private int maxUploadPicCount = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +111,7 @@ public class CardDetailActivity extends IShareActivity {
         IShareContext.getInstance().createDefaultHomeActionbar(this, "卡详情");
 
         cardItem = getIntent().getParcelableExtra(PARAMETER_CARD_ITEM);
+
         if (cardItem.cardImgs != null) {
             picNumber = cardItem.cardImgs.length;
         }
@@ -182,7 +187,36 @@ public class CardDetailActivity extends IShareActivity {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(CardDetailActivity.this, CardIshareEditActivity.class);
 
+                intent.putExtra(CardIshareEditActivity.PARAMETER_SHOP_NAME, cardItem.shopName);
+                intent.putExtra(CardIshareEditActivity.PARAMETER_SHOP_LOCATION, cardItem.shopLocation);
+                intent.putExtra(CardIshareEditActivity.PARAMETER_DISCOUNT, cardItem.getStringDiscount());
+                intent.putExtra(CardIshareEditActivity.PARAMETER_SHOP_LONGITUDE, cardItem.shopLongitude);
+                intent.putExtra(CardIshareEditActivity.PARAMETER_SHOP_LATITUDE, cardItem.shopLatitude);
+                intent.putExtra(CardIshareEditActivity.PARAMETER_WARE_TYPE, cardItem.wareType);
+                intent.putExtra(CardIshareEditActivity.PARAMETER_TRADE_TYPE, cardItem.tradeType);
+                intent.putExtra(CardIshareEditActivity.PARAMETER_OWNER_AVAILABLE, cardItem.ownerLocation);
+                intent.putExtra(CardIshareEditActivity.PARAMETER_DESCRIPTION, cardItem.description);
+                intent.putExtra(CardIshareEditActivity.PARAMETER_CARD_ID,cardItem.id);
+                if (cardItem.cardImgs != null) {
+                    if (picNumber == maxUploadPicCount) {
+                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG1, cardItem.cardImgs[0]);
+                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG2, cardItem.cardImgs[1]);
+                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG3, cardItem.cardImgs[2]);
+                    }
+                    if (picNumber == maxUploadPicCount - 1) {
+                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG1, cardItem.cardImgs[0]);
+                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG2, cardItem.cardImgs[1]);
+                    }
+                    if (picNumber == maxUploadPicCount - 2) {
+                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG1, cardItem.cardImgs[0]);
+                    }
+
+                }
+
+
+                startActivity(intent);
             }
         });
 
@@ -194,10 +228,24 @@ public class CardDetailActivity extends IShareActivity {
                 HttpTask.startAsyncDataPostRequest(URLConstant.DELETE_SHARE_CARD, params, new HttpDataResponse() {
                     @Override
                     public void onRecvOK(HttpRequestBase request, String result) {
-                        Log.v(TAG, result);
+                        Log.e(TAG, result);
                         Toast.makeText(CardDetailActivity.this, "删除成功", Toast.LENGTH_LONG).show();
                         setResult(0, new Intent(CardDetailActivity.this, CardIshareActivity.class));
                         CardDetailActivity.this.finish();
+
+//                        JSONObject jsonObject = null;
+//                        try{
+//                            jsonObject = new JSONObject(result);
+//                            int status=jsonObject.getInt("status");
+//                            if (status==0){
+//                                Log.e(TAG, "result");
+//                                Toast.makeText(CardDetailActivity.this,"删除成功",Toast.LENGTH_LONG).show();
+//                                setResult(0, new Intent(CardDetailActivity.this, CardIshareActivity.class));
+//                                CardDetailActivity.this.finish();
+//                            }
+//                        }catch (JSONException e){
+//                            e.printStackTrace();
+//                        }
                     }
 
                     @Override

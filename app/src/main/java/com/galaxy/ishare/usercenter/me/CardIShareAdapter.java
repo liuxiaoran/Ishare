@@ -53,6 +53,7 @@ public class CardIShareAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         CardHolder cardHolder = null;
+
         if (convertView == null) {
 
             convertView = mLayoutInflater.inflate(R.layout.item_i_share, null);

@@ -69,6 +69,7 @@ public class CardIshareActivity extends IShareActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CardIshareActivity.this, CardDetailActivity.class);
                 intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
+                intent.putExtra(CardIshareEditActivity.PARAMETER_CARD_ITEM_EDIT, dataList.get(position));
                 intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, CARDISHARE_TO_DETAIL);
                 startActivityForResult(intent, CardDetailActivity.CARDISHARE_TO_CARD_DETAIL_REQUEST_CODE);
             }

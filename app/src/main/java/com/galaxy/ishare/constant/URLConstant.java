@@ -37,6 +37,8 @@ public class URLConstant {
     public static final String PUBLISH_SHARE_ITEM = SERVER_IP + "/card/Add_Card_C";
     // 删除发布的卡
     public static final String DELETE_SHARE_CARD = SERVER_IP + "/card/Delete_Card_C";
+    //修改发布的卡信息
+    public static final String EDIT_SHARE_CARD = SERVER_IP + "/card/Update_Card_C";
 
 
     // 根据折扣从大到小得到卡的列表

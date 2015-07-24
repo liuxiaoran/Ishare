@@ -72,18 +72,18 @@ public class CardRequestTestActivity extends IShareActivity {
         httpInteract = new HttpInteract();
 
 
-//        httpInteract.loadData();
+        httpInteract.loadData();
         cardRequestAdapter = new CardRequestAdapter(this, dataList);
 
         refreshListView = new PullToRefreshListView(this);
 
-//        requestCardListView.setAdapter(cardRequestAdapter);
-//        requestCardListView.setDividerHeight(0);
+        requestCardListView.setAdapter(cardRequestAdapter);
+        requestCardListView.setDividerHeight(0);
 
-        containerLayout = (FrameLayout) findViewById(R.id.card_request_container_layout);
-        initPullRefreshListView(refreshListView);
-        containerLayout.addView(refreshListView);
-        refreshListView.doPullRefreshing(true, 500);
+//        containerLayout = (FrameLayout) findViewById(R.id.card_request_container_layout);
+//        initPullRefreshListView(refreshListView);
+//        containerLayout.addView(refreshListView);
+//        refreshListView.doPullRefreshing(true, 500);
 
 
     }
@@ -104,50 +104,50 @@ public class CardRequestTestActivity extends IShareActivity {
     }
 
 
-    private void initPullRefreshListView(PullToRefreshListView pullToRefreshListView) {
-        pullToRefreshListView.setScrollLoadEnabled(false);
-        pullToRefreshListView.setPullLoadEnabled(false);
-        requestCardListView = pullToRefreshListView.getRefreshableView();
-        requestCardListView.setAdapter(cardRequestAdapter);
-        requestCardListView.setDividerHeight(0);
-
-        pullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                gestureType = REFRESH_GESTURE;
-                pageNumber = 1;
-                httpInteract.loadData(pageNumber);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-//                gestureType = LOAD_MORE_GESTURE;
+//    private void initPullRefreshListView(PullToRefreshListView pullToRefreshListView) {
+//        pullToRefreshListView.setScrollLoadEnabled(false);
+//        pullToRefreshListView.setPullLoadEnabled(false);
+//        requestCardListView = pullToRefreshListView.getRefreshableView();
+//        requestCardListView.setAdapter(cardRequestAdapter);
+//        requestCardListView.setDividerHeight(0);
+//
+//        pullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+//            @Override
+//            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                gestureType = REFRESH_GESTURE;
 //                pageNumber = 1;
 //                httpInteract.loadData(pageNumber);
-            }
-        });
-
-    }
+//            }
+//
+//            @Override
+//            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+////                gestureType = LOAD_MORE_GESTURE;
+////                pageNumber = 1;
+////                httpInteract.loadData(pageNumber);
+//            }
+//        });
+//
+//    }
 
 
     class HttpInteract {
 
-        private void setLastUpdateTime() {
-            String text = formatDateTime(System.currentTimeMillis());
-            refreshListView.setLastUpdatedLabel(text);
-        }
+//        private void setLastUpdateTime() {
+//            String text = formatDateTime(System.currentTimeMillis());
+//            refreshListView.setLastUpdatedLabel(text);
+//        }
 
-        private String formatDateTime(long time) {
-            if (0 == time) {
-                return "";
-            }
-            return mDateFormat.format(new Date(time));
-        }
+//        private String formatDateTime(long time) {
+//            if (0 == time) {
+//                return "";
+//            }
+//            return mDateFormat.format(new Date(time));
+//        }
 
-        public void loadData(int pageNum) {
-            if (pageNum == 1) {
-                dataList.clear();
-            }
+        public void loadData() {
+//            if (pageNum == 1) {
+//                dataList.clear();
+//            }
             List<BasicNameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("page_num", 1 + ""));
             params.add(new BasicNameValuePair("page_size", 10000 + ""));
@@ -164,26 +164,26 @@ public class CardRequestTestActivity extends IShareActivity {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject card = jsonArray.getJSONObject(i);
                                 CardItem cardRequest = JsonObjectUtil.parseJsonObjectToCardItem(card);
-//                                dataList.add(cardRequest);
-                                if (gestureType == REFRESH_GESTURE) {
-                                    dataList.add(cardRequest);
-                                    setLastUpdateTime();
-                                } else {
-                                    dataList.add(cardRequest);
-                                }
-                                if (jsonArray.length() == 0) {
-                                    hasMoreData = false;
-                                }
+                                dataList.add(cardRequest);
+//                                if (gestureType == REFRESH_GESTURE) {
+//                                    dataList.add(cardRequest);
+//                                    setLastUpdateTime();
+//                                } else {
+//                                    dataList.add(cardRequest);
+//                                }
+//                                if (jsonArray.length() == 0) {
+//                                    hasMoreData = false;
+//                                }
 
-                                cardRequestAdapter.notifyDataSetChanged();
-                                if (gestureType == REFRESH_GESTURE)
-                                    refreshListView.onPullDownRefreshComplete();
+//                                cardRequestAdapter.notifyDataSetChanged();
+//                                if (gestureType == REFRESH_GESTURE)
+//                                    refreshListView.onPullDownRefreshComplete();
 //                                else
 //                                    refreshListView.onPullUpRefreshComplete();
-                                refreshListView.setHasMoreData(hasMoreData);
+//                                refreshListView.setHasMoreData(hasMoreData);
                             }
                         }
-//                        cardRequestAdapter.notifyDataSetChanged();
+                        cardRequestAdapter.notifyDataSetChanged();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

@@ -16,6 +16,7 @@ import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.DateUtil;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
+import com.galaxy.ishare.utils.TimeUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.w3c.dom.Text;
@@ -117,7 +118,13 @@ public class OrderAdapter extends BaseAdapter {
             } else {
                 viewHolder.orderGenderIv.setImageResource(R.drawable.icon_female);
             }
-            viewHolder.orderStateTv.setText(borrowStateItems[order.orderState]);
+            if(order.orderState == 0) {
+                viewHolder.orderStateTv.setVisibility(View.INVISIBLE);
+            } else {
+                viewHolder.orderStateTv.setText(borrowStateItems[order.orderState]);
+                viewHolder.orderStateTv.setVisibility(View.VISIBLE);
+            }
+
             viewHolder.orderTypeTv.setBackgroundResource(R.drawable.borrow_bkg);
             viewHolder.orderTypeTv.setText(mContext.getResources().getString(R.string.borrow_label));
         } else {
@@ -129,14 +136,19 @@ public class OrderAdapter extends BaseAdapter {
             } else {
                 viewHolder.orderGenderIv.setImageResource(R.drawable.icon_female);
             }
-            viewHolder.orderStateTv.setText(lendStateItems[order.orderState]);
+            if(order.orderState == 0) {
+                viewHolder.orderStateTv.setVisibility(View.INVISIBLE);
+            } else {
+                viewHolder.orderStateTv.setText(lendStateItems[order.orderState]);
+                viewHolder.orderStateTv.setVisibility(View.VISIBLE);
+            }
             viewHolder.orderTypeTv.setBackgroundResource(R.drawable.lend_bkg);
             viewHolder.orderTypeTv.setText(mContext.getResources().getString(R.string.lend_label));
         }
 
         viewHolder.orderDistanceTv.setText(order.lendDistance + "km");
         viewHolder.lastChatTv.setText(order.lastChatContent + "");
-        viewHolder.lastChatTimeTv.setText(getShowTimeFormat(order.lastChatTime));
+        viewHolder.lastChatTimeTv.setText(TimeUtils.getPresentPassTime(order.lastChatTime));
 
         if (order.shopImage != null && order.shopImage.length > 0) {
             String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(order.shopImage[0], DisplayUtil.dip2px(mContext, 60), DisplayUtil.dip2px(mContext, 100));
@@ -146,7 +158,6 @@ public class OrderAdapter extends BaseAdapter {
         }
         viewHolder.shopNameTv.setText(order.shopName);
         viewHolder.shopLocationTv.setText(order.shopLocation);
-
 
         return convertView;
     }
@@ -169,26 +180,6 @@ public class OrderAdapter extends BaseAdapter {
             case 3: result = order.returnTime; break;
             case 4: result = order.payTime; break;
             case 5: result = order.confirmTime; break;
-        }
-        return result;
-    }
-
-    public String getShowTimeFormat(String time) {
-        Log.d(TAG, "time : " + time);
-        String result = null;
-        if(time != null && !"null".equals(time)) {
-            Long curTime = DateUtil.getTimeStamp() / 1000;
-            Long stateTime = DateUtil.date2TimeStamp(time, "yyyy-MM-dd hh:mm:ss") / 1000;
-            Long timeDif = curTime - stateTime;
-            if(timeDif < 10 * 60 ) {
-                result = timeDif + "分钟前";
-            } else if(timeDif < 60 * 60 * 24){
-                result = time.substring(11, time.length());
-            } else if(timeDif < 2 * 60 * 60 * 24) {
-                result = "昨天";
-            } else {
-                result = time.substring(2, 10);
-            }
         }
         return result;
     }

@@ -142,8 +142,6 @@ public class ChatActivity extends IShareActivity {
         actionBar = IShareContext.getInstance().createCustomActionBar(this, R.layout.chat_action_bar, true);
         title = (TextView) actionBar.getCustomView().findViewById(R.id.title);
         gender = (ImageView) actionBar.getCustomView().findViewById(R.id.gender);
-
-
     }
 
     public void initWidget() {
@@ -377,7 +375,12 @@ public class ChatActivity extends IShareActivity {
 
     public void setBorrowInfo() {
         Log.e(TAG, "Log.e(TAG, \"order.orderState: \" + order.orderState);.oBorrowrderState: " + order.orderState);
-        orderState.setText(borrowStateItems[order.orderState]);
+        if(order.orderState == 0) {
+            orderState.setVisibility(View.INVISIBLE);
+        } else {
+            orderState.setText(borrowStateItems[order.orderState]);
+            orderState.setVisibility(View.VISIBLE);
+        }
 
         if(order.orderState == Order.RETURN_STATE) {
             btnChangeStatus.setText(borrowStateChange[0] + "");
@@ -389,7 +392,13 @@ public class ChatActivity extends IShareActivity {
 
     public void setLendInfo() {
         Log.e(TAG, "Lend.orderState: " + order.orderState);
-        orderState.setText(lendStateItems[order.orderState]);
+        if(order.orderState == 0) {
+            orderState.setVisibility(View.INVISIBLE);
+        } else {
+            orderState.setText(lendStateItems[order.orderState]);
+            orderState.setVisibility(View.VISIBLE);
+        }
+
 
         switch (order.orderState) {
             case Order.CHAT_STATE:
@@ -444,12 +453,12 @@ public class ChatActivity extends IShareActivity {
                     Log.e(TAG, jsonObject.toString());
                     if (status == 0) {
                         int orderId = jsonObject.getInt("order_id");
-                        handler.sendEmptyMessage(1);
                         chatDao.updateUnSend(chatMsg);
                         chatDao.updateOrderId(orderId, chatMsg.fromUser, chatMsg.toUser, chatMsg.cardId);
                         Toast.makeText(mContext, "发送成功", Toast.LENGTH_LONG).show();
                     } else {
                         Message msg = handler.obtainMessage();
+                        msg.what = 2;
                         msg.obj = chatMsg;
                         handler.sendMessageDelayed(msg, 3000);
                         Toast.makeText(mContext, "发送失败, 正在重发！", Toast.LENGTH_LONG).show();
@@ -730,9 +739,6 @@ public class ChatActivity extends IShareActivity {
 
             @Override
             public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-
-                Log.v(TAG, "getCardOrder2Activity: " + retCode.toString());
-
                 Toast.makeText(mContext, "网络错误，请稍后重试", Toast.LENGTH_LONG).show();
             }
 
@@ -842,7 +848,6 @@ public class ChatActivity extends IShareActivity {
 
             @Override
             public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-
                 Log.v(TAG, "getOrder2Activity: " + retCode.toString());
 
                 Toast.makeText(mContext, "网络错误，请稍后重试", Toast.LENGTH_LONG).show();

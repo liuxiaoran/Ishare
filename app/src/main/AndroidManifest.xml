@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.galaxy.ishare"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -112,19 +112,17 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
-
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:name=".IShareApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -133,26 +131,24 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="WHCcaGCrXEVRX3LGcOqEKslN" />
-
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="555308aee0f55a3707003fe7"></meta-data>
+            android:value="555308aee0f55a3707003fe7" />
         <!-- channel id:Channel ID 替换为您应用的推广渠道名称，channel id自定义 -->
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Channel ID" />
 
-
         <activity
             android:name=".main.MainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.LoginActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
@@ -160,12 +156,12 @@
         <activity
             android:name=".bindphone.BindPhoneActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -182,7 +178,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
@@ -195,7 +191,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
@@ -205,7 +201,7 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
             android:parentActivityName=".publishware.ShopLocateSearchActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".publishware.ShopLocateSearchActivity" />
@@ -214,18 +210,19 @@
             android:name=".usercenter.me.CardAddrActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".publishware.CardOwnerAvailableAddrSearchActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name=".publishware.PreviewPictureActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".publishware.PublishItemActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".publishware.PublishItemActivity" />
@@ -235,7 +232,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".publishware.PublishItemActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".publishware.PublishItemActivity" />
@@ -249,18 +246,17 @@
         <activity
             android:name=".user_request.PublishRequestActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
         <activity
             android:name=".user_request.RequestDetailActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".user_request.PublishRequestActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".user_request.PublishRequestActivity" />
         </activity>
-
 
         <!-- end request -->
 
@@ -272,7 +268,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".main.MainActivity" />
@@ -281,7 +277,7 @@
             android:name=".sharedcard.CardDetailMapActivity"
             android:label="@string/app_name"
             android:parentActivityName=".sharedcard.CardDetailActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".sharedcard.CardDetailActivity" />
@@ -296,8 +292,9 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <!-- end chat -->
+
 
         <!-- usercenter -->
 
@@ -305,48 +302,7 @@
             android:name=".usercenter.me.SettingActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity
-            android:name=".usercenter.me.SettingNotificationActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity
-            android:name=".usercenter.me.SettingAboutIshareActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity
-            android:name=".usercenter.me.CardRequestTestActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity
-            android:name=".usercenter.me.CardRequestEditActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-
-        </activity>
-
-        <activity
-            android:name=".usercenter.me.CardIshareEditActivity"
-            android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait">
-
+            android:screenOrientation="portrait" >
         </activity>
 
         <!-- end usercenter -->
@@ -358,7 +314,7 @@
             android:name=".OverlayDemo"
             android:configChanges="orientation|keyboardHidden"
             android:label="Ovedlay Demo"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mapLBS.CardActivity"
             android:screenOrientation="portrait" />
@@ -370,7 +326,7 @@
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
@@ -382,14 +338,13 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false"></service>
-
+            android:exported="false" />
 
         <activity
             android:name=".usercenter.UserCreditActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".main.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".sharedcard.CardDetailActivity" />
@@ -399,7 +354,7 @@
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -411,8 +366,8 @@
         <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true">
-            <intent-filter android:priority="1000">
+            android:enabled="true" >
+            <intent-filter android:priority="1000" >
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
                 <!-- Required  显示通知栏 -->
                 <category android:name="com.galaxy.ishare" />
@@ -436,7 +391,7 @@
         <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".chat.MyReceiver"
-            android:enabled="true">
+            android:enabled="true" >
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTRATION" />
                 <!-- Required  用户注册SDK的intent -->
@@ -466,11 +421,24 @@
         <activity
             android:name=".usercenter.me.CardIshareActivity"
             android:label="@string/title_activity_card_ishare"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".usercenter.me.CardICollectActivity"
             android:label="@string/title_activity_card_ishare"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".usercenter.me.CardRequestActivity"
+            android:label="@string/title_activity_card_request" />
+        <activity
+            android:name=".usercenter.me.CustomerServiceActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:parentActivityName=".main.MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".main.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -102,9 +102,13 @@ public class URLConstant {
      */
     public static final String GET_I_COLLECT_CARD = SERVER_IP + "/collection/Get_Collection_C";
     public static final String ADD_COLLECTION = SERVER_IP + "/Add_Collection_C";
-    public static final String REMOVE_COLLOECTION = SERVER_IP + "/Delete_Colletion_C";
+    public static final String REMOVE_COLLOECTION = SERVER_IP + "/Delete_Collection_C";
 
     // 个人认证
     public static final String UPDATE_CREDIT = SERVER_IP + "/user/Update_Credit_C";
 
+    //客服
+    public static final String SEND_CUSTOMER_SERVICE = SERVER_IP + "/service/Add_Service_Chat_C";
+
+    public static final String GET_CUSTOMER_SERVICE = SERVER_IP + "/service/Get_Service_Chat_C";
 }

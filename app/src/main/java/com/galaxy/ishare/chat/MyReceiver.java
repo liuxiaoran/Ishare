@@ -13,6 +13,7 @@ import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.database.ChatDao;
 import com.galaxy.ishare.model.Chat;
 import com.galaxy.ishare.model.Order;
+import com.galaxy.ishare.usercenter.me.CustomerServiceManger;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -62,8 +63,12 @@ public class MyReceiver extends BroadcastReceiver {
         	//打开自定义的Activity
 			if(chat.type == 1) {
 				ChatManager.getInstance().startFromNotifycation(chat);
-			} else {
+			} else if(chat.type == 0){
 				ChatManager.getInstance().startOrderIdActivity(chat);
+			} else if(chat.type == 2) {
+				CustomerServiceManger.getInstance().handleNotification(chat);
+			} else if(chat.type == 3) {
+
 			}
 
         } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
@@ -128,6 +133,9 @@ public class MyReceiver extends BroadcastReceiver {
 					}
 					if(jsonObject.has("card_type")) {
 						chatMsg.cardType = jsonObject.getInt("card_type");
+					}
+					if(jsonObject.has("result")) {
+						chatMsg.result = jsonObject.getInt("result");
 					}
 				} catch (JSONException e) {
 					Log.v(TAG,e.toString());

@@ -61,4 +61,6 @@ public class Chat {
 
     @DatabaseField(columnName = "isSend")
     public int isSend;
+
+    public int result;
 }

@@ -49,40 +49,43 @@ public class TimeUtils {
     }
 
     public static String getPresentPassTime(String publishTime) {
-
         String ret = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//小写的mm表示的是分钟
+        if(publishTime != null) {
 
-        setCurrentTime();
-        Date publishDate = null;
-        try {
-            publishDate = sdf.parse(publishTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//小写的mm表示的是分钟
 
-        int publishMonth = publishDate.getMonth() + 1;
-        int publishDay = publishDate.getDate();
-        int publishHour = publishDate.getHours();
-        int publishMinute = publishDate.getMinutes();
-        if (publishMonth < currentMonth) {
-            ret = (currentMonth - publishMonth) + "月前";
-        } else if (publishMonth == currentMonth) {
-            if (publishDay < currentDay) {
-                ret = (currentDay - publishDay) + "天前";
-            } else if (publishDay == currentDay) {
-                if (publishHour < currentHour) {
-                    ret = (currentHour - publishHour) + "小时前";
-                } else if (publishHour == currentHour) {
-                    if (publishMinute == currentMinute) {
-                        ret = "刚刚";
-                    } else {
-                        ret = (currentMinute - publishMinute) + "分钟前";
-                    }
-                }
+            setCurrentTime();
+            Date publishDate = null;
+            try {
+                publishDate = sdf.parse(publishTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
+            int publishMonth = publishDate.getMonth() + 1;
+            int publishDay = publishDate.getDate();
+            int publishHour = publishDate.getHours();
+            int publishMinute = publishDate.getMinutes();
+            if (publishMonth < currentMonth) {
+                ret = (currentMonth - publishMonth) + "月前";
+            } else if (publishMonth == currentMonth) {
+                if (publishDay < currentDay) {
+                    ret = (currentDay - publishDay) + "天前";
+                } else if (publishDay == currentDay) {
+                    if (publishHour < currentHour) {
+                        ret = (currentHour - publishHour) + "小时前";
+                    } else if (publishHour == currentHour) {
+                        if (publishMinute == currentMinute) {
+                            ret = "刚刚";
+                        } else {
+                            ret = (currentMinute - publishMinute) + "分钟前";
+                        }
+                    }
+                }
+
+            }
         }
+
 
         return ret;
     }

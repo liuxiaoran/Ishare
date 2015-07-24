@@ -8,6 +8,7 @@ public class CardRequest {
     public String shopName;
     public String shopLocation;
     public String[] shopImage;
+    public String shopLocation;
     public int wareType;
     public int replyNum;
     public int status;

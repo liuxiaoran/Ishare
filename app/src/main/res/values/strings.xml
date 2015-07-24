@@ -80,4 +80,12 @@
 	<item name="available_object" type="id"></item>
 	<item name="available_position" type="id"></item>
     <string name="title_activity_card_request">CardRequestActivity</string>
+    <string name="title_activity_customer_service">CustomerServiceActivity</string>
+
+	<!-- customer_service -->
+	<string name="customer_service">爱享客服</string>
+	<string name="empty_msg_tip">请填写发送内容</string>
+	<string name="no_more_tip">没有更多聊天记录</string>
+
+	<string name='http_error_tip'>网络错误，请稍后重试</string>
 </resources>

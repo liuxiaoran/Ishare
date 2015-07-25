@@ -354,6 +354,7 @@ public class CardDetailActivity extends IShareActivity {
                     httpInteract.collectCard(cardItem.id + "");
                 } else {
                     CollectionDao.getInstance(CardDetailActivity.this).delete(cardItem);
+                    Log.v(TAG, "id " + cardItem.id);
                     collectBtn.setText("收藏");
                     collectBtn.setButtonColor(getResources().getColor(R.color.color_primary));
                     httpInteract.unCollectCard(cardItem.id + "");
@@ -546,7 +547,7 @@ public class CardDetailActivity extends IShareActivity {
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                    Log.v(TAG, "collect is error");
+                    Log.v(TAG, "uncollect is error");
                 }
 
                 @Override

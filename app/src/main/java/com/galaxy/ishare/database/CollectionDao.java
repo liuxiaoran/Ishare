@@ -1,11 +1,13 @@
 package com.galaxy.ishare.database;
 
 import android.content.Context;
+import android.nfc.Tag;
 import android.util.Log;
 
 import com.galaxy.ishare.model.CardItem;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -106,10 +108,11 @@ public class CollectionDao {
 
     public void delete(CardItem item) {
         try {
-            collectionDao.delete(item);
+            int id = collectionDao.delete(item);
 
         } catch (Exception e) {
             e.printStackTrace();
+            Log.v(TAG, e.toString());
         }
 
     }

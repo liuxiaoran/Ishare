@@ -78,7 +78,7 @@ public class ItemListFragment extends IShareFragment {
 
     public RelativeLayout loadingLayout;
 
-    private int tradeType = -1;
+    private int tradeType = 0;
 
     // 判断使用哪个url
     private int urlType;

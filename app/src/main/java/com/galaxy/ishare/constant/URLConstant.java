@@ -76,7 +76,7 @@ public class URLConstant {
     public static final String REQUEST_RECORD_IS_EXIST = SERVER_IP + "/record/Record_With_Request_C";
 
     // 用户获取附近的借卡
-    public static final String REQUEST_CARD_GET = SERVER_IP + "/card/Request_Card_C/get";
+    public static final String REQUEST_CARD_GET = SERVER_IP + "/request/Get_Request_Card_C";
 
     // 用户评论相关
     // 得到用户评论
@@ -86,7 +86,7 @@ public class URLConstant {
     public static final String UPDATE_ORDER_STATE = SERVER_IP + "/record/Record_C/update";
 
     // 用户发布请求
-    public static final String PUBLISH_CARD_REQUEST = SERVER_IP + "/card/Request_Card_C";
+    public static final String PUBLISH_CARD_REQUEST = SERVER_IP + "/request/Add_Request_Card_C";
 
     //card
     //我分享的卡

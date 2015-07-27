@@ -78,7 +78,7 @@ public class ItemListFragment extends IShareFragment {
 
     public RelativeLayout loadingLayout;
 
-    private int tradeType = -1;
+    private int tradeType = 0;
 
     // 判断使用哪个url
     private int urlType;
@@ -315,6 +315,9 @@ public class ItemListFragment extends IShareFragment {
 
 
                                 pullToRefreshListView.doPullRefreshing(true, 500);
+
+                                // 回到第一条
+                                cardListView.setSelection(0);
 //                                httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
 //                                        IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                             }
@@ -354,7 +357,6 @@ public class ItemListFragment extends IShareFragment {
                     pageNumber = 1;
                     dataList.clear();
 
-//                    setTabsUnPressed();
                     pullToRefreshListView.doPullRefreshing(true, 500);
 //                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
 //                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);

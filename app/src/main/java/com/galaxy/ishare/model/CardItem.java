@@ -15,7 +15,8 @@ public class CardItem implements Parcelable {
     @DatabaseField
     public String userId;
 
-    @DatabaseField
+    // 收藏的id
+    @DatabaseField(generatedId = true)
     public int id;
     @DatabaseField
     public String ownerId;

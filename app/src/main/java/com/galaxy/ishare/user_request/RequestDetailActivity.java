@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.galaxy.ishare.IShareActivity;
@@ -18,6 +19,7 @@ import com.galaxy.ishare.chat.ChatManager;
 import com.galaxy.ishare.constant.PicConstant;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -45,8 +47,10 @@ public class RequestDetailActivity extends IShareActivity {
     private TextView shopNameTv, shopDistanceTv, cardTypeTv, shopAddrTv, requesterNameTv, requesterDistanceTv, descriptionTv, timeTv;
     private FButton contactBtn;
     private CircleImageView avatarIv;
-    private FloatingActionButton mapBtn;
-
+    //    private FloatingActionButton mapBtn;
+    private LinearLayout requestViewPagerDotsLayout;
+    private ImageView[] dotsIvs;
+    private int lastChooseDot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +62,7 @@ public class RequestDetailActivity extends IShareActivity {
         }
 
         picIvs = new ImageView[picNumber > 1 ? picNumber : 1];
+        dotsIvs = new ImageView[picNumber > 1 ? picNumber : 1];
         pagerList = new ArrayList<>();
         initViews();
 
@@ -74,10 +79,30 @@ public class RequestDetailActivity extends IShareActivity {
                         currentUser.getUserId());
             }
         });
-
-        mapBtn.setOnClickListener(new View.OnClickListener() {
+        // 创建viewpager dots  imgeviews 加入layout
+        for (int i = 0; i < picIvs.length; i++) {
+            dotsIvs[i] = new ImageView(this);
+            LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(DisplayUtil.dip2px(this, 6), DisplayUtil.dip2px(this, 6));
+            dotsIvs[i].setLayoutParams(imageViewParams);
+            dotsIvs[i].setImageResource(R.drawable.white_dot_transparent);
+            requestViewPagerDotsLayout.addView(dotsIvs[i]);
+        }
+        dotsIvs[0].setImageResource(R.drawable.white_dot);
+        cardPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                dotsIvs[lastChooseDot].setImageResource(R.drawable.white_dot_transparent);
+                lastChooseDot = position;
+                dotsIvs[position].setImageResource(R.drawable.white_dot);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
             }
         });
@@ -95,8 +120,8 @@ public class RequestDetailActivity extends IShareActivity {
         descriptionTv = (TextView) findViewById(R.id.request_detail_description_tv);
         timeTv = (TextView) findViewById(R.id.request_detail_time_tv);
         contactBtn = (FButton) findViewById(R.id.request_detail_contact_btn);
-        mapBtn = (FloatingActionButton) findViewById(R.id.request_detail_map_floating_btn);
-
+//        mapBtn = (FloatingActionButton) findViewById(R.id.request_detail_map_floating_btn);
+        requestViewPagerDotsLayout = (LinearLayout) findViewById(R.id.request_detail_viewpager_dots_layout);
     }
 
     private void writeValueToViews() {

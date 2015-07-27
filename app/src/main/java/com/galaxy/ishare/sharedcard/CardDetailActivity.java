@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -30,8 +29,6 @@ import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.User;
-import com.galaxy.ishare.publishware.PublishItemActivity;
-import com.galaxy.ishare.usercenter.me.CardIShareAdapter;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
 import com.galaxy.ishare.usercenter.me.CardIshareEditActivity;
 import com.galaxy.ishare.utils.DisplayUtil;
@@ -51,7 +48,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import info.hoang8f.widget.FButton;
@@ -103,6 +99,8 @@ public class CardDetailActivity extends IShareActivity {
     private RelativeLayout ownerLayout;
     private int maxUploadPicCount = 3;
     private LinearLayout viewPagerDotLayout;
+    private ImageView[] pagerDotIvs;
+    private int lastChooseDotPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +116,7 @@ public class CardDetailActivity extends IShareActivity {
         }
 
         picIvs = new ImageView[picNumber];
+        pagerDotIvs = new ImageView[picNumber];
 
         pagerList = new ArrayList<>();
         httpInteract = new HttpInteract();
@@ -129,6 +128,34 @@ public class CardDetailActivity extends IShareActivity {
 
         writeValueIntoViews();
 
+        // 创建viewpager dots  imgeviews 加入layout
+        for (int i = 0; i < picIvs.length; i++) {
+            pagerDotIvs[i] = new ImageView(this);
+            LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(DisplayUtil.dip2px(this, 6), DisplayUtil.dip2px(this, 6));
+            pagerDotIvs[i].setLayoutParams(imageViewParams);
+            pagerDotIvs[i].setImageResource(R.drawable.white_dot_transparent);
+            viewPagerDotLayout.addView(pagerDotIvs[i]);
+        }
+        pagerDotIvs[0].setImageResource(R.drawable.white_dot);
+        // viewpager 滑动变 相应的dot
+        cardPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                pagerDotIvs[lastChooseDotPosition].setImageResource(R.drawable.white_dot_transparent);
+                lastChooseDotPosition = position;
+                pagerDotIvs[position].setImageResource(R.drawable.white_dot);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
 
         mapBtn.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +205,7 @@ public class CardDetailActivity extends IShareActivity {
                 intent.putExtra(CardIshareEditActivity.PARAMETER_TRADE_TYPE, cardItem.tradeType);
                 intent.putExtra(CardIshareEditActivity.PARAMETER_OWNER_AVAILABLE, cardItem.ownerLocation);
                 intent.putExtra(CardIshareEditActivity.PARAMETER_DESCRIPTION, cardItem.description);
-                intent.putExtra(CardIshareEditActivity.PARAMETER_CARD_ID,cardItem.id);
+                intent.putExtra(CardIshareEditActivity.PARAMETER_CARD_ID, cardItem.id);
                 if (cardItem.cardImgs != null) {
                     if (picNumber == maxUploadPicCount) {
                         intent.putExtra(CardIshareEditActivity.PARAMETER_IMG1, cardItem.cardImgs[0]);
@@ -330,7 +357,6 @@ public class CardDetailActivity extends IShareActivity {
 
             }
         });
-
 
 
     }

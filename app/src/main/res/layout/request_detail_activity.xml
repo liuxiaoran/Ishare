@@ -9,14 +9,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/request_detail_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
-            android:layout_marginTop="25dp" />
+            android:layout_marginTop="25dp">
+
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/request_detail_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+
+            <LinearLayout
+                android:id="@+id/request_detail_viewpager_dots_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+
+            </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,8 +115,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/request_detail_requester_avatar_iv"
-                android:layout_width="60dp"
-                android:layout_height="60dp" />
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
 
 
             <TextView
@@ -142,6 +159,7 @@
                 android:layout_alignParentRight="true"
                 android:text="联系他"
                 android:textColor="@color/white"
+                android:textSize="@dimen/primary_text"
                 app:buttonColor="@color/color_primary"
                 app:cornerRadius="2dp"
                 app:shadowEnabled="false" />
@@ -176,25 +194,25 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/share_item_listview_framelayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp">
+    <!--<FrameLayout-->
+    <!--android:id="@+id/share_item_listview_framelayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:paddingLeft="4dp"-->
+    <!--android:paddingRight="4dp">-->
 
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/request_detail_map_floating_btn"
-            fab:fab_colorNormal="@color/floating_btn_normal"
-            fab:fab_colorPressed="@color/floationg_btn_pressed"
-            fab:fab_colorRipple="@color/floating_btn_ripple"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:src="@drawable/icon_map" />
+    <!--<com.melnykov.fab.FloatingActionButton-->
+    <!--android:id="@+id/request_detail_map_floating_btn"-->
+    <!--android:layout_width="56dp"-->
+    <!--android:layout_height="56dp"-->
+    <!--android:layout_gravity="bottom|right"-->
+    <!--android:layout_margin="16dp"-->
+    <!--android:src="@drawable/icon_map"-->
+    <!--fab:fab_colorNormal="@color/floating_btn_normal"-->
+    <!--fab:fab_colorPressed="@color/floationg_btn_pressed"-->
+    <!--fab:fab_colorRipple="@color/floating_btn_ripple" />-->
 
 
-    </FrameLayout>
+    <!--</FrameLayout>-->
 
 </FrameLayout>

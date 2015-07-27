@@ -37,10 +37,7 @@
                     android:orientation="horizontal"
                     android:padding="5dp">
 
-                    <ImageView
-                        android:layout_width="6dp"
-                        android:layout_height="6dp"
-                        android:src="@drawable/white_dot" />
+
                 </LinearLayout>
             </FrameLayout>
 

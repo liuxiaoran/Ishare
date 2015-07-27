@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -139,7 +140,12 @@ public class JsonObjectUtil {
                 cardItem.setShopLatitude(jsonObject.getDouble("shop_latitude"));
             }
             if (jsonObject.has("shop_distance") && jsonObject.get("shop_distance") != JSONObject.NULL) {
-                cardItem.setShopDistance(jsonObject.getDouble("shop_distance"));
+
+                double distance = jsonObject.getDouble("shop_distance");
+                DecimalFormat df = new DecimalFormat(".##");
+
+                String resultDistance = df.format(distance);
+                cardItem.setShopDistance(Double.parseDouble(resultDistance));
             }
             if (jsonObject.has("description")) {
                 String description = jsonObject.getString("description");
@@ -182,7 +188,11 @@ public class JsonObjectUtil {
                 cardItem.setAvailableTime(jsonObject.getString("available_time"));
             }
             if (jsonObject.has("owner_distance") && jsonObject.get("owner_distance") != JSONObject.NULL) {
-                cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
+
+                double distance = jsonObject.getDouble("owner_distance");
+                DecimalFormat df = new DecimalFormat(".##");
+                String resultDistance = df.format(distance);
+                cardItem.setOwnerDistance(Double.parseDouble(resultDistance));
             }
             if (jsonObject.has("rating_average") && jsonObject.get("rating_average") != JSONObject.NULL) {
                 cardItem.setRatingCount(jsonObject.getDouble("rating_average"));
@@ -213,7 +223,10 @@ public class JsonObjectUtil {
                 cardItem.setOwnerGender(jsonObject.getString("gender"));
             }
             if (jsonObject.has("distance") && jsonObject.get("distance") != JSONObject.NULL) {
-                cardItem.setOwnerDistance(jsonObject.getDouble("distance"));
+                double distance = jsonObject.getDouble("distance");
+                DecimalFormat df = new DecimalFormat(".##");
+                double resultDistance = Double.parseDouble(df.format(distance));
+                cardItem.setOwnerDistance(resultDistance);
             }
             if (jsonObject.has("owner_distance") && jsonObject.get("owner_distance") != JSONObject.NULL) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));

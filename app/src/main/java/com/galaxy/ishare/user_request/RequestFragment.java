@@ -181,7 +181,6 @@ public class RequestFragment extends IShareFragment {
         public void loadData(double longitude, double latitude, int currentPageNumber) {
 
 
-            Log.v(TAG, "arrive");
             List<BasicNameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("user_longitude", longitude + ""));
             params.add(new BasicNameValuePair("user_latitude", latitude + ""));
@@ -218,7 +217,6 @@ public class RequestFragment extends IShareFragment {
 
                                         hasMoreData = false;
                                     }
-
 
                                     requestListAdapter.notifyDataSetChanged();
                                     if (gestureType == REFRESH_GESTURE)

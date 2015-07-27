@@ -16,30 +16,48 @@
             android:orientation="vertical"
             android:padding="5dp">
 
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/share_item_detail_viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="25dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginTop="25dp" />
+                android:layout_marginTop="25dp">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/share_item_detail_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+
+                <LinearLayout
+                    android:id="@+id/share_item_detail_viewpager_dots_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <ImageView
+                        android:layout_width="6dp"
+                        android:layout_height="6dp"
+                        android:src="@drawable/white_dot" />
+                </LinearLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginLeft="@dimen/large_margin"
                 android:layout_marginRight="@dimen/large_margin"
                 android:background="@color/white"
+                android:orientation="horizontal"
                 android:padding="10dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -151,13 +169,13 @@
                     android:id="@+id/share_item_collect_btn"
                     android:layout_width="88dp"
                     android:layout_height="27dp"
+                    android:layout_gravity="bottom"
+                    android:text="收藏"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/secondary_text"
                     app:buttonColor="@color/color_primary"
                     app:cornerRadius="2dp"
-                    app:shadowEnabled="false"
-                    android:textColor="@color/white"
-                    android:text="收藏"
-                    android:layout_gravity="bottom"
-                    android:textSize="@dimen/secondary_text" />
+                    app:shadowEnabled="false" />
             </LinearLayout>
 
 
@@ -234,9 +252,9 @@
             </RelativeLayout>
 
             <View
+                style="@style/horizontal_divider"
                 android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                style="@style/horizontal_divider" />
+                android:layout_marginRight="10dp" />
 
             <TextView
                 android:id="@+id/share_item_detail_card_description_tv"
@@ -327,38 +345,38 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/share_item_detail_edit_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="10dp"
-                android:id="@+id/share_item_detail_edit_layout"
                 android:visibility="invisible">
 
                 <info.hoang8f.widget.FButton
                     android:id="@+id/share_item_detail_edit_btn"
                     android:layout_width="0dp"
                     android:layout_height="35dp"
+                    android:layout_marginRight="8dp"
                     android:layout_weight="1"
                     android:text="编辑"
-                    android:layout_marginRight="8dp"
-                    app:shadowEnabled="false"
-                    app:cornerRadius="0dp"
-                    app:buttonColor="@color/color_primary"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/primary_text" />
+                    android:textSize="@dimen/primary_text"
+                    app:buttonColor="@color/color_primary"
+                    app:cornerRadius="0dp"
+                    app:shadowEnabled="false" />
 
                 <info.hoang8f.widget.FButton
                     android:id="@+id/share_item_detail_delete_btn"
                     android:layout_width="0dp"
-                    android:layout_marginLeft="8dp"
                     android:layout_height="35dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_weight="1"
                     android:text="删除"
-                    app:shadowEnabled="false"
-                    app:cornerRadius="0dp"
-                    app:buttonColor="@color/color_primary"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/primary_text" />
+                    android:textSize="@dimen/primary_text"
+                    app:buttonColor="@color/color_primary"
+                    app:cornerRadius="0dp"
+                    app:shadowEnabled="false" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

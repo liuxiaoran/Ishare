@@ -86,62 +86,62 @@
                     android:gravity="center_horizontal|left">
 
                     <LinearLayout
+                        android:id="@+id/usercenter_gender_man_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:id="@+id/usercenter_gender_man_layout">
+                        android:orientation="horizontal">
 
                         <ImageView
-                        android:id="@+id/usercenter_gender_male"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/sex_male_selected" />
+                            android:id="@+id/usercenter_gender_male"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/usercenter_icon_male" />
 
-                    <ImageView
-                        android:id="@+id/usercenter_man_gender_iv"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/usercenter_gender_male"
-                        android:background="@drawable/radiobutton_selector"
-                        android:layout_gravity="center" />
+                        <ImageView
+                            android:id="@+id/usercenter_man_gender_iv"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/usercenter_gender_male"
+                            android:background="@drawable/radiobutton_selector" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/usercenter_gender_woman_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_toRightOf="@+id/usercenter_gender_man_layout">
+                        android:layout_toRightOf="@+id/usercenter_gender_man_layout"
+                        android:orientation="horizontal">
 
 
                         <ImageView
-                        android:id="@+id/usercenter_woman_iv"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="40dp"
+                            android:id="@+id/usercenter_woman_iv"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="40dp"
+                            android:src="@drawable/usercenter_icon_female" />
 
-                        android:src="@drawable/sex_female_unselected" />
-
-                    <ImageView
-                        android:id="@+id/usercenter_woman_gender_iv"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/usercenter_woman_iv"
-                        android:background="@drawable/radiobutton_selector"
-                        android:layout_gravity="center" />
+                        <ImageView
+                            android:id="@+id/usercenter_woman_gender_iv"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/usercenter_woman_iv"
+                            android:background="@drawable/radiobutton_selector" />
                     </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
+
         <View
             style="@style/horizontal_divider"
-            android:background="#acacac"/>
+            android:background="#acacac" />
 
         <LinearLayout
             android:id="@+id/myself_info2"
@@ -164,11 +164,11 @@
                     android:text="@string/phone_num" />
 
                 <RelativeLayout
+                    android:id="@+id/usercenter_phone_layout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:id="@+id/usercenter_phone_layout">
+                    android:gravity="center_vertical">
 
 
                     <ImageView
@@ -306,9 +306,10 @@
             </RelativeLayout>
 
         </LinearLayout>
+
         <View
             style="@style/horizontal_divider"
-            android:background="#acacac"/>
+            android:background="#acacac" />
 
         <LinearLayout
             android:id="@+id/myself_info3"
@@ -398,9 +399,10 @@
             </RelativeLayout>
 
         </LinearLayout>
+
         <View
             style="@style/horizontal_divider"
-            android:background="#acacac"/>
+            android:background="#acacac" />
 
         <RelativeLayout
             android:id="@+id/usercenter_contactkefu_layout"
@@ -411,15 +413,16 @@
             android:background="@color/white">
 
 
-                <TextView
-                    style="@style/primary_textview"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:text="联系客服" />
+            <TextView
+                style="@style/primary_textview"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="20dp"
+                android:text="联系客服" />
 
         </RelativeLayout>
+
         <View
             style="@style/horizontal_divider"
-            android:background="#acacac"/>
+            android:background="#acacac" />
     </LinearLayout>
 </ScrollView>

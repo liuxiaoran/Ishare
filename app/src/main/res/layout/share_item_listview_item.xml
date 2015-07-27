@@ -144,6 +144,7 @@
                             android:text="评" />
 
                         <LinearLayout
+                            android:layout_marginLeft="5dp"
                             android:id="@+id/share_item_listview_item_rating_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

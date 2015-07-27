@@ -102,6 +102,7 @@ public class CardDetailActivity extends IShareActivity {
     private FButton editBtn, deleteBtn;
     private RelativeLayout ownerLayout;
     private int maxUploadPicCount = 3;
+    private LinearLayout viewPagerDotLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,27 +129,6 @@ public class CardDetailActivity extends IShareActivity {
 
         writeValueIntoViews();
 
-//        initMapView();
-
-        // 地图点击进入新的界面，展示三方位置
-//        baiduMap.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
-//            @Override
-//            public void onMapClick(LatLng latLng) {
-//
-//                Intent intent = new Intent(CardDetailActivity.this, CardDetailMapActivity.class);
-//                intent.putExtra(CardDetailMapActivity.PARAMETER_OWNER_LONGITUDE, cardItem.ownerLongitude);
-//                intent.putExtra(CardDetailMapActivity.PARAMETER_OWNER_LATITUDE, cardItem.ownerLatitude);
-//                intent.putExtra(CardDetailMapActivity.PARAMETER_SHOP_LONGITUDE, cardItem.shopLongitude);
-//                intent.putExtra(CardDetailMapActivity.PARAMETER_SHOP_LATITUDE,cardItem.shopLatitude);
-//
-//                startActivity(intent);
-//            }
-//
-//            @Override
-//            public boolean onMapPoiClick(MapPoi mapPoi) {
-//                return false;
-//            }
-//        });
 
 
         mapBtn.setOnClickListener(new View.OnClickListener() {
@@ -233,19 +213,6 @@ public class CardDetailActivity extends IShareActivity {
                         setResult(0, new Intent(CardDetailActivity.this, CardIshareActivity.class));
                         CardDetailActivity.this.finish();
 
-//                        JSONObject jsonObject = null;
-//                        try{
-//                            jsonObject = new JSONObject(result);
-//                            int status=jsonObject.getInt("status");
-//                            if (status==0){
-//                                Log.e(TAG, "result");
-//                                Toast.makeText(CardDetailActivity.this,"删除成功",Toast.LENGTH_LONG).show();
-//                                setResult(0, new Intent(CardDetailActivity.this, CardIshareActivity.class));
-//                                CardDetailActivity.this.finish();
-//                            }
-//                        }catch (JSONException e){
-//                            e.printStackTrace();
-//                        }
                     }
 
                     @Override
@@ -318,14 +285,15 @@ public class CardDetailActivity extends IShareActivity {
         descriptionTv.setText(cardItem.description);
 
         ImageSize avatarSize = new ImageSize(DisplayUtil.dip2px(this, 40), DisplayUtil.dip2px(this, 40));
-        Log.v(TAG, "avatar link:" + cardItem.ownerAvatar);
-        ImageLoader.getInstance().loadImage(cardItem.ownerAvatar, avatarSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
-            @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+        if (cardItem.getOwnerAvatar() != null) {
+            ImageLoader.getInstance().loadImage(cardItem.ownerAvatar, avatarSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
+                @Override
+                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 
-                ownerAvatarCv.setImageBitmap(loadedImage);
-            }
-        });
+                    ownerAvatarCv.setImageBitmap(loadedImage);
+                }
+            });
+        }
 
         commentCountTv.setText(cardItem.getCommentCount() + "");
 
@@ -364,10 +332,12 @@ public class CardDetailActivity extends IShareActivity {
         });
 
 
+
     }
 
     private void initViews() {
 
+        viewPagerDotLayout = (LinearLayout) findViewById(R.id.share_item_detail_viewpager_dots_layout);
 
         cardPager = (ViewPager) findViewById(R.id.share_item_detail_viewpager);
 
@@ -398,6 +368,8 @@ public class CardDetailActivity extends IShareActivity {
         editBtn = (FButton) findViewById(R.id.share_item_detail_edit_btn);
         deleteBtn = (FButton) findViewById(R.id.share_item_detail_delete_btn);
         ownerLayout = (RelativeLayout) findViewById(R.id.share_item_detail_owner_layout);
+
+        viewPagerDotLayout = (LinearLayout) findViewById(R.id.share_item_detail_viewpager_dots_layout);
 
     }
 
@@ -452,7 +424,6 @@ public class CardDetailActivity extends IShareActivity {
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            super.destroyItem(container, position, object);
             container.removeView(pagerList.get(position));
         }
     }
@@ -462,7 +433,6 @@ public class CardDetailActivity extends IShareActivity {
     protected void onDestroy() {
 //        defaultPoiBitmap.recycle();
         super.onDestroy();
-
     }
 
     class HttpInteract {
@@ -538,7 +508,7 @@ public class CardDetailActivity extends IShareActivity {
 
         public void unCollectCard(String cardId) {
             List<BasicNameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("card_id", JsonObjectUtil.parseArrayToJsonString(new String[]{cardId})));
+            params.add(new BasicNameValuePair("collection_id", cardId));
             HttpTask.startAsyncDataPostRequest(URLConstant.REMOVE_COLLOECTION, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {

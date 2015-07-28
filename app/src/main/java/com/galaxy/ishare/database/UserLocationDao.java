@@ -86,6 +86,7 @@ public class UserLocationDao {
             ArrayList<UserLocation> items = (ArrayList) userAvailableDao.queryForAll();
             ArrayList<UserLocation> retItems = new ArrayList<>();
             for (UserLocation userLocation : items) {
+                Log.v(TAG, userLocation.userId + "   userID  " + userLocation.address);
                 if (userLocation.userId.equals(userId)) {
                     retItems.add(userLocation);
                 }

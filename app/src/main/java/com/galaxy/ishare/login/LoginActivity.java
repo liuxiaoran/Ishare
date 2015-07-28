@@ -20,15 +20,18 @@ import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
+import com.galaxy.ishare.database.UserLocationDao;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.Settings;
 import com.galaxy.ishare.model.User;
+import com.galaxy.ishare.model.UserLocation;
 import com.galaxy.ishare.utils.widget.WaitingDialogUtil;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -274,6 +277,9 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
                             IShareContext.getInstance().saveCurrentUser(user);
 
+                            // 得到用户位置并写入数据库
+                            getUserLocationAndWirteDb();
+
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
@@ -344,6 +350,48 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
                 }
             });
 
+        }
+
+        // 得到用户的历史位置并写入数据库
+        public void getUserLocationAndWirteDb() {
+            List<BasicNameValuePair> params = new ArrayList<>();
+            HttpTask.startAsyncDataPostRequest(URLConstant.GET_LOCATION, params, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        if (status == 0) {
+                            JSONArray userLocation = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < userLocation.length(); i++) {
+                                JSONObject data = userLocation.getJSONObject(i);
+                                UserLocation location = new UserLocation(data.getInt("id"), data.getString("location"),
+                                        data.getDouble("longitude"), data.getDouble("latitude"), IShareContext.getInstance().getCurrentUser().getUserId());
+                                UserLocationDao.getInstance(LoginActivity.this).add(location);
+                            }
+                        } else {
+                            Log.v(TAG, "error get location, status is" + status);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+                    Log.v(TAG, "get user location error");
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
         }
 
 

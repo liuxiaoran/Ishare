@@ -38,6 +38,7 @@ import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.UserLocation;
+import com.galaxy.ishare.usercenter.me.CardAddrActivity;
 import com.galaxy.ishare.utils.ImageParseUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
@@ -50,7 +51,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import info.hoang8f.widget.FButton;
@@ -66,6 +66,8 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
     public static final int PARAMETER_AVAILABLE_RESULT_CODE = 3;
 
     public static final int ADDR_SEARCH_TO_PUBLISH = 4;
+    public static final int PUBLISH_TO_ADDR = 5;
+    public static final int ADDR_TO_PUBLISH_RESULT_CODE = 6;
 
     public static final int PARAMETER_PREVIEW_DELETE_RESULT_CODE = 4;
     public static final String PARETER_DELETE_POSITION = "PARETER_DELETE_POSITION";
@@ -91,8 +93,8 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
     private LinearLayout availableLayout;
     private FButton publishBtn;
 
-    private ArrayList<HashMap<String, String>> ownerAvailableList;
-
+    //    private ArrayList<HashMap<String, String>> ownerAvailableList;
+    private int locationId = -1;
 
     private ArrayAdapter<String> sugAdapter;
 
@@ -126,7 +128,6 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
     private ImageView shopNameHintIv, shopAddrHintIv, discountHintIv, descriptionHintIv, commissionHintIv;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,9 +140,6 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
         myClickListener = new MyClickListener();
 
 
-        ownerAvailableList = new ArrayList<>();
-
-
         uploadDataClient = new UploadData();
 
 
@@ -151,8 +149,6 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
         gridViewAdapter = new GridViewAdapter(this);
         photoGridView.setAdapter(gridViewAdapter);
-
-
 
 
         changeAvailableTv.setOnClickListener(myClickListener);
@@ -207,7 +203,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
         descriptionEt = (EditText) findViewById(R.id.publish_card_description_et);
 
-        changeAvailableTv = (TextView) findViewById(R.id.publish_ware_choose_available_tv);
+        changeAvailableTv = (TextView) findViewById(R.id.publish_ware_choose_addr_tv);
 
         availableLayout = (LinearLayout) findViewById(R.id.publish_ware_avaialble_layout);
 
@@ -263,7 +259,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
             ret = false;
             Toast.makeText(this, "请填写完整信息", Toast.LENGTH_SHORT).show();
-        } else if (ownerAvailableList.size() == 0) {
+        } else if (locationId == -1) {
             ret = false;
             Toast.makeText(this, "请填写您的地址", Toast.LENGTH_LONG).show();
         }
@@ -307,12 +303,10 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
                 }
 
 
-            } else if (v.getId() == R.id.publish_ware_choose_available_tv) {
+            } else if (v.getId() == R.id.publish_ware_choose_addr_tv) {
 
-//                Intent intent = new Intent(PublishItemActivity.this, CardOwnerAvailableShowActivity.class);
-                Intent intent = new Intent(PublishItemActivity.this, CardOwnerAvailableAddrSearchActivity.class);
-                intent.putExtra(CardOwnerAvailableAddrSearchActivity.PARAMETER_REQUEST_CODE, CardOwnerAvailableAddrSearchActivity.PUBLISH_TO_MAP_REQUEST_CODE);
-                intent.putExtra(CardOwnerAvailableAddrSearchActivity.PARAMETER_ADDR, IShareContext.getInstance().getUserLocationNotNull().getLocationStr());
+                Intent intent = new Intent(PublishItemActivity.this, CardAddrActivity.class);
+                intent.putExtra(CardAddrActivity.PARAMETER_WHO_COME, PUBLISH_TO_ADDR);
                 startActivityForResult(intent, CardOwnerAvailableAddrSearchActivity.PUBLISH_TO_MAP_REQUEST_CODE);
 
             } else if (v.getId() == R.id.publishware_discount_layout) {
@@ -389,22 +383,19 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
     private void writeAddrIntoLayout() {
         availableLayout.removeAllViews();
-        ownerAvailableList.clear();
-        // 得到有空的列表，构造ownerAvailableList， 上传服务器
+        // 得到有空的列表，构造ownerAvailableList
         ArrayList<UserLocation> cardItemArrayList = UserLocationDao.getInstance(this).query(IShareContext.getInstance().getCurrentUser().getUserId());
         if (cardItemArrayList != null) {
             for (UserLocation item : cardItemArrayList) {
 
-                HashMap hashMap = new HashMap();
-                    hashMap.put("longitude", item.longitude + "");
-                    hashMap.put("latitude", item.latitude + "");
-                    hashMap.put("location", item.address);
-                    ownerAvailableList.add(hashMap);
+                if (item.isChoosed) {
+                    locationId = item.serverId;
 
                     View availableItem = getLayoutInflater().inflate(R.layout.publishware_available_item, null);
                     TextView addrTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_addr_tv);
                     addrTv.setText(item.address);
                     availableLayout.addView(availableItem);
+                }
 
 
             }
@@ -415,13 +406,15 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.v(TAG, "resultcode: " + resultCode);
-        if (resultCode == PARAMETER_AVAILABLE_RESULT_CODE || resultCode == ADDR_SEARCH_TO_PUBLISH) {
-            Log.v(TAG, "arrive result");
+//        if (resultCode == PARAMETER_AVAILABLE_RESULT_CODE || resultCode == ADDR_SEARCH_TO_PUBLISH) {
+//            Log.v(TAG, "arrive result");
+//
+//            writeAddrIntoLayout();
+//
+//
+//        }
 
-            writeAddrIntoLayout();
-
-
-        } else if (resultCode == PARAMETER_SHOP_LOCATION_RESULT_CODE) {
+        if (resultCode == PARAMETER_SHOP_LOCATION_RESULT_CODE) {
             shopLatitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LATITUDE, 0);
             shopLongitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LONGITUDE, 0);
 
@@ -432,6 +425,9 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
             shopNameHintIv.setImageResource(R.drawable.icon_green_check);
             shopAddrHintIv.setImageResource(R.drawable.icon_green_check);
 
+        } else if (resultCode == ADDR_TO_PUBLISH_RESULT_CODE) {
+            Log.v(TAG, "arrive addtopubish request code");
+            writeAddrIntoLayout();
         }
 //        else if (resultCode == PARAMETER_PREVIEW_DELETE_RESULT_CODE) {
 //            int deletePosition = data.getIntExtra(PARETER_DELETE_POSITION, 0);
@@ -547,15 +543,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
             params.add(new BasicNameValuePair("service_charge", commissionInteger + "." + commissionDecimal));
 
 
-//            for (int i = 0; i < ownerAvailableLocationEtList.size(); i++) {
-//                HashMap hashMap = new HashMap();
-//                hashMap.put("location", ownerAvailableLocationEtList.get(i).getText().toString());
-//                hashMap.put("time", ownerAvailableTimeEtList.get(i).getText().toString());
-//                ownerAvailableList.add(hashMap);
-//            }
-            if (ownerAvailableList.size() >= 1) {
-                params.add(new BasicNameValuePair("owner_available", JsonObjectUtil.parseListToJsonString(ownerAvailableList)));
-            }
+            params.add(new BasicNameValuePair("location_id", locationId + ""));
 
 
             if (imageKey != null && imageKey.length > 0) {

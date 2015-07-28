@@ -250,12 +250,11 @@ public class SearchActivity extends IShareActivity {
 
             List<NameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("keyword", keyWord));
-            params.add(new BasicNameValuePair("trade_type", -1 + ""));
             params.add(new BasicNameValuePair("longitude", IShareContext.getInstance().getUserLocation().getLongitude() + ""));
             params.add(new BasicNameValuePair("latitude", IShareContext.getInstance().getUserLocation().getLatitude() + ""));
             params.add(new BasicNameValuePair("page_num", pageNumber + ""));
             params.add(new BasicNameValuePair("page_size", pageSize + ""));
-            HttpTask.startAsyncDataGetRequset(URLConstant.GET_DISTANCE_CARD_LIST, params, new HttpDataResponse() {
+            HttpTask.startAsyncDataGetRequset(URLConstant.SEARCH, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
 

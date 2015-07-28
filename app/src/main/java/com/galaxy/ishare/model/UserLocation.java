@@ -1,5 +1,7 @@
 package com.galaxy.ishare.model;
 
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
+
 import com.j256.ormlite.field.DatabaseField;
 
 /**
@@ -23,17 +25,24 @@ public class UserLocation {
     @DatabaseField(columnName = "latitude")
     public double latitude;
 
+    @DatabaseField(columnName = "ischoosed")
+    public boolean isChoosed = false;
+
+    @DatabaseField(columnName = "serverId")
+    public int serverId;
+
 
     public UserLocation() {
 
     }
 
-    public UserLocation(String address, String beginTime, String endTime, double longitide, double latitude) {
+    public UserLocation(int serverId, String address, double longitide, double latitude, String userId) {
 
         this.address = address;
         this.longitude = longitide;
         this.latitude = latitude;
-
+        this.serverId = serverId;
+        this.userId = userId;
     }
 
     public void setAddress(String address) {

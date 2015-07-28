@@ -50,7 +50,6 @@ import com.qiniu.android.storage.UpCompletionHandler;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -398,7 +397,7 @@ public class CardIshareEditActivity extends IShareActivity implements OnGetSugge
 
         descriptionEt = (EditText) findViewById(R.id.publish_card_description_et);
 
-        changeAvailableTv = (TextView) findViewById(R.id.publish_ware_choose_available_tv);
+        changeAvailableTv = (TextView) findViewById(R.id.publish_ware_choose_addr_tv);
 
         availableLayout = (LinearLayout) findViewById(R.id.publish_ware_avaialble_layout);
 
@@ -501,7 +500,7 @@ public class CardIshareEditActivity extends IShareActivity implements OnGetSugge
                 }
 
 
-            } else if (v.getId() == R.id.publish_ware_choose_available_tv) {
+            } else if (v.getId() == R.id.publish_ware_choose_addr_tv) {
 
 //                Intent intent = new Intent(PublishItemActivity.this, CardOwnerAvailableShowActivity.class);
                 Intent intent = new Intent(CardIshareEditActivity.this, CardOwnerAvailableAddrSearchActivity.class);

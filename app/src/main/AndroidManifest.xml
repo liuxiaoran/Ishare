@@ -304,6 +304,11 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".usercenter.me.CardRequestTestActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"></activity>
 
         <!-- end usercenter -->
         <activity

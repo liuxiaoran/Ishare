@@ -12,10 +12,6 @@
         android:textColor="@color/white"
         android:textSize="14sp" />
 
-    <ImageView
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:id="@+id/gender" />
 </LinearLayout>
 
 

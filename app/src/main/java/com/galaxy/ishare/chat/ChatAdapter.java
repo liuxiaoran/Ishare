@@ -88,21 +88,6 @@ public class ChatAdapter extends BaseAdapter {
 
             Log.e(TAG, "rightAvatar: " + "rightAvatar" + rightAvatar + "rightAvatar");
 
-//            if(rightAvatar == null || "".equals(rightAvatar.trim())) {
-//                String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(rightAvatar, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
-//                ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
-//                final ViewHolder finalCardHolder = viewHolder;
-//                ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
-//                        new SimpleImageLoadingListener() {
-//                            @Override
-//                            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//                                finalCardHolder.ivRightAvatar.setImageBitmap(loadedImage);
-//                            }
-//                        });
-//            } else {
-//
-//            }
-
             if(rightAvatar == null || !"".equals(rightAvatar.trim())) {
                 Log.e(TAG, "rightAvatar");
                 String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(rightAvatar, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
@@ -127,19 +112,11 @@ public class ChatAdapter extends BaseAdapter {
             if(leftAvatar != null && !"".equals(leftAvatar.trim())) {
                 String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(leftAvatar, DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
                 ImageLoader.getInstance().displayImage(thumbnailUrl, viewHolder.ivLeftAvatar);
+            } else if("ishare".equals(leftAvatar)) {
+//                viewHolder.ivLeftAvatar.setImageResource(R.drawable);
             } else {
 //                viewHolder.ivLeftAvatar.setImageResource(R.drawable);
             }
-
-//            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
-//            final ViewHolder finalCardHolder = viewHolder;
-//            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions,
-//                    new SimpleImageLoadingListener() {
-//                        @Override
-//                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-//                            finalCardHolder.ivLeftAvatar.setImageBitmap(loadedImage);
-//                        }
-//                    });
 
             if(isShowTime(position)) {
                 viewHolder.tvSendTime.setText(getTime(position));

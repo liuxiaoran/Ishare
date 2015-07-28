@@ -50,8 +50,7 @@
                         android:id="@+id/shop_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="永琪美容美发（知春路点店）"/>
+                        android:layout_centerVertical="true"/>
 
                     <TextView
                         android:id="@+id/shop_distance"
@@ -59,7 +58,6 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:text="1.0km"
                         android:visibility="gone"/>
 
                     <ImageView
@@ -82,15 +80,13 @@
                         android:id="@+id/card_discount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="2折"/>
+                        android:layout_centerVertical="true"/>
                     <TextView
                         android:id="@+id/card_type"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="8dp"
-                        android:text="优惠卡"/>
+                        android:layout_marginLeft="8dp"/>
                 </LinearLayout>
 
                 <RelativeLayout
@@ -101,8 +97,7 @@
                         android:id="@+id/order_state"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="状态：聊天中"/>
+                        android:layout_centerVertical="true"/>
 
                     <TextView
                         android:id="@+id/change_state"
@@ -117,8 +112,8 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:background="@drawable/order_state_tv_un_confirm"
-                        android:text="借给他"
-                        android:textColor="@color/chat_transparent"/>
+                        android:textColor="@color/chat_transparent"
+                        android:visibility="gone"/>
                 </RelativeLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -127,7 +122,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:src="@color/gray"/>
-
 
         <TextView
             android:id="@+id/card_distance"

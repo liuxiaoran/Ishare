@@ -65,15 +65,15 @@ public class URLConstant {
     public static final String BORROW_CARD = SERVER_IP + "/record/Record_C/add";
 
     //Order
-    public static final String GET_ORDER_LIST = SERVER_IP + "/record/Get_Record_C";
+    public static final String GET_ORDER_LIST = SERVER_IP + "/record/Get_Record_List_C";
 
-    public static final String GET_ORDER = SERVER_IP + "/record/Record_C/get_by_id";
+    public static final String GET_ORDER = SERVER_IP + "/record/Get_Record_C";
 
     public static final String ADD_ORDER = SERVER_IP + "/record/Record_C/add";
 
-    public static final String CARD_RECORD_IS_EXIST = SERVER_IP + "/record/Record_With_Card_C";
+    public static final String GET_CARD_RECORD = SERVER_IP + "/record/Get_Card_Record_C";
 
-    public static final String REQUEST_RECORD_IS_EXIST = SERVER_IP + "/record/Record_With_Request_C";
+    public static final String GET_REQUEST_RECORD = SERVER_IP + "/record/Get_Request_Record_C";
 
     // 用户获取附近的借卡
     public static final String REQUEST_CARD_GET = SERVER_IP + "/request/Get_Request_Card_C";
@@ -102,9 +102,13 @@ public class URLConstant {
      */
     public static final String GET_I_COLLECT_CARD = SERVER_IP + "/collection/Get_Collection_C";
     public static final String ADD_COLLECTION = SERVER_IP + "/Add_Collection_C";
-    public static final String REMOVE_COLLOECTION = SERVER_IP + "/Delete_Colletion_C";
+    public static final String REMOVE_COLLOECTION = SERVER_IP + "/Delete_Collection_C";
 
     // 个人认证
     public static final String UPDATE_CREDIT = SERVER_IP + "/user/Update_Credit_C";
 
+    //客服
+    public static final String SEND_CUSTOMER_SERVICE = SERVER_IP + "/service/Add_Service_Chat_C";
+
+    public static final String GET_CUSTOMER_SERVICE = SERVER_IP + "/service/Get_Service_Chat_C";
 }

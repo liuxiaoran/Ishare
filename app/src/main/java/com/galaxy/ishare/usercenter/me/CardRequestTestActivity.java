@@ -65,15 +65,15 @@ public class CardRequestTestActivity extends IShareActivity {
         setContentView(R.layout.activity_card_request);
 
         requestCardListView = (ListView) findViewById(R.id.usenter_request_listview);
-        editCardImageView = (ImageView) findViewById(R.id.item_card_request_edit_iv);
-        deleteCardImageView = (ImageView) findViewById(R.id.item_card_request_delete_iv);
+//        editCardImageView = (ImageView) findViewById(R.id.item_card_request_edit_iv);
+//        deleteCardImageView = (ImageView) findViewById(R.id.item_card_request_delete_iv);
 
         IShareContext.getInstance().createActionbar(this, true, "我在找的卡");
         httpInteract = new HttpInteract();
 
 
         httpInteract.loadData();
-        cardRequestAdapter = new CardRequestAdapter(this, dataList);
+//        cardRequestAdapter = new CardRequestAdapter(this, dataList);
 
         refreshListView = new PullToRefreshListView(this);
 

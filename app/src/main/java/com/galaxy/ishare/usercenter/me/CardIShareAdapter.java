@@ -99,7 +99,7 @@ public class CardIShareAdapter extends BaseAdapter {
 
 //        Log.d(TAG, cardItem.cardImgs[0]);
 
-        if(cardItem.cardImgs != null || !"".equals(cardItem.cardImgs[0].trim())) {
+        if(cardItem.cardImgs != null && !"".equals(cardItem.cardImgs[0].trim())) {
             String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 48), DisplayUtil.dip2px(mContext, 48));
             ImageLoader.getInstance().displayImage(thumbnailUrl, cardHolder.cardIv);
         } else {

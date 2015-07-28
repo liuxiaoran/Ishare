@@ -106,6 +106,12 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"/>
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/activity_myself_address_btn"
+                android:layout_centerHorizontal="true"></FrameLayout>
+
         </RelativeLayout>
 
 

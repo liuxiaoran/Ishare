@@ -6,8 +6,8 @@ package com.galaxy.ishare.model;
 public class CardRequest {
     public int id;
     public String shopName;
-    public String shopLocation;
     public String[] shopImage;
+    public String shopLocation;
     public int wareType;
     public int replyNum;
     public int status;

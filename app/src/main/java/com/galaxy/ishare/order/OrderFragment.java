@@ -126,6 +126,7 @@ public class OrderFragment extends IShareFragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 gestureType = REFRESH_GESTURE;
+                Log.e(TAG,"http has error");
                 httpInteract.loadData(IShareContext.getInstance().getUserLocation().getLongitude(),
                         IShareContext.getInstance().getUserLocation().getLatitude(), 1, pageSize);
             }

@@ -2,6 +2,7 @@ package com.galaxy.ishare.usercenter.me;
 
 import android.content.Context;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,7 @@ import java.util.Vector;
 
 public class CardIshareActivity extends IShareActivity {
     public static final String INTENT_ITEM_TO_DETAIL = "INTENT_ITEM_TO_DETAIL";
+    public static final String  TAG = "CardIshareActivity";
 
     private HttpInteract httpInteract;
 
@@ -103,7 +105,7 @@ public class CardIshareActivity extends IShareActivity {
             HttpTask.startAsyncDataPostRequest(URLConstant.GET_I_SHARE_CARD, params, new HttpDataResponse() {
                         @Override
                         public void onRecvOK(HttpRequestBase request, String result) {
-
+                            Log.v(TAG,"result:"+ result);
                             JSONObject jsonObject = null;
                             try {
                                 jsonObject = new JSONObject(result);

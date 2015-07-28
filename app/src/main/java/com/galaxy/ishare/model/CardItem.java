@@ -58,7 +58,7 @@ public class CardItem implements Parcelable {
     @DatabaseField
     public String cardStatus;
     @DatabaseField(dataType = DataType.SERIALIZABLE)
-    public String []cardImgs;
+    public String[] cardImgs;
     @DatabaseField
     public String publishTime;
     @DatabaseField
@@ -73,8 +73,6 @@ public class CardItem implements Parcelable {
     public String requesterLocation; // 请求界面中请求者的地址
 
 
-
-    
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(userId);
@@ -97,12 +95,12 @@ public class CardItem implements Parcelable {
         dest.writeDouble(ownerDistance);
         dest.writeString(ownerAvatar);
         dest.writeString(cardStatus);
-        if (cardImgs== null){
+        if (cardImgs == null) {
             dest.writeInt(0);
-        }else {
+        } else {
             dest.writeInt(cardImgs.length);
         }
-        if (cardImgs!=null){
+        if (cardImgs != null) {
             dest.writeStringArray(cardImgs);
         }
         dest.writeString(publishTime);
@@ -113,16 +111,17 @@ public class CardItem implements Parcelable {
         dest.writeString(requesterLocation);
     }
 
-    public CardItem (){
+    public CardItem() {
 
     }
-    public CardItem(Parcel  in){
+
+    public CardItem(Parcel in) {
         this.userId = in.readString();
         this.id = in.readInt();
-        this.ownerId= in.readString();
+        this.ownerId = in.readString();
         this.ownerName = in.readString();
         this.shopName = in.readString();
-        this.wareType =in.readInt();
+        this.wareType = in.readInt();
         this.discount = in.readDouble();
         this.tradeType = in.readInt();
         this.shopLocation = in.readString();
@@ -130,23 +129,23 @@ public class CardItem implements Parcelable {
         this.shopLatitude = in.readDouble();
         this.shopDistance = in.readDouble();
         this.description = in.readString();
-        this.availableTime= in.readString();
-        this.ownerLongitude= in.readDouble();
-        this.ownerLatitude= in.readDouble();
+        this.availableTime = in.readString();
+        this.ownerLongitude = in.readDouble();
+        this.ownerLatitude = in.readDouble();
         this.ownerLocation = in.readString();
         this.ownerDistance = in.readDouble();
         this.ownerAvatar = in.readString();
         this.cardStatus = in.readString();
 
         // 先读的是数组的长度,即写的时候也得先写长度
-        int length= in.readInt();
-        String [] tem=null;
-        if (length>0){
-            tem= new String[length];
+        int length = in.readInt();
+        String[] tem = null;
+        if (length > 0) {
+            tem = new String[length];
             in.readStringArray(tem);
         }
-        cardImgs= tem;
-        publishTime=in.readString();
+        cardImgs = tem;
+        publishTime = in.readString();
 
         rentCount = in.readInt();
         commentCount = in.readInt();
@@ -156,10 +155,10 @@ public class CardItem implements Parcelable {
     }
 
 
-    public CardItem(int id, String ownerId, String ownerName,String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, double shopDistance, String description, String time, double ownerLongitude, double ownerLatitude, String ownerLocation, double ownerDistance, String ownerAvatar, String cardStatus, String[] cardImgs) {
+    public CardItem(int id, String ownerId, String ownerName, String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, double shopDistance, String description, String time, double ownerLongitude, double ownerLatitude, String ownerLocation, double ownerDistance, String ownerAvatar, String cardStatus, String[] cardImgs) {
         this.id = id;
         this.ownerId = ownerId;
-        this.ownerName= ownerName;
+        this.ownerName = ownerName;
         this.shopName = shopName;
         this.wareType = wareType;
         this.discount = discount;
@@ -180,11 +179,8 @@ public class CardItem implements Parcelable {
     }
 
 
-
-
-
-    public CardItem(int id, String ownerId, String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, String description,  String time, double ownerLongitude,
-                    double ownerLatitude, String ownerLocation, double ownerDistance,double shopDistance) {
+    public CardItem(int id, String ownerId, String shopName, int wareType, double discount, int tradeType, String shopLocation, double shopLongitude, double shopLatitude, String description, String time, double ownerLongitude,
+                    double ownerLatitude, String ownerLocation, double ownerDistance, double shopDistance) {
         this.id = id;
         this.ownerId = ownerId;
         this.shopName = shopName;
@@ -206,7 +202,7 @@ public class CardItem implements Parcelable {
     @Override
     public String toString() {
 
-        return "id:"+id+" "+"shopName"+shopName+" "+"wareType"+wareType+" "+"owner discount"+ownerDistance +" description"+description;
+        return "id:" + id + " " + "shopName" + shopName + " " + "wareType" + wareType + " " + "owner discount" + ownerDistance + " description" + description;
 
     }
 
@@ -240,6 +236,7 @@ public class CardItem implements Parcelable {
     public String getOwnerGender() {
         return ownerGender;
     }
+
     public int getRentCount() {
         return rentCount;
     }
@@ -345,7 +342,6 @@ public class CardItem implements Parcelable {
     }
 
 
-
     public String getAvailableTime() {
         return availableTime;
     }
@@ -426,21 +422,20 @@ public class CardItem implements Parcelable {
         this.cardImgs = cardImgs;
     }
 
-    public String getPublishTime (){
+    public String getPublishTime() {
         return publishTime;
     }
-    public void setPublishTime(String publishTime ){
-        this.publishTime=publishTime;
+
+    public void setPublishTime(String publishTime) {
+        this.publishTime = publishTime;
 
     }
-
 
 
     @Override
     public int describeContents() {
         return 0;
     }
-
 
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

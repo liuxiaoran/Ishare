@@ -116,6 +116,7 @@ public class CardListItemAdapter extends BaseAdapter {
         WidgetController.getInstance().setRatingLayout(cardItem.ratingCount, mContext, cardHolder.ratingLayout);
 
 
+        Log.v(TAG, cardItem.cardImgs + "---aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         if (cardItem.cardImgs != null && cardItem.cardImgs.length > 0) {
 
             final String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
@@ -124,6 +125,7 @@ public class CardListItemAdapter extends BaseAdapter {
             finalCardHolder.cardIv.setTag(thumbnailUrl);
 
             ImageLoader.getInstance().displayImage(thumbnailUrl, finalCardHolder.cardIv);
+
             Log.v(TAG, thumbnailUrl + "---thumbnail");
 //          ImageLoader.getInstance().displayImage(thumbnailUrl, finalCardHolder.cardIv, new ImageLoadingListener() {
 //                @Override

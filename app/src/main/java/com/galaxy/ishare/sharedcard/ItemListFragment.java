@@ -340,6 +340,8 @@ public class ItemListFragment extends IShareFragment {
                     dataList.clear();
 
                     pullToRefreshListView.doPullRefreshing(true, 500);
+                    // 回到第一条
+                    cardListView.setSelection(0);
 //                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
 //                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
@@ -358,6 +360,8 @@ public class ItemListFragment extends IShareFragment {
                     dataList.clear();
 
                     pullToRefreshListView.doPullRefreshing(true, 500);
+                    // 回到第一条
+                    cardListView.setSelection(0);
 //                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
 //                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }

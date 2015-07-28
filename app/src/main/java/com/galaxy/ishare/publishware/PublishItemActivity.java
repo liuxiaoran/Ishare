@@ -390,7 +390,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
                 if (item.isChoosed) {
                     locationId = item.serverId;
-
+                    Log.v(TAG, "locationId is " + locationId);
                     View availableItem = getLayoutInflater().inflate(R.layout.publishware_available_item, null);
                     TextView addrTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_addr_tv);
                     addrTv.setText(item.address);

@@ -156,7 +156,6 @@ public class JsonObjectUtil {
             }
 
 
-
             if (jsonObject.has("img") && !"null".equals(jsonObject.get("img"))) {
                 if (jsonObject.get("img") != JSONObject.NULL) {
                     JSONArray imgArray = jsonObject.getJSONArray("img");
@@ -174,6 +173,13 @@ public class JsonObjectUtil {
                         cardItem.setCardImgs(tem);
                     }
                 }
+            }
+            if ("null".equals(jsonObject.get("img")) || jsonObject.get("img") == JSONObject.NULL) {
+                // 如果一张图没有，给个默认的图
+
+                String[] tem = new String[1];
+                tem[0] = PicConstant.defaultPic;
+                cardItem.setCardImgs(tem);
             }
             if (jsonObject.has("publish_time") && jsonObject.get("publish_time") != JSONObject.NULL) {
                 cardItem.setPublishTime(jsonObject.getString("publish_time"));

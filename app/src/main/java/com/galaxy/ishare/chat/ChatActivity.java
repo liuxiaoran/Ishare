@@ -699,17 +699,16 @@ public class ChatActivity extends IShareActivity {
     public void getCardOrder2Activity(String borrowId, String lendId, int cardId) {
         List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
         params.add(new BasicNameValuePair("borrow_id", borrowId + ""));
-        params.add(new BasicNameValuePair("lend_id", lendId + ""));
+        params.add(new BasicNameValuePair("lend_id", lendId  + ""));
         params.add(new BasicNameValuePair("card_id", cardId + ""));
 
-        HttpTask.startAsyncDataPostRequest(URLConstant.CARD_RECORD_IS_EXIST, params, new HttpDataResponse() {
+        HttpTask.startAsyncDataPostRequest(URLConstant.GET_CARD_RECORD, params, new HttpDataResponse() {
             @Override
             public void onRecvOK(HttpRequestBase request, String result) {
 
                 int status = 0;
                 JSONObject jsonObject = null;
                 try {
-                    Log.v(TAG, "result: " + result);
                     jsonObject = new JSONObject(result);
                     status = jsonObject.getInt("status");
 
@@ -760,7 +759,7 @@ public class ChatActivity extends IShareActivity {
         params.add(new BasicNameValuePair("lend_id", lendId + ""));
         params.add(new BasicNameValuePair("request_id", requestId + ""));
 
-        HttpTask.startAsyncDataPostRequest(URLConstant.REQUEST_RECORD_IS_EXIST, params, new HttpDataResponse() {
+        HttpTask.startAsyncDataPostRequest(URLConstant.GET_REQUEST_RECORD, params, new HttpDataResponse() {
             @Override
             public void onRecvOK(HttpRequestBase request, String result) {
                 try {

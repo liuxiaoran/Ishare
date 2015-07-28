@@ -46,7 +46,6 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_alignBottom="@id/request_item_requester_name_tv"
-
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/request_item_requester_name_tv"
             android:src="@drawable/icon_female" />

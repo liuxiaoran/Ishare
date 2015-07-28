@@ -38,8 +38,8 @@
 
 				<ImageView
 					android:id="@+id/order_gender_iv"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_width="15dp"
+					android:layout_height="15dp"
 					android:layout_toRightOf="@id/order_name_tv"
 					android:layout_centerVertical="true"
 					android:layout_marginLeft="8dp"

@@ -96,7 +96,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/usercenter_icon_male" />
+                            android:src="@drawable/icon_male" />
 
                         <ImageView
                             android:id="@+id/usercenter_man_gender_iv"
@@ -123,7 +123,7 @@
                             android:layout_height="20dp"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="40dp"
-                            android:src="@drawable/usercenter_icon_female" />
+                            android:src="@drawable/icon_female" />
 
                         <ImageView
                             android:id="@+id/usercenter_woman_gender_iv"

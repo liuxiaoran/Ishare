@@ -263,7 +263,6 @@ public class PublishRequestActivity extends IShareActivity {
                 params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));
                 params.add(new BasicNameValuePair("shop_latitude", shopLatitude + ""));
             }
-            params.add(new BasicNameValuePair("user_location", IShareContext.getInstance().getUserLocation().getLocationStr()));
             params.add(new BasicNameValuePair("user_longitude", IShareContext.getInstance().getUserLocation().getLongitude() + ""));
             params.add(new BasicNameValuePair("user_latitude", IShareContext.getInstance().getUserLocation().getLatitude() + ""));
             params.add(new BasicNameValuePair("trade_type", cardType + ""));

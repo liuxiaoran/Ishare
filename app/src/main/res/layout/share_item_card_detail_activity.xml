@@ -41,13 +41,12 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/large_margin"
                 android:layout_marginRight="@dimen/large_margin"
                 android:background="@color/white"
-                android:orientation="horizontal"
                 android:padding="10dp">
 
                 <LinearLayout
@@ -71,7 +70,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@id/share_item_detail_shop_name_tv"
-                            android:layout_alignTop="@id/share_item_detail_shop_name_tv"
                             android:layout_marginLeft="10dp"
                             android:layout_toRightOf="@id/share_item_detail_shop_name_tv"
                             android:src="@drawable/icon_location" />
@@ -80,6 +78,7 @@
                             android:id="@+id/share_item_detail_shop_distance_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignTop="@id/share_item_detail_locate"
                             android:layout_alignBottom="@id/share_item_detail_locate"
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@id/share_item_detail_locate"
@@ -166,14 +165,15 @@
                     android:id="@+id/share_item_collect_btn"
                     android:layout_width="88dp"
                     android:layout_height="27dp"
-                    android:layout_gravity="bottom"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
                     android:text="收藏"
                     android:textColor="@color/white"
                     android:textSize="@dimen/secondary_text"
                     app:buttonColor="@color/color_primary"
                     app:cornerRadius="2dp"
                     app:shadowEnabled="false" />
-            </LinearLayout>
+            </RelativeLayout>
 
 
             <RelativeLayout
@@ -205,8 +205,8 @@
 
                 <ImageView
                     android:id="@+id/share_item_detail_owner_gender_iv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:layout_alignLeft="@id/share_item_detail_owner_name_tv"
                     android:layout_below="@id/share_item_detail_owner_name_tv"
                     android:layout_marginTop="5dp"

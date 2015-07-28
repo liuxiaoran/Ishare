@@ -103,6 +103,7 @@ public class OrderFragment extends IShareFragment {
         mPullListView.setScrollLoadEnabled(true);
         orderBorrowListView = mPullListView.getRefreshableView();
         orderBorrowListView.setDivider(null);// 设置不显示分割线
+        orderBorrowListView.setSelector(R.color.window_background);// 设置listview 条目选中的背景
         orderBorrowAdapter = new OrderAdapter(getActivity(), orderBorrowList);
         orderBorrowListView.setAdapter(orderBorrowAdapter);
 

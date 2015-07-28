@@ -181,6 +181,12 @@ public class JsonObjectUtil {
             if (jsonObject.has("owner_latitude") && jsonObject.get("owner_latitude") != JSONObject.NULL) {
                 cardItem.setOwnerLatitude(jsonObject.getDouble("owner_latitude"));
             }
+            if (jsonObject.has("user_latitude") && jsonObject.get("user_latitude") != JSONObject.NULL) {
+                cardItem.setOwnerLatitude(jsonObject.getDouble("user_latitude"));
+            }
+            if (jsonObject.has("user_longitude") && jsonObject.get("user_longitude") != JSONObject.NULL) {
+                cardItem.setOwnerLongitude(jsonObject.getDouble("user_longitude"));
+            }
             if (jsonObject.has("available_addr") && jsonObject.get("available_addr") != JSONObject.NULL) {
                 cardItem.setOwnerLocation(jsonObject.getString("available_addr"));
             }

@@ -128,7 +128,7 @@
 
             <ImageView
                 android:id="@+id/request_detail_requester_gender_iv"
-                android:layout_width="wrap_content"
+                android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_alignLeft="@id/request_detail_requester_name_tv"
                 android:layout_below="@id/request_detail_requester_name_tv"

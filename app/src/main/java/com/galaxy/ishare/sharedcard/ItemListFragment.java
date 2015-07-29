@@ -1,6 +1,5 @@
 package com.galaxy.ishare.sharedcard;
 
-import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +22,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.galaxy.ishare.Global;
-import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.IShareFragment;
 import com.galaxy.ishare.R;
@@ -32,7 +30,6 @@ import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpGetExt;
-import com.galaxy.ishare.http.HttpPostExt;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.mapLBS.CardActivity;
 import com.galaxy.ishare.model.CardItem;
@@ -49,7 +46,6 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -100,6 +96,7 @@ public class ItemListFragment extends IShareFragment {
 
     private int receiveBroadcastCount;
     private ImageView categoryTabArrowIv;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -179,7 +176,6 @@ public class ItemListFragment extends IShareFragment {
         });
 
 
-
         return mRoot;
     }
 
@@ -252,9 +248,7 @@ public class ItemListFragment extends IShareFragment {
         categoryTabArrowIv = (ImageView) view.findViewById(R.id.main_catagory_tab_arrow_iv);
 
 
-
     }
-
 
 
     class MyClickListener implements View.OnClickListener {
@@ -313,11 +307,14 @@ public class ItemListFragment extends IShareFragment {
                                 pageNumber = 1;
                                 dataList.clear();
 
+//                                goBackToTop = true;
+//                                if (goBackToTop){
+                                cardListView.setSelection(0);
+//                                }
 
                                 pullToRefreshListView.doPullRefreshing(true, 500);
 
-                                // 回到第一条
-                                cardListView.setSelection(0);
+
 //                                httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
 //                                        IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                             }
@@ -325,7 +322,6 @@ public class ItemListFragment extends IShareFragment {
                         }
                     });
                 }
-
 
 
             } else if (v.getId() == R.id.share_item_discount_layout) {
@@ -338,8 +334,10 @@ public class ItemListFragment extends IShareFragment {
                     urlType = DISCOUNT_LOAD_URL_TYPE;
                     pageNumber = 1;
                     dataList.clear();
+                    cardListView.setSelection(0);
 
                     pullToRefreshListView.doPullRefreshing(true, 500);
+
 //                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
 //                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
@@ -357,6 +355,9 @@ public class ItemListFragment extends IShareFragment {
                     pageNumber = 1;
                     dataList.clear();
 
+//                    goBackToTop = true;
+//                    Log.v(TAG, "gobacktotop: " + goBackToTop);
+                    cardListView.setSelection(0);
                     pullToRefreshListView.doPullRefreshing(true, 500);
 //                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
 //                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
@@ -393,6 +394,7 @@ public class ItemListFragment extends IShareFragment {
 //           之前是如果是显示第一页，显示加载layout，现在只是显示下拉刷新，不显示加载layout
 //            if (pageNumber == 1)
 //                loadingLayout.setVisibility(View.VISIBLE);
+
 
             for (int i = 0; i < httpGetExts.size(); i++) {
                 HttpGetExt httpGetExt = httpGetExts.get(i);
@@ -449,14 +451,13 @@ public class ItemListFragment extends IShareFragment {
 
 
                             cardListItemAdapter.notifyDataSetChanged();
+
                             if (gestureType == REFRESH_GESTURE)
                                 pullToRefreshListView.onPullDownRefreshComplete();
                             else
                                 pullToRefreshListView.onPullUpRefreshComplete();
 
                             pullToRefreshListView.setHasMoreData(hasMoreData);
-
-
 
 
                         } else {

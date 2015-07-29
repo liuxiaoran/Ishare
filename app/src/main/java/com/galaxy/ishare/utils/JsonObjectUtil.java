@@ -156,7 +156,6 @@ public class JsonObjectUtil {
             }
 
 
-
             if (jsonObject.has("img") && !"null".equals(jsonObject.get("img"))) {
                 if (jsonObject.get("img") != JSONObject.NULL) {
                     JSONArray imgArray = jsonObject.getJSONArray("img");
@@ -169,6 +168,13 @@ public class JsonObjectUtil {
 
                     // 如果一张图没有，给个默认的图
                     if (imgArray.length() == 0) {
+                        String[] tem = new String[1];
+                        tem[0] = PicConstant.defaultPic;
+                        cardItem.setCardImgs(tem);
+                    }
+                    if ("null".equals(jsonObject.get("img")) || jsonObject.get("img") == JSONObject.NULL) {
+                        // 如果一张图没有，给个默认的图
+
                         String[] tem = new String[1];
                         tem[0] = PicConstant.defaultPic;
                         cardItem.setCardImgs(tem);

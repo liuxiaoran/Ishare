@@ -22,6 +22,7 @@ import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.login.LoginActivity;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.CardRequest;
 import com.galaxy.ishare.publishware.PoiSearchActivity;
@@ -53,7 +54,7 @@ public class CardRequestEditActivity extends IShareActivity {
     FButton[] cardTypeBtns;
 
     MClickListener mClickListener;
-//    HttpInteract httpInteract;
+
 
     private boolean isHasShopLatLng = false;
     double shopLatitude;
@@ -74,7 +75,6 @@ public class CardRequestEditActivity extends IShareActivity {
         ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "我在找的卡");
 
         mClickListener = new MClickListener();
-
 
 
         cardRequest = getIntent().getParcelableExtra("editCardRequest");
@@ -115,9 +115,9 @@ public class CardRequestEditActivity extends IShareActivity {
                     descriptionHintIv.setImageResource(R.drawable.icon_red_dot);
                 }
             }
+
+
         });
-
-
     }
 
 
@@ -218,19 +218,6 @@ public class CardRequestEditActivity extends IShareActivity {
                 }
 
             }
-//            else if (v.getId() == R.id.request_publish_shop_locate_iv) {
-//                if (shopNameEt.getText().toString().equals("")) {
-//
-//                    Toast.makeText(PublishRequestActivity.this, "请填写店名", Toast.LENGTH_SHORT).show();
-//
-//                } else {
-//
-//                    Intent intent = new Intent(PublishRequestActivity.this, PoiSearchActivity.class);
-////                    intent.putExtra(PoiSearchActivity.PARAMETER_SHOP_NAEM, shopNameEt.getText().toString());
-//                    startActivityForResult(intent, PoiSearchActivity.PARAMETER_PULBISH_REQUEST_CODE);
-//                }
-//
-//            }
         }
     }
 
@@ -248,7 +235,7 @@ public class CardRequestEditActivity extends IShareActivity {
             shopAddrHintIv.setImageResource(R.drawable.icon_green_check);
             shopNameHintIv.setImageResource(R.drawable.icon_green_check);
         }
-    }
+        }
 
     public boolean checkInfo() {
         if (shopNameTv.getText().toString().equals("")) {
@@ -268,54 +255,10 @@ public class CardRequestEditActivity extends IShareActivity {
             return false;
         }
         return true;
-    }
+        }
 
     class HttpInteract {
 
-//        public void loadData() {
-//            List<BasicNameValuePair> params = new ArrayList<>();
-//            params.add(new BasicNameValuePair("page_num", 1 + ""));
-//            params.add(new BasicNameValuePair("page_size", 10000 + ""));
-//            HttpTask.startAsyncDataPostRequest(URLConstant.GET_I_REQUEST_CARD, params, new HttpDataResponse() {
-//                @Override
-//                public void onRecvOK(HttpRequestBase request, String result) {
-//                    JSONObject jsonObject = null;
-//                    try {
-//                        jsonObject = new JSONObject(result);
-//                        int status = jsonObject.getInt("status");
-//                        if (status == 0) {
-//                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-//                            for (int i = 0; i < jsonArray.length(); i++){
-//                                JSONObject card=jsonArray.getJSONObject(i);
-//                                CardItem cardRequest= JsonObjectUtil.parseJsonObjectToCardItem(card);
-//                                shopNameTv.setText(cardRequest.shopName);
-//                                addrTv.setText(cardRequest.shopLocation);
-//                                descriptionEt.setText(cardRequest.description);
-//                                setButtonSelected(cardRequest.wareType);
-//
-//                            }
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//
-//                @Override
-//                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-//
-//                }
-//
-//                @Override
-//                public void onRecvCancelled(HttpRequestBase request) {
-//
-//                }
-//
-//                @Override
-//                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
-//
-//                }
-//            });
-//        }
 
         public void editRequest() {
 
@@ -348,7 +291,7 @@ public class CardRequestEditActivity extends IShareActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
+                        }
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
@@ -368,7 +311,7 @@ public class CardRequestEditActivity extends IShareActivity {
 
                 }
             });
-        }
+                }
 
     }
 }

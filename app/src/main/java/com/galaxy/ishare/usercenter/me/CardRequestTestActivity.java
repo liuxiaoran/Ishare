@@ -59,6 +59,7 @@ public class CardRequestTestActivity extends IShareActivity {
     private Vector<CardItem> dataList = new Vector<>();
     private CardRequestAdapter cardRequestAdapter;
     private HttpInteract httpInteract;
+    private static final String TAG = "CardRequestTestActivity";
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -66,17 +67,19 @@ public class CardRequestTestActivity extends IShareActivity {
         setContentView(R.layout.activity_card_request);
 
         requestCardListView = (ListView) findViewById(R.id.usenter_request_listview);
-//        editCardImageView = (ImageView) findViewById(R.id.item_card_request_edit_iv);
-//        deleteCardImageView = (ImageView) findViewById(R.id.item_card_request_delete_iv);
+        editCardImageView = (ImageView) findViewById(R.id.item_card_request_edit_iv);
+        deleteCardImageView = (ImageView) findViewById(R.id.item_card_request_delete_iv);
+        cardRequestAdapter = new CardRequestAdapter(this, dataList);
 
         IShareContext.getInstance().createActionbar(this, true, "我在找的卡");
         httpInteract = new HttpInteract();
 
 
         httpInteract.loadData();
+
 //        cardRequestAdapter = new CardRequestAdapter(this, dataList);
 
-        refreshListView = new PullToRefreshListView(this);
+//        refreshListView = new PullToRefreshListView(this);
 
         requestCardListView.setAdapter(cardRequestAdapter);
         requestCardListView.setDividerHeight(0);
@@ -157,8 +160,10 @@ public class CardRequestTestActivity extends IShareActivity {
                 public void onRecvOK(HttpRequestBase request, String result) {
                     boolean hasMoreData = true;
                     JSONObject jsonObject = null;
+                    Log.v(TAG, "in");
                     try {
                         jsonObject = new JSONObject(result);
+                        Log.v(TAG, result);
                         int status = jsonObject.getInt("status");
                         if (status == 0) {
                             JSONArray jsonArray = jsonObject.getJSONArray("data");

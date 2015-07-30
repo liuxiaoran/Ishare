@@ -1,12 +1,9 @@
 package com.galaxy.ishare.sharedcard;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
@@ -33,7 +30,7 @@ public class CardDetailMapActivity extends IShareActivity {
     public static final String PARAMETER_OWNER_LATITUDE = "PARAMETER_OWNER_LATITUDE";
     public static final String PARAMETER_OWNER_LONGITUDE = "PARAMETER_OWNER_LONGITUDE";
 
-    public static final String TAG ="CardDetailMapActivity";
+    public static final String TAG = "CardDetailMapActivity";
 
     private double shopLatitude;
     private double shopLongitude;
@@ -79,7 +76,9 @@ public class CardDetailMapActivity extends IShareActivity {
         shopLocationBitmap = BitmapDescriptorFactory
                 .fromResource(R.drawable.icon_markc);
 
-        Log.v(TAG, "shopLatitude: "+shopLatitude+" shopLongitude:"+shopLongitude);
+        Log.v(TAG, "shopLatitude: " + shopLatitude + " shopLongitude:" + shopLongitude);
+        Log.v(TAG, "ownerLatitude: " + ownerLatitude + " ownerLongitude:" + ownerLongitude);
+        Log.v(TAG, "userLatitude: " + userLatitude + " userLongitude: " + userLatitude);
 
         initMap();
 
@@ -88,7 +87,7 @@ public class CardDetailMapActivity extends IShareActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()== android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
         }
         return super.onOptionsItemSelected(item);
@@ -101,52 +100,49 @@ public class CardDetailMapActivity extends IShareActivity {
         double westLongitude = shopLongitude;
         double eastLongitude = shopLongitude;
 
-        if (ownerLatitude > userLatitude) {
-            if (ownerLatitude > northLatitude) {
-                northLatitude = ownerLatitude;
-            }
-        } else {
-            if (userLatitude > northLatitude) {
-                northLatitude = userLatitude;
-            }
+        if (ownerLatitude > northLatitude) {
+            northLatitude = ownerLatitude;
+        }
+        if (userLatitude > northLatitude) {
+            northLatitude = userLatitude;
         }
 
-        if (ownerLatitude < userLatitude) {
-            if (ownerLatitude < southLatitude) {
-                southLatitude = ownerLatitude;
-            }
-        } else {
-            if (userLatitude < southLatitude) {
-                southLatitude = userLatitude;
-            }
+        if (ownerLatitude < southLatitude) {
+            southLatitude = ownerLatitude;
+        }
+        if (userLatitude < southLatitude) {
+            southLatitude = userLatitude;
         }
 
-        if (ownerLongitude < userLongitude) {
-            if (ownerLongitude < westLongitude) {
-                westLongitude = ownerLongitude;
-            }
-        } else {
-            if (userLongitude < westLongitude) {
-                westLongitude = userLongitude;
-            }
+        if (ownerLongitude < westLongitude) {
+            westLongitude = ownerLongitude;
+        }
+        if (userLongitude < westLongitude) {
+            westLongitude = userLongitude;
         }
 
-        if (ownerLongitude > userLongitude) {
-            if (ownerLongitude > eastLongitude) {
-                eastLongitude = ownerLongitude;
-            }
-        } else {
-            if (userLongitude > eastLongitude) {
-                eastLongitude = userLongitude;
-            }
+
+        if (ownerLongitude > eastLongitude) {
+            eastLongitude = ownerLongitude;
         }
+        if (userLongitude > eastLongitude) {
+            eastLongitude = userLongitude;
+        }
+        Log.v(TAG, "north:  " + northLatitude + " south: " + southLatitude);
+        Log.v(TAG, "east: " + eastLongitude + "   west: " + westLongitude);
+        final LatLngBounds latLngBounds = new LatLngBounds.Builder().include(new LatLng(northLatitude, eastLongitude))
+                .include(new LatLng(southLatitude, westLongitude)).build();
 
-        // 设置地图范围，要最大限度显示三个点
-        LatLngBounds latLngBounds = new LatLngBounds.Builder().include(new LatLng(northLatitude + 10, eastLongitude + 10))
-                .include(new LatLng(southLatitude - 10, westLongitude - 10)).build();
+        // 注意在地图加载完成之后，更新地图状态。如果直接setMapStatus没有效果
+        mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                // 设置地图范围，要最大限度显示三个点
+                MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLngBounds(latLngBounds);
+                mBaiduMap.animateMapStatus(mapStatusUpdate, 300);
+            }
+        });
 
-        MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory.newLatLngBounds(latLngBounds);
-        mBaiduMap.setMapStatus(mapStatusUpdate);
 
 
         // 设置Marker 并且显示

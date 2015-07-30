@@ -31,7 +31,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     //Support Libraries
     compile 'com.android.support:support-v4:21.0.3'
-    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:appcompat-v7:21.0.+'
     // material design dialog
     compile 'com.afollestad:material-dialogs:0.7.3.2'
     //Ormlite
@@ -70,6 +70,11 @@ dependencies {
     // unmeng统计
     compile files('libs/umeng-analytics-v5.5.3.jar')
     // snack bar
-    //    compile 'com.nispok:snackbar:2.10.+'
+    // compile 'com.nispok:snackbar:2.10.+'
+
+    //umeng update
     compile files('libs/umeng-update-v2.6.0.1.jar')
+
+    // ripple effect
+    compile 'com.github.traex.rippleeffect:library:1.3'
 }

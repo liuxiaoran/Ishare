@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -10,19 +11,20 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:textSize="@dimen/title_text"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_text" />
+
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:id="@+id/main_publish_request_iv"
         android:layout_centerVertical="true"
-        android:src="@drawable/icon_plus"
+        android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp" />
+        android:id="@+id/main_publish_request_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_plus" />
 
 
 </RelativeLayout>

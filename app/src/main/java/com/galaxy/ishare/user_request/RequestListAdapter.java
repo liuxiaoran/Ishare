@@ -1,7 +1,7 @@
 package com.galaxy.ishare.user_request;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,21 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.galaxy.ishare.IShareContext;
+import com.andexert.library.RippleView;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.galaxy.ishare.utils.TimeUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Vector;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,7 +34,6 @@ public class RequestListAdapter extends BaseAdapter {
     private Vector<CardItem> dataList;
     private LayoutInflater inflater;
 
-    private int currentMonth, currentDay, currentHour, currentMinute;
 
     public RequestListAdapter(Context context, Vector dataList) {
         mContext = context;
@@ -67,7 +59,7 @@ public class RequestListAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         RequestItemHolder holder = null;
         if (convertView == null) {
@@ -81,6 +73,7 @@ public class RequestListAdapter extends BaseAdapter {
             holder.shopNameTv = (TextView) convertView.findViewById(R.id.request_item_card_shopname_tv);
             holder.shopLocationTv = (TextView) convertView.findViewById(R.id.request_item_card_shop_location_tv);
             holder.shopDistanceTv = (TextView) convertView.findViewById(R.id.request_item_shop_distance_tv);
+            holder.rippleView = (RippleView) convertView.findViewById(R.id.request_item_ripple_view);
             convertView.setTag(holder);
 
 
@@ -116,6 +109,15 @@ public class RequestListAdapter extends BaseAdapter {
         holder.shopLocationTv.setText(cardItem.getShopLocation());
         holder.shopDistanceTv.setText(cardItem.shopDistance + "");
 
+        holder.rippleView.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+            @Override
+            public void onComplete(RippleView rippleView) {
+                Intent intent = new Intent(mContext, RequestDetailActivity.class);
+                intent.putExtra(RequestDetailActivity.PARAMETER_REQUEST, dataList.get(position));
+                mContext.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
 
@@ -128,11 +130,8 @@ public class RequestListAdapter extends BaseAdapter {
         public TextView shopNameTv;
         public TextView shopLocationTv;
         public TextView shopDistanceTv;
-
+        public RippleView rippleView;
     }
-
-
-
 
 
 }

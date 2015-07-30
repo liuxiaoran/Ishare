@@ -128,13 +128,7 @@
                     android:layout_toRightOf="@+id/activity_myself_credit_idcard"
                     android:src="@drawable/card_pic_add" />
 
-                <ImageView
-                    android:id="@+id/activity_myself_credit_idcard2_tv"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_alignLeft="@id/activity_myself_credit_idcard1_iv"
-                    android:layout_below="@id/activity_myself_credit_idcard1_iv"
-                    android:src="@drawable/card_pic_add" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -142,7 +136,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="14sp"
                     android:layout_toRightOf="@+id/activity_myself_credit_idcard1_iv"
-                    android:text="请上传您的身份证正反面"
+                    android:text="请上传您的身份证正面"
                     android:textColor="@color/dark_hint_text"
                     android:textSize="@dimen/secondary_text" />
             </RelativeLayout>

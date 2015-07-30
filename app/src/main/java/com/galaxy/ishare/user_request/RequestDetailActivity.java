@@ -2,8 +2,6 @@ package com.galaxy.ishare.user_request;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +14,12 @@ import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.chat.ChatManager;
-import com.galaxy.ishare.constant.PicConstant;
+import com.galaxy.ishare.constant.Constant;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
-import com.melnykov.fab.FloatingActionButton;
 import com.nostra13.universalimageloader.core.ImageLoader;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -156,7 +151,7 @@ public class RequestDetailActivity extends IShareActivity {
             picIvs[0] = (ImageView) view.findViewById(R.id.share_item_detail_card_pager_iv);
 
             final int finalI = 0;
-            ImageLoader.getInstance().displayImage(PicConstant.defaultPic, picIvs[finalI], IShareApplication.defaultOptions);
+            ImageLoader.getInstance().displayImage(Constant.defaultPic, picIvs[finalI], IShareApplication.defaultOptions);
             pagerList.add(view);
         }
 

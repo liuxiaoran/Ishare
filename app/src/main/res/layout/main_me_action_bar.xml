@@ -10,19 +10,20 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:textSize="@dimen/title_text"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/title_text" />
+
 
     <ImageView
+        android:id="@+id/main_me_setting_iv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:id="@+id/main_me_setting_iv"
         android:layout_centerVertical="true"
-        android:src="@drawable/icon_setting"
+        android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
-        android:paddingBottom="5dp" />
+        android:src="@drawable/icon_setting" />
 
 
 </RelativeLayout>

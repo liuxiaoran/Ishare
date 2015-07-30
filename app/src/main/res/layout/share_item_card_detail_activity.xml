@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:fbutton="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -78,8 +79,8 @@
                             android:id="@+id/share_item_detail_shop_distance_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@id/share_item_detail_locate"
                             android:layout_alignBottom="@id/share_item_detail_locate"
+                            android:layout_alignTop="@id/share_item_detail_locate"
                             android:layout_marginLeft="5dp"
                             android:layout_toRightOf="@id/share_item_detail_locate"
                             android:text="123"
@@ -232,6 +233,7 @@
                     android:textColor="@color/dark_secondary_text"
                     android:textSize="@dimen/hint_text" />
 
+
                 <info.hoang8f.widget.FButton
                     android:id="@+id/share_item_detail_contact_btn"
                     android:layout_width="88dp"
@@ -349,6 +351,7 @@
                 android:padding="10dp"
                 android:visibility="invisible">
 
+
                 <info.hoang8f.widget.FButton
                     android:id="@+id/share_item_detail_edit_btn"
                     android:layout_width="0dp"
@@ -361,6 +364,7 @@
                     app:buttonColor="@color/color_primary"
                     app:cornerRadius="0dp"
                     app:shadowEnabled="false" />
+
 
                 <info.hoang8f.widget.FButton
                     android:id="@+id/share_item_detail_delete_btn"

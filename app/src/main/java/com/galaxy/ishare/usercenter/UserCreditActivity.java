@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
@@ -21,6 +22,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,7 +34,7 @@ import java.util.List;
  */
 public class UserCreditActivity extends ChangePictureActivity {
 
-    private ImageView personIv, idCard1Iv, idCard2Iv, workCardIv;
+    private ImageView personIv, idCard1Iv, workCardIv;
 
     public static final String TAG = "usercreditactivity";
 
@@ -50,7 +53,6 @@ public class UserCreditActivity extends ChangePictureActivity {
 
         personIv = (ImageView) findViewById(R.id.activity_myself_credit_personalpic_iv);
         idCard1Iv = (ImageView) findViewById(R.id.activity_myself_credit_idcard1_iv);
-        idCard2Iv = (ImageView) findViewById(R.id.activity_myself_credit_idcard2_tv);
         workCardIv = (ImageView) findViewById(R.id.activity_myself_credit_jobcard_iv);
         realNameEt = (EditText) findViewById(R.id.activity_myself_credit_realname_et);
         jobLocationEt = (EditText) findViewById(R.id.activity_myself_credit_work_et);
@@ -67,9 +69,7 @@ public class UserCreditActivity extends ChangePictureActivity {
         if (currentUser.getIdCardPic1Url() != null) {
             ImageLoader.getInstance().displayImage(currentUser.getIdCardPic1Url(), idCard1Iv, null, null);
         }
-        if (currentUser.getIdCardPic2Url() != null) {
-            ImageLoader.getInstance().displayImage(currentUser.getIdCardPic2Url(), idCard2Iv, null, null);
-        }
+
         if (currentUser.getJobLocation() != null) {
             jobLocationEt.setText(currentUser.getJobLocation());
             Log.v(TAG, currentUser.getJobLocation() + "-----");
@@ -78,12 +78,11 @@ public class UserCreditActivity extends ChangePictureActivity {
             ImageLoader.getInstance().displayImage(currentUser.getJobCardUrl(), workCardIv, null, null);
         }
         //初始化changePicture
-        init(4);
+        init(3);
 
         changeImageView[0] = personIv;
         changeImageView[1] = idCard1Iv;
-        changeImageView[2] = idCard2Iv;
-        changeImageView[3] = workCardIv;
+        changeImageView[2] = workCardIv;
 
         callbacks[0] = new ChangePictureCallback() {
             @Override
@@ -102,7 +101,7 @@ public class UserCreditActivity extends ChangePictureActivity {
 
                     @Override
                     public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-
+                        Toast.makeText(UserCreditActivity.this, "上传失败，请重试", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -125,16 +124,27 @@ public class UserCreditActivity extends ChangePictureActivity {
                 user.setIdCardPic1Url(url);
                 IShareContext.getInstance().saveCurrentUser(user);
                 List<BasicNameValuePair> params = new ArrayList<>();
-                params.add(new BasicNameValuePair("idCard1", url));
+                params.add(new BasicNameValuePair("id_facade", url));
                 HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_CREDIT, params, new HttpDataResponse() {
                     @Override
                     public void onRecvOK(HttpRequestBase request, String result) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            int status = jsonObject.getInt("status");
+                            if (status != 0) {
+                                Toast.makeText(UserCreditActivity.this, "服务器错误", Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
                     }
 
                     @Override
                     public void onRecvError(HttpRequestBase request, HttpCode retCode) {
 
+                        Toast.makeText(UserCreditActivity.this, "上传失败，请重试", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -150,39 +160,8 @@ public class UserCreditActivity extends ChangePictureActivity {
 
             }
         };
+
         callbacks[2] = new ChangePictureCallback() {
-            @Override
-            public void afterChangePicture(String url) {
-                User user = IShareContext.getInstance().getCurrentUser();
-                user.setIdCardPic2Url(url);
-                IShareContext.getInstance().saveCurrentUser(user);
-                List<BasicNameValuePair> params = new ArrayList<>();
-                params.add(new BasicNameValuePair("idCard2", url));
-                HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_CREDIT, params, new HttpDataResponse() {
-                    @Override
-                    public void onRecvOK(HttpRequestBase request, String result) {
-
-                    }
-
-                    @Override
-                    public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-
-                    }
-
-                    @Override
-                    public void onRecvCancelled(HttpRequestBase request) {
-
-                    }
-
-                    @Override
-                    public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
-
-                    }
-                });
-
-            }
-        };
-        callbacks[3] = new ChangePictureCallback() {
             @Override
             public void afterChangePicture(String picUrl) {
                 User user = IShareContext.getInstance().getCurrentUser();
@@ -198,7 +177,7 @@ public class UserCreditActivity extends ChangePictureActivity {
 
                     @Override
                     public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-
+                        Toast.makeText(UserCreditActivity.this, "上传失败，请重试", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -215,7 +194,7 @@ public class UserCreditActivity extends ChangePictureActivity {
         };
         ClickListener listener = new ClickListener();
 
-        for (int i = 0; i <= 3; i++) {
+        for (int i = 0; i <= 2; i++) {
             changeImageView[i].setOnClickListener(listener);
         }
         httpInteract = new HttpInteract();
@@ -234,10 +213,8 @@ public class UserCreditActivity extends ChangePictureActivity {
                 setCurrentImageViewIndex(1);
 
             } else if (v.getId() == R.id.activity_myself_credit_jobcard_iv) {
-                setCurrentImageViewIndex(3);
-
-            } else if (v.getId() == R.id.activity_myself_credit_idcard2_tv) {
                 setCurrentImageViewIndex(2);
+
             }
 
             showDialog();

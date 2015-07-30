@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,6 +98,21 @@ public class ItemListFragment extends IShareFragment {
 
     private int receiveBroadcastCount;
     private ImageView categoryTabArrowIv;
+
+    private boolean isGoBackToTop = false;
+
+    private final int GO_BACK_TO_TOP_WHAT = 1;
+    private final int RIPPLE_FINISH_WHAT = 2;
+
+    Handler listViewHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == GO_BACK_TO_TOP_WHAT) {
+                cardListView.setSelection(0);
+            }
+        }
+    };
 
 
     @Override
@@ -188,21 +205,22 @@ public class ItemListFragment extends IShareFragment {
         cardListView.setAdapter(cardListItemAdapter);
 
         // listview 条目点击
-        cardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position < dataList.size()) {  // 防止点footer
-                    Intent intent = new Intent(getActivity(), CardDetailActivity.class);
-                    intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
-                    intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, INTENT_ITEM_TO_DETAIL);
-                    startActivity(intent);
-                }
-            }
-        });
+//        cardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (position < dataList.size()) {  // 防止点footer
+//                    Intent intent = new Intent(getActivity(), CardDetailActivity.class);
+//                    intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
+//                    intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, ItemListFragment.INTENT_ITEM_TO_DETAIL);
+//                    startActivity(intent);
+//                }
+//            }
+//        });
 
         mPullListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+
                 gestureType = REFRESH_GESTURE;
                 pageNumber = 1;
                 dataList.clear();
@@ -212,6 +230,7 @@ public class ItemListFragment extends IShareFragment {
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                isGoBackToTop = false;
                 gestureType = LOAD_MORE_GESTURE;
                 pageNumber++;
                 httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
@@ -307,16 +326,10 @@ public class ItemListFragment extends IShareFragment {
                                 pageNumber = 1;
                                 dataList.clear();
 
-//                                goBackToTop = true;
-//                                if (goBackToTop){
-                                cardListView.setSelection(0);
-//                                }
+                                isGoBackToTop = true;
 
                                 pullToRefreshListView.doPullRefreshing(true, 500);
 
-
-//                                httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
-//                                        IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                             }
 
                         }
@@ -334,12 +347,11 @@ public class ItemListFragment extends IShareFragment {
                     urlType = DISCOUNT_LOAD_URL_TYPE;
                     pageNumber = 1;
                     dataList.clear();
-                    cardListView.setSelection(0);
+
+                    isGoBackToTop = true;
 
                     pullToRefreshListView.doPullRefreshing(true, 500);
 
-//                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
-//                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
                 }
 
                 distanceTv.setTextColor(getResources().getColor(R.color.dark_secondary_text));
@@ -355,12 +367,10 @@ public class ItemListFragment extends IShareFragment {
                     pageNumber = 1;
                     dataList.clear();
 
-//                    goBackToTop = true;
-//                    Log.v(TAG, "gobacktotop: " + goBackToTop);
-                    cardListView.setSelection(0);
+                    isGoBackToTop = true;
+
                     pullToRefreshListView.doPullRefreshing(true, 500);
-//                    httpInteract.loadData(urlType, tradeType, IShareContext.getInstance().getUserLocation().getLongitude(),
-//                            IShareContext.getInstance().getUserLocation().getLatitude(), pageNumber, pageSize);
+
                 }
 
 
@@ -449,7 +459,9 @@ public class ItemListFragment extends IShareFragment {
                                 hasMoreData = false;
                             }
 
-
+                            if (isGoBackToTop) {
+                                listViewHandler.sendEmptyMessage(GO_BACK_TO_TOP_WHAT);
+                            }
                             cardListItemAdapter.notifyDataSetChanged();
 
                             if (gestureType == REFRESH_GESTURE)

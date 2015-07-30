@@ -81,4 +81,6 @@
     <color name="chat_purple">#E1698C</color>
     <color name="chat_gray">#A3A4A5</color>
     <color name="chat_transparent">#FFFFFFFF</color>
+
+    <color name="ripple_color">#b2b2b2</color>
 </resources>

@@ -220,22 +220,22 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
                             String name = data.getString("nickname");
                             String avatar = data.getString("avatar");
                             String gender = data.getString("gender");
-                            if (data.has("real_name")) {
+                            if (data.has("real_name") && data.get("real_name") != JSONObject.NULL) {
                                 user.setRealName(data.getString("real_name"));
                             }
-                            if (data.has("per_photo")) {
+                            if (data.has("per_photo") && data.get("per_photo") != JSONObject.NULL) {
                                 user.setPersonPicUrl(data.getString("per_photo"));
                             }
-                            if (data.has("idCard1")) {
-                                user.setIdCardPic1Url(data.getString("idCard1"));
+                            if (data.has("id_facade") && data.get("id_facade") != JSONObject.NULL) {
+                                user.setIdCardPic1Url(data.getString("id_facade"));
                             }
-                            if (data.has("idCard2")) {
-                                user.setIdCardPic2Url(data.getString("idCard2"));
+                            if (data.has("id_back") && data.get("id_back") != JSONObject.NULL) {
+                                user.setIdCardPic2Url(data.getString("id_back"));
                             }
-                            if (data.has("work_unit")) {
+                            if (data.has("work_unit") && data.get("work_unit") != JSONObject.NULL) {
                                 user.setJobLocation(data.getString("work_unit"));
                             }
-                            if (data.has("work_card")) {
+                            if (data.has("work_card") && data.get("work_card") != JSONObject.NULL) {
                                 user.setJobCardUrl(data.getString("work_card"));
                             }
 

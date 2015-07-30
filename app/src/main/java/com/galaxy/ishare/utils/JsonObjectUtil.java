@@ -2,7 +2,7 @@ package com.galaxy.ishare.utils;
 
 import android.util.Log;
 
-import com.galaxy.ishare.constant.PicConstant;
+import com.galaxy.ishare.constant.Constant;
 import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
 
@@ -169,14 +169,14 @@ public class JsonObjectUtil {
                     // 如果一张图没有，给个默认的图
                     if (imgArray.length() == 0) {
                         String[] tem = new String[1];
-                        tem[0] = PicConstant.defaultPic;
+                        tem[0] = Constant.defaultPic;
                         cardItem.setCardImgs(tem);
                     }
                     if ("null".equals(jsonObject.get("img")) || jsonObject.get("img") == JSONObject.NULL) {
                         // 如果一张图没有，给个默认的图
 
                         String[] tem = new String[1];
-                        tem[0] = PicConstant.defaultPic;
+                        tem[0] = Constant.defaultPic;
                         cardItem.setCardImgs(tem);
                     }
                 }
@@ -280,7 +280,9 @@ public class JsonObjectUtil {
             String commentStr = jsonObject.getString("comment");
             double rating = jsonObject.getDouble("rating");
             String time = jsonObject.getString("time");
-
+            if (commentStr.equals("null")) {
+                commentStr = "暂无评论";
+            }
             cardComment = new CardComment(commentId, cardId, nickName, avatar, rating, gender, time, commentStr);
 
         } catch (JSONException e) {

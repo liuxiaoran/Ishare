@@ -1,7 +1,7 @@
 package com.galaxy.ishare.sharedcard;
 
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +11,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.andexert.library.RippleView;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.galaxy.ishare.utils.WidgetController;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import java.nio.InvalidMarkException;
 import java.util.Vector;
 
 /**
@@ -47,6 +45,7 @@ public class CardListItemAdapter extends BaseAdapter {
         mLayoutInflater = LayoutInflater.from(context);
         this.showDistance = showDistance;
     }
+
     @Override
     public int getCount() {
         return dataList.size();
@@ -63,7 +62,7 @@ public class CardListItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         CardHolder cardHolder = null;
         if (convertView == null) {
 
@@ -81,6 +80,7 @@ public class CardListItemAdapter extends BaseAdapter {
             cardHolder.commentCountTv = (TextView) convertView.findViewById(R.id.share_item_listview_item_comment_count_tv);
             cardHolder.peopleIconIv = (ImageView) convertView.findViewById(R.id.share_item_listview_item_people_iv);
             cardHolder.locateIconIv = (ImageView) convertView.findViewById(R.id.share_item_listview_locate_iv);
+            cardHolder.rippleView = (RippleView) convertView.findViewById(R.id.share_item_ripple_view);
             convertView.setTag(cardHolder);
 
 
@@ -116,7 +116,6 @@ public class CardListItemAdapter extends BaseAdapter {
         WidgetController.getInstance().setRatingLayout(cardItem.ratingCount, mContext, cardHolder.ratingLayout);
 
 
-        Log.v(TAG, cardItem.cardImgs + "---aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         if (cardItem.cardImgs != null && cardItem.cardImgs.length > 0) {
 
             final String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
@@ -161,6 +160,17 @@ public class CardListItemAdapter extends BaseAdapter {
             cardHolder.locateIconIv.setVisibility(View.INVISIBLE);
         }
 
+
+        cardHolder.rippleView.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+            @Override
+            public void onComplete(RippleView rippleView) {
+                Intent intent = new Intent(mContext, CardDetailActivity.class);
+                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
+                intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, ItemListFragment.INTENT_ITEM_TO_DETAIL);
+                mContext.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
 
@@ -177,5 +187,6 @@ public class CardListItemAdapter extends BaseAdapter {
         public TextView commentCountTv;
         public ImageView peopleIconIv;
         public ImageView locateIconIv;
+        public RippleView rippleView;
     }
 }

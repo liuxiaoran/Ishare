@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<com.andexert.library.RippleView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ripple="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/share_item_ripple_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    ripple:rv_rippleDuration="150"
+    ripple:rv_color="@color/ripple_color">
 
-    <!--<android.support.v7.widget.CardView-->
-    <!--style="@style/UniversalCardViewStyle"-->
-    <!--card_view:cardCornerRadius="@dimen/default_card_view_corner_radius"-->
-    <!--card_view:cardElevation="0dp">-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--<android.support.v7.widget.CardView-->
+        <!--style="@style/UniversalCardViewStyle"-->
+        <!--card_view:cardCornerRadius="@dimen/default_card_view_corner_radius"-->
+        <!--card_view:cardElevation="0dp">-->
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:orientation="vertical">
 
 
             <RelativeLayout
@@ -53,9 +61,9 @@
                             android:layout_height="wrap_content"
                             android:maxWidth="150dp"
                             android:singleLine="true"
+                            android:text="麻辣龙虾"
                             android:textColor="@color/dark_primary_text"
-                            android:textSize="@dimen/secondary_text"
-                            android:text="麻辣龙虾" />
+                            android:textSize="@dimen/secondary_text" />
 
                         <ImageView
                             android:id="@+id/share_item_listview_locate_iv"
@@ -78,14 +86,13 @@
                             android:textSize="@dimen/hint_text" />
 
 
-
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="1dp">
+                        android:layout_marginTop="1dp"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/share_item_listview_item_discount_tv"
@@ -109,8 +116,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="1dp">
+                        android:layout_marginTop="1dp"
+                        android:orientation="horizontal">
 
                         <TextView
                             style="@style/secondary_textview"
@@ -131,8 +138,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="1dp">
+                        android:layout_marginTop="1dp"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/share_item_listview_item_comment_count_tv"
@@ -144,11 +151,11 @@
                             android:text="评" />
 
                         <LinearLayout
-                            android:layout_marginLeft="5dp"
                             android:id="@+id/share_item_listview_item_rating_layout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
+                            android:layout_marginLeft="5dp"
                             android:gravity="left"
                             android:orientation="horizontal" />
                     </LinearLayout>
@@ -172,24 +179,26 @@
                     android:id="@+id/share_item_listview_item_owner_distance_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_alignBottom="@id/share_item_content_layout"
                     android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dp"
                     android:singleLine="true"
                     android:text="57"
                     android:textColor="@color/dark_secondary_text"
-                    android:textSize="@dimen/hint_text"
-                    android:layout_alignBottom="@id/share_item_content_layout" />
+                    android:textSize="@dimen/hint_text" />
 
                 <ImageView
                     android:id="@+id/share_item_listview_item_people_iv"
                     android:layout_width="10dp"
                     android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/share_item_content_layout"
                     android:layout_centerVertical="true"
                     android:layout_toLeftOf="@id/share_item_listview_item_owner_distance_tv"
-                    android:src="@drawable/icon_people_gray"
-                    android:layout_alignBottom="@id/share_item_content_layout" />
+                    android:src="@drawable/icon_people_gray" />
             </RelativeLayout>
         </LinearLayout>
-    <!--</android.support.v7.widget.CardView>-->
 
-</LinearLayout>
+        <!--</android.support.v7.widget.CardView>-->
+
+    </LinearLayout>
+</com.andexert.library.RippleView>

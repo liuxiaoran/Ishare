@@ -1,4 +1,4 @@
-package com.galaxy.ishare.usercenter;
+package com.galaxy.ishare.usercenter.me;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -25,7 +25,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 

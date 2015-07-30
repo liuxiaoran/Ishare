@@ -36,8 +36,7 @@
                     android:layout_height="69dp"
                     android:layout_gravity="center_vertical"
                     android:cropToPadding="true"
-                    android:padding="3dp"
-                    android:scaleType="fitXY" />
+                    android:padding="3dp" />
 
 
                 <LinearLayout
@@ -80,7 +79,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="2dp"
-                            android:layout_toRightOf="@id/share_item_locate"
+                            android:layout_toRightOf="@id/share_item_listview_locate_iv"
                             android:text="25"
                             android:textColor="@color/dark_secondary_text"
                             android:textSize="@dimen/hint_text" />

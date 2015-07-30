@@ -343,42 +343,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/share_item_detail_edit_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:visibility="invisible">
-
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/share_item_detail_edit_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_weight="1"
-                    android:text="编辑"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/primary_text"
-                    app:buttonColor="@color/color_primary"
-                    app:cornerRadius="0dp"
-                    app:shadowEnabled="false" />
-
-
-                <info.hoang8f.widget.FButton
-                    android:id="@+id/share_item_detail_delete_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_weight="1"
-                    android:text="删除"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/primary_text"
-                    app:buttonColor="@color/color_primary"
-                    app:cornerRadius="0dp"
-                    app:shadowEnabled="false" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

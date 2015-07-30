@@ -64,6 +64,7 @@ public class MainActivity extends ChangePictureActivity {
     private Context mContext;
 
     public static final String PUBLISH_TO_BING_PHONE = "PUBLISH_TO_BING_PHONE";
+    public static final String MAIN_TO_PUBLISH = "MAIN_TO_PUBLISH";
 
     private RadioGroup mTabGroup = null;
     private RadioButton mShareItemButton, activityButton, mMeButton, requestBtn;
@@ -179,6 +180,7 @@ public class MainActivity extends ChangePictureActivity {
 
                         } else {
                             Intent intent = new Intent(MainActivity.this, PublishItemActivity.class);
+                            intent.putExtra(PublishItemActivity.PARAMETER_WHO_COME, MAIN_TO_PUBLISH);
                             startActivity(intent);
                         }
 

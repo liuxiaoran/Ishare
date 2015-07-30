@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -32,13 +33,17 @@ import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.database.UserLocationDao;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.main.MainActivity;
+import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.UserLocation;
 import com.galaxy.ishare.usercenter.me.CardAddrActivity;
+import com.galaxy.ishare.usercenter.me.CardIshareActivity;
 import com.galaxy.ishare.utils.ImageParseUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
@@ -58,8 +63,14 @@ import info.hoang8f.widget.FButton;
 
 /**
  * Created by liuxiaoran on 15/5/5.
+ * Intent传进来 PARAMETER_WHO_COME，直接发卡或者我的分享的卡.
+ * 如果是我分享的卡进来的需要Intent 传PARAMETER_ISHARE_CARD_ITEM
  */
 public class PublishItemActivity extends IShareActivity implements OnGetSuggestionResultListener {
+
+
+    public static final String PARAMETER_WHO_COME = "PARAMETER_WHO_COME";
+    public static final String PARAMETER_ISHARE_CARD_ITEM = "PARAMETER_CARD_ITEM";
 
     public static final int PARAMETER_OWNER_LOCATION_RESULT_CODE = 1;
     public static final int PARAMETER_SHOP_LOCATION_RESULT_CODE = 2;
@@ -114,9 +125,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
     private GridView photoGridView;
     private int maxUploadPicCount = 3;
-    //    private ArrayList<Bitmap> gridViewBitmapList;
     private ArrayList<Uri> picUriList;
-    private int cameraPicCount = 0;
     // 是否已经选择了maxUploadPicCount 个图片
     private boolean isToMaxPicNumber = false;
 
@@ -127,13 +136,15 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
     private RelativeLayout discountLayout, commissionLayout;
     private ImageView shopNameHintIv, shopAddrHintIv, discountHintIv, descriptionHintIv, commissionHintIv;
 
+    private CardItem iShareCard;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.publishware_activity);
 
-        IShareContext.getInstance().createDefaultHomeActionbar(this, "发布新卡");
+
         findViewsById();
 
 
@@ -158,7 +169,6 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
         shopNameLayout.setOnClickListener(myClickListener);
 
-        writeAddrIntoLayout();
 
         descriptionEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -180,6 +190,19 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
         });
 
         commissionLayout.setOnClickListener(myClickListener);
+
+
+        if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.MAIN_TO_PUBLISH)) {
+            IShareContext.getInstance().createDefaultHomeActionbar(this, "发布新卡");
+            writeAddrIntoLayout();
+        } else if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(CardIshareActivity.ISHARE_TO_PUBLISH)) {
+            IShareContext.getInstance().createDefaultHomeActionbar(this, "编辑分享的卡");
+            iShareCard = getIntent().getParcelableExtra(PARAMETER_ISHARE_CARD_ITEM);
+            publishBtn.setText("确认修改");
+            writeIShareCardIntoView(iShareCard);
+
+
+        }
     }
 
     private void findViewsById() {
@@ -520,8 +543,12 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
                     }
                 });
             }
-            publishShareItem(imageKey);
+            if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.MAIN_TO_PUBLISH)) {
 
+                publishShareItem(imageKey);
+            } else if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(CardIshareActivity.ISHARE_TO_PUBLISH)) {
+                updateIShareCard(imageKey);
+            }
         }
 
         public void publishShareItem(String[] imageKey) {
@@ -586,6 +613,75 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
                 }
             });
 
+
+        }
+
+        public void updateIShareCard(String[] imageKey) {
+            List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+            params.add(new BasicNameValuePair("id", iShareCard.id + ""));
+            params.add(new BasicNameValuePair("owner", IShareContext.getInstance().getCurrentUser().getUserId()));
+
+            params.add(new BasicNameValuePair("shop_name", shopNameTv.getText().toString()));
+            params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));
+            params.add(new BasicNameValuePair("shop_latitude", shopLatitude + ""));
+            params.add(new BasicNameValuePair("description", descriptionEt.getText().toString()));
+
+
+            params.add(new BasicNameValuePair("ware_type", ware_type + ""));
+            params.add(new BasicNameValuePair("discount", discountTv.getText().toString()));
+            params.add(new BasicNameValuePair("trade_type", trade_type + ""));
+            params.add(new BasicNameValuePair("shop_location", shopLocationTv.getText().toString()));
+            params.add(new BasicNameValuePair("service_charge", commissionInteger + "." + commissionDecimal));
+
+
+            params.add(new BasicNameValuePair("location_id", locationId + ""));
+
+
+            if (imageKey != null && imageKey.length > 0) {
+                String[] imgs = new String[imageKey.length];
+                for (int i = 0; i < imageKey.length; i++) {
+                    imgs[i] = QiniuUtil.getInstance().getFileUrl(imageKey[i]);
+                    Log.v(TAG, "file url:" + i + imgs[i]);
+
+                }
+
+                String arrayStr = JsonObjectUtil.parseArrayToJsonString(imgs);
+                params.add(new BasicNameValuePair("img", arrayStr));
+                Log.v(TAG, "img: " + arrayStr);
+
+            }
+            HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_I_SHARE_CARD, params, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+
+                    Log.v(TAG, result);
+                    Toast.makeText(PublishItemActivity.this, "更新成功", Toast.LENGTH_LONG).show();
+                    PublishItemActivity.this.finish();
+
+                    Intent updateIntent = new Intent(BroadcastActionConstant.UPDATE_I_SHARE_CARD);
+
+                    // 发出广播，更新发分享的卡的列表
+                    LocalBroadcastManager.getInstance(PublishItemActivity.this).sendBroadcast(updateIntent);
+
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+
+                    Log.v(TAG, "error:" + retCode);
+                    Toast.makeText(PublishItemActivity.this, "更新失败，请重试", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
 
         }
     }
@@ -688,6 +784,50 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
         }
     }
 
+    public void writeIShareCardIntoView(CardItem cardItem) {
+
+        shopNameTv.setText(cardItem.shopName);
+        shopLocationTv.setText(cardItem.shopLocation);
+        shopLatitude = cardItem.shopLatitude;
+        shopLongitude = cardItem.shopLongitude;
+        ware_type = cardItem.wareType;
+        trade_type = cardItem.tradeType;
+        double commission = cardItem.commission;
+        String[] _tem = Double.toString(commission).split(".");
+        if (_tem.length == 0) {
+            commissionInteger = (int) commission;
+            commissionDecimal = 0;
+        } else {
+            commissionInteger = Integer.parseInt(_tem[0]);
+            if (_tem.length >= 2) {
+                commissionDecimal = Integer.parseInt(_tem[1]);
+            }
+        }
+        locationId = cardItem.locationId;
+
+        discountTv.setText(cardItem.discount + "");
+        commissionTv.setText(commission + "%");
+
+        RadioButton cardType[] = {chargeRb, memberRb};
+        cardType[ware_type].setChecked(true);
+
+        RadioButton tradType[] = {meirongRb, meifaRb, meijiaRb, qinziRb, otherRb};
+        tradType[trade_type - 1].setChecked(true);
+
+        descriptionEt.setText(cardItem.description);
+
+        // 将地址写入layout
+        View availableItem = getLayoutInflater().inflate(R.layout.publishware_available_item, null);
+        TextView addrTv = (TextView) availableItem.findViewById(R.id.publishware_available_item_addr_tv);
+        addrTv.setText(cardItem.ownerLocation);
+        availableLayout.addView(availableItem);
+
+        //将图片放到picUriList中，之后的GridView 通过ImageLoader展现图片
+        for (String i : cardItem.cardImgs)
+            picUriList.add(Uri.parse(i));
+
+
+    }
 
     @Override
     protected void onPause() {

@@ -30,7 +30,6 @@ import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
-import com.galaxy.ishare.usercenter.me.CardIshareEditActivity;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
@@ -94,8 +93,7 @@ public class CardDetailActivity extends IShareActivity {
     public int currentLastCommentIndex;
     private TextView moreCommentTv;
     private FButton collectBtn;
-    private LinearLayout editLayout;
-    private FButton editBtn, deleteBtn;
+
     private RelativeLayout ownerLayout;
     private int maxUploadPicCount = 3;
     private LinearLayout viewPagerDotLayout;
@@ -191,77 +189,9 @@ public class CardDetailActivity extends IShareActivity {
 
         getComments(cardItem.id);
 
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CardDetailActivity.this, CardIshareEditActivity.class);
 
-                intent.putExtra(CardIshareEditActivity.PARAMETER_SHOP_NAME, cardItem.shopName);
-                intent.putExtra(CardIshareEditActivity.PARAMETER_SHOP_LOCATION, cardItem.shopLocation);
-                intent.putExtra(CardIshareEditActivity.PARAMETER_DISCOUNT, cardItem.getStringDiscount());
-                intent.putExtra(CardIshareEditActivity.PARAMETER_SHOP_LONGITUDE, cardItem.shopLongitude);
-                intent.putExtra(CardIshareEditActivity.PARAMETER_SHOP_LATITUDE, cardItem.shopLatitude);
-                intent.putExtra(CardIshareEditActivity.PARAMETER_WARE_TYPE, cardItem.wareType);
-                intent.putExtra(CardIshareEditActivity.PARAMETER_TRADE_TYPE, cardItem.tradeType);
-                intent.putExtra(CardIshareEditActivity.PARAMETER_OWNER_AVAILABLE, cardItem.ownerLocation);
-                intent.putExtra(CardIshareEditActivity.PARAMETER_DESCRIPTION, cardItem.description);
-                intent.putExtra(CardIshareEditActivity.PARAMETER_CARD_ID, cardItem.id);
-                if (cardItem.cardImgs != null) {
-                    if (picNumber == maxUploadPicCount) {
-                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG1, cardItem.cardImgs[0]);
-                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG2, cardItem.cardImgs[1]);
-                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG3, cardItem.cardImgs[2]);
-                    }
-                    if (picNumber == maxUploadPicCount - 1) {
-                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG1, cardItem.cardImgs[0]);
-                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG2, cardItem.cardImgs[1]);
-                    }
-                    if (picNumber == maxUploadPicCount - 2) {
-                        intent.putExtra(CardIshareEditActivity.PARAMETER_IMG1, cardItem.cardImgs[0]);
-                    }
-
-                }
-
-
-                startActivity(intent);
-            }
-        });
-
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-                params.add(new BasicNameValuePair("card_ids", JsonObjectUtil.parseArrayToJsonString(new String[]{cardItem.id + ""})));
-                HttpTask.startAsyncDataPostRequest(URLConstant.DELETE_SHARE_CARD, params, new HttpDataResponse() {
-                    @Override
-                    public void onRecvOK(HttpRequestBase request, String result) {
-                        Log.e(TAG, result);
-                        Toast.makeText(CardDetailActivity.this, "删除成功", Toast.LENGTH_LONG).show();
-                        setResult(0, new Intent(CardDetailActivity.this, CardIshareActivity.class));
-                        CardDetailActivity.this.finish();
-
-                    }
-
-                    @Override
-                    public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                        Toast.makeText(CardDetailActivity.this, "删除失败，请重试", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onRecvCancelled(HttpRequestBase request) {
-
-                    }
-
-                    @Override
-                    public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
-
-                    }
-                });
-            }
-        });
         // 从我-》我的分享中进来的，需要隐藏一些视图,显示一些视图
         if (getIntent().getStringExtra(PARAMETER_WHO_SEND).equals(CardIshareActivity.CARDISHARE_TO_DETAIL)) {
-            editLayout.setVisibility(View.VISIBLE);
             mapBtn.setVisibility(View.INVISIBLE);
             ownerLayout.setVisibility(View.GONE);
             collectBtn.setVisibility(View.INVISIBLE);
@@ -390,9 +320,7 @@ public class CardDetailActivity extends IShareActivity {
 
         moreCommentTv = (TextView) findViewById(R.id.share_item_detail_more_comment_tv);
         collectBtn = (FButton) findViewById(R.id.share_item_collect_btn);
-        editLayout = (LinearLayout) findViewById(R.id.share_item_detail_edit_layout);
-        editBtn = (FButton) findViewById(R.id.share_item_detail_edit_btn);
-        deleteBtn = (FButton) findViewById(R.id.share_item_detail_delete_btn);
+
         ownerLayout = (RelativeLayout) findViewById(R.id.share_item_detail_owner_layout);
 
         viewPagerDotLayout = (LinearLayout) findViewById(R.id.share_item_detail_viewpager_dots_layout);

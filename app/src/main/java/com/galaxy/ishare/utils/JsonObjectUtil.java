@@ -2,7 +2,7 @@ package com.galaxy.ishare.utils;
 
 import android.util.Log;
 
-import com.galaxy.ishare.constant.Constant;
+import com.galaxy.ishare.constant.PicConstant;
 import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
 
@@ -169,7 +169,7 @@ public class JsonObjectUtil {
                     // 如果一张图没有，给个默认的图
                     if (imgArray.length() == 0) {
                         String[] tem = new String[1];
-                        tem[0] = Constant.defaultPic;
+                        tem[0] = PicConstant.defaultPic;
                         cardItem.setCardImgs(tem);
                     }
 
@@ -178,7 +178,7 @@ public class JsonObjectUtil {
                     // 如果一张图没有，给个默认的图
 
                     String[] tem = new String[1];
-                    tem[0] = Constant.defaultPic;
+                    tem[0] = PicConstant.defaultPic;
                     cardItem.setCardImgs(tem);
                 }
             }
@@ -190,6 +190,9 @@ public class JsonObjectUtil {
             }
             if (jsonObject.has("owner_latitude") && jsonObject.get("owner_latitude") != JSONObject.NULL) {
                 cardItem.setOwnerLatitude(jsonObject.getDouble("owner_latitude"));
+            }
+            if (jsonObject.has("owner_location") && jsonObject.get("owner_location") != JSONObject.NULL) {
+                cardItem.setOwnerLocation(jsonObject.getString("owner_location"));
             }
             if (jsonObject.has("user_latitude") && jsonObject.get("user_latitude") != JSONObject.NULL) {
                 cardItem.setOwnerLatitude(jsonObject.getDouble("user_latitude"));
@@ -232,12 +235,6 @@ public class JsonObjectUtil {
             if (jsonObject.has("user_location") && jsonObject.get("user_location") != JSONObject.NULL) {
                 cardItem.setRequesterLocation(jsonObject.getString("user_location"));
             }
-            if (jsonObject.has("avatar") && jsonObject.get("avatar") != JSONObject.NULL) {
-                cardItem.setOwnerAvatar(jsonObject.getString("avatar"));
-            }
-            if (jsonObject.has("gender") && jsonObject.get("gender") != JSONObject.NULL) {
-                cardItem.setOwnerGender(jsonObject.getString("gender"));
-            }
             if (jsonObject.has("distance") && jsonObject.get("distance") != JSONObject.NULL) {
                 double distance = jsonObject.getDouble("distance");
                 DecimalFormat df = new DecimalFormat(".##");
@@ -247,9 +244,13 @@ public class JsonObjectUtil {
             if (jsonObject.has("owner_distance") && jsonObject.get("owner_distance") != JSONObject.NULL) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
             }
-            if (jsonObject.has("nickname") && jsonObject.get("nickname") != JSONObject.NULL) {
-                cardItem.setOwnerName(jsonObject.getString("nickname"));
+            if (jsonObject.has("service_charge")) {
+                cardItem.commission = jsonObject.getDouble("service_charge");
             }
+            if (jsonObject.has("location_id") && jsonObject.get("location_id") != JSONObject.NULL) {
+                cardItem.locationId = jsonObject.getInt("location_id");
+            }
+
         } catch (Exception e) {
             Log.v("RequestFragment", e.toString() + "   exception");
             e.printStackTrace();

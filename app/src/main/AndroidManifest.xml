@@ -366,7 +366,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".usercenter.UserCreditActivity"
+            android:name=".usercenter.me.UserCreditActivity"
             android:launchMode="singleTop"
             android:parentActivityName=".main.MainActivity"
             android:screenOrientation="portrait">

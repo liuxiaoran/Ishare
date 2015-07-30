@@ -93,6 +93,8 @@ public class URLConstant {
     //card
     //我分享的卡
     public static final String GET_I_SHARE_CARD = SERVER_IP + "/card/Query_Card_I_Share";
+    // 更新分享的卡
+    public static final String UPDATE_I_SHARE_CARD = SERVER_IP + "/card/Update_Card_C";
 
     //card
     //我在找的卡

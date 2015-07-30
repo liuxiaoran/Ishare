@@ -11,4 +11,6 @@ public class BroadcastActionConstant {
 
     public static final String UPDATE_USER_AVATAR = "update_user_avatar";
 
+    public static final String UPDATE_I_SHARE_CARD = "UPDATE_I_SHARE_CARD";
+
 }

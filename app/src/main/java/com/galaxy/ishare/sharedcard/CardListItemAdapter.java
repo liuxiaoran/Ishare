@@ -30,7 +30,7 @@ public class CardListItemAdapter extends BaseAdapter {
     private Vector<CardItem> dataList;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
-    private boolean showDistance = true;
+
 
     public CardListItemAdapter(Vector<CardItem> data, Context context) {
         this.dataList = data;
@@ -39,12 +39,6 @@ public class CardListItemAdapter extends BaseAdapter {
 
     }
 
-    public CardListItemAdapter(Vector<CardItem> data, Context context, boolean showDistance) {
-        this.dataList = data;
-        mContext = context;
-        mLayoutInflater = LayoutInflater.from(context);
-        this.showDistance = showDistance;
-    }
 
     @Override
     public int getCount() {
@@ -118,7 +112,7 @@ public class CardListItemAdapter extends BaseAdapter {
 
         if (cardItem.cardImgs != null && cardItem.cardImgs.length > 0) {
 
-            final String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
+            final String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[0], DisplayUtil.dip2px(mContext, 92), DisplayUtil.dip2px(mContext, 69));
 //            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
             final CardHolder finalCardHolder = cardHolder;
             finalCardHolder.cardIv.setTag(thumbnailUrl);
@@ -151,13 +145,6 @@ public class CardListItemAdapter extends BaseAdapter {
 //                }
 //            });
 
-        }
-
-        if (!showDistance) {
-            cardHolder.ownerDistanceTv.setVisibility(View.INVISIBLE);
-            cardHolder.shopDistanceTv.setVisibility(View.INVISIBLE);
-            cardHolder.peopleIconIv.setVisibility(View.INVISIBLE);
-            cardHolder.locateIconIv.setVisibility(View.INVISIBLE);
         }
 
 

@@ -43,13 +43,13 @@ public class QiniuUtil {
 
     }
 
-
+    // qiniu 文件裁剪原则:http://developer.qiniu.com/docs/v6/api/reference/fop/image/imageview2.html
     public String getFileThumbnailUrl(String fileUrl, int longEdge, int shortEdge) {
-        return fileUrl + "?imageView2" + "/0/w/" + longEdge + "/h/" + shortEdge;
+        return fileUrl + "?imageView2" + "/1/w/" + longEdge + "/h/" + shortEdge;
     }
 
     public String getThumbnailUrl(String key, int longEdge, int shortEdge) {
-        return getFileUrl(key) + "?imageView2" + "/0/w/" + longEdge + "/h/" + shortEdge;
+        return getFileUrl(key) + "?imageView2" + "/1/w/" + longEdge + "/h/" + shortEdge;
     }
 
     // 返回key

@@ -14,7 +14,7 @@ import com.galaxy.ishare.IShareApplication;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.chat.ChatManager;
-import com.galaxy.ishare.constant.Constant;
+import com.galaxy.ishare.constant.PicConstant;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.DisplayUtil;
@@ -151,7 +151,7 @@ public class RequestDetailActivity extends IShareActivity {
             picIvs[0] = (ImageView) view.findViewById(R.id.share_item_detail_card_pager_iv);
 
             final int finalI = 0;
-            ImageLoader.getInstance().displayImage(Constant.defaultPic, picIvs[finalI], IShareApplication.defaultOptions);
+            ImageLoader.getInstance().displayImage(PicConstant.defaultPic, picIvs[finalI], IShareApplication.defaultOptions);
             pagerList.add(view);
         }
 

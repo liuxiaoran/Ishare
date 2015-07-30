@@ -72,6 +72,11 @@ public class CardItem implements Parcelable {
     @DatabaseField
     public String requesterLocation; // 请求界面中请求者的地址
 
+    @DatabaseField
+    public double commission;
+
+    @DatabaseField
+    public int locationId;
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -109,6 +114,8 @@ public class CardItem implements Parcelable {
         dest.writeDouble(ratingCount);
         dest.writeString(ownerGender);
         dest.writeString(requesterLocation);
+        dest.writeDouble(commission);
+        dest.writeInt(locationId);
     }
 
     public CardItem() {
@@ -152,6 +159,8 @@ public class CardItem implements Parcelable {
         ratingCount = in.readDouble();
         ownerGender = in.readString();
         requesterLocation = in.readString();
+        commission = in.readDouble();
+        locationId = in.readInt();
     }
 
 

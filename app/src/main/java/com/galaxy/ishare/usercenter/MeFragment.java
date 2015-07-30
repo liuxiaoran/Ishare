@@ -31,6 +31,7 @@ import com.galaxy.ishare.usercenter.me.CardICollectActivity;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
 import com.galaxy.ishare.usercenter.me.CardRequestTestActivity;
 import com.galaxy.ishare.usercenter.me.CustomerServiceActivity;
+import com.galaxy.ishare.usercenter.me.UserCreditActivity;
 import com.galaxy.ishare.utils.PhoneUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -133,6 +134,7 @@ public class MeFragment extends IShareFragment {
 
                         }).build();
                 nameEt = (EditText) changeNameDialog.getCustomView().findViewById(R.id.dialog_change_name_et);
+                nameEt.setText(IShareContext.getInstance().getCurrentUser().getUserName());
                 changeNameDialog.show();
             }
         }

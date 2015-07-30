@@ -185,10 +185,10 @@ public class ChatDao {
         }
     }
 
-    public void updateOrderId(int orderId, String fromUser, String toUser, int cardId) {
+    public void updateOrderId(int orderId, String fromUser, String toUser, int cardId, int type) {
         try {
             String sql = "update chat set orderId = " + orderId +  " where cardId = " + cardId
-                     + " and orderId = 0 and ((fromUser = " + fromUser + " and toUser = " + toUser + ") or "
+                     + " and type = " + type + "and orderId = 0 and ((fromUser = " + fromUser + " and toUser = " + toUser + ") or "
                      + "(fromUser = " + toUser + " and toUser = " + toUser + "))";
             chatDao.queryRaw(sql);
         } catch (SQLException e) {

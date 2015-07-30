@@ -61,9 +61,9 @@ public class MyReceiver extends BroadcastReceiver {
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 			Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
         	//打开自定义的Activity
-			if(chat.type == 1) {
+			if(chat.type == 0) {
 				ChatManager.getInstance().startFromNotifycation(chat);
-			} else if(chat.type == 0){
+			} else if(chat.type == 1){
 				ChatManager.getInstance().startOrderIdActivity(chat);
 			} else if(chat.type == 2) {
 				CustomerServiceManger.getInstance().handleNotification(chat);

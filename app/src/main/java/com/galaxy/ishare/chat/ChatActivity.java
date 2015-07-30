@@ -43,6 +43,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,7 +82,7 @@ public class ChatActivity extends IShareActivity {
     private List<Chat> chatList = new ArrayList<>();
 
     public static boolean isForeground = false;
-    public static int PAGE_NUM = 20;
+    public static int PAGE_SIZE = 20;
     private static final String TAG="ChatActivity";
 
     private String[] cardItems;
@@ -115,7 +116,7 @@ public class ChatActivity extends IShareActivity {
         setActionBar();
         initWidget();
         getOrder();
-        initChatData();
+        initChatListView();
     }
 
     @Override
@@ -221,9 +222,6 @@ public class ChatActivity extends IShareActivity {
                     chatMsg.borrowId = order.borrowId;
                     chatMsg.lendId = order.lendId;
 
-                    Log.e(TAG, "chatMsg.cardId: " + chatMsg.cardId);
-                    Log.e(TAG, "chatMsg.cardType: " + chatMsg.cardType);
-
                     chatList.add(chatMsg);
                     chatDao.add(chatMsg);
                     chatAdapter.notifyDataSetChanged();
@@ -241,7 +239,9 @@ public class ChatActivity extends IShareActivity {
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                         if (chatListView.getFirstVisiblePosition() == 0) {
                             Log.d(TAG, "scrollState");
-                            showChatRecords();
+                            if(order != null && order.id != 0) {
+                                getChatFromNet(order.id, getTopChatTime(), PAGE_SIZE);
+                            }
                         }
                 }
             }
@@ -249,7 +249,6 @@ public class ChatActivity extends IShareActivity {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 //                if (firstVisibleItem == 0) {
-//                    showChatRecords();
 //                    Log.e("log", "滑到顶部");
 //                }
 //                if (visibleItemCount + firstVisibleItem == totalItemCount) {
@@ -331,8 +330,20 @@ public class ChatActivity extends IShareActivity {
         setOrderDetail();
     }
 
-    public List<Chat> getChatData() {
-        List<Chat> tmpList = new ArrayList<>();
+//    public List<Chat> getChatData() {
+//        List<Chat> tmpList = new ArrayList<>();
+//        String date = null;
+//        if(chatList.size() == 0) {
+//            date = DateUtil.getCurtime("yyyy-MM-dd HH:mm:ss");
+//        } else {
+//            date = chatList.get(0).time;
+//        }
+//
+//        tmpList.addAll(chatDao.query(order.id, date, PAGE_NUM));
+//        return tmpList;
+//    }
+
+    public String getTopChatTime() {
         String date = null;
         if(chatList.size() == 0) {
             date = DateUtil.getCurtime("yyyy-MM-dd HH:mm:ss");
@@ -340,14 +351,10 @@ public class ChatActivity extends IShareActivity {
             date = chatList.get(0).time;
         }
 
-        Log.e(TAG, "date: " + date);
-
-        tmpList.addAll(chatDao.query(order.id, date, PAGE_NUM));
-        return tmpList;
+        return date;
     }
 
-    public void initChatData() {
-        insertHead(chatList, getChatData());
+    public void initChatListView() {
         chatAdapter = new ChatAdapter(mContext, chatList, fromAvatar, user.getAvatar());
         chatListView.setAdapter(chatAdapter);
     }
@@ -454,7 +461,7 @@ public class ChatActivity extends IShareActivity {
                     if (status == 0) {
                         int orderId = jsonObject.getInt("order_id");
                         chatDao.updateUnSend(chatMsg);
-                        chatDao.updateOrderId(orderId, chatMsg.fromUser, chatMsg.toUser, chatMsg.cardId);
+                        chatDao.updateOrderId(orderId, chatMsg.fromUser, chatMsg.toUser, chatMsg.cardId, chatMsg.cardType);
                         Toast.makeText(mContext, "发送成功", Toast.LENGTH_LONG).show();
                     } else {
                         Message msg = handler.obtainMessage();
@@ -501,10 +508,8 @@ public class ChatActivity extends IShareActivity {
 
                 JSONObject jsonObject = null;
                 try {
-                        Log.v(TAG, result + "result");
                         jsonObject = new JSONObject(result);
                         int status = jsonObject.getInt("status");
-                        Log.e(TAG, jsonObject.toString());
                         if (status == 0) {
                             Toast.makeText(mContext, "操作成功", Toast.LENGTH_LONG).show();
                             order.orderState = orderStatus;
@@ -525,9 +530,6 @@ public class ChatActivity extends IShareActivity {
 
             @Override
             public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-
-                Log.v(TAG, "updateOrderStatus1: " +retCode.toString());
-
                 Toast.makeText(mContext, "网络错误，请稍后重试", Toast.LENGTH_LONG).show();
             }
 
@@ -573,22 +575,6 @@ public class ChatActivity extends IShareActivity {
         return Double.toString(discount);
     }
 
-    public void showChatRecords() {
-        List<Chat> tmpList = getChatData();
-        if(tmpList != null) {
-            if(tmpList.size() == 0) {
-                Toast.makeText(mContext, "没有更多聊天记录", Toast.LENGTH_LONG).show();
-            } else {
-                tmpList.addAll(chatList);
-                chatList = tmpList;
-                if(chatAdapter != null) {
-                    chatAdapter.setChatList(chatList);
-                    chatAdapter.notifyDataSetChanged();
-                }
-            }
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -604,8 +590,6 @@ public class ChatActivity extends IShareActivity {
     public void getOrder() {
         Intent intent = getIntent();
         int type = intent.getIntExtra("type", 0);
-
-        Log.e(TAG,  "type: " + type);
 
         switch (type) {
             case 0:
@@ -624,12 +608,10 @@ public class ChatActivity extends IShareActivity {
             case 1:
                 order.cardId = intent.getIntExtra("cardId", 0);
                 order.type = 1;
-                Log.e(TAG, "order.cardId: " + order.cardId);
-                Log.e(TAG, "order.type: " + order.type);
                 fromUser = intent.getStringExtra("fromUser");
                 fromAvatar = intent.getStringExtra("fromAvatar");
 //                showNewMessage(fromUser, fromAvatar, user.getUserId(), order.id, order.cardId, order.type);
-                getCardOrder2Activity(fromUser, user.getUserId(), order.cardId);
+                getCardOrder2Activity(user.getUserId(), fromUser, order.cardId);
                 break;
             case 2:
                 order.cardId = intent.getIntExtra("requestId", 0);
@@ -646,11 +628,13 @@ public class ChatActivity extends IShareActivity {
                 order.type = intent.getIntExtra("cardType", 0);
                 fromUser = intent.getStringExtra("fromUser");
                 fromAvatar = intent.getStringExtra("fromAvatar");
+                getChatFromNet(order.id, getTopChatTime(), PAGE_SIZE);
                 showNewMessage(fromUser, fromAvatar, user.getUserId(), order.id, order.cardId, order.type);
                 getOrder2Activity(order.id);
                 break;
             case 4:
                 order.id = intent.getIntExtra("orderId", 0);
+                getChatFromNet(order.id, getTopChatTime(), PAGE_SIZE);
                 getOrder2Activity(order.id);
                 break;
         }
@@ -663,7 +647,6 @@ public class ChatActivity extends IShareActivity {
     }
 
     public boolean isSameOrder(int orderId) {
-        Log.e(TAG, "order.id: " + order.id);
         return order.id == orderId ? true : false;
     }
 
@@ -674,11 +657,6 @@ public class ChatActivity extends IShareActivity {
         } else {
             tmpList = chatDao.queryUnRead(fromUser, toUser, cardId, cardType);
         }
-
-        Log.e(TAG, "fromUser: " + fromUser);
-        Log.e(TAG, "toUser: " + toUser);
-        Log.e(TAG, "orderId: " + orderId);
-        Log.e(TAG, tmpList.size() + " : order == null");
 
         chatDao.updateUnRead(tmpList);
         if(tmpList.size() != 0) {
@@ -699,7 +677,7 @@ public class ChatActivity extends IShareActivity {
     public void getCardOrder2Activity(String borrowId, String lendId, int cardId) {
         List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
         params.add(new BasicNameValuePair("borrow_id", borrowId + ""));
-        params.add(new BasicNameValuePair("lend_id", lendId  + ""));
+        params.add(new BasicNameValuePair("lend_id", lendId + ""));
         params.add(new BasicNameValuePair("card_id", cardId + ""));
 
         HttpTask.startAsyncDataPostRequest(URLConstant.GET_CARD_RECORD, params, new HttpDataResponse() {
@@ -713,13 +691,17 @@ public class ChatActivity extends IShareActivity {
                     status = jsonObject.getInt("status");
 
                     if (status == 0) {
+                        Log.e(TAG, "has record");
                         JSONObject jsonOrder = jsonObject.getJSONObject("data");
                         order = OrderUtil.parserJSONObjectToOrder(jsonOrder);
                         ChatManager.getInstance().orderList.add(order);
                         Message msg = handler.obtainMessage();
                         msg.what = 3;
                         handler.sendMessage(msg);
+
+                        getChatFromNet(order.id, getTopChatTime(), PAGE_SIZE);
                     } else if (status == 1) {
+                        Log.e(TAG, "no record");
                         JSONObject jsonOrder = jsonObject.getJSONObject("data");
                         order = OrderUtil.parserJSONObjectToOrder(jsonOrder);
                         ChatManager.getInstance().orderList.add(order);
@@ -763,11 +745,9 @@ public class ChatActivity extends IShareActivity {
             @Override
             public void onRecvOK(HttpRequestBase request, String result) {
                 try {
-                    Log.v(TAG, "result: " + result);
                     JSONObject jsonObject = new JSONObject(result);
                     int status = jsonObject.getInt("status");
 
-                    Log.e(TAG, "status: " + status);
                     if (status == 0) {
                         JSONObject jsonOrder = jsonObject.getJSONObject("data");
                         order = OrderUtil.parserJSONObject2RequestOrder(jsonOrder);
@@ -775,6 +755,8 @@ public class ChatActivity extends IShareActivity {
                         Message msg = handler.obtainMessage();
                         msg.what = 3;
                         handler.sendMessage(msg);
+
+                        getChatFromNet(order.id, getTopChatTime(), PAGE_SIZE);
                     } else if(status == 1) {
                         JSONObject jsonOrder = jsonObject.getJSONObject("data");
                         order = OrderUtil.parserJSONObject2RequestOrder(jsonOrder);
@@ -787,7 +769,6 @@ public class ChatActivity extends IShareActivity {
                     }
 
                 } catch (JSONException e) {
-                    Log.v(TAG, e.toString());
                     e.printStackTrace();
                 }
             }
@@ -814,8 +795,6 @@ public class ChatActivity extends IShareActivity {
     public void getOrder2Activity(int orderId) {
         List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
         params.add(new BasicNameValuePair("id", orderId + ""));
-
-        Log.e(TAG, "orderId: " + orderId);
 
         HttpTask.startAsyncDataPostRequest(URLConstant.GET_ORDER, params, new HttpDataResponse() {
             @Override
@@ -847,8 +826,6 @@ public class ChatActivity extends IShareActivity {
 
             @Override
             public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                Log.v(TAG, "getOrder2Activity: " + retCode.toString());
-
                 Toast.makeText(mContext, "网络错误，请稍后重试", Toast.LENGTH_LONG).show();
             }
 
@@ -899,6 +876,70 @@ public class ChatActivity extends IShareActivity {
 
                 Log.v(TAG, "getOrder2Activity: " + retCode.toString());
 
+                Toast.makeText(mContext, "网络错误，请稍后重试", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onRecvCancelled(HttpRequestBase request) {
+
+            }
+
+            @Override
+            public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+            }
+        });
+    }
+
+    public void getChatFromNet(int orderId, String time, int size) {
+        List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+        params.add(new BasicNameValuePair("order_id", String.valueOf(orderId)));
+        params.add(new BasicNameValuePair("time", time));
+        params.add(new BasicNameValuePair("size", String.valueOf(size)));
+
+        HttpTask.startAsyncDataPostRequest(URLConstant.GET_CHAT_DATA, params, new HttpDataResponse() {
+            @Override
+            public void onRecvOK(HttpRequestBase request, String result) {
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(result);
+                    int status = jsonObject.getInt("status");
+                    Log.e(TAG, jsonObject.toString());
+                    if (status == 0) {
+                        JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                        if(jsonArray.length() == 0) {
+                            if(chatList.size() != 0) {
+                                Toast.makeText(mContext, getResources().getString(R.string.http_error_tip), Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            List<Chat> tmpList = new ArrayList<Chat>();
+                            Log.e(TAG, jsonArray.toString() + "jsonArray");
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject tmpJson = jsonArray.getJSONObject(i);
+                                Chat chat = ChatUtil.parserJSONObject2Chat(tmpJson);
+                                tmpList.add(chat);
+                            }
+                            if(tmpList.size() != 0 ) {
+                                insertHead(chatList, tmpList);
+                                chatDao.addList(tmpList);
+                                handler.sendEmptyMessage(0);
+                            } else {
+                                Toast.makeText(mContext, "没有更多聊天记录", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    } else {
+                        Toast.makeText(mContext, getResources().getString(R.string.http_error_tip), Toast.LENGTH_LONG).show();
+                    }
+
+                } catch (JSONException e) {
+                    Log.v(TAG, e.toString());
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onRecvError(HttpRequestBase request, HttpCode retCode) {
                 Toast.makeText(mContext, "网络错误，请稍后重试", Toast.LENGTH_LONG).show();
             }
 

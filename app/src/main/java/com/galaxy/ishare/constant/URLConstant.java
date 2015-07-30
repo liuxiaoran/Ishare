@@ -97,8 +97,8 @@ public class URLConstant {
     //card
     //我在找的卡
     public static final String GET_I_REQUEST_CARD = SERVER_IP + "/request/Get_My_Request_C";
-    public static final String DELETE_I_REQUEST_CARD = SERVER_IP + "/card/Request_Card_C/delete";
-    public static final String EDIT_I_REQUEST_CARD = SERVER_IP + "/card/Request_Card_C/update";
+    public static final String DELETE_I_REQUEST_CARD = SERVER_IP + "/request/Delete_Request_Card_C";
+    public static final String EDIT_I_REQUEST_CARD = SERVER_IP + "/request/Update_Request_Card_C";
 
     /*收藏
      */

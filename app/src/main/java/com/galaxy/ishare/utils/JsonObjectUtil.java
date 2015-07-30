@@ -149,7 +149,7 @@ public class JsonObjectUtil {
             }
             if (jsonObject.has("description")) {
                 String description = jsonObject.getString("description");
-                if (description.equals("null")) {
+                if (description.equals("null") || description.equals("")) {
                     description = "暂无描述";
                 }
                 cardItem.setDescription(description);
@@ -172,13 +172,14 @@ public class JsonObjectUtil {
                         tem[0] = Constant.defaultPic;
                         cardItem.setCardImgs(tem);
                     }
-                    if ("null".equals(jsonObject.get("img")) || jsonObject.get("img") == JSONObject.NULL) {
-                        // 如果一张图没有，给个默认的图
 
-                        String[] tem = new String[1];
-                        tem[0] = Constant.defaultPic;
-                        cardItem.setCardImgs(tem);
-                    }
+                }
+                if ("null".equals(jsonObject.get("img")) || jsonObject.get("img") == JSONObject.NULL) {
+                    // 如果一张图没有，给个默认的图
+
+                    String[] tem = new String[1];
+                    tem[0] = Constant.defaultPic;
+                    cardItem.setCardImgs(tem);
                 }
             }
             if (jsonObject.has("publish_time") && jsonObject.get("publish_time") != JSONObject.NULL) {

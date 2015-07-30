@@ -8,7 +8,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -133,11 +135,23 @@ public class SearchActivity extends IShareActivity {
                 adLayout.setVisibility(View.INVISIBLE);
 
 
-                if (!contentEt.getText().toString().equals("")) {
+                if (!contentEt.getText().toString().equals("") && !contentEt.getText().toString().contains("\n")) {
                     search(contentEt.getText().toString());
                 }
 
 
+            }
+        });
+        contentEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (!contentEt.getText().toString().equals("")) {
+                        search(contentEt.getText().toString());
+                    }
+                }
+                return true;
             }
         });
 

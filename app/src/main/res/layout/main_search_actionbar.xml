@@ -20,7 +20,9 @@
         android:background="@drawable/search_background"
         android:textColor="@color/dark_primary_text"
         android:textSize="@dimen/secondary_text"
-        android:paddingLeft="5dp" />
+        android:paddingLeft="5dp"
+        android:imeOptions="actionSearch"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/search_tv"

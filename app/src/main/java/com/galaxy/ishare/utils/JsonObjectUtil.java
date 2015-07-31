@@ -232,6 +232,9 @@ public class JsonObjectUtil {
             if (jsonObject.has("avatar") && jsonObject.get("avatar") != JSONObject.NULL) {
                 cardItem.setOwnerGender(jsonObject.getString("avatar"));
             }
+            if (jsonObject.has("nickname") && jsonObject.get("nickname") != JSONObject.NULL) {
+                cardItem.setOwnerName(jsonObject.getString("nickname"));
+            }
             if (jsonObject.has("user_location") && jsonObject.get("user_location") != JSONObject.NULL) {
                 cardItem.setRequesterLocation(jsonObject.getString("user_location"));
             }

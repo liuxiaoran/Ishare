@@ -2,6 +2,7 @@ package com.galaxy.ishare.usercenter.me;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
@@ -285,6 +287,9 @@ public class CardRequestEditActivity extends IShareActivity {
                         if (jsonObject.getInt("status") == 0) {
                             Toast.makeText(CardRequestEditActivity.this, "修改请求成功", Toast.LENGTH_SHORT).show();
                             CardRequestEditActivity.this.finish();
+                            //发出广播，更新发请求的卡的列表
+                            Intent updateIntent = new Intent(BroadcastActionConstant.UPDATE_I_REQUEST_CARD);
+                            LocalBroadcastManager.getInstance(CardRequestEditActivity.this).sendBroadcast(updateIntent);
                         } else {
                             Toast.makeText(CardRequestEditActivity.this, "修改失败请重新发送", Toast.LENGTH_SHORT).show();
                         }

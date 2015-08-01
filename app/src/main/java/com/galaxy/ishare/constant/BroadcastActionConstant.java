@@ -13,4 +13,6 @@ public class BroadcastActionConstant {
 
     public static final String UPDATE_I_SHARE_CARD = "UPDATE_I_SHARE_CARD";
 
+    public static final String UPDATE_I_REQUEST_CARD = "UPDATE_I_REQUEST_CARD";
+
 }

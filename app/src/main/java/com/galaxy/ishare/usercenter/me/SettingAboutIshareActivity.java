@@ -63,7 +63,6 @@ public class SettingAboutIshareActivity extends IShareActivity {
             @Override
             public void onClick(View v) {
                 UmengUpdateAgent.forceUpdate(SettingAboutIshareActivity.this);
-                Log.v(TAG, String.valueOf(updateStatus.Yes));
             }
         });
     }

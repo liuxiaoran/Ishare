@@ -263,7 +263,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="20dp"
-        android:text="确定找这种卡"
+        android:text="确认修改"
         android:textColor="@color/white"
         android:textSize="@dimen/primary_text"
         app:buttonColor="@color/color_primary"

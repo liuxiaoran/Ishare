@@ -48,6 +48,8 @@ import java.util.Vector;
  */
 public class CardRequestTestActivity extends IShareActivity {
 
+    public static final String CARDREQUEST_TO_PUBLISH = "CARDREQUEST_TO_PUBLISH";
+
 
     public FrameLayout containerLayout;
     public ListView requestCardListView;

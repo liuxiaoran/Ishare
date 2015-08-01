@@ -2,6 +2,7 @@ package com.galaxy.ishare.user_request;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
@@ -18,13 +19,17 @@ import android.widget.Toast;
 import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
+import com.galaxy.ishare.main.MainActivity;
+import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.publishware.PoiSearchActivity;
 import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.publishware.ShopLocateSearchActivity;
+import com.galaxy.ishare.usercenter.me.CardRequestTestActivity;
 
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
@@ -41,9 +46,12 @@ import info.hoang8f.widget.FButton;
  */
 public class PublishRequestActivity extends IShareActivity {
 
+    public static final String PARAMETER_WHO_COME = "PARAMETER_WHO_COME";
+    public static final String PARAMETER_CARDREQUEST_CARD_ITEM = "PARAMETER_CARDREQUEST_CARD_ITEM";
+
     LinearLayout shopNameLayout;
     EditText descriptionEt;
-    TextView shopNameTv, addrTv;
+    TextView shopNameTv, shopLocationTv;
     FButton confirmBtn, meirongBtn, meifaBtn, meijiaBtn, qinziBtn, otherBtn;
     FButton[] cardTypeBtns;
 
@@ -57,12 +65,14 @@ public class PublishRequestActivity extends IShareActivity {
     private static final String TAG = "publishRequestActivity";
     private ImageView shopNameHintIv, shopAddrHintIv, descriptionHintIv;
 
+    private CardItem requestCard;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.request_publish_activity);
 
-        ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "发布请求");
+//        ActionBar actionBar = IShareContext.getInstance().createDefaultHomeActionbar(this, "发布请求");
 
         mClickListener = new MClickListener();
 
@@ -106,7 +116,23 @@ public class PublishRequestActivity extends IShareActivity {
             }
         });
 
+        if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.MAIN_TO_PUBLISH)) {
+            IShareContext.getInstance().createDefaultHomeActionbar(this, "发布请求");
+        } else if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(CardRequestTestActivity.CARDREQUEST_TO_PUBLISH))
+            ;
+        {
+            IShareContext.getInstance().createDefaultHomeActionbar(this, "编辑我请求的卡");
+            requestCard = getIntent().getParcelableExtra(PARAMETER_CARDREQUEST_CARD_ITEM);
+            confirmBtn.setText("确认修改");
+            writeRequestCardIntoView(requestCard);
+        }
+    }
 
+    private void writeRequestCardIntoView(CardItem cardItem) {
+        shopNameTv.setText(cardItem.shopName);
+        shopLocationTv.setText(cardItem.shopLocation);
+        setButtonSelected(cardItem.wareType);
+        descriptionEt.setText(cardItem.description);
     }
 
 
@@ -126,7 +152,7 @@ public class PublishRequestActivity extends IShareActivity {
 
         shopNameLayout = (LinearLayout) findViewById(R.id.request_shop_name_layout);
         shopNameTv = (TextView) findViewById(R.id.request_shop_name_tv);
-        addrTv = (TextView) findViewById(R.id.request_shop_location_tv);
+        shopLocationTv = (TextView) findViewById(R.id.request_shop_location_tv);
 
         shopNameHintIv = (ImageView) findViewById(R.id.request_shop_name_hint_iv);
         shopAddrHintIv = (ImageView) findViewById(R.id.request_shop_addr_hint_iv);
@@ -199,7 +225,13 @@ public class PublishRequestActivity extends IShareActivity {
 
                 if (checkInfo()) {
                     Log.v(TAG, "arrive");
-                    httpInteract.publishRequest();
+//                    httpInteract.publishRequest();
+                    if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.MAIN_TO_PUBLISH)) {
+                        httpInteract.publishRequest();
+                    } else if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(CardRequestTestActivity.CARDREQUEST_TO_PUBLISH)) {
+                        httpInteract.updateCardRequest();
+                    }
+
                 }
 
             }
@@ -227,7 +259,7 @@ public class PublishRequestActivity extends IShareActivity {
             shopLatitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LATITUDE, 0);
             shopLongitude = data.getDoubleExtra(PoiSearchActivity.PARAMETER_SHOP_LONGITUDE, 0);
 
-            addrTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
+            shopLocationTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_ADDR));
             shopNameTv.setText(data.getStringExtra(PoiSearchActivity.PARAMETER_SHOP_NAME));
 
             shopAddrHintIv.setImageResource(R.drawable.icon_green_check);
@@ -240,7 +272,7 @@ public class PublishRequestActivity extends IShareActivity {
             Toast.makeText(this, "请填写店名", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (addrTv.getText().toString().equals("")) {
+        if (shopLocationTv.getText().toString().equals("")) {
             Toast.makeText(this, "请填写店的地址", Toast.LENGTH_LONG).show();
             return false;
         }
@@ -258,7 +290,7 @@ public class PublishRequestActivity extends IShareActivity {
 
             List<BasicNameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("shop_name", shopNameTv.getText().toString()));
-            params.add(new BasicNameValuePair("shop_location", addrTv.getText().toString()));
+            params.add(new BasicNameValuePair("shop_location", shopLocationTv.getText().toString()));
             if (isHasShopLatLng) {
                 params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));
                 params.add(new BasicNameValuePair("shop_latitude", shopLatitude + ""));
@@ -279,6 +311,60 @@ public class PublishRequestActivity extends IShareActivity {
                             PublishRequestActivity.this.finish();
                         } else {
                             Toast.makeText(PublishRequestActivity.this, "失败请重发", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+
+                    Log.v(TAG, "retCode: " + retCode);
+                    Toast.makeText(PublishRequestActivity.this, "服务器有问题", Toast.LENGTH_LONG).show();
+
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
+        }
+
+        public void updateCardRequest() {
+            List<BasicNameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("id", String.valueOf(requestCard.id)));
+            params.add(new BasicNameValuePair("shop_name", shopNameTv.getText().toString()));
+            params.add(new BasicNameValuePair("shop_location", shopLocationTv.getText().toString()));
+            if (isHasShopLatLng) {
+                params.add(new BasicNameValuePair("shop_longitude", shopLongitude + ""));
+                params.add(new BasicNameValuePair("shop_latitude", shopLatitude + ""));
+            }
+            params.add(new BasicNameValuePair("user_location", IShareContext.getInstance().getUserLocation().getLocationStr()));
+            params.add(new BasicNameValuePair("user_longitude", IShareContext.getInstance().getUserLocation().getLongitude() + ""));
+            params.add(new BasicNameValuePair("user_latitude", IShareContext.getInstance().getUserLocation().getLatitude() + ""));
+            params.add(new BasicNameValuePair("trade_type", cardType + ""));
+            params.add(new BasicNameValuePair("description", descriptionEt.getText().toString()));
+
+            HttpTask.startAsyncDataPostRequest(URLConstant.EDIT_I_REQUEST_CARD, params, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        if (jsonObject.getInt("status") == 0) {
+                            Toast.makeText(PublishRequestActivity.this, "修改请求成功", Toast.LENGTH_SHORT).show();
+                            PublishRequestActivity.this.finish();
+                            //发出广播，更新发请求的卡的列表
+                            Intent updateIntent = new Intent(BroadcastActionConstant.UPDATE_I_REQUEST_CARD);
+                            LocalBroadcastManager.getInstance(PublishRequestActivity.this).sendBroadcast(updateIntent);
+                        } else {
+                            Toast.makeText(PublishRequestActivity.this, "修改失败请重新发送", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

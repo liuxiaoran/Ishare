@@ -22,6 +22,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.CardRequest;
+import com.galaxy.ishare.user_request.PublishRequestActivity;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -74,7 +75,7 @@ public class CardRequestAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
             convertView = mLayoutInflater.inflate(R.layout.item_card_request, null);
@@ -119,8 +120,12 @@ public class CardRequestAdapter extends BaseAdapter {
         viewHolder.editCardIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, CardRequestEditActivity.class);
-                intent.putExtra("editCardRequest", cardRequest);
+//                Intent intent = new Intent(mContext, CardRequestEditActivity.class);
+//                intent.putExtra("editCardRequest", cardRequest);
+//                mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, PublishRequestActivity.class);
+                intent.putExtra(PublishRequestActivity.PARAMETER_WHO_COME, CardRequestTestActivity.CARDREQUEST_TO_PUBLISH);
+                intent.putExtra(PublishRequestActivity.PARAMETER_CARDREQUEST_CARD_ITEM, dataList.get(position));
                 mContext.startActivity(intent);
             }
         });

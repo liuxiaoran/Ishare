@@ -62,7 +62,7 @@ public class MyReceiver extends BroadcastReceiver {
 			Log.d(TAG, "[MyReceiver] 用户点击打开了通知");
         	//打开自定义的Activity
 			if(chat.type == 0) {
-				ChatManager.getInstance().startFromNotifycation(chat);
+				ChatManager.getInstance().startFromNotification(chat);
 			} else if(chat.type == 1){
 				ChatManager.getInstance().startOrderIdActivity(chat);
 			} else if(chat.type == 2) {

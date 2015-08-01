@@ -549,6 +549,7 @@ public class ChatActivity extends IShareActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
+                    chatListView.setSelection(chatList.size() - 1);
                     chatAdapter.notifyDataSetChanged();
                     break;
                 case 2:
@@ -629,12 +630,13 @@ public class ChatActivity extends IShareActivity {
                 fromUser = intent.getStringExtra("fromUser");
                 fromAvatar = intent.getStringExtra("fromAvatar");
                 getChatFromNet(order.id, getTopChatTime(), PAGE_SIZE);
-                showNewMessage(fromUser, fromAvatar, user.getUserId(), order.id, order.cardId, order.type);
+//                showNewMessage(fromUser, fromAvatar, user.getUserId(), order.id, order.cardId, order.type);
                 getOrder2Activity(order.id);
                 break;
             case 4:
                 order.id = intent.getIntExtra("orderId", 0);
                 getChatFromNet(order.id, getTopChatTime(), PAGE_SIZE);
+                Log.e(TAG, order.id + "*******");
                 getOrder2Activity(order.id);
                 break;
         }
@@ -809,7 +811,7 @@ public class ChatActivity extends IShareActivity {
                     Log.e(TAG, jsonObject.toString());
                     if (status == 0) {
                         JSONObject jsonOrder = jsonObject.getJSONObject("data");
-                        order = OrderUtil.parserJSONObject2Order(jsonOrder);
+                        order = OrderUtil.parserJSONObjectToOrder(jsonOrder);
                         ChatManager.getInstance().updateOrderList(order);
                         Message msg = handler.obtainMessage();
                         msg.what = 3;
@@ -910,7 +912,7 @@ public class ChatActivity extends IShareActivity {
 
                         if(jsonArray.length() == 0) {
                             if(chatList.size() != 0) {
-                                Toast.makeText(mContext, getResources().getString(R.string.http_error_tip), Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, getResources().getString(R.string.no_more_tip), Toast.LENGTH_LONG).show();
                             }
                         } else {
                             List<Chat> tmpList = new ArrayList<Chat>();

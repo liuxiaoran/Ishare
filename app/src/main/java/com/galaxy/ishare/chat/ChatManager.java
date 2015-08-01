@@ -73,7 +73,8 @@ public class ChatManager {
         }
     }
 
-    public void startFromNotifycation(Chat chat) {
+    public void startFromNotification(Chat chat) {
+        Log.e(TAG, "order: " + chat.orderId);
         if(ChatActivity.instance != null
                 && !ChatActivity.instance.isSameOrder(chat.orderId)) {
             ChatActivity.instance.showNewMessage(chat.fromUser, chat.fromAvatar, user.getUserId(), chat.orderId, chat.cardId, chat.cardType);

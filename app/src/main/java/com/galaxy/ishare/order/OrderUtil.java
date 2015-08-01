@@ -48,7 +48,6 @@ public class OrderUtil {
             if(jsonObject.has("shop_distance")) {
                 order.shopDistance = jsonObject.getDouble("shop_distance");
             }
-
             if(jsonObject.has("borrow_id")) {
                 order.borrowId = jsonObject.getString("borrow_id");
             }
@@ -61,10 +60,6 @@ public class OrderUtil {
             if (jsonObject.has("borrow_avatar")) {
                 order.borrowAvatar = jsonObject.getString("borrow_avatar");
             }
-            if(jsonObject.has("lend_distance")) {
-                order.lendDistance = jsonObject.getDouble("lend_distance");
-            }
-
             if(jsonObject.has("discount")) {
                 order.cardDiscount = jsonObject.getDouble("discount");
             }

@@ -1,8 +1,11 @@
 package com.galaxy.ishare.usercenter.me;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +18,7 @@ import android.widget.Toast;
 import com.galaxy.ishare.IShareActivity;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
+import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
@@ -59,6 +63,8 @@ public class CardRequestTestActivity extends IShareActivity {
     private Vector<CardItem> dataList = new Vector<>();
     private CardRequestAdapter cardRequestAdapter;
     private HttpInteract httpInteract;
+    private LocalBroadcastManager localBroadcastManager;
+    private BroadcastReceiver updateReceiver;
     private static final String TAG = "CardRequestTestActivity";
 
 
@@ -89,7 +95,18 @@ public class CardRequestTestActivity extends IShareActivity {
 //        containerLayout.addView(refreshListView);
 //        refreshListView.doPullRefreshing(true, 500);
 
-
+        //修改了我请求的卡之后，更新列表
+        localBroadcastManager = localBroadcastManager.getInstance(this);
+        updateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(BroadcastActionConstant.UPDATE_I_REQUEST_CARD)) {
+                    dataList.clear();
+                    httpInteract.loadData();
+                }
+            }
+        };
+        localBroadcastManager.registerReceiver(updateReceiver, new IntentFilter(BroadcastActionConstant.UPDATE_I_REQUEST_CARD));
     }
 
 //    @Override
@@ -105,6 +122,12 @@ public class CardRequestTestActivity extends IShareActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        localBroadcastManager.unregisterReceiver(updateReceiver);
     }
 
 

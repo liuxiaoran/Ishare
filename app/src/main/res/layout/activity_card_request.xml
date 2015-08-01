@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/usenter_request_listview"
-        android:dividerHeight="0dp"
-        android:descendantFocusability="afterDescendants">
+        android:dividerHeight="0dp">
 
     </ListView>
 

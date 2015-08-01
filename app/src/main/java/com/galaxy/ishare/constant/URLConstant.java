@@ -105,8 +105,8 @@ public class URLConstant {
     /*收藏
      */
     public static final String GET_I_COLLECT_CARD = SERVER_IP + "/collection/Get_Collection_C";
-    public static final String ADD_COLLECTION = SERVER_IP + "/Add_Collection_C";
-    public static final String REMOVE_COLLOECTION = SERVER_IP + "/Delete_Colletion_C";
+    public static final String ADD_COLLECTION = SERVER_IP + "/collection/Add_Collection_C";
+    public static final String REMOVE_COLLOECTION = SERVER_IP + "/collection/Delete_Colletion_C";
 
     // 个人认证
     public static final String UPDATE_CREDIT = SERVER_IP + "/user/Update_Credit_C";

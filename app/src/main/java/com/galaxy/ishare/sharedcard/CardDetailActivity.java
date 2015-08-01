@@ -3,6 +3,8 @@ package com.galaxy.ishare.sharedcard;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -61,7 +63,8 @@ public class CardDetailActivity extends IShareActivity {
 
     public static final int CARDISHARE_TO_CARD_DETAIL_REQUEST_CODE = 1;
 
-
+    public final int COLLECTION_MESSAGE_WHAT = 1;
+    public final int UNCOLLECTION_MESSAGE_WHAT = 2;
     private static final String TAG = "carddetail";
 
     private ViewPager cardPager;
@@ -259,7 +262,7 @@ public class CardDetailActivity extends IShareActivity {
             genderIv.setImageResource(R.drawable.icon_male);
         }
 
-        if (CollectionDao.getInstance(this).find(cardItem.id, IShareContext.getInstance().getCurrentUser().getUserId()) != null) {
+        if (CollectionDao.getInstance(this).find(cardItem.serverCollectionId, IShareContext.getInstance().getCurrentUser().getUserId()) != null) {
             collectBtn.setText("取消收藏");
             collectBtn.setButtonColor(getResources().getColor(R.color.gray));
         } else {
@@ -272,17 +275,11 @@ public class CardDetailActivity extends IShareActivity {
             @Override
             public void onClick(View v) {
                 if (((FButton) v).getText().toString().equals("收藏")) {
-                    cardItem.setUserId(IShareContext.getInstance().getCurrentUser().getUserId());
-                    CollectionDao.getInstance(CardDetailActivity.this).add(cardItem);
-                    collectBtn.setText("取消收藏");
-                    collectBtn.setButtonColor(getResources().getColor(R.color.gray));
+
                     httpInteract.collectCard(cardItem.id + "");
                 } else {
-                    CollectionDao.getInstance(CardDetailActivity.this).delete(cardItem);
-                    Log.v(TAG, "id " + cardItem.id);
-                    collectBtn.setText("收藏");
-                    collectBtn.setButtonColor(getResources().getColor(R.color.color_primary));
-                    httpInteract.unCollectCard(cardItem.id + "");
+
+                    httpInteract.unCollectCard(cardItem.serverCollectionId + "");
                 }
 
             }
@@ -290,6 +287,26 @@ public class CardDetailActivity extends IShareActivity {
 
 
     }
+
+    Handler collectionHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == COLLECTION_MESSAGE_WHAT) {
+                int serverCollectionId = msg.arg1;
+                cardItem.setUserId(IShareContext.getInstance().getCurrentUser().getUserId());
+                cardItem.serverCollectionId = serverCollectionId;
+                CollectionDao.getInstance(CardDetailActivity.this).add(cardItem);
+                collectBtn.setText("取消收藏");
+                collectBtn.setButtonColor(getResources().getColor(R.color.gray));
+
+            } else if (msg.what == UNCOLLECTION_MESSAGE_WHAT) {
+                CollectionDao.getInstance(CardDetailActivity.this).delete(cardItem);
+                collectBtn.setText("收藏");
+                collectBtn.setButtonColor(getResources().getColor(R.color.color_primary));
+            }
+        }
+    };
 
     private void initViews() {
 
@@ -334,7 +351,6 @@ public class CardDetailActivity extends IShareActivity {
             picIvs[i] = (ImageView) view.findViewById(R.id.share_item_detail_card_pager_iv);
 
             final int finalI = i;
-            Log.v(TAG, "carddetail  " + cardItem.cardImgs[i]);
             ImageLoader.getInstance().displayImage(QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[i], DisplayUtil.getScreenWidth(this)
                     - DisplayUtil.dip2px(this, 80), DisplayUtil.dip2px(this, 200)), picIvs[finalI], IShareApplication.defaultOptions);
             pagerList.add(view);
@@ -435,17 +451,34 @@ public class CardDetailActivity extends IShareActivity {
 
 
         public void collectCard(String cardId) {
+            Log.v(TAG, "cardId:" + cardId);
             List<BasicNameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("card_id", cardId));
             HttpTask.startAsyncDataPostRequest(URLConstant.ADD_COLLECTION, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
-                    Log.v(TAG, "collect success");
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        if (status == 0) {
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            int serverCollectionId = data.getInt("id");
+                            Message message = new Message();
+                            message.what = COLLECTION_MESSAGE_WHAT;
+                            message.arg1 = serverCollectionId;
+                            collectionHandler.sendMessage(message);
+                        } else {
+                            Toast.makeText(CardDetailActivity.this, "收藏失败", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                    Log.v(TAG, "collect is error");
+                    Log.v(TAG, "error");
+                    Toast.makeText(CardDetailActivity.this, "收藏失败", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -467,12 +500,22 @@ public class CardDetailActivity extends IShareActivity {
             HttpTask.startAsyncDataPostRequest(URLConstant.REMOVE_COLLOECTION, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
-                    Log.v(TAG, "uncollect success");
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        if (status == 0) {
+                            collectionHandler.sendEmptyMessage(UNCOLLECTION_MESSAGE_WHAT);
+                        } else {
+                            Toast.makeText(CardDetailActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                    Log.v(TAG, "uncollect is error");
+                    Toast.makeText(CardDetailActivity.this, "取消收藏", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

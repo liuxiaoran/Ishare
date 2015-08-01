@@ -15,8 +15,8 @@ public class CardItem implements Parcelable {
     @DatabaseField
     public String userId;
 
-    // 收藏的id
-    @DatabaseField(generatedId = true)
+    // 服务器的card_id
+    @DatabaseField(id = true)
     public int id;
     @DatabaseField
     public String ownerId;
@@ -78,6 +78,9 @@ public class CardItem implements Parcelable {
     @DatabaseField
     public int locationId;
 
+    @DatabaseField
+    public int serverCollectionId;
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(userId);
@@ -116,6 +119,7 @@ public class CardItem implements Parcelable {
         dest.writeString(requesterLocation);
         dest.writeDouble(commission);
         dest.writeInt(locationId);
+        dest.writeInt(serverCollectionId);
     }
 
     public CardItem() {
@@ -161,6 +165,7 @@ public class CardItem implements Parcelable {
         requesterLocation = in.readString();
         commission = in.readDouble();
         locationId = in.readInt();
+        serverCollectionId = in.readInt();
     }
 
 

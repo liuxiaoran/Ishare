@@ -1,44 +1,46 @@
 package com.galaxy.ishare.login;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.framework.utils.UIHandler;
-import cn.sharesdk.wechat.friends.Wechat;
+
 import com.galaxy.ishare.Global;
 import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.constant.URLConstant;
+import com.galaxy.ishare.database.CollectionDao;
 import com.galaxy.ishare.database.UserLocationDao;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
-import com.galaxy.ishare.model.Settings;
+import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.model.UserLocation;
+import com.galaxy.ishare.utils.JsonObjectUtil;
 import com.galaxy.ishare.utils.widget.WaitingDialogUtil;
+
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.framework.utils.UIHandler;
+import cn.sharesdk.wechat.friends.Wechat;
 
 /**
  * Created by liuxiaoran on 15/4/25.
@@ -63,6 +65,9 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
     public static final String TAG = "loginactivity";
     public HttpInteract httpInteract;
 
+    // 当首次登陆时 用于同步异步时间，当值为0 能进入系统
+    public int intoSystemFlag = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +79,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
     }
 
-     // 按钮点击函数
+    // 按钮点击函数
     public void wechatLoginClick(View view) {
         Platform wechat = ShareSDK.getPlatform(this, Wechat.NAME);
         wechat.setPlatformActionListener(this);
@@ -199,13 +204,13 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
         public void userLogin() {
 
             List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-            Log.v(TAG,"HTTP wechat id"+wechatId);
+            Log.v(TAG, "HTTP wechat id" + wechatId);
             params.add(new BasicNameValuePair("open_id", wechatId));
             params.add(new BasicNameValuePair("phone_type", 1 + ""));
             HttpTask.startAsyncDataPostRequest(URLConstant.LOGIN, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
-                    Log.v(TAG,"result  "+result);
+                    Log.v(TAG, "result  " + result);
 
                     try {
                         JSONObject jsonObject = new JSONObject(result);
@@ -246,47 +251,51 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
                             user.setKey(key);
                             user.setUserId(wechatId);
 
-                            if (phone != null && !phone.equals("null")) {
+                            if (phone != null && !phone.equals("")) {
 
                                 // 存服务器返回的数据，因为可能换设备登录并且修改过个人信息
                                 user.setUserPhone(phone);
                             }
 
-                            if (name != null && !name.equals("null")) {
+                            if (name != null && !name.equals("")) {
                                 user.setUserName(name);
                             } else {
                                 user.setUserName(LoginActivity.this.name);
                             }
-                            if (avatar != null && !avatar.equals("null")) {
+                            if (avatar != null && !avatar.equals("")) {
                                 user.setAvatar(avatar);
 
                             } else {
                                 user.setAvatar(LoginActivity.this.avatar);
                             }
-                            if (gender != null && !gender.equals("null")) {
+                            if (gender != null && !gender.equals("")) {
                                 user.setGender(gender);
                             } else {
                                 user.setGender(LoginActivity.this.gender);
                             }
 
-                            // 首次登录，更新用户信息
-                            if (name.equals("null") && avatar.equals("null") && gender.equals("null")) {
+                            IShareContext.getInstance().saveCurrentUser(user);
+
+                            // 首次登录，更新用户信息, 得到用户位置并写入数据库,得到用户的收藏并写入数据有空
+                            if (name.equals("") && avatar.equals("") && gender.equals("")) {
                                 updateUserInfo();
+                                // 得到用户位置并写入数据库
+                                getUserLocationAndWirteDb();
+
+                                // 得到用户的收藏并写入数据有空
+                                getUserCollectionAndWriteDb();
+
+
+                            } else {
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
                             }
 
 
-                            IShareContext.getInstance().saveCurrentUser(user);
-
-                            // 得到用户位置并写入数据库
-                            getUserLocationAndWirteDb();
-
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-
                         }
                     } catch (JSONException e) {
-                        Log.v(TAG,e.toString());
+                        Log.v(TAG, e.toString());
                         e.printStackTrace();
                     }
 
@@ -295,7 +304,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                    Log.v(TAG,"error  "+retCode);
+                    Log.v(TAG, "error  " + retCode);
 
                 }
 
@@ -311,23 +320,36 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
             });
 
         }
+
         public void updateUserInfo() {
 
             List<BasicNameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("nickname", name));
-            params.add(new BasicNameValuePair("avatar",avatar));
-            params.add(new BasicNameValuePair("gender",gender));
-            Log.v(TAG ,"avatar:  "+avatar);
-            Log.v(TAG,"nickname: "+name);
-            Log.v(TAG,"gender: "+gender);
+            params.add(new BasicNameValuePair("avatar", avatar));
+            params.add(new BasicNameValuePair("gender", gender));
+            Log.v(TAG, "avatar:  " + avatar);
+            Log.v(TAG, "nickname: " + name);
+            Log.v(TAG, "gender: " + gender);
             HttpTask.startAsyncDataPostRequest(URLConstant.UPDATE_USER_INFO, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
                     try {
-                        JSONObject jsonObject =new JSONObject(result);
-                        Log.v(TAG,jsonObject.getInt("status")+"  update user ");
+                        JSONObject jsonObject = new JSONObject(result);
+                        Log.v(TAG, jsonObject.getInt("status") + "  update user ");
+                        int status = jsonObject.getInt("status");
+                        if (status == 0) {
+                            intoSystemFlag--;
+                        } else {
+                            Toast.makeText(LoginActivity.this, "用户信息无法上传,不能进入系统", Toast.LENGTH_SHORT).show();
+                        }
+
+                        if (intoSystemFlag == 0) {
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     } catch (JSONException e) {
-                        Log.v(TAG,e.toString());
+                        Log.v(TAG, e.toString());
                         e.printStackTrace();
                     }
 
@@ -336,7 +358,8 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                         Log.v(TAG,retCode+":  retCode");
+
+                    Toast.makeText(LoginActivity.this, "用户信息无法上传,不能进入系统", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -369,8 +392,14 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
                                         data.getDouble("longitude"), data.getDouble("latitude"), IShareContext.getInstance().getCurrentUser().getUserId());
                                 UserLocationDao.getInstance(LoginActivity.this).add(location);
                             }
+                            intoSystemFlag--;
+                            if (intoSystemFlag == 0) {
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
                         } else {
-                            Log.v(TAG, "error get location, status is" + status);
+                            Toast.makeText(LoginActivity.this, "历史位置不能获取,不能进入系统", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -379,7 +408,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                    Log.v(TAG, "get user location error");
+                    Toast.makeText(LoginActivity.this, "历史位置不能获取,不能进入系统", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -392,6 +421,56 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
 
                 }
             });
+        }
+
+
+        // 得到用户的收藏并写入数据库
+        public void getUserCollectionAndWriteDb() {
+            List<BasicNameValuePair> params = new ArrayList<>();
+            params.add(new BasicNameValuePair("page_num", 1 + ""));
+            params.add(new BasicNameValuePair("page_size", Integer.MAX_VALUE + ""));
+            HttpTask.startAsyncDataPostRequest(URLConstant.GET_I_COLLECT_CARD, params, new HttpDataResponse() {
+                @Override
+                public void onRecvOK(HttpRequestBase request, String result) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        if (status == 0) {
+                            JSONArray collections = jsonObject.getJSONArray("data");
+                            for (int i = 0; i < collections.length(); i++) {
+                                CardItem cardItem = JsonObjectUtil.parseJsonToCardItem(collections.getJSONObject(i).toString());
+                                CollectionDao.getInstance(LoginActivity.this).add(cardItem);
+                            }
+                            intoSystemFlag--;
+                            if (intoSystemFlag == 0) {
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        } else {
+                            Toast.makeText(LoginActivity.this, "用户收藏不能获取,不能进入系统", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onRecvError(HttpRequestBase request, HttpCode retCode) {
+                    Toast.makeText(LoginActivity.this, "用户收藏不能获取,不能进入系统", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onRecvCancelled(HttpRequestBase request) {
+
+                }
+
+                @Override
+                public void onReceiving(HttpRequestBase request, int dataSize, int downloadSize) {
+
+                }
+            });
+
         }
 
 

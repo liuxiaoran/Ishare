@@ -94,52 +94,64 @@ public class JsonObjectUtil {
         return ret;
     }
 
+    public static boolean isNotEmptyValue(String key, JSONObject jsonObject) {
+        try {
+            if (jsonObject.has(key) && jsonObject.get(key) != JSONObject.NULL && !jsonObject.getString(key).equals("") && !jsonObject.getString(key).equals("null")) {
+                return true;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
     public static CardItem parseJsonObjectToCardItem(JSONObject jsonObject) {
 
         CardItem cardItem = new CardItem();
         try {
-            if (jsonObject.has("id") && jsonObject.get("id") != JSONObject.NULL) {
+            if (isNotEmptyValue("id", jsonObject)) {
                 cardItem.setId(jsonObject.getInt("id"));
             }
-            if (jsonObject.has("card_id") && jsonObject.get("card_id") != JSONObject.NULL) {
+            if (isNotEmptyValue("card_id", jsonObject)) {
                 cardItem.setId(jsonObject.getInt("card_id"));
             }
-            if (jsonObject.has("owner_name") && jsonObject.get("owner_name") != JSONObject.NULL) {
+            if (isNotEmptyValue("owner_name", jsonObject)) {
                 cardItem.setOwnerName(jsonObject.getString("owner_name"));
             }
-            if (jsonObject.has("owner_avatar") && jsonObject.get("owner_avatar") != JSONObject.NULL) {
+            if (isNotEmptyValue("owner_avatar", jsonObject)) {
                 cardItem.setOwnerAvatar(jsonObject.getString("owner_avatar"));
             }
-            if (jsonObject.has("owner_id") && jsonObject.get("owner_id") != JSONObject.NULL) {
+            if (isNotEmptyValue("owner_id", jsonObject)) {
                 cardItem.setOwnerId(jsonObject.getString("owner_id"));
             }
-            if (jsonObject.has("card_status") && jsonObject.get("card_status") != JSONObject.NULL) {
+            if (isNotEmptyValue("card_status", jsonObject)) {
                 cardItem.setCardStatus(jsonObject.getString("card_status"));
             }
-            if (jsonObject.has("shop_name") && jsonObject.get("shop_name") != JSONObject.NULL) {
+            if (isNotEmptyValue("shop_name", jsonObject)) {
                 cardItem.setShopName(jsonObject.getString("shop_name"));
             }
-            if (jsonObject.has("ware_type") && jsonObject.get("ware_type") != JSONObject.NULL) {
+            if (isNotEmptyValue("ware_type", jsonObject)) {
                 cardItem.setWareType(jsonObject.getInt("ware_type"));
             }
-            if (jsonObject.has("discount") && jsonObject.get("discount") != JSONObject.NULL) {
+            if (isNotEmptyValue("discount", jsonObject)) {
 
                 cardItem.setDiscount(jsonObject.getDouble("discount"));
 
             }
-            if (jsonObject.has("trade_type") && jsonObject.get("trade_type") != JSONObject.NULL) {
+            if (isNotEmptyValue("trade_type", jsonObject)) {
                 cardItem.setTradeType(jsonObject.getInt("trade_type"));
             }
-            if (jsonObject.has("shop_location") && jsonObject.get("shop_location") != JSONObject.NULL) {
+            if (isNotEmptyValue("shop_location", jsonObject)) {
                 cardItem.setShopLocation(jsonObject.getString("shop_location"));
             }
-            if (jsonObject.has("shop_longitude") && jsonObject.get("shop_longitude") != JSONObject.NULL) {
+            if (isNotEmptyValue("shop_longitude", jsonObject)) {
                 cardItem.setShopLongitude(jsonObject.getDouble("shop_longitude"));
             }
-            if (jsonObject.has("shop_latitude") && jsonObject.get("shop_latitude") != JSONObject.NULL) {
+            if (isNotEmptyValue("shop_latitude", jsonObject)) {
                 cardItem.setShopLatitude(jsonObject.getDouble("shop_latitude"));
             }
-            if (jsonObject.has("shop_distance") && jsonObject.get("shop_distance") != JSONObject.NULL) {
+            if (isNotEmptyValue("shop_distance", jsonObject)) {
 
                 double distance = jsonObject.getDouble("shop_distance");
                 DecimalFormat df = new DecimalFormat(".##");
@@ -156,7 +168,7 @@ public class JsonObjectUtil {
             }
 
 
-            if (jsonObject.has("img") && !"null".equals(jsonObject.get("img"))) {
+            if (jsonObject.has("img")) {
                 if (jsonObject.get("img") != JSONObject.NULL) {
                     JSONArray imgArray = jsonObject.getJSONArray("img");
                     String[] imgs = new String[imgArray.length()];
@@ -182,78 +194,80 @@ public class JsonObjectUtil {
                     cardItem.setCardImgs(tem);
                 }
             }
-            if (jsonObject.has("publish_time") && jsonObject.get("publish_time") != JSONObject.NULL) {
+            if (isNotEmptyValue("publish_time", jsonObject)) {
                 cardItem.setPublishTime(jsonObject.getString("publish_time"));
             }
-            if (jsonObject.has("owner_longitude") && jsonObject.get("owner_longitude") != JSONObject.NULL) {
+            if (isNotEmptyValue("owner_longitude", jsonObject)) {
                 cardItem.setOwnerLongitude(jsonObject.getDouble("owner_longitude"));
             }
-            if (jsonObject.has("owner_latitude") && jsonObject.get("owner_latitude") != JSONObject.NULL) {
+            if (isNotEmptyValue("owner_latitude", jsonObject)) {
                 cardItem.setOwnerLatitude(jsonObject.getDouble("owner_latitude"));
             }
-            if (jsonObject.has("owner_location") && jsonObject.get("owner_location") != JSONObject.NULL) {
+            if (isNotEmptyValue("owner_location", jsonObject)) {
                 cardItem.setOwnerLocation(jsonObject.getString("owner_location"));
             }
-            if (jsonObject.has("user_latitude") && jsonObject.get("user_latitude") != JSONObject.NULL) {
+            if (isNotEmptyValue("user_latitude", jsonObject)) {
                 cardItem.setOwnerLatitude(jsonObject.getDouble("user_latitude"));
             }
-            if (jsonObject.has("user_longitude") && jsonObject.get("user_longitude") != JSONObject.NULL) {
+            if (isNotEmptyValue("user_longitude", jsonObject)) {
                 cardItem.setOwnerLongitude(jsonObject.getDouble("user_longitude"));
             }
-            if (jsonObject.has("available_addr") && jsonObject.get("available_addr") != JSONObject.NULL) {
+            if (isNotEmptyValue("available_addr", jsonObject)) {
                 cardItem.setOwnerLocation(jsonObject.getString("available_addr"));
             }
-            if (jsonObject.has("available_time") && jsonObject.get("available_time") != JSONObject.NULL) {
+            if (isNotEmptyValue("available_time", jsonObject)) {
                 cardItem.setAvailableTime(jsonObject.getString("available_time"));
             }
-            if (jsonObject.has("owner_distance") && jsonObject.get("owner_distance") != JSONObject.NULL) {
+            if (isNotEmptyValue("owner_distance", jsonObject)) {
 
                 double distance = jsonObject.getDouble("owner_distance");
                 DecimalFormat df = new DecimalFormat(".##");
                 String resultDistance = df.format(distance);
                 cardItem.setOwnerDistance(Double.parseDouble(resultDistance));
             }
-            if (jsonObject.has("rating_average") && jsonObject.get("rating_average") != JSONObject.NULL) {
+            if (isNotEmptyValue("rating_average", jsonObject)) {
                 cardItem.setRatingCount(jsonObject.getDouble("rating_average"));
             }
-            if (jsonObject.has("lend_count") && jsonObject.get("lend_count") != JSONObject.NULL) {
+            if (isNotEmptyValue("lend_count", jsonObject)) {
                 cardItem.setRentCount(jsonObject.getInt("lend_count"));
             }
-            if (jsonObject.has("rating_num") && jsonObject.get("rating_num") != JSONObject.NULL) {
+            if (isNotEmptyValue("rating_num", jsonObject)) {
                 cardItem.setCommentCount(jsonObject.getInt("rating_num"));
             }
-            if (jsonObject.has("requester_gender") && jsonObject.get("requester_gender") != JSONObject.NULL) {
+            if (isNotEmptyValue("requester_gender", jsonObject)) {
                 cardItem.setOwnerGender(jsonObject.getString("requester_gender"));
 
             }
-            if (jsonObject.has("gender") && jsonObject.get("gender") != JSONObject.NULL) {
+            if (isNotEmptyValue("gender", jsonObject)) {
                 cardItem.setOwnerGender(jsonObject.getString("gender"));
             }
-            if (jsonObject.has("avatar") && jsonObject.get("avatar") != JSONObject.NULL) {
+            if (isNotEmptyValue("avatar", jsonObject)) {
                 cardItem.setOwnerGender(jsonObject.getString("avatar"));
             }
-            if (jsonObject.has("nickname") && jsonObject.get("nickname") != JSONObject.NULL) {
+            if (isNotEmptyValue("nickname", jsonObject)) {
                 cardItem.setOwnerName(jsonObject.getString("nickname"));
             }
-            if (jsonObject.has("user_location") && jsonObject.get("user_location") != JSONObject.NULL) {
+            if (isNotEmptyValue("user_location", jsonObject)) {
                 cardItem.setRequesterLocation(jsonObject.getString("user_location"));
             }
-            if (jsonObject.has("distance") && jsonObject.get("distance") != JSONObject.NULL) {
+            if (isNotEmptyValue("distance", jsonObject)) {
                 double distance = jsonObject.getDouble("distance");
                 DecimalFormat df = new DecimalFormat(".##");
                 double resultDistance = Double.parseDouble(df.format(distance));
                 cardItem.setOwnerDistance(resultDistance);
             }
-            if (jsonObject.has("owner_distance") && jsonObject.get("owner_distance") != JSONObject.NULL) {
+            if (isNotEmptyValue("owner_distance", jsonObject)) {
                 cardItem.setOwnerDistance(jsonObject.getDouble("owner_distance"));
             }
-            if (jsonObject.has("service_charge")) {
+            if (isNotEmptyValue("service_charge", jsonObject)) {
                 cardItem.commission = jsonObject.getDouble("service_charge");
             }
-            if (jsonObject.has("location_id") && jsonObject.get("location_id") != JSONObject.NULL) {
+            if (isNotEmptyValue("location_id", jsonObject)) {
                 cardItem.locationId = jsonObject.getInt("location_id");
             }
-
+            if (isNotEmptyValue("collection_id", jsonObject)) {
+                cardItem.serverCollectionId = jsonObject.getInt("collection_id");
+            }
         } catch (Exception e) {
             Log.v("RequestFragment", e.toString() + "   exception");
             e.printStackTrace();

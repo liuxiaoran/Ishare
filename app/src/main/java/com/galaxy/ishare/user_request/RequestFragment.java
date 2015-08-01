@@ -25,6 +25,7 @@ import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.model.CardRequest;
 import com.galaxy.ishare.sharedcard.PullToRefreshBase;
 import com.galaxy.ishare.sharedcard.PullToRefreshListView;
 import com.galaxy.ishare.utils.JsonObjectUtil;
@@ -48,7 +49,7 @@ public class RequestFragment extends IShareFragment {
     private PullToRefreshListView refreshRefreshView;
     private ListView requestListView;
     private RequestListAdapter requestListAdapter;
-    private Vector<CardItem> dataList;
+    private Vector<CardRequest> dataList;
 
     private int gestureType;
     private int REFRESH_GESTURE = 1;
@@ -204,13 +205,13 @@ public class RequestFragment extends IShareFragment {
 
                                         JSONObject card = jsonArray.getJSONObject(i);
 
-                                        CardItem cardItem = JsonObjectUtil.parseJsonObjectToCardItem(card);
+                                        CardRequest cardRequest = JsonObjectUtil.parseJsonToCardRequest(card);
 
                                         if (gestureType == REFRESH_GESTURE) {
-                                            dataList.add(cardItem);
+                                            dataList.add(cardRequest);
                                             setLastUpdateTime();
                                         } else {
-                                            dataList.add(cardItem);
+                                            dataList.add(cardRequest);
                                         }
                                     }
                                     if (jsonArray.length() == 0) {

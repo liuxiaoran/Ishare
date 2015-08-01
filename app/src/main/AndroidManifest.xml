@@ -459,9 +459,6 @@
             android:label="@string/title_activity_card_ishare"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".usercenter.me.CardRequestActivity"
-            android:label="@string/title_activity_card_request" />
-        <activity
             android:name=".usercenter.me.CustomerServiceActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"

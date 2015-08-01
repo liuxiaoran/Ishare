@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.andexert.library.RippleView;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.model.CardRequest;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
 import com.galaxy.ishare.utils.TimeUtils;
@@ -31,7 +32,7 @@ public class RequestListAdapter extends BaseAdapter {
     public static final String TAG = "requestListAdapter";
 
     private Context mContext;
-    private Vector<CardItem> dataList;
+    private Vector<CardRequest> dataList;
     private LayoutInflater inflater;
 
 
@@ -81,33 +82,28 @@ public class RequestListAdapter extends BaseAdapter {
             holder = (RequestItemHolder) convertView.getTag();
         }
 
-        CardItem cardItem = dataList.get(position);
-        holder.requesterNameTv.setText(cardItem.ownerName);
+        CardRequest cardRequest = dataList.get(position);
+        holder.requesterNameTv.setText(cardRequest.requesterName);
 
-        ImageLoader.getInstance().displayImage(QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.getOwnerAvatar(), DisplayUtil.dip2px(mContext, 60), DisplayUtil.dip2px(mContext, 60)),
+        ImageLoader.getInstance().displayImage(QiniuUtil.getInstance().getFileThumbnailUrl(cardRequest.requesterAvatar, DisplayUtil.dip2px(mContext, 60), DisplayUtil.dip2px(mContext, 60)),
                 holder.avatarIv);
 
 
-        if ("男".equals(cardItem.ownerGender)) {
+        if ("男".equals(cardRequest.requesterGender)) {
             holder.genderIv.setImageResource(R.drawable.icon_male);
         } else {
             holder.genderIv.setImageResource(R.drawable.icon_female);
         }
-        holder.requesterDistanceTv.setText(cardItem.ownerDistance + " km");
+        holder.requesterDistanceTv.setText(cardRequest.requesterDistance + " km");
 
 
-        // 显示过去了多长时间
-        Log.v(TAG, cardItem.getShopName() + "   " + cardItem.getPublishTime());
+        if (cardRequest.publishTime != null)
+            holder.timeTv.setText(TimeUtils.getPresentPassTime(cardRequest.publishTime));
 
-        if (cardItem.getPublishTime() != null)
-            holder.timeTv.setText(TimeUtils.getPresentPassTime(cardItem.getPublishTime()));
-        else {
-            Toast.makeText(mContext, "TMD server publish time is empty again", Toast.LENGTH_LONG).show();
-        }
 
-        holder.shopNameTv.setText(cardItem.getShopName());
-        holder.shopLocationTv.setText(cardItem.getShopLocation());
-        holder.shopDistanceTv.setText(cardItem.shopDistance + "");
+        holder.shopNameTv.setText(cardRequest.shopName);
+        holder.shopLocationTv.setText(cardRequest.shopLocation);
+        holder.shopDistanceTv.setText(cardRequest.shopDistance + "");
 
         holder.rippleView.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
             @Override

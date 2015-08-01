@@ -225,22 +225,22 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
                             String name = data.getString("nickname");
                             String avatar = data.getString("avatar");
                             String gender = data.getString("gender");
-                            if (data.has("real_name") && data.get("real_name") != JSONObject.NULL) {
+                            if (JsonObjectUtil.isNotEmptyValue("real_name", data)) {
                                 user.setRealName(data.getString("real_name"));
                             }
-                            if (data.has("per_photo") && data.get("per_photo") != JSONObject.NULL) {
+                            if (JsonObjectUtil.isNotEmptyValue("per_photo", data)) {
                                 user.setPersonPicUrl(data.getString("per_photo"));
                             }
-                            if (data.has("id_facade") && data.get("id_facade") != JSONObject.NULL) {
+                            if (JsonObjectUtil.isNotEmptyValue("id_facade", data)) {
                                 user.setIdCardPic1Url(data.getString("id_facade"));
                             }
-                            if (data.has("id_back") && data.get("id_back") != JSONObject.NULL) {
+                            if (JsonObjectUtil.isNotEmptyValue("id_back", data)) {
                                 user.setIdCardPic2Url(data.getString("id_back"));
                             }
-                            if (data.has("work_unit") && data.get("work_unit") != JSONObject.NULL) {
+                            if (JsonObjectUtil.isNotEmptyValue("work_unit", data)) {
                                 user.setJobLocation(data.getString("work_unit"));
                             }
-                            if (data.has("work_card") && data.get("work_card") != JSONObject.NULL) {
+                            if (JsonObjectUtil.isNotEmptyValue("work_card", data)) {
                                 user.setJobCardUrl(data.getString("work_card"));
                             }
 

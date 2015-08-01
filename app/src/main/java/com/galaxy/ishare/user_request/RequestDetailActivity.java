@@ -16,6 +16,7 @@ import com.galaxy.ishare.R;
 import com.galaxy.ishare.chat.ChatManager;
 import com.galaxy.ishare.constant.PicConstant;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.model.CardRequest;
 import com.galaxy.ishare.model.User;
 import com.galaxy.ishare.utils.DisplayUtil;
 import com.galaxy.ishare.utils.QiniuUtil;
@@ -32,7 +33,7 @@ import info.hoang8f.widget.FButton;
 public class RequestDetailActivity extends IShareActivity {
 
     public static final String PARAMETER_REQUEST = "PARAMETER_REQUEST";
-    CardItem cardItem;
+    CardRequest cardRequest;
     int picNumber;
     // viewpager 中的ImageView
     private ImageView[] picIvs;
@@ -46,15 +47,16 @@ public class RequestDetailActivity extends IShareActivity {
     private LinearLayout requestViewPagerDotsLayout;
     private ImageView[] dotsIvs;
     private int lastChooseDot;
+    private ImageView genderIconIv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.request_detail_activity);
         IShareContext.getInstance().createActionbar(this, true, "请求详情");
-        cardItem = getIntent().getParcelableExtra(PARAMETER_REQUEST);
-        if (cardItem.cardImgs != null) {
-            picNumber = cardItem.cardImgs.length;
-        }
+        cardRequest = (CardRequest) getIntent().getSerializableExtra(PARAMETER_REQUEST);
+//        if (cardItem.cardImgs != null) {
+//            picNumber = cardItem.cardImgs.length;
+//        }
 
         picIvs = new ImageView[picNumber > 1 ? picNumber : 1];
         dotsIvs = new ImageView[picNumber > 1 ? picNumber : 1];
@@ -70,7 +72,7 @@ public class RequestDetailActivity extends IShareActivity {
             public void onClick(View v) {
                 // 跳到聊天
                 User currentUser = IShareContext.getInstance().getCurrentUser();
-                ChatManager.getInstance().startActivityFromRequest(cardItem.getId(), cardItem.getOwnerId(), cardItem.getOwnerAvatar(),
+                ChatManager.getInstance().startActivityFromRequest(cardRequest.id, cardRequest.requesterId, cardRequest.requesterGender,
                         currentUser.getUserId());
             }
         });
@@ -84,7 +86,7 @@ public class RequestDetailActivity extends IShareActivity {
         }
         dotsIvs[0].setImageResource(R.drawable.white_dot);
 
-        if (IShareContext.getInstance().getCurrentUser().getUserId().equals(cardItem.getOwnerId())) {
+        if (IShareContext.getInstance().getCurrentUser().getUserId().equals(cardRequest.requesterId)) {
             contactBtn.setVisibility(View.INVISIBLE);
         }
         cardPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -121,23 +123,27 @@ public class RequestDetailActivity extends IShareActivity {
         contactBtn = (FButton) findViewById(R.id.request_detail_contact_btn);
 //        mapBtn = (FloatingActionButton) findViewById(R.id.request_detail_map_floating_btn);
         requestViewPagerDotsLayout = (LinearLayout) findViewById(R.id.request_detail_viewpager_dots_layout);
+        genderIconIv = (ImageView) findViewById(R.id.request_detail_requester_gender_iv);
     }
 
     private void writeValueToViews() {
-        shopNameTv.setText(cardItem.shopName);
-        shopDistanceTv.setText(cardItem.shopDistance + "");
+        shopNameTv.setText(cardRequest.shopName);
+        shopDistanceTv.setText(cardRequest.shopDistance + "");
         String[] cardTypes = getResources().getStringArray(R.array.trade_items);
-        cardTypeTv.setText(cardTypes[cardItem.tradeType]);
-        shopAddrTv.setText(cardItem.shopLocation);
+        cardTypeTv.setText(cardTypes[cardRequest.tradeType]);
+        shopAddrTv.setText(cardRequest.shopLocation);
 
-        ImageLoader.getInstance().displayImage(QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.ownerAvatar, 60, 60), avatarIv);
-        requesterNameTv.setText(cardItem.ownerName);
-        requesterDistanceTv.setText(cardItem.ownerDistance + "");
-        descriptionTv.setText(cardItem.description);
-        if (cardItem.description.equals("")) {
+        ImageLoader.getInstance().displayImage(QiniuUtil.getInstance().getFileThumbnailUrl(cardRequest.requesterAvatar, 60, 60), avatarIv);
+        requesterNameTv.setText(cardRequest.requesterName);
+        requesterDistanceTv.setText(cardRequest.requesterDistance + "");
+        descriptionTv.setText(cardRequest.description);
+        if (cardRequest.description.equals("")) {
             descriptionTv.setText("他很懒，没有留下描述");
         }
-        timeTv.setText(cardItem.getPublishTime().split(" ")[0]);
+        if (cardRequest.requesterGender.equals("男")) {
+            genderIconIv.setImageResource(R.drawable.icon_male);
+        }
+        timeTv.setText(cardRequest.publishTime.split(" ")[0]);
     }
 
     private void initCardPager() {
@@ -147,7 +153,7 @@ public class RequestDetailActivity extends IShareActivity {
             picIvs[i] = (ImageView) view.findViewById(R.id.share_item_detail_card_pager_iv);
 
             final int finalI = i;
-            ImageLoader.getInstance().displayImage(cardItem.cardImgs[i], picIvs[finalI], IShareApplication.defaultOptions);
+//            ImageLoader.getInstance().displayImage(cardItem.cardImgs[i], picIvs[finalI], IShareApplication.defaultOptions);
             pagerList.add(view);
         }
         if (picNumber == 0) {

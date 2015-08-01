@@ -5,6 +5,7 @@ import android.util.Log;
 import com.galaxy.ishare.constant.PicConstant;
 import com.galaxy.ishare.model.CardComment;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.model.CardRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -247,13 +248,9 @@ public class JsonObjectUtil {
             if (isNotEmptyValue("nickname", jsonObject)) {
                 cardItem.setOwnerName(jsonObject.getString("nickname"));
             }
-            if (isNotEmptyValue("user_location", jsonObject)) {
-                cardItem.setRequesterLocation(jsonObject.getString("user_location"));
-            }
             if (isNotEmptyValue("distance", jsonObject)) {
                 double distance = jsonObject.getDouble("distance");
-                DecimalFormat df = new DecimalFormat(".##");
-                double resultDistance = Double.parseDouble(df.format(distance));
+                double resultDistance = parseDoubleToTwoDecimal(distance);
                 cardItem.setOwnerDistance(resultDistance);
             }
             if (isNotEmptyValue("owner_distance", jsonObject)) {
@@ -273,6 +270,82 @@ public class JsonObjectUtil {
             e.printStackTrace();
         }
         return cardItem;
+    }
+
+    public static double parseDoubleToTwoDecimal(double d) {
+        DecimalFormat df = new DecimalFormat(".##");
+        double resultDistance = Double.parseDouble(df.format(d));
+        return resultDistance;
+    }
+
+    public static CardRequest parseJsonToCardRequest(JSONObject jsonObject) {
+        CardRequest cardRequest = new CardRequest();
+
+        try {
+            if (isNotEmptyValue("id", jsonObject)) {
+                cardRequest.id = jsonObject.getInt("id");
+            }
+            if (isNotEmptyValue("owner", jsonObject)) {
+                cardRequest.requesterId = jsonObject.getString("owner");
+            }
+            if (isNotEmptyValue("publish_time", jsonObject)) {
+                cardRequest.publishTime = jsonObject.getString("publish_time");
+            }
+            if (isNotEmptyValue("shop_name", jsonObject)) {
+                cardRequest.shopName = jsonObject.getString("shop_name");
+            }
+            if (isNotEmptyValue("shop_location", jsonObject)) {
+                cardRequest.shopLocation = jsonObject.getString("shop_location");
+            }
+            if (isNotEmptyValue("shop_longitude", jsonObject)) {
+                cardRequest.shopLongitude = jsonObject.getDouble("shop_longitude");
+            }
+            if (isNotEmptyValue("shop_latitude", jsonObject)) {
+                cardRequest.shopLatitude = jsonObject.getDouble("shop_latitude");
+            }
+            if (isNotEmptyValue("discount", jsonObject)) {
+                cardRequest.discount = jsonObject.getDouble("discount");
+            }
+            if (isNotEmptyValue("ware_type", jsonObject)) {
+                cardRequest.wareType = jsonObject.getInt("ware_type");
+            }
+            if (isNotEmptyValue("trade_type", jsonObject)) {
+                cardRequest.tradeType = jsonObject.getInt("trade_type");
+            }
+            if (isNotEmptyValue("description", jsonObject)) {
+                cardRequest.description = jsonObject.getString("description");
+            }
+            if (isNotEmptyValue("user_longitude", jsonObject)) {
+                cardRequest.userLongitude = jsonObject.getDouble("user_longitude");
+            }
+            if (isNotEmptyValue("user_latitude", jsonObject)) {
+                cardRequest.userLatitude = jsonObject.getDouble("user_latitude");
+            }
+            if (isNotEmptyValue("nickname", jsonObject)) {
+                cardRequest.requesterName = jsonObject.getString("nickname");
+            }
+            if (isNotEmptyValue("avatar", jsonObject)) {
+                cardRequest.requesterAvatar = jsonObject.getString("avatar");
+            }
+            if (isNotEmptyValue("distance", jsonObject)) {
+                cardRequest.requesterDistance = parseDoubleToTwoDecimal(jsonObject.getDouble("distance"));
+            }
+            if (isNotEmptyValue("shop_distance", jsonObject)) {
+                cardRequest.shopDistance = parseDoubleToTwoDecimal(jsonObject.getDouble("shop_distance"));
+            }
+            if (isNotEmptyValue("gender", jsonObject)) {
+                cardRequest.requesterGender = jsonObject.getString("gender");
+            }
+            if (isNotEmptyValue("requester_gender", jsonObject)) {
+                cardRequest.requesterGender = jsonObject.getString("requester_gender");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+
+
+        return cardRequest;
     }
 
     public static CardItem parseJsonToCardItem(String cardResult) {

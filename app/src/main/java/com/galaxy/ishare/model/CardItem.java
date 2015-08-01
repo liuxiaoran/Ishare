@@ -69,8 +69,7 @@ public class CardItem implements Parcelable {
     public double ratingCount;
     @DatabaseField
     public String ownerGender;
-    @DatabaseField
-    public String requesterLocation; // 请求界面中请求者的地址
+
 
     @DatabaseField
     public double commission;
@@ -116,7 +115,6 @@ public class CardItem implements Parcelable {
         dest.writeInt(commentCount);
         dest.writeDouble(ratingCount);
         dest.writeString(ownerGender);
-        dest.writeString(requesterLocation);
         dest.writeDouble(commission);
         dest.writeInt(locationId);
         dest.writeInt(serverCollectionId);
@@ -162,7 +160,6 @@ public class CardItem implements Parcelable {
         commentCount = in.readInt();
         ratingCount = in.readDouble();
         ownerGender = in.readString();
-        requesterLocation = in.readString();
         commission = in.readDouble();
         locationId = in.readInt();
         serverCollectionId = in.readInt();
@@ -235,13 +232,7 @@ public class CardItem implements Parcelable {
     }
 
 
-    public void setRequesterLocation(String location) {
-        this.requesterLocation = location;
-    }
 
-    public String getRequesterLocation() {
-        return requesterLocation;
-    }
 
     public void setOwnerGender(String gender) {
         this.ownerGender = gender;

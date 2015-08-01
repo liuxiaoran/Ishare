@@ -43,10 +43,10 @@ import java.util.Vector;
  */
 public class CardRequestAdapter extends BaseAdapter {
     private static String TAG = "CardRequestAdapter";
-    private List<CardItem> dataList;
+    private List<CardRequest> dataList;
     private LayoutInflater mLayoutInflater;
     private Context mContext;
-    private CardItem cardItem;
+    private CardRequest cardRequest;
     private String[] cardItems;
     private String[] statusItems;
     boolean isHasShopLatLng = false;
@@ -93,21 +93,21 @@ public class CardRequestAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        final CardItem cardRequest = dataList.get(position);
+        final CardRequest cardRequest = dataList.get(position);
         final ViewHolder finalCardHolder = viewHolder;
-        if (cardRequest.cardImgs != null && cardRequest.cardImgs.length > 0) {
-            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardRequest.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
-            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
-
-            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
-                @Override
-                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                    finalCardHolder.shopImageIv.setImageBitmap(loadedImage);
-                }
-            });
-        } else {
-            finalCardHolder.shopImageIv.setImageResource(R.drawable.load_empty);
-        }
+//        if (cardRequest.cardImgs != null && cardRequest.cardImgs.length > 0) {
+//            String thumbnailUrl = QiniuUtil.getInstance().getFileThumbnailUrl(cardRequest.cardImgs[0], DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
+//            ImageSize imageSize = new ImageSize(DisplayUtil.dip2px(mContext, 80), DisplayUtil.dip2px(mContext, 60));
+//
+//            ImageLoader.getInstance().loadImage(thumbnailUrl, imageSize, IShareApplication.defaultOptions, new SimpleImageLoadingListener() {
+//                @Override
+//                public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+//                    finalCardHolder.shopImageIv.setImageBitmap(loadedImage);
+//                }
+//            });
+//        } else {
+//            finalCardHolder.shopImageIv.setImageResource(R.drawable.load_empty);
+//        }
 
         viewHolder.shopNameTv.setText(cardRequest.shopName);
         viewHolder.shopLocationTv.setText(cardRequest.shopLocation);
@@ -120,9 +120,7 @@ public class CardRequestAdapter extends BaseAdapter {
         viewHolder.editCardIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(mContext, CardRequestEditActivity.class);
-//                intent.putExtra("editCardRequest", cardRequest);
-//                mContext.startActivity(intent);
+
                 Intent intent = new Intent(mContext, PublishRequestActivity.class);
                 intent.putExtra(PublishRequestActivity.PARAMETER_WHO_COME, CardRequestTestActivity.CARDREQUEST_TO_PUBLISH);
                 intent.putExtra(PublishRequestActivity.PARAMETER_CARDREQUEST_CARD_ITEM, dataList.get(position));

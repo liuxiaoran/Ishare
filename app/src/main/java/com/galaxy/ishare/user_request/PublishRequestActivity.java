@@ -3,8 +3,6 @@ package com.galaxy.ishare.user_request;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -26,6 +24,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.CardItem;
+import com.galaxy.ishare.model.CardRequest;
 import com.galaxy.ishare.publishware.PoiSearchActivity;
 import com.galaxy.ishare.publishware.PublishItemActivity;
 import com.galaxy.ishare.publishware.ShopLocateSearchActivity;
@@ -65,7 +64,7 @@ public class PublishRequestActivity extends IShareActivity {
     private static final String TAG = "publishRequestActivity";
     private ImageView shopNameHintIv, shopAddrHintIv, descriptionHintIv;
 
-    private CardItem requestCard;
+    private CardRequest cardRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,23 +115,21 @@ public class PublishRequestActivity extends IShareActivity {
             }
         });
 
-        if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.MAIN_TO_PUBLISH)) {
+        if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.MAIN_TO_PUBLISH_REQUEST)) {
             IShareContext.getInstance().createDefaultHomeActionbar(this, "发布请求");
-        } else if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(CardRequestTestActivity.CARDREQUEST_TO_PUBLISH))
-            ;
-        {
+        } else if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(CardRequestTestActivity.CARDREQUEST_TO_PUBLISH)) {
             IShareContext.getInstance().createDefaultHomeActionbar(this, "编辑我请求的卡");
-            requestCard = getIntent().getParcelableExtra(PARAMETER_CARDREQUEST_CARD_ITEM);
+            cardRequest = (CardRequest) getIntent().getSerializableExtra(PARAMETER_CARDREQUEST_CARD_ITEM);
             confirmBtn.setText("确认修改");
-            writeRequestCardIntoView(requestCard);
+            writeRequestCardIntoView(cardRequest);
         }
     }
 
-    private void writeRequestCardIntoView(CardItem cardItem) {
-        shopNameTv.setText(cardItem.shopName);
-        shopLocationTv.setText(cardItem.shopLocation);
-        setButtonSelected(cardItem.wareType);
-        descriptionEt.setText(cardItem.description);
+    private void writeRequestCardIntoView(CardRequest request) {
+        shopNameTv.setText(request.shopName);
+        shopLocationTv.setText(request.shopLocation);
+        setButtonSelected(request.wareType);
+        descriptionEt.setText(request.description);
     }
 
 
@@ -194,31 +191,31 @@ public class PublishRequestActivity extends IShareActivity {
             if (v.getId() == R.id.request_publish_meirong_btn) {
 
 
-                cardType = 0;
+                cardType = 1;
                 setButtonSelected(0);
 
 
             } else if (v.getId() == R.id.request_publish_meifa_btn) {
 
                 setButtonSelected(1);
-
+                cardType = 2;
 
             } else if (v.getId() == R.id.request_publish_meijia_btn) {
 
                 setButtonSelected(2);
-                cardType = 2;
+                cardType = 3;
 
 
             } else if (v.getId() == R.id.request_publish_qingzi_btn) {
 
                 setButtonSelected(3);
-                cardType = 3;
+                cardType = 4;
 
 
             } else if (v.getId() == R.id.request_publish_other_btn) {
 
                 setButtonSelected(4);
-                cardType = 4;
+                cardType = 5;
 
 
             } else if (v.getId() == R.id.request_publish_confirm_btn) {
@@ -339,7 +336,7 @@ public class PublishRequestActivity extends IShareActivity {
 
         public void updateCardRequest() {
             List<BasicNameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("id", String.valueOf(requestCard.id)));
+            params.add(new BasicNameValuePair("id", String.valueOf(cardRequest.id)));
             params.add(new BasicNameValuePair("shop_name", shopNameTv.getText().toString()));
             params.add(new BasicNameValuePair("shop_location", shopLocationTv.getText().toString()));
             if (isHasShopLatLng) {

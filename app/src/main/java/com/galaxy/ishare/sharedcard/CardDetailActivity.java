@@ -335,7 +335,8 @@ public class CardDetailActivity extends IShareActivity {
 
             final int finalI = i;
             Log.v(TAG, "carddetail  " + cardItem.cardImgs[i]);
-            ImageLoader.getInstance().displayImage(cardItem.cardImgs[i], picIvs[finalI], IShareApplication.defaultOptions);
+            ImageLoader.getInstance().displayImage(QiniuUtil.getInstance().getFileThumbnailUrl(cardItem.cardImgs[i], DisplayUtil.getScreenWidth(this)
+                    - DisplayUtil.dip2px(this, 80), DisplayUtil.dip2px(this, 200)), picIvs[finalI], IShareApplication.defaultOptions);
             pagerList.add(view);
         }
 

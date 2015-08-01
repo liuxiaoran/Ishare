@@ -7,5 +7,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/share_item_detail_card_pager_iv"
-        android:scaleType="fitXY" />
+        android:scaleType="centerCrop" />
 </LinearLayout>

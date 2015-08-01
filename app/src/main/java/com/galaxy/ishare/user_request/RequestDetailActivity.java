@@ -83,6 +83,10 @@ public class RequestDetailActivity extends IShareActivity {
             requestViewPagerDotsLayout.addView(dotsIvs[i]);
         }
         dotsIvs[0].setImageResource(R.drawable.white_dot);
+
+        if (IShareContext.getInstance().getCurrentUser().getUserId().equals(cardItem.getOwnerId())) {
+            contactBtn.setVisibility(View.INVISIBLE);
+        }
         cardPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

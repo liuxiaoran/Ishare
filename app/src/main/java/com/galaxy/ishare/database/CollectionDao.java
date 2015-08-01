@@ -71,10 +71,10 @@ public class CollectionDao {
         return 0;
     }
 
-    public CardItem find(int id, String userId) {
+    public CardItem find(int serverId, String userId) {
         ArrayList<CardItem> all = query(userId);
         for (CardItem item : all) {
-            if (item.id == id) {
+            if (item.serverCollectionId == serverId) {
                 return item;
             }
         }

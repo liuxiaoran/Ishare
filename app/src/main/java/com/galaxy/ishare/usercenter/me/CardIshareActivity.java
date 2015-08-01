@@ -90,6 +90,7 @@ public class CardIshareActivity extends IShareActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(BroadcastActionConstant.UPDATE_I_SHARE_CARD)) {
+                    dataList.clear();
                     httpInteract.loadData();
                 }
             }

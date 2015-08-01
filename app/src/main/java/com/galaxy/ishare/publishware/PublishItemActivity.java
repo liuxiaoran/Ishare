@@ -126,6 +126,8 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
     private GridView photoGridView;
     private int maxUploadPicCount = 3;
     private ArrayList<Uri> picUriList;
+    // 用来当从我分享的卡编辑进来的时候 判断图片是否被重新改变，如果重新改变了则再重新上传。
+    private boolean[] picIsChanged;
     // 是否已经选择了maxUploadPicCount 个图片
     private boolean isToMaxPicNumber = false;
 
@@ -156,6 +158,11 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
         shopNameTv = (TextView) findViewById(R.id.publish_shop_name_tv);
         picUriList = new ArrayList<>();
+        picIsChanged = new boolean[maxUploadPicCount];
+        // 将picIsChanged 初始化为false
+        for (int i = 0; i < maxUploadPicCount; i++) {
+            picIsChanged[i] = false;
+        }
         photoGridView = (GridView) findViewById(R.id.publishware_cardpic_gridview);
 
         gridViewAdapter = new GridViewAdapter(this);
@@ -478,6 +485,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
                         isToMaxPicNumber = true;
                     }
                     gridViewAdapter.notifyDataSetChanged();
+                    picIsChanged[picUriList.size() - 1] = true;
 
                     break;
 //                case CAMERA_REQUEST_CODE:
@@ -530,18 +538,22 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
             for (int i = 0; i < picUriList.size(); i++) {
 
-                imageKey[i] = qiniuUtil.generateKey("card");
-                String filePath = ImageParseUtil.getImageAbsolutePath(PublishItemActivity.this, picUriList.get(i));
-                Log.v(TAG, "filepath " + i + " " + filePath);
-                qiniuUtil.uploadFileDefault(filePath, imageKey[i], new UpCompletionHandler() {
-                    @Override
-                    public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
+                //防止从我分享的卡编辑进来的时候，图片没有编辑不上传
+                if (picIsChanged[i]) {
 
-                        if (responseInfo.isOK()) {
-                            Log.v(TAG, "ok");
+                    imageKey[i] = qiniuUtil.generateKey("card");
+                    String filePath = ImageParseUtil.getImageAbsolutePath(PublishItemActivity.this, picUriList.get(i));
+                    Log.v(TAG, "filepath " + i + " " + filePath);
+                    qiniuUtil.uploadFileDefault(filePath, imageKey[i], new UpCompletionHandler() {
+                        @Override
+                        public void complete(String s, ResponseInfo responseInfo, JSONObject jsonObject) {
+
+                            if (responseInfo.isOK()) {
+                                Log.v(TAG, "ok");
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
             if (getIntent().getStringExtra(PARAMETER_WHO_COME).equals(MainActivity.MAIN_TO_PUBLISH)) {
 
@@ -640,11 +652,15 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
             if (imageKey != null && imageKey.length > 0) {
                 String[] imgs = new String[imageKey.length];
                 for (int i = 0; i < imageKey.length; i++) {
-                    imgs[i] = QiniuUtil.getInstance().getFileUrl(imageKey[i]);
-                    Log.v(TAG, "file url:" + i + imgs[i]);
+                    if (picIsChanged[i]) {
+                        imgs[i] = QiniuUtil.getInstance().getFileUrl(imageKey[i]);
+                        Log.v(TAG, "file url:" + i + imgs[i]);
+                    } else {
+                        // 从我的分享的卡的编辑进来的  如果没有修改则picUriList 中就是原来图片链接，要加到数组中
+                        imgs[i] = picUriList.get(i).toString();
+                    }
 
                 }
-
                 String arrayStr = JsonObjectUtil.parseArrayToJsonString(imgs);
                 params.add(new BasicNameValuePair("img", arrayStr));
                 Log.v(TAG, "img: " + arrayStr);

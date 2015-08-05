@@ -205,17 +205,17 @@ public class ItemListFragment extends IShareFragment {
         cardListView.setAdapter(cardListItemAdapter);
 
         // listview 条目点击
-//        cardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                if (position < dataList.size()) {  // 防止点footer
-//                    Intent intent = new Intent(getActivity(), CardDetailActivity.class);
-//                    intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
-//                    intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, ItemListFragment.INTENT_ITEM_TO_DETAIL);
-//                    startActivity(intent);
-//                }
-//            }
-//        });
+        cardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position < dataList.size()) {  // 防止点footer
+                    Intent intent = new Intent(getActivity(), CardDetailActivity.class);
+                    intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
+                    intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, ItemListFragment.INTENT_ITEM_TO_DETAIL);
+                    startActivity(intent);
+                }
+            }
+        });
 
         mPullListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override

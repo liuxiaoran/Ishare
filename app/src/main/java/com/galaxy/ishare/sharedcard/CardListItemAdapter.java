@@ -148,15 +148,15 @@ public class CardListItemAdapter extends BaseAdapter {
         }
 
 
-        cardHolder.rippleView.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
-            @Override
-            public void onComplete(RippleView rippleView) {
-                Intent intent = new Intent(mContext, CardDetailActivity.class);
-                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
-                intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, ItemListFragment.INTENT_ITEM_TO_DETAIL);
-                mContext.startActivity(intent);
-            }
-        });
+//        cardHolder.rippleView.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+//            @Override
+//            public void onComplete(RippleView rippleView) {
+//                Intent intent = new Intent(mContext, CardDetailActivity.class);
+//                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
+//                intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, ItemListFragment.INTENT_ITEM_TO_DETAIL);
+//                mContext.startActivity(intent);
+//            }
+//        });
 
         return convertView;
     }

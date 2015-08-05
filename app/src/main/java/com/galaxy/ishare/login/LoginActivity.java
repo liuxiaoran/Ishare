@@ -73,7 +73,6 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        ShareSDK.initSDK(getApplicationContext());
 
         httpInteract = new HttpInteract();
 

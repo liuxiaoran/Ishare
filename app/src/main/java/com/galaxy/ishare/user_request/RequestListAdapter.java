@@ -105,14 +105,14 @@ public class RequestListAdapter extends BaseAdapter {
         holder.shopLocationTv.setText(cardRequest.shopLocation);
         holder.shopDistanceTv.setText(cardRequest.shopDistance + "");
 
-        holder.rippleView.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
-            @Override
-            public void onComplete(RippleView rippleView) {
-                Intent intent = new Intent(mContext, RequestDetailActivity.class);
-                intent.putExtra(RequestDetailActivity.PARAMETER_REQUEST, dataList.get(position));
-                mContext.startActivity(intent);
-            }
-        });
+//        holder.rippleView.setOnRippleCompleteListener(new RippleView.OnRippleCompleteListener() {
+//            @Override
+//            public void onComplete(RippleView rippleView) {
+//                Intent intent = new Intent(mContext, RequestDetailActivity.class);
+//                intent.putExtra(RequestDetailActivity.PARAMETER_REQUEST, dataList.get(position));
+//                mContext.startActivity(intent);
+//            }
+//        });
 
         return convertView;
     }

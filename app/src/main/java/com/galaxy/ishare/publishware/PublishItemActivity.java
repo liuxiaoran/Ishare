@@ -42,7 +42,7 @@ import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.CardItem;
 import com.galaxy.ishare.model.UserLocation;
-import com.galaxy.ishare.usercenter.me.CardAddrActivity;
+import com.galaxy.ishare.usercenter.me.CardIAddrActivity;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
 import com.galaxy.ishare.utils.ImageParseUtil;
 import com.galaxy.ishare.utils.JsonObjectUtil;
@@ -76,7 +76,7 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
     public static final int PARAMETER_SHOP_LOCATION_RESULT_CODE = 2;
     public static final int PARAMETER_AVAILABLE_RESULT_CODE = 3;
 
-    public static final int ADDR_SEARCH_TO_PUBLISH = 4;
+
     public static final int PUBLISH_TO_ADDR = 5;
     public static final int ADDR_TO_PUBLISH_RESULT_CODE = 6;
 
@@ -335,9 +335,9 @@ public class PublishItemActivity extends IShareActivity implements OnGetSuggesti
 
             } else if (v.getId() == R.id.publish_ware_choose_addr_tv) {
 
-                Intent intent = new Intent(PublishItemActivity.this, CardAddrActivity.class);
-                intent.putExtra(CardAddrActivity.PARAMETER_WHO_COME, PUBLISH_TO_ADDR);
-                startActivityForResult(intent, CardOwnerAvailableAddrSearchActivity.PUBLISH_TO_MAP_REQUEST_CODE);
+                Intent intent = new Intent(PublishItemActivity.this, CardIAddrActivity.class);
+                intent.putExtra(CardIAddrActivity.PARAMETER_WHO_COME, PUBLISH_TO_ADDR);
+                startActivityForResult(intent, 0);
 
             } else if (v.getId() == R.id.publishware_discount_layout) {
 

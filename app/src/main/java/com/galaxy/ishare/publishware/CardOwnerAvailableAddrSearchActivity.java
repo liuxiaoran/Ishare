@@ -43,7 +43,7 @@ import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.database.UserLocationDao;
 import com.galaxy.ishare.model.UserLocation;
-import com.galaxy.ishare.usercenter.me.CardAddrActivity;
+import com.galaxy.ishare.usercenter.me.CardIAddrActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,15 +58,9 @@ import java.util.List;
 public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
 
     public static final String PARAMETER_ADDR = "PARAMETER_ADDR";
-    public static final String PARAMETER_REQUEST_CODE = "PARAMETER_REQUEST_CODE";
+    public static final int CARDADDR_TO_ADDRSEARCH_REQUEST_CODE = 1;
+    public static final String INTENT_LOCATION_EXTRA = "INTENT_LOCATION_EXTRA";
 
-
-    public static final int PUBLISH_TO_MAP_REQUEST_CODE = 3;
-    public static final int CARDADDR_TO_ADDRSEARCH = 2;
-
-    public static final String LOCATION_ADDR = "LOCATION_ADDR";
-    public static final String LOCATION_LONGITUDE = "LOCATION_LONGITUDE";
-    public static final String LOCATION_LATITIDE = "LOCATION_LATITIDE";
     private ListView mapListView;
     private MapView mapView;
     private BaiduMap baiduMap;
@@ -102,7 +96,6 @@ public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
         contentEt.setHint("输入您的位置");
         contentEt.setHintTextColor(getResources().getColor(R.color.dark_hint_text));
 
-        requestCode = getIntent().getIntExtra(PARAMETER_REQUEST_CODE, 0);
         targetAddr = getIntent().getStringExtra(PARAMETER_ADDR);
         if (targetAddr == null) {
             targetAddr = IShareContext.getInstance().getCurrentUser().getUserLocation().getLocationStr();
@@ -269,29 +262,18 @@ public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
     }
 
     private void returnResult(String addr, double longitude, double latitude) {
-        Intent ret = null;
+        Intent ret = new Intent();
         int resultCode = 0;
 
-        if (ret != null) {
-            ret.putExtra(LOCATION_ADDR, addr);
-            ret.putExtra(LOCATION_LONGITUDE, longitude);
-            ret.putExtra(LOCATION_LATITIDE, latitude);
-        }
-        // 将地址写入数据库
         UserLocation userLocation = new UserLocation();
         userLocation.setUserId(IShareContext.getInstance().getCurrentUser().getUserId());
         userLocation.setAddress(addr);
         userLocation.setLongitude(longitude);
         userLocation.setLatitude(latitude);
-        UserLocationDao.getInstance(this).add(userLocation);
-        if (requestCode == PUBLISH_TO_MAP_REQUEST_CODE) {
 
-            resultCode = PublishItemActivity.ADDR_SEARCH_TO_PUBLISH;
-
-
-        } else if (requestCode == CARDADDR_TO_ADDRSEARCH) {
-            resultCode = CardAddrActivity.ADDR_SEARCH_TO_CARD_ADD_RESULT_CODE;
-        }
+        resultCode = CardIAddrActivity.ADDR_SEARCH_TO_CARD_ADD_RESULT_CODE;
+        ret.setClass(this, CardIAddrActivity.class);
+        ret.putExtra(INTENT_LOCATION_EXTRA, userLocation);
         setResult(resultCode, ret);
         this.finish();
 
@@ -300,28 +282,7 @@ public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-//        if (item.getItemId() == R.id.menu_save) {
-//            LatLng confirmLatLng = baiduMap.getMapStatus().target;
-//            // 返回父界面
-//
-//            Intent intent = null;
-//            int resultCode = 0;
-//            if (requestCode == ADD_TO_MAP_REQUEST_CODE) {
-//                intent = new Intent(this, CardOwnerAvailableAddActivity.class);
-//                resultCode = CardOwnerAvailableAddActivity.MAP_TO_ADD_RESULT_CODE;
-//            } else {
-//                intent = new Intent(this, CardOwnerAvailableEditActivity.class);
-//                resultCode = CardOwnerAvailableEditActivity.MAP_TO_EDIT_RESULT_CODE;
-//            }
-//            intent.putExtra(LOCATION_LONGITUDE, confirmLatLng.longitude);
-//            intent.putExtra(LOCATION_LATITIDE, confirmLatLng.latitude);
-//            Log.v("cardpublish", "longitude" + confirmLatLng.longitude);
-//            Log.v("cardpublish", "latitude" + confirmLatLng.latitude);
-//            setResult(resultCode, intent);
-//            finish();
-//
-//
-//        } else
+
         if (item.getItemId() == android.R.id.home) {
 //            NavUtils.navigateUpFromSameTask(this);
             this.finish();
@@ -437,7 +398,7 @@ public class CardOwnerAvailableAddrSearchActivity extends IShareActivity {
 //                .city(IShareContext.getInstance().getUserLocation().getCity())
 //                .keyword(addr)
 //                .pageNum(0));
-         mapPoiSearch.searchNearby((new PoiNearbySearchOption())
+        mapPoiSearch.searchNearby((new PoiNearbySearchOption())
                 .keyword(addr)
                 .pageNum(0)
                 .location(location)

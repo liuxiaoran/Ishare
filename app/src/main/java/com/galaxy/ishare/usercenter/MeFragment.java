@@ -26,7 +26,7 @@ import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
 import com.galaxy.ishare.main.MainActivity;
 import com.galaxy.ishare.model.User;
-import com.galaxy.ishare.usercenter.me.CardAddrActivity;
+import com.galaxy.ishare.usercenter.me.CardIAddrActivity;
 import com.galaxy.ishare.usercenter.me.CardICollectActivity;
 import com.galaxy.ishare.usercenter.me.CardIshareActivity;
 import com.galaxy.ishare.usercenter.me.CardRequestTestActivity;
@@ -211,7 +211,7 @@ public class MeFragment extends IShareFragment {
         addrLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CardAddrActivity.class);
+                Intent intent = new Intent(getActivity(), CardIAddrActivity.class);
                 startActivity(intent);
             }
         });

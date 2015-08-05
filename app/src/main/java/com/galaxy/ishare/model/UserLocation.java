@@ -4,10 +4,12 @@ import android.support.v4.view.animation.FastOutLinearInInterpolator;
 
 import com.j256.ormlite.field.DatabaseField;
 
+import java.io.Serializable;
+
 /**
  * Created by liuxiaoran on 15/6/13.
  */
-public class UserLocation {
+public class UserLocation implements Serializable {
 
     @DatabaseField(generatedId = true)
     public int id;

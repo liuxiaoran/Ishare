@@ -223,7 +223,7 @@
                 android:value=".publishware.ShopLocateSearchActivity" />
         </activity>
         <activity
-            android:name=".usercenter.me.CardAddrActivity"
+            android:name=".usercenter.me.CardIAddrActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />

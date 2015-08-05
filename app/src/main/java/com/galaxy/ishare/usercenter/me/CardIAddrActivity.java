@@ -3,7 +3,10 @@ package com.galaxy.ishare.usercenter.me;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +27,6 @@ import com.galaxy.ishare.database.UserLocationDao;
 import com.galaxy.ishare.http.HttpCode;
 import com.galaxy.ishare.http.HttpDataResponse;
 import com.galaxy.ishare.http.HttpTask;
-import com.galaxy.ishare.login.LoginActivity;
 import com.galaxy.ishare.model.UserLocation;
 import com.galaxy.ishare.publishware.CardOwnerAvailableAddrSearchActivity;
 import com.galaxy.ishare.publishware.PublishItemActivity;
@@ -34,13 +36,12 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 /**
  * Created by liuxiaoran on 15/5/19.
  */
-public class CardAddrActivity extends IShareActivity {
+public class CardIAddrActivity extends IShareActivity {
 
 
     public static final int ADDR_SEARCH_TO_CARD_ADD_RESULT_CODE = 1;
@@ -54,6 +55,29 @@ public class CardAddrActivity extends IShareActivity {
     private static final String TAG = "CardOwnerShowActivity";
     private HttpInteract httpInteract;
     private int lastPosition = -1;
+    private final int DELETE_LOCATION_MSG_WHAT = 1;
+    private final int ADD_LOCATION_MSG_WHAT = 2;
+
+
+    Handler updateLocationHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == DELETE_LOCATION_MSG_WHAT) {
+                UserLocationDao userLocationDao = UserLocationDao.getInstance(CardIAddrActivity.this);
+                userLocationDao.delete(dataList.get(msg.arg1));
+                setDataList();
+                listViewAdapter.notifyDataSetChanged();
+            } else if (msg.what == ADD_LOCATION_MSG_WHAT) {
+
+                UserLocationDao userLocationDao = UserLocationDao.getInstance(CardIAddrActivity.this);
+                userLocationDao.add((UserLocation) msg.obj);
+                setDataList();
+                listViewAdapter.notifyDataSetChanged();
+            }
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,15 +96,13 @@ public class CardAddrActivity extends IShareActivity {
             dataList = new ArrayList<>();
         }
 
-        setDataList();
         listViewAdapter = new ListViewAdapter(this);
         availableListView.setAdapter(listViewAdapter);
         newaddrLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CardAddrActivity.this, CardOwnerAvailableAddrSearchActivity.class);
-                intent.putExtra(CardOwnerAvailableAddrSearchActivity.PARAMETER_REQUEST_CODE, CardOwnerAvailableAddrSearchActivity.CARDADDR_TO_ADDRSEARCH);
-                startActivityForResult(intent, CardOwnerAvailableAddrSearchActivity.CARDADDR_TO_ADDRSEARCH);
+                Intent intent = new Intent(CardIAddrActivity.this, CardOwnerAvailableAddrSearchActivity.class);
+                startActivityForResult(intent, CardOwnerAvailableAddrSearchActivity.CARDADDR_TO_ADDRSEARCH_REQUEST_CODE);
             }
         });
 
@@ -90,8 +112,13 @@ public class CardAddrActivity extends IShareActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        // 通知服务器增加地址,增加的那个一定是在dataList 的最后一个
-        httpInteract.addLocation(dataList.size());
+
+        if (resultCode == CardIAddrActivity.ADDR_SEARCH_TO_CARD_ADD_RESULT_CODE) {
+            Log.v(TAG, "arrive");
+            UserLocation userLocation = (UserLocation) data.getSerializableExtra(CardOwnerAvailableAddrSearchActivity.INTENT_LOCATION_EXTRA);
+            httpInteract.addLocation(userLocation);
+        }
+
     }
 
     @Override
@@ -104,6 +131,18 @@ public class CardAddrActivity extends IShareActivity {
             this.finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            if (getIntent().getIntExtra(PARAMETER_WHO_COME, 0) == PublishItemActivity.PUBLISH_TO_ADDR) {
+                Intent intent = new Intent(this, PublishItemActivity.class);
+                setResult(PublishItemActivity.ADDR_TO_PUBLISH_RESULT_CODE, intent);
+                this.finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public void setDataList() {
@@ -173,12 +212,12 @@ public class CardAddrActivity extends IShareActivity {
                         if (dataList.get(position).isChoosed == false) {
                             ((ImageView) v).setSelected(true);
                             dataList.get(position).isChoosed = true;
-                            UserLocationDao.getInstance(CardAddrActivity.this).update(dataList.get(position));
+                            UserLocationDao.getInstance(CardIAddrActivity.this).update(dataList.get(position));
                             Log.v(TAG, " position click " + position);
                             if (lastPosition != -1 && lastPosition != position) {
 
                                 dataList.get(lastPosition).isChoosed = false;
-                                UserLocationDao.getInstance(CardAddrActivity.this).update(dataList.get(lastPosition));
+                                UserLocationDao.getInstance(CardIAddrActivity.this).update(dataList.get(lastPosition));
                             }
                             lastPosition = position;
                             notifyDataSetChanged();
@@ -191,10 +230,7 @@ public class CardAddrActivity extends IShareActivity {
                 deleteIv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        UserLocationDao userLocationDao = UserLocationDao.getInstance(CardAddrActivity.this);
-                        userLocationDao.delete(dataList.get((int) deleteIv.getTag()));
-                        setDataList();
-                        listViewAdapter.notifyDataSetChanged();
+
                         httpInteract.deleteLocation((int) v.getTag());
                     }
                 });
@@ -206,22 +242,29 @@ public class CardAddrActivity extends IShareActivity {
     }
 
     class HttpInteract {
-        public void addLocation(int position) {
+        public void addLocation(final UserLocation userLocation) {
             ArrayList<BasicNameValuePair> params = new ArrayList<>();
-            params.add(new BasicNameValuePair("longitude", dataList.get(position).longitude + ""));
-            params.add(new BasicNameValuePair("latitude", dataList.get(position).latitude + ""));
-            params.add(new BasicNameValuePair("location", dataList.get(position).address));
-            HttpTask.startAsyncDataPostRequest(URLConstant.ADD_COLLECTION, params, new HttpDataResponse() {
+            params.add(new BasicNameValuePair("longitude", userLocation.longitude + ""));
+            params.add(new BasicNameValuePair("latitude", userLocation.latitude + ""));
+            params.add(new BasicNameValuePair("location", userLocation.address));
+            Log.v(TAG, "arrive add Location" + userLocation.longitude + "  " + userLocation.address);
+            HttpTask.startAsyncDataPostRequest(URLConstant.ADD_LOCATION, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
                     try {
+                        Log.v(TAG, "arrive ok");
                         JSONObject jsonObject = new JSONObject(result);
                         if (jsonObject.getInt("status") == 0) {
-                            int serverId = jsonObject.getInt("id");
-                            setDataList();
-                            listViewAdapter.notifyDataSetChanged();
+                            Message m = new Message();
+                            m.what = ADD_LOCATION_MSG_WHAT;
+                            JSONObject data = jsonObject.getJSONObject("data");
+                            int serverLocationId = data.getInt("id");
+                            userLocation.serverId = serverLocationId;
+                            m.obj = userLocation;
+                            updateLocationHandler.sendMessage(m);
                         } else {
-                            Toast.makeText(CardAddrActivity.this, "增加地址失败，请重试", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CardIAddrActivity.this, "增加地址失败，请重试", Toast.LENGTH_SHORT).show();
+                            Log.v(TAG, jsonObject.getInt("status") + "" + jsonObject.getString("message"));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -230,7 +273,8 @@ public class CardAddrActivity extends IShareActivity {
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                    Toast.makeText(CardAddrActivity.this, "增加地址失败，请重试", Toast.LENGTH_SHORT).show();
+                    Log.v(TAG, "http error");
+                    Toast.makeText(CardIAddrActivity.this, "增加地址失败，请重试", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -246,18 +290,31 @@ public class CardAddrActivity extends IShareActivity {
 
         }
 
-        public void deleteLocation(int position) {
+        public void deleteLocation(final int position) {
             ArrayList<BasicNameValuePair> params = new ArrayList<>();
             params.add(new BasicNameValuePair("id", dataList.get(position).serverId + ""));
             HttpTask.startAsyncDataPostRequest(URLConstant.DELETE_LOCATION, params, new HttpDataResponse() {
                 @Override
                 public void onRecvOK(HttpRequestBase request, String result) {
-                    Log.v(TAG, "delete location success");
+                    try {
+                        JSONObject jsonObject = new JSONObject(result);
+                        int status = jsonObject.getInt("status");
+                        if (status == 0) {
+                            Message m = new Message();
+                            m.what = DELETE_LOCATION_MSG_WHAT;
+                            m.arg1 = position;
+                            updateLocationHandler.sendMessage(m);
+                        } else {
+                            Toast.makeText(CardIAddrActivity.this, "删除地址失败", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 @Override
                 public void onRecvError(HttpRequestBase request, HttpCode retCode) {
-                    Log.v(TAG, "delete location error");
+                    Toast.makeText(CardIAddrActivity.this, "删除地址失败", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

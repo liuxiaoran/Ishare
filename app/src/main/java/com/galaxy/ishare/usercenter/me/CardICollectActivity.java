@@ -64,15 +64,15 @@ public class CardICollectActivity extends IShareActivity {
         cardICollectAdapter = new CardListItemAdapter(collectionData, this);
         mCollectionListView.setAdapter(cardICollectAdapter);
 
-//        mCollectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(CardICollectActivity.this, CardDetailActivity.class);
-//                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
-//                intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, CARDCOLLECT_TO_DETAIL);
-//                startActivity(intent);
-//            }
-//        });
+        mCollectionListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CardICollectActivity.this, CardDetailActivity.class);
+                intent.putExtra(CardDetailActivity.PARAMETER_CARD_ITEM, dataList.get(position));
+                intent.putExtra(CardDetailActivity.PARAMETER_WHO_SEND, CARDCOLLECT_TO_DETAIL);
+                startActivity(intent);
+            }
+        });
     }
 
 

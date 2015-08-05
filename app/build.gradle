@@ -73,7 +73,6 @@ dependencies {
     // compile 'com.nispok:snackbar:2.10.+'
     //umeng update
     compile files('libs/umeng-update-v2.6.0.1.jar')
-    // ripple effect
-    //    compile 'com.github.traex.rippleeffect:library:1.3'
+
     compile project(':RippleEffect')
 }

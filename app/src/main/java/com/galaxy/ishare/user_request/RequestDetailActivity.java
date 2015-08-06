@@ -1,7 +1,9 @@
 package com.galaxy.ishare.user_request;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ import info.hoang8f.widget.FButton;
  * Created by liuxiaoran on 15/6/12.
  */
 public class RequestDetailActivity extends IShareActivity {
+    public static final String TAG = "RequestDetailActivity";
 
     public static final String PARAMETER_REQUEST = "PARAMETER_REQUEST";
     CardRequest cardRequest;
@@ -48,6 +51,7 @@ public class RequestDetailActivity extends IShareActivity {
     private ImageView[] dotsIvs;
     private int lastChooseDot;
     private ImageView genderIconIv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,10 +89,13 @@ public class RequestDetailActivity extends IShareActivity {
             requestViewPagerDotsLayout.addView(dotsIvs[i]);
         }
         dotsIvs[0].setImageResource(R.drawable.white_dot);
+        Log.v(TAG, "requesterid" + cardRequest.requesterId);
+        Log.v(TAG, "userid:" + IShareContext.getInstance().getCurrentUser().getUserId());
 
         if (IShareContext.getInstance().getCurrentUser().getUserId().equals(cardRequest.requesterId)) {
             contactBtn.setVisibility(View.INVISIBLE);
         }
+
         cardPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -137,7 +144,7 @@ public class RequestDetailActivity extends IShareActivity {
         requesterNameTv.setText(cardRequest.requesterName);
         requesterDistanceTv.setText(cardRequest.requesterDistance + "");
         descriptionTv.setText(cardRequest.description);
-        if (cardRequest.description.equals("")) {
+        if (cardRequest.description == null) {
             descriptionTv.setText("他很懒，没有留下描述");
         }
         if (cardRequest.requesterGender.equals("男")) {

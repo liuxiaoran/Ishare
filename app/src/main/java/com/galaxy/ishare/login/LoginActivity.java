@@ -197,6 +197,7 @@ public class LoginActivity extends Activity implements PlatformActionListener, H
     protected void onDestroy() {
         ShareSDK.stopSDK(this);
         super.onDestroy();
+        WaitingDialogUtil.getInstance(this).dimissWaitingDialog();
     }
 
     public class HttpInteract {

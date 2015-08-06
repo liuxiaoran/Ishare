@@ -1,17 +1,22 @@
 package com.galaxy.ishare.main;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +32,7 @@ import com.galaxy.ishare.IShareContext;
 import com.galaxy.ishare.R;
 import com.galaxy.ishare.bindphone.BindPhoneActivity;
 import com.galaxy.ishare.chat.MD5;
+import com.galaxy.ishare.constant.BroadcastActionConstant;
 import com.galaxy.ishare.constant.URLConstant;
 import com.galaxy.ishare.database.FriendDao;
 import com.galaxy.ishare.database.InviteFriendDao;
@@ -55,6 +61,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import cn.jpush.android.api.JPushInterface;
 
@@ -98,6 +106,9 @@ public class MainActivity extends ChangePictureActivity {
     public static final String IMAGE_FILE_NAME = "faceImage.jpg";
     public static File picSaveFile;
     private int cachePicIndex = 0;
+
+//    private LocalBroadcastManager localBroadcastManager;
+//    private BroadcastReceiver exitReceiver;
 
 
     @Override
@@ -157,7 +168,20 @@ public class MainActivity extends ChangePictureActivity {
         mLocationClient = ((IShareApplication) getApplication()).mLocationClient;
         initLocation();
         mLocationClient.start();
+
+//        localBroadcastManager = localBroadcastManager.getInstance(this);
+//        exitReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                if (intent.getAction().equals(BroadcastActionConstant.EXIT_APP)) {
+//                    MainActivity.this.finish();
+//                    System.exit(0);
+//                }
+//            }
+//        };
+//        localBroadcastManager.registerReceiver(exitReceiver,new IntentFilter(BroadcastActionConstant.EXIT_APP));
     }
+
 
     private void recoverActionBar(String title) {
         if (title.equals("分享")) {
@@ -313,6 +337,9 @@ public class MainActivity extends ChangePictureActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        if ((Intent.FLAG_ACTIVITY_CLEAR_TOP & intent.getFlags()) != 0) {
+//            MainActivity.this.finish();
+        }
         setTab();
     }
 
@@ -478,6 +505,34 @@ public class MainActivity extends ChangePictureActivity {
         }
 
 
+    }
+
+    @Override
+    public boolean onKeyDown(int KeyCode, KeyEvent event) {
+        if (KeyCode == KeyEvent.KEYCODE_BACK) {
+            exitBy2Click();
+        }
+        return false;
+    }
+
+    private static Boolean isExit = false;
+
+    private void exitBy2Click() {
+        Timer tExit = null;
+        if (isExit == false) {
+            isExit = true;
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            tExit = new Timer();
+            tExit.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    isExit = false;
+                }
+            }, 2000);
+        } else {
+            finish();
+            System.exit(0);
+        }
     }
 
     private void beginCrop(Uri source) {

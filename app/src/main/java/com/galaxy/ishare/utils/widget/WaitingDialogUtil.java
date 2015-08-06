@@ -26,9 +26,7 @@ public class WaitingDialogUtil {
     }
 
     public static  WaitingDialogUtil getInstance (Context context ){
-        if (instance ==null){
             instance  = new WaitingDialogUtil(context);
-        }
         return instance;
     }
 

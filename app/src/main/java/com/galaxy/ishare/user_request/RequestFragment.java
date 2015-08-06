@@ -206,7 +206,7 @@ public class RequestFragment extends IShareFragment {
                                         JSONObject card = jsonArray.getJSONObject(i);
 
                                         CardRequest cardRequest = JsonObjectUtil.parseJsonToCardRequest(card);
-
+                                        Log.v(TAG, "requesterid:" + cardRequest.requesterId);
                                         if (gestureType == REFRESH_GESTURE) {
                                             dataList.add(cardRequest);
                                             setLastUpdateTime();

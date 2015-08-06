@@ -285,8 +285,8 @@ public class JsonObjectUtil {
             if (isNotEmptyValue("id", jsonObject)) {
                 cardRequest.id = jsonObject.getInt("id");
             }
-            if (isNotEmptyValue("owner", jsonObject)) {
-                cardRequest.requesterId = jsonObject.getString("owner");
+            if (isNotEmptyValue("owner_id", jsonObject)) {
+                cardRequest.requesterId = jsonObject.getString("owner_id");
             }
             if (isNotEmptyValue("publish_time", jsonObject)) {
                 cardRequest.publishTime = jsonObject.getString("publish_time");

@@ -47,14 +47,14 @@ public class CardRequestAdapter extends BaseAdapter {
     private LayoutInflater mLayoutInflater;
     private Context mContext;
     private CardRequest cardRequest;
-    private String[] cardItems;
+    private String[] tradeItems;
     private String[] statusItems;
     boolean isHasShopLatLng = false;
 
     public CardRequestAdapter(Context mContext, Vector dataList) {
         this.dataList = dataList;
         this.mContext = mContext;
-        cardItems = mContext.getResources().getStringArray(R.array.card_items);
+        tradeItems = mContext.getResources().getStringArray(R.array.trade_items);
         statusItems = mContext.getResources().getStringArray(R.array.card_items);
         mLayoutInflater = LayoutInflater.from(mContext);
     }
@@ -83,7 +83,7 @@ public class CardRequestAdapter extends BaseAdapter {
 
             viewHolder.shopImageIv = (ImageView) convertView.findViewById(R.id.item_card_request_shopimgs_iv);
             viewHolder.shopNameTv = (TextView) convertView.findViewById(R.id.item_card_request_shopname_tv);
-            viewHolder.wareTypeTv = (TextView) convertView.findViewById(R.id.item_card_request_cardtype_tv);
+            viewHolder.tradeTypeTv = (TextView) convertView.findViewById(R.id.item_card_request_cardtype_tv);
             viewHolder.shopLocationTv = (TextView) convertView.findViewById(R.id.item_card_request_shop_location_tv);
             viewHolder.deleteCardIv = (ImageView) convertView.findViewById(R.id.item_card_request_delete_iv);
             viewHolder.editCardIv = (ImageView) convertView.findViewById(R.id.item_card_request_edit_iv);
@@ -111,7 +111,7 @@ public class CardRequestAdapter extends BaseAdapter {
 
         viewHolder.shopNameTv.setText(cardRequest.shopName);
         viewHolder.shopLocationTv.setText(cardRequest.shopLocation);
-        viewHolder.wareTypeTv.setText(cardItems[cardRequest.wareType]);
+        viewHolder.tradeTypeTv.setText(tradeItems[cardRequest.tradeType]);
 
         final int curPosition = position;
         final boolean isHasShopLatLng = false;
@@ -198,7 +198,7 @@ public class CardRequestAdapter extends BaseAdapter {
         public ImageView shopImageIv;
         public TextView shopNameTv;
         public TextView shopLocationTv;
-        public TextView wareTypeTv;
+        public TextView tradeTypeTv;
         public ImageView isReadIv;
         public TextView lastReplyTv;
         public ImageView deleteCardIv;

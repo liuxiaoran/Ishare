@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,9 @@ import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 
+import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.wechat.friends.Wechat;
 
 /**
  * Created by liuxiaoran on 15/4/28.
@@ -52,6 +55,8 @@ public class SplashActivity extends LoginActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ShareSDK.initSDK(getApplicationContext());
+        Platform wechat = ShareSDK.getPlatform(this, Wechat.NAME);
 
         if (IShareContext.getInstance().getCurrentUser() == null) {
 
@@ -96,9 +101,17 @@ public class SplashActivity extends LoginActivity {
             IShareContext.getInstance().saveSettings(new Settings());
 
         } else {
-            Intent intent2 = new Intent(SplashActivity.this, MainActivity.class);
-            startActivity(intent2);
-            SplashActivity.this.finish();
+//            Intent intent2 = new Intent(SplashActivity.this, MainActivity.class);
+//            startActivity(intent2);
+//            SplashActivity.this.finish();
+            if (wechat.isValid()) {
+                Intent intent2 = new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent2);
+            } else {
+                Intent intent3 = new Intent(SplashActivity.this, LoginActivity.class);
+                startActivity(intent3);
+            }
+            this.finish();
         }
 
 
@@ -112,6 +125,9 @@ public class SplashActivity extends LoginActivity {
 
             //点击了登陆按钮
             wechatLoginClick(v);
+
+//            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+//            startActivity(intent);
         }
     };
 

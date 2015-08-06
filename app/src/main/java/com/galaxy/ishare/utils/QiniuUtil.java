@@ -69,7 +69,8 @@ public class QiniuUtil {
                     JSONObject jsonObject  = new JSONObject(result);
                     int status =  jsonObject.getInt("status");
                     if (status==0) {
-                        String token = jsonObject.getString("token");
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        String token = data.getString("token");
                         uploadBytes(bytes, key, token, handler, null);
                     }
                 } catch (JSONException e) {
@@ -115,7 +116,8 @@ public class QiniuUtil {
                     JSONObject jsonObject  = new JSONObject(result);
                     int status =  jsonObject.getInt("status");
                     if (status==0) {
-                        String token = jsonObject.getString("token");
+                        JSONObject data = jsonObject.getJSONObject("data");
+                        String token = data.getString("token");
                         uploadFile(filePath, key, token, handler, null);
                     }
                 } catch (JSONException e) {

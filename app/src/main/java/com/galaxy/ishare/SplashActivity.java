@@ -101,9 +101,7 @@ public class SplashActivity extends LoginActivity {
             IShareContext.getInstance().saveSettings(new Settings());
 
         } else {
-//            Intent intent2 = new Intent(SplashActivity.this, MainActivity.class);
-//            startActivity(intent2);
-//            SplashActivity.this.finish();
+
             if (wechat.isValid()) {
                 Intent intent2 = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent2);
@@ -126,8 +124,7 @@ public class SplashActivity extends LoginActivity {
             //点击了登陆按钮
             wechatLoginClick(v);
 
-//            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-//            startActivity(intent);
+
         }
     };
 

@@ -334,14 +334,6 @@ public class MainActivity extends ChangePictureActivity {
         }
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        if ((Intent.FLAG_ACTIVITY_CLEAR_TOP & intent.getFlags()) != 0) {
-//            MainActivity.this.finish();
-        }
-        setTab();
-    }
 
     private void initTabs() {
         mTabGroup = (RadioGroup) findViewById(R.id.tab_group);
